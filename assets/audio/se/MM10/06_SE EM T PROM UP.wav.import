@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/06_SE EM T PROM UP.wav-a4f6c15eb68bdf616b944745b01d20e5.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/06_SE EM T PROM UP.wav"
+dest_files=[ "res://.import/06_SE EM T PROM UP.wav-a4f6c15eb68bdf616b944745b01d20e5.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

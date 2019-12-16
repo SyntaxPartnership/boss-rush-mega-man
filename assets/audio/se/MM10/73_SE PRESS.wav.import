@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/73_SE PRESS.wav-e7ff5581c68bf4da3ca3e69a8d6ce866.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/73_SE PRESS.wav"
+dest_files=[ "res://.import/73_SE PRESS.wav-e7ff5581c68bf4da3ca3e69a8d6ce866.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

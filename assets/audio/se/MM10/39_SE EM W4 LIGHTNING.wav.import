@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/39_SE EM W4 LIGHTNING.wav-f51707cb7fef2c749bff015fdb0584bd.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/39_SE EM W4 LIGHTNING.wav"
+dest_files=[ "res://.import/39_SE EM W4 LIGHTNING.wav-f51707cb7fef2c749bff015fdb0584bd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

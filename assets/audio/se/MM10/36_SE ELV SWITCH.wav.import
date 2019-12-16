@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/36_SE ELV SWITCH.wav-5dfcfb72b84a8cfd3f7de29f91e9ed2f.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/36_SE ELV SWITCH.wav"
+dest_files=[ "res://.import/36_SE ELV SWITCH.wav-5dfcfb72b84a8cfd3f7de29f91e9ed2f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

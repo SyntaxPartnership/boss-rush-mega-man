@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/09_SE EM T WOOL ELC.wav-c1d23de9364f868f77c62297576644a1.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/09_SE EM T WOOL ELC.wav"
+dest_files=[ "res://.import/09_SE EM T WOOL ELC.wav-c1d23de9364f868f77c62297576644a1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

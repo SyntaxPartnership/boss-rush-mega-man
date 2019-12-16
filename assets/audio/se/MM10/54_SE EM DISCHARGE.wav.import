@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/54_SE EM DISCHARGE.wav-19a5460e8a5f14ed6c4447c8e5771b1d.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/54_SE EM DISCHARGE.wav"
+dest_files=[ "res://.import/54_SE EM DISCHARGE.wav-19a5460e8a5f14ed6c4447c8e5771b1d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

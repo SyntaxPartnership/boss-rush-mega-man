@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/65_SE ICE CRACK.wav-8c3dbc3cc934822061a2ba6da12dc127.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/65_SE ICE CRACK.wav"
+dest_files=[ "res://.import/65_SE ICE CRACK.wav-8c3dbc3cc934822061a2ba6da12dc127.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

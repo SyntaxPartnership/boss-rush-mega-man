@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/81_SE EM PNK MOVE.wav-5553e2309a0ca5e78e74fb0431d9f124.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/81_SE EM PNK MOVE.wav"
+dest_files=[ "res://.import/81_SE EM PNK MOVE.wav-5553e2309a0ca5e78e74fb0431d9f124.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/73_SE EM LAND S.wav-9b0c81eb42d1f81c8410d7b27b9e65cf.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/73_SE EM LAND S.wav"
+dest_files=[ "res://.import/73_SE EM LAND S.wav-9b0c81eb42d1f81c8410d7b27b9e65cf.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/89_SE SELECT.wav-c1b67628bad9f86f0145f40e34ab75e9.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/89_SE SELECT.wav"
+dest_files=[ "res://.import/89_SE SELECT.wav-c1b67628bad9f86f0145f40e34ab75e9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

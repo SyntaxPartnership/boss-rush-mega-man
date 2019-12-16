@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/68_SE EM I GEL SHOT.wav-8815a3cf9a2eefe6486a6cf65e4bcc19.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/68_SE EM I GEL SHOT.wav"
+dest_files=[ "res://.import/68_SE EM I GEL SHOT.wav-8815a3cf9a2eefe6486a6cf65e4bcc19.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

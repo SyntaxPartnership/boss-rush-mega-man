@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/50_SE EM C BOMB ST.wav-e0a1bc4cee9a4591387079c6002dc0ab.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/50_SE EM C BOMB ST.wav"
+dest_files=[ "res://.import/50_SE EM C BOMB ST.wav-e0a1bc4cee9a4591387079c6002dc0ab.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

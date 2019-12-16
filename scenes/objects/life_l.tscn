@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://shaders/player.tres" type="Material" id=1]
+[ext_resource path="res://scripts/items/items.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/objects/items.png" type="Texture" id=3]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.3
+loop = true
+step = 0.15
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 4, 5 ]
+}
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7, 8 )
+
+[node name="life_l" type="KinematicBody2D" groups=[
+"items",
+]]
+material = ExtResource( 1 )
+collision_layer = 66
+collision_mask = 8
+script = ExtResource( 2 )
+
+[node name="sprite" type="Sprite" parent="."]
+use_parent_material = true
+texture = ExtResource( 3 )
+hframes = 16
+frame = 4
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 1 )
+
+[node name="box" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -1 )
+shape = SubResource( 2 )

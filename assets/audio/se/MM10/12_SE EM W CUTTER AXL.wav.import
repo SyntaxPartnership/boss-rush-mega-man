@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/12_SE EM W CUTTER AXL.wav-4f7eae302df8435754271ee42b265418.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/12_SE EM W CUTTER AXL.wav"
+dest_files=[ "res://.import/12_SE EM W CUTTER AXL.wav-4f7eae302df8435754271ee42b265418.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

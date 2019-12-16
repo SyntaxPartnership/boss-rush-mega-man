@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/10_SE WILY FEVER.wav-4b335f7c6aaa0dfee34b89b405799c11.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/10_SE WILY FEVER.wav"
+dest_files=[ "res://.import/10_SE WILY FEVER.wav-4b335f7c6aaa0dfee34b89b405799c11.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

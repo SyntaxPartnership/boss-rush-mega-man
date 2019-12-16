@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Mega Man 6 SRX (50).wav-45aed625d1c8a5bcebcd353eef46df6c.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM6/Mega Man 6 SRX (50).wav"
+dest_files=[ "res://.import/Mega Man 6 SRX (50).wav-45aed625d1c8a5bcebcd353eef46df6c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

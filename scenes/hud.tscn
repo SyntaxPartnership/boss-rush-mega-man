@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/hud.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/hud/meter_e.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/hud/meter_l.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/hud/meter_f.png" type="Texture" id=4]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=5]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 t_col2 : hint_color;
+uniform vec4 t_col3 : hint_color;
+
+uniform vec4 r_col2 : hint_color;
+uniform vec4 r_col3 : hint_color;
+
+uniform vec4 f_col1 : hint_color;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	
+	if (color == t_col2) COLOR = r_col2;
+	else if (color == t_col3) COLOR = r_col3;
+	else if (color == f_col1) COLOR = f_col1;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/t_col2 = null
+shader_param/t_col3 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/f_col1 = null
+
+[node name="hud" type="Node2D"]
+pause_mode = 2
+script = ExtResource( 1 )
+
+[node name="life" type="TextureProgress" parent="."]
+margin_left = 24.0
+margin_top = 16.0
+margin_right = 8.0
+margin_bottom = 56.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 2 )
+texture_progress = ExtResource( 3 )
+fill_mode = 3
+
+[node name="weap" type="TextureProgress" parent="."]
+visible = false
+material = SubResource( 2 )
+margin_left = 32.0
+margin_top = 16.0
+margin_right = 8.0
+margin_bottom = 56.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 2 )
+texture_progress = ExtResource( 4 )
+fill_mode = 3
+
+[node name="boss" type="TextureProgress" parent="."]
+visible = false
+margin_left = 48.0
+margin_top = 16.0
+margin_right = 8.0
+margin_bottom = 56.0
+max_value = 280.0
+value = 280.0
+texture_under = ExtResource( 2 )
+texture_progress = ExtResource( 4 )
+fill_mode = 3
+
+[node name="lives" type="Label" parent="."]
+margin_left = 24.0
+margin_top = 72.0
+margin_right = 16.0
+margin_bottom = 72.0
+custom_fonts/font = ExtResource( 5 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = "0"

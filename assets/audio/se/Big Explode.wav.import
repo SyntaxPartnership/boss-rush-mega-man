@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Big Explode.wav-9f6b62fab1841c6ad26b82d91ebdb6c2.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/Big Explode.wav"
+dest_files=[ "res://.import/Big Explode.wav-9f6b62fab1841c6ad26b82d91ebdb6c2.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

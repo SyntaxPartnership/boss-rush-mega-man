@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/tilesets/test/testtiles.png" type="Texture" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[node name="testtiles" type="Node2D"]
+
+[node name="conv-left2" type="Sprite" parent="."]
+editor/display_folded = true
+position = Vector2( 16, 16 )
+texture = ExtResource( 1 )
+vframes = 2
+hframes = 6
+frame = 10
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="conv-left2"]
+visible = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="conv-left2/StaticBody2D"]
+shape = SubResource( 1 )

@@ -1,0 +1,124 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/weapons/rush_coil.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/weapons/rush_prot_adptr.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 8 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 10, 2 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 10, 1 )
+
+[sub_resource type="Animation" id=4]
+length = 0.3
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18, 0.24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 0, 3 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 4, 5 ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+
+[node name="rush_coil" type="KinematicBody2D" groups=[
+"adaptors",
+]]
+pause_mode = 1
+collision_layer = 66
+collision_mask = 32
+script = ExtResource( 1 )
+
+[node name="block_det" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 0, 2 )
+collision_layer = 66
+collision_mask = 32
+
+[node name="box" type="CollisionShape2D" parent="block_det"]
+shape = SubResource( 1 )
+
+[node name="jump_box" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 0, -2 )
+collision_mask = 32
+
+[node name="box" type="CollisionShape2D" parent="jump_box"]
+shape = SubResource( 2 )
+disabled = true
+
+[node name="box" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 9 )
+shape = SubResource( 3 )
+disabled = true
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 0, -5 )
+texture = ExtResource( 2 )
+hframes = 16
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/appear = SubResource( 4 )
+anims/beam = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/used = SubResource( 7 )
+
+[node name="on_screen" type="VisibilityNotifier2D" parent="."]
+[connection signal="body_entered" from="jump_box" to="." method="_on_plyr_entered"]
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
+[connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]

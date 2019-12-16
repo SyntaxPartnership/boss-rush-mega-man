@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/07_SE W SHIELD OP.wav-2cc0812dccf2fe242a845ca1f03c6114.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/07_SE W SHIELD OP.wav"
+dest_files=[ "res://.import/07_SE W SHIELD OP.wav-2cc0812dccf2fe242a845ca1f03c6114.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

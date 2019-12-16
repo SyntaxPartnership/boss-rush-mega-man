@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scripts/title.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/logo.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/menu/selecticon.png" type="Texture" id=3]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=6]
+[ext_resource path="res://assets/audio/se/Select.wav" type="AudioStream" id=7]
+[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=8]
+
+[node name="title" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="logo" type="Sprite" parent="."]
+position = Vector2( 128, 40 )
+texture = ExtResource( 2 )
+
+[node name="cursor" type="Sprite" parent="."]
+visible = false
+position = Vector2( 36, 116 )
+texture = ExtResource( 3 )
+
+[node name="menu" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 40.0
+margin_top = 112.0
+margin_right = 128.0
+margin_bottom = 144.0
+custom_fonts/font = ExtResource( 4 )
+text = "
+
+PRESS START"
+
+[node name="menu_fade" type="Tween" parent="."]
+pause_mode = 2
+playback_process_mode = 0
+
+[node name="extra" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = 8.0
+margin_top = 224.0
+margin_right = 120.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 4 )
+text = "SAMPLE VERSION"
+
+[node name="fade" parent="." instance=ExtResource( 5 )]
+position = Vector2( 128, 120 )
+
+[node name="sounds" type="Control" parent="."]
+editor/display_folded = true
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="cursor" type="AudioStreamPlayer2D" parent="sounds"]
+stream = ExtResource( 6 )
+
+[node name="select" type="AudioStreamPlayer2D" parent="sounds"]
+stream = ExtResource( 7 )
+
+[node name="back" type="AudioStreamPlayer2D" parent="sounds"]
+stream = ExtResource( 8 )
+[connection signal="tween_completed" from="menu_fade" to="." method="_on_menu_fade_tween_completed"]
+[connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
+[connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]

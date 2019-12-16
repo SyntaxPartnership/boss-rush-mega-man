@@ -1,0 +1,58 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/sprites/objects/items.png" type="Texture" id=1]
+
+[node name="items" type="Node2D"]
+
+[node name="bolt_s" type="Sprite" parent="."]
+position = Vector2( 8, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+
+[node name="bolt_l" type="Sprite" parent="."]
+position = Vector2( 24, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 1
+
+[node name="life_s" type="Sprite" parent="."]
+position = Vector2( 40, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 2
+
+[node name="life_l" type="Sprite" parent="."]
+position = Vector2( 56, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 4
+
+[node name="wpn_s" type="Sprite" parent="."]
+position = Vector2( 72, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 6
+
+[node name="wpn_l" type="Sprite" parent="."]
+position = Vector2( 88, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 8
+
+[node name="e_tank" type="Sprite" parent="."]
+position = Vector2( 104, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 10
+
+[node name="m_tank" type="Sprite" parent="."]
+position = Vector2( 120, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 11
+
+[node name="1up" type="Sprite" parent="."]
+position = Vector2( 136, 8 )
+texture = ExtResource( 1 )
+hframes = 16
+frame = 13

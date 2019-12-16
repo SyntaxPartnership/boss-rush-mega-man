@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Big Explosion.wav-819a40d0677d675b8f5ef2d44038bfcd.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/Big Explosion.wav"
+dest_files=[ "res://.import/Big Explosion.wav-819a40d0677d675b8f5ef2d44038bfcd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Beam In.wav-49b76a5573b5fa169a9b3ef2afaf973f.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/Beam In.wav"
+dest_files=[ "res://.import/Beam In.wav-49b76a5573b5fa169a9b3ef2afaf973f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

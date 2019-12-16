@@ -1,0 +1,223 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://scripts/options.gd" type="Script" id=1]
+[ext_resource path="res://assets/tilesets/menu/option-stage_0.tres" type="TileSet" id=2]
+[ext_resource path="res://assets/sprites/menu/selecticon.png" type="Texture" id=3]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=5]
+
+[node name="options_menu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+
+[node name="background" type="TileMap" parent="."]
+tile_set = ExtResource( 2 )
+cell_size = Vector2( 8, 8 )
+format = 1
+tile_data = PoolIntArray( 0, 44, 0, 1, 44, 0, 2, 44, 0, 3, 44, 0, 4, 44, 0, 5, 44, 0, 6, 44, 0, 7, 44, 0, 8, 44, 0, 9, 44, 0, 10, 28, 0, 11, 29, 0, 12, 30, 0, 13, 31, 0, 14, 31, 0, 15, 31, 0, 16, 31, 0, 17, 31, 0, 18, 31, 0, 19, 32, 0, 20, 33, 0, 21, 34, 0, 22, 44, 0, 23, 44, 0, 24, 44, 0, 25, 44, 0, 26, 44, 0, 27, 44, 0, 28, 44, 0, 29, 44, 0, 30, 44, 0, 31, 44, 0, 65536, 48, 0, 65537, 48, 0, 65538, 48, 0, 65539, 48, 0, 65540, 48, 0, 65541, 48, 0, 65542, 48, 0, 65543, 48, 0, 65544, 48, 0, 65545, 48, 0, 65546, 35, 0, 65557, 36, 0, 65558, 48, 0, 65559, 48, 0, 65560, 48, 0, 65561, 48, 0, 65562, 48, 0, 65563, 48, 0, 65564, 48, 0, 65565, 48, 0, 65566, 48, 0, 65567, 48, 0, 131072, 47, 0, 131073, 47, 0, 131074, 47, 0, 131075, 47, 0, 131076, 47, 0, 131077, 47, 0, 131078, 47, 0, 131079, 47, 0, 131080, 47, 0, 131081, 47, 0, 131082, 37, 0, 131083, 38, 0, 131084, 39, 0, 131085, 40, 0, 131086, 40, 0, 131087, 40, 0, 131088, 40, 0, 131089, 40, 0, 131090, 40, 0, 131091, 41, 0, 131092, 42, 0, 131093, 43, 0, 131094, 47, 0, 131095, 47, 0, 131096, 47, 0, 131097, 47, 0, 131098, 47, 0, 131099, 47, 0, 131100, 47, 0, 131101, 47, 0, 131102, 47, 0, 131103, 47, 0, 196608, 48, 0, 196609, 48, 0, 196610, 48, 0, 196611, 48, 0, 196612, 48, 0, 196613, 48, 0, 196614, 48, 0, 196615, 48, 0, 196616, 48, 0, 196617, 48, 0, 196618, 48, 0, 196619, 48, 0, 196620, 48, 0, 196621, 48, 0, 196622, 48, 0, 196623, 48, 0, 196624, 48, 0, 196625, 48, 0, 196626, 48, 0, 196627, 48, 0, 196628, 48, 0, 196629, 48, 0, 196630, 48, 0, 196631, 48, 0, 196632, 48, 0, 196633, 48, 0, 196634, 48, 0, 196635, 48, 0, 196636, 48, 0, 196637, 48, 0, 196638, 48, 0, 196639, 48, 0, 262144, 28, 0, 262145, 29, 0, 262146, 30, 0, 262147, 31, 0, 262148, 31, 0, 262149, 31, 0, 262150, 31, 0, 262151, 31, 0, 262152, 31, 0, 262153, 31, 0, 262154, 31, 0, 262155, 31, 0, 262156, 32, 0, 262157, 33, 0, 262158, 34, 0, 262159, 28, 0, 262160, 29, 0, 262161, 30, 0, 262162, 31, 0, 262163, 31, 0, 262164, 31, 0, 262165, 31, 0, 262166, 31, 0, 262167, 31, 0, 262168, 31, 0, 262169, 31, 0, 262170, 31, 0, 262171, 31, 0, 262172, 31, 0, 262173, 32, 0, 262174, 33, 0, 262175, 34, 0, 327680, 49, 0, 327694, 50, 0, 327695, 49, 0, 327711, 50, 0, 393216, 53, 0, 393230, 53, 0, 393231, 53, 0, 393247, 53, 0, 458752, 53, 0, 458766, 53, 0, 458767, 53, 0, 458783, 53, 0, 524288, 53, 0, 524302, 53, 0, 524303, 53, 0, 524319, 53, 0, 589824, 53, 0, 589838, 53, 0, 589839, 53, 0, 589855, 53, 0, 655360, 53, 0, 655374, 53, 0, 655375, 53, 0, 655391, 53, 0, 720896, 53, 0, 720910, 53, 0, 720911, 53, 0, 720927, 53, 0, 786432, 53, 0, 786446, 53, 0, 786447, 53, 0, 786463, 53, 0, 851968, 53, 0, 851982, 53, 0, 851983, 53, 0, 851999, 53, 0, 917504, 53, 0, 917518, 53, 0, 917519, 53, 0, 917535, 53, 0, 983040, 53, 0, 983054, 53, 0, 983055, 53, 0, 983071, 53, 0, 1048576, 53, 0, 1048590, 53, 0, 1048591, 53, 0, 1048607, 53, 0, 1114112, 53, 0, 1114126, 53, 0, 1114127, 53, 0, 1114143, 53, 0, 1179648, 53, 0, 1179662, 53, 0, 1179663, 53, 0, 1179679, 53, 0, 1245184, 51, 0, 1245198, 52, 0, 1245199, 53, 0, 1245215, 53, 0, 1310720, 37, 0, 1310721, 38, 0, 1310722, 39, 0, 1310723, 40, 0, 1310724, 40, 0, 1310725, 40, 0, 1310726, 40, 0, 1310727, 40, 0, 1310728, 40, 0, 1310729, 40, 0, 1310730, 40, 0, 1310731, 40, 0, 1310732, 41, 0, 1310733, 42, 0, 1310734, 43, 0, 1310735, 53, 0, 1310751, 53, 0, 1376256, 28, 0, 1376257, 29, 0, 1376258, 30, 0, 1376259, 31, 0, 1376260, 31, 0, 1376261, 31, 0, 1376262, 31, 0, 1376263, 31, 0, 1376264, 31, 0, 1376265, 31, 0, 1376266, 31, 0, 1376267, 31, 0, 1376268, 32, 0, 1376269, 33, 0, 1376270, 34, 0, 1376271, 53, 0, 1376287, 53, 0, 1441792, 49, 0, 1441806, 50, 0, 1441807, 53, 0, 1441823, 53, 0, 1507328, 53, 0, 1507342, 53, 0, 1507343, 53, 0, 1507359, 53, 0, 1572864, 53, 0, 1572878, 53, 0, 1572879, 53, 0, 1572895, 53, 0, 1638400, 53, 0, 1638414, 53, 0, 1638415, 53, 0, 1638431, 53, 0, 1703936, 53, 0, 1703950, 53, 0, 1703951, 53, 0, 1703967, 53, 0, 1769472, 53, 0, 1769486, 53, 0, 1769487, 53, 0, 1769503, 53, 0, 1835008, 51, 0, 1835022, 52, 0, 1835023, 51, 0, 1835039, 52, 0, 1900544, 37, 0, 1900545, 38, 0, 1900546, 39, 0, 1900547, 40, 0, 1900548, 40, 0, 1900549, 40, 0, 1900550, 40, 0, 1900551, 40, 0, 1900552, 40, 0, 1900553, 40, 0, 1900554, 40, 0, 1900555, 40, 0, 1900556, 41, 0, 1900557, 42, 0, 1900558, 43, 0, 1900559, 37, 0, 1900560, 38, 0, 1900561, 39, 0, 1900562, 40, 0, 1900563, 40, 0, 1900564, 40, 0, 1900565, 40, 0, 1900566, 40, 0, 1900567, 40, 0, 1900568, 40, 0, 1900569, 40, 0, 1900570, 40, 0, 1900571, 40, 0, 1900572, 40, 0, 1900573, 41, 0, 1900574, 42, 0, 1900575, 43, 0 )
+
+[node name="cursor" type="Sprite" parent="."]
+visible = false
+position = Vector2( 20, 52 )
+texture = ExtResource( 3 )
+
+[node name="cursor2" type="Sprite" parent="."]
+visible = false
+position = Vector2( 140, 52 )
+texture = ExtResource( 3 )
+
+[node name="title" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -32.0
+margin_top = 8.0
+margin_right = 24.0
+margin_bottom = 13.0
+custom_fonts/font = ExtResource( 4 )
+text = "OPTIONS"
+
+[node name="main_text" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -104.0
+margin_top = 48.0
+margin_right = -24.0
+margin_bottom = 133.0
+custom_fonts/font = ExtResource( 4 )
+text = "KEYBOARD
+
+CONTROLLER
+
+QUICK SWAP
+
+AUDIO
+
+VIDEO
+
+OTHER
+
+BACK"
+
+[node name="info" type="Label" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -112.0
+margin_top = 184.0
+margin_right = -24.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 4 )
+text = "Information"
+
+[node name="opt_text" type="Label" parent="."]
+editor/display_folded = true
+modulate = Color( 1, 1, 1, 0 )
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = 16.0
+margin_top = 48.0
+margin_right = 104.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 4 )
+text = "TEST"
+autowrap = true
+
+[node name="opt01" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 8.0
+margin_right = 96.0
+margin_bottom = 16.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt02" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 24.0
+margin_right = 96.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt03" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 40.0
+margin_right = 96.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt04" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 56.0
+margin_right = 96.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt05" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 72.0
+margin_right = 96.0
+margin_bottom = 80.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt06" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 88.0
+margin_right = 96.0
+margin_bottom = 96.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt07" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 104.0
+margin_right = 96.0
+margin_bottom = 112.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt08" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 120.0
+margin_right = 96.0
+margin_bottom = 128.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt09" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 136.0
+margin_right = 96.0
+margin_bottom = 144.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt10" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 152.0
+margin_right = 96.0
+margin_bottom = 160.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="opt11" type="Label" parent="opt_text" groups=[
+"button",
+]]
+visible = false
+margin_top = 168.0
+margin_right = 96.0
+margin_bottom = 176.0
+custom_fonts/font = ExtResource( 4 )
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+text = "TEST 2"
+align = 2
+
+[node name="txt_fade" type="Tween" parent="."]
+
+[node name="fade" parent="." instance=ExtResource( 5 )]
+position = Vector2( 128, 120 )
+[connection signal="tween_completed" from="txt_fade" to="." method="_on_txt_fade_completed"]
+[connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
+[connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]

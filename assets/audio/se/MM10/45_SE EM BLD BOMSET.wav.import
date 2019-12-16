@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/45_SE EM BLD BOMSET.wav-0b6925a954e9b572520fe14099b8d090.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/45_SE EM BLD BOMSET.wav"
+dest_files=[ "res://.import/45_SE EM BLD BOMSET.wav-0b6925a954e9b572520fe14099b8d090.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

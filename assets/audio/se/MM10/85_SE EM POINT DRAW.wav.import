@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/85_SE EM POINT DRAW.wav-c2f27cb0aaecd2f021ec3f9e2a240094.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/85_SE EM POINT DRAW.wav"
+dest_files=[ "res://.import/85_SE EM POINT DRAW.wav-c2f27cb0aaecd2f021ec3f9e2a240094.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/34_SE DOWN ROLL.wav-cc9103a5b82177a5a551151ab3c77338.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/34_SE DOWN ROLL.wav"
+dest_files=[ "res://.import/34_SE DOWN ROLL.wav-cc9103a5b82177a5a551151ab3c77338.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

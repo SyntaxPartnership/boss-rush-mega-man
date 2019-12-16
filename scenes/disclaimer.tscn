@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/disclaimer.gd" type="Script" id=1]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=3]
+
+[node name="disclaimer" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="text" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 2 )
+text = "
+
+
+
+
+
+
+   Dedicated to my wife and
+   children.
+		
+		
+   You guys are a constant
+   source of inspiration to
+   me.
+
+
+   I love you all.
+
+                    -Dad."
+
+[node name="timer" type="Timer" parent="."]
+
+[node name="fade" parent="." instance=ExtResource( 3 )]
+position = Vector2( 128, 118.947 )
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
+[connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
+[connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]

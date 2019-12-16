@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://scripts/effects/bubble.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/effects/bubble.png" type="Texture" id=2]
+
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( -1, 0 ), Vector2( 0, 0 ), Vector2( 1, 0 ), Vector2( -1.19209e-007, 0 ) ]
+}
+
+[node name="bubble" type="Node2D" groups=[
+"effects",
+]]
+pause_mode = 1
+script = ExtResource( 1 )
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 0.799566, 0 )
+texture = ExtResource( 2 )
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 1 )
+
+[node name="on_screen" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -2, -2, 4, 4 )

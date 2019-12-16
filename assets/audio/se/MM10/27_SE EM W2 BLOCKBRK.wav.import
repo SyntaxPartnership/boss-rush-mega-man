@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/27_SE EM W2 BLOCKBRK.wav-c645a3a0fbfd8a0ef8ea067ed1c6454d.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/27_SE EM W2 BLOCKBRK.wav"
+dest_files=[ "res://.import/27_SE EM W2 BLOCKBRK.wav-c645a3a0fbfd8a0ef8ea067ed1c6454d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

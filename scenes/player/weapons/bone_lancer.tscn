@@ -1,0 +1,114 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/weapons/bone_lancer.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/weapons/bone_lancer_b.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/weapons/bone_lancer_a.png" type="Texture" id=3]
+[ext_resource path="res://assets/audio/se/b_lancer.wav" type="AudioStream" id=4]
+
+
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 8, 4 )
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.24
+loop = true
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("main/drill:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 4 )
+
+[node name="bone_lancer" type="KinematicBody2D" groups=[
+"weapons",
+]]
+collision_layer = 4
+collision_mask = 32
+script = ExtResource( 1 )
+
+[node name="box" type="CollisionShape2D" parent="."]
+position = Vector2( 6, 0 )
+shape = SubResource( 3 )
+
+[node name="sub" type="Control" parent="."]
+editor/display_folded = true
+
+[node name="chain01" type="Sprite" parent="sub"]
+visible = false
+texture = ExtResource( 2 )
+
+[node name="chain02" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 8, 0 )
+texture = ExtResource( 2 )
+
+[node name="chain03" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 16, 0 )
+texture = ExtResource( 2 )
+
+[node name="chain04" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 24, 0 )
+texture = ExtResource( 2 )
+
+[node name="chain05" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 32, 0 )
+texture = ExtResource( 2 )
+
+[node name="chain06" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 40, 0 )
+texture = ExtResource( 2 )
+
+[node name="chain07" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 48, 0 )
+texture = ExtResource( 2 )
+
+[node name="chain08" type="Sprite" parent="sub"]
+visible = false
+position = Vector2( 56, 0 )
+texture = ExtResource( 2 )
+
+[node name="main" type="Control" parent="."]
+editor/display_folded = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="drill" type="Sprite" parent="main"]
+position = Vector2( 6, 0 )
+texture = ExtResource( 3 )
+hframes = 4
+frame = 2
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 1 )
+
+[node name="wall_det" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 6, 0 )
+collision_layer = 66
+collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="wall_det"]
+shape = SubResource( 2 )
+
+[node name="shoot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+[connection signal="body_entered" from="wall_det" to="." method="_on_wall_det_body_entered"]

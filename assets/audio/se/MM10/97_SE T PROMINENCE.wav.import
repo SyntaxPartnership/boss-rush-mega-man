@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/97_SE T PROMINENCE.wav-c4a2c8d03178216601b4859c5cd36b5a.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/97_SE T PROMINENCE.wav"
+dest_files=[ "res://.import/97_SE T PROMINENCE.wav-c4a2c8d03178216601b4859c5cd36b5a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

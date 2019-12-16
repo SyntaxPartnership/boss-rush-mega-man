@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[ext_resource path="res://shaders/player.shader" type="Shader" id=1]
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/t_col1 = Color( 0, 0, 0, 1 )
+shader_param/t_col2 = Color( 0, 0, 0, 1 )
+shader_param/t_col3 = Color( 0, 0, 0, 1 )
+shader_param/t_col4 = null
+shader_param/f_col1 = Color( 0.988235, 0.972549, 0.988235, 1 )
+shader_param/f_col2 = Color( 0.988235, 0.847059, 0.517647, 1 )
+shader_param/f_col3 = Color( 0, 0, 0, 1 )
+shader_param/r_col1 = null
+shader_param/r_col2 = null
+shader_param/r_col3 = null
+shader_param/trans = null

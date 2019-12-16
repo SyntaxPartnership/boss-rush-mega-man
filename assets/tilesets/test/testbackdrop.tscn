@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/tilesets/test/backdrop.png" type="Texture" id=1]
+
+[node name="testbackdrop" type="Node2D"]
+
+[node name="room" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+

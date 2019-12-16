@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/33_SE EM W3 BURST.wav-ae937d2c76bce4bba8fff637cdba5890.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/33_SE EM W3 BURST.wav"
+dest_files=[ "res://.import/33_SE EM W3 BURST.wav-ae937d2c76bce4bba8fff637cdba5890.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

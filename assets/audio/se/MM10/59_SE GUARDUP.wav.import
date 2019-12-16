@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/59_SE GUARDUP.wav-eb9ef2b296a6c49618a25743716bf6da.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/59_SE GUARDUP.wav"
+dest_files=[ "res://.import/59_SE GUARDUP.wav-eb9ef2b296a6c49618a25743716bf6da.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

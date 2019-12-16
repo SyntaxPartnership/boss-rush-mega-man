@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/28_SE EM W2 BUBBLE.wav-5f55d60b5493e20c62221fc08704717a.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/28_SE EM W2 BUBBLE.wav"
+dest_files=[ "res://.import/28_SE EM W2 BUBBLE.wav-5f55d60b5493e20c62221fc08704717a.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

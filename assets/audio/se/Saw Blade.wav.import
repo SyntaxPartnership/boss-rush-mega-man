@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Saw Blade.wav-278a232c53bd9ede062f004b5ef19d26.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/Saw Blade.wav"
+dest_files=[ "res://.import/Saw Blade.wav-278a232c53bd9ede062f004b5ef19d26.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

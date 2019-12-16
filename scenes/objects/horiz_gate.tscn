@@ -1,0 +1,128 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://scripts/objects/horiz_gate.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/objects/horiz_gate.png" type="Texture" id=2]
+[ext_resource path="res://assets/audio/se/Gate.wav" type="AudioStream" id=3]
+
+
+[sub_resource type="Animation" id=1]
+resource_name = "closed"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.011614 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "open"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "opening"
+length = 0.55
+step = 0.11
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.11, 0.22, 0.33, 0.44 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 32, 4 )
+
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 32, 16 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 32, 4 )
+
+[node name="horiz_gate" type="Node2D"]
+script = ExtResource( 1 )
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 24, 8 )
+texture = ExtResource( 2 )
+vframes = 5
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/closed = SubResource( 1 )
+anims/open = SubResource( 2 )
+anims/opening = SubResource( 3 )
+
+[node name="solid_top" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 24, -4 )
+collision_mask = 2
+
+[node name="box" type="CollisionShape2D" parent="solid_top"]
+shape = SubResource( 4 )
+
+[node name="solid_bottom" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 24, 20 )
+collision_mask = 2
+
+[node name="box" type="CollisionShape2D" parent="solid_bottom"]
+shape = SubResource( 4 )
+
+[node name="anti-weap" type="StaticBody2D" parent="."]
+editor/display_folded = true
+position = Vector2( 24, 8 )
+collision_layer = 0
+collision_mask = 64
+
+[node name="box" type="CollisionShape2D" parent="anti-weap"]
+shape = SubResource( 5 )
+
+[node name="act_top" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 24, -4 )
+collision_mask = 2
+
+[node name="box" type="CollisionShape2D" parent="act_top"]
+shape = SubResource( 6 )
+
+[node name="act_bottom" type="Area2D" parent="."]
+editor/display_folded = true
+position = Vector2( 24, 20 )
+collision_mask = 2
+
+[node name="box" type="CollisionShape2D" parent="act_bottom"]
+shape = SubResource( 6 )
+
+[node name="open" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_animation_finished"]
+[connection signal="body_entered" from="act_top" to="." method="_on_act_top_body_entered"]
+[connection signal="body_exited" from="act_top" to="." method="_on_act_top_body_exited"]
+[connection signal="body_entered" from="act_bottom" to="." method="_on_act_bottom_body_entered"]
+[connection signal="body_exited" from="act_bottom" to="." method="_on_act_bottom_body_exited"]

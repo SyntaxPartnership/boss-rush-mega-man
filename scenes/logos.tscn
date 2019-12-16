@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=2]
+
+
+[node name="logos" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 1 )
+text = "Insert Logos Here"
+align = 1
+valign = 1
+
+[node name="fade" parent="." instance=ExtResource( 2 )]
+position = Vector2( 128, 120 )
+

@@ -1,0 +1,662 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/tilesets/stage_graphics/shdw_man/shdw.tres" type="Texture" id=1]
+
+[node name="shadow_tiles" type="Node2D"]
+
+[node name="shdw_01" type="Sprite" parent="."]
+position = Vector2( 4, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+
+[node name="shdw_02" type="Sprite" parent="."]
+position = Vector2( 12, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 1
+
+[node name="shdw_03" type="Sprite" parent="."]
+position = Vector2( 20, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 2
+
+[node name="shdw_04" type="Sprite" parent="."]
+position = Vector2( 28, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 3
+
+[node name="shdw_05" type="Sprite" parent="."]
+position = Vector2( 36, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 4
+
+[node name="shdw_06" type="Sprite" parent="."]
+position = Vector2( 44, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 5
+
+[node name="shdw_07" type="Sprite" parent="."]
+position = Vector2( 52, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 6
+
+[node name="shdw_08" type="Sprite" parent="."]
+position = Vector2( 60, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 7
+
+[node name="shdw_09" type="Sprite" parent="."]
+position = Vector2( 68, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 8
+
+[node name="shdw_10" type="Sprite" parent="."]
+position = Vector2( 76, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 9
+
+[node name="shdw_11" type="Sprite" parent="."]
+position = Vector2( 84, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 10
+
+[node name="shdw_12" type="Sprite" parent="."]
+position = Vector2( 92, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 11
+
+[node name="shdw_13" type="Sprite" parent="."]
+position = Vector2( 100, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 12
+
+[node name="shdw_14" type="Sprite" parent="."]
+position = Vector2( 108, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 13
+
+[node name="shdw_15" type="Sprite" parent="."]
+position = Vector2( 116, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 14
+
+[node name="shdw_16" type="Sprite" parent="."]
+position = Vector2( 124, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 15
+
+[node name="shdw_17" type="Sprite" parent="."]
+position = Vector2( 132, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 16
+
+[node name="shdw_18" type="Sprite" parent="."]
+position = Vector2( 140, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 17
+
+[node name="shdw_19" type="Sprite" parent="."]
+position = Vector2( 148, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 18
+
+[node name="shdw_20" type="Sprite" parent="."]
+position = Vector2( 156, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 19
+
+[node name="shdw_21" type="Sprite" parent="."]
+position = Vector2( 164, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 20
+
+[node name="shdw_22" type="Sprite" parent="."]
+position = Vector2( 172, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 21
+
+[node name="shdw_23" type="Sprite" parent="."]
+position = Vector2( 180, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 22
+
+[node name="shdw_24" type="Sprite" parent="."]
+position = Vector2( 188, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 23
+
+[node name="shdw_25" type="Sprite" parent="."]
+position = Vector2( 196, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 24
+
+[node name="shdw_26" type="Sprite" parent="."]
+position = Vector2( 204, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 25
+
+[node name="shdw_27" type="Sprite" parent="."]
+position = Vector2( 212, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 26
+
+[node name="shdw_28" type="Sprite" parent="."]
+position = Vector2( 220, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 27
+
+[node name="shdw_29" type="Sprite" parent="."]
+position = Vector2( 228, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 28
+
+[node name="shdw_30" type="Sprite" parent="."]
+position = Vector2( 236, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 29
+
+[node name="shdw_31" type="Sprite" parent="."]
+position = Vector2( 244, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 30
+
+[node name="shdw_32" type="Sprite" parent="."]
+position = Vector2( 252, 4 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 31
+
+[node name="shdw_33" type="Sprite" parent="."]
+position = Vector2( 4, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 32
+
+[node name="shdw_34" type="Sprite" parent="."]
+position = Vector2( 12, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 33
+
+[node name="shdw_35" type="Sprite" parent="."]
+position = Vector2( 20, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 34
+
+[node name="shdw_36" type="Sprite" parent="."]
+position = Vector2( 28, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 35
+
+[node name="shdw_37" type="Sprite" parent="."]
+position = Vector2( 36, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 36
+
+[node name="shdw_38" type="Sprite" parent="."]
+position = Vector2( 44, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 37
+
+[node name="shdw_39" type="Sprite" parent="."]
+position = Vector2( 52, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 38
+
+[node name="shdw_40" type="Sprite" parent="."]
+position = Vector2( 60, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 39
+
+[node name="shdw_41" type="Sprite" parent="."]
+position = Vector2( 68, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 40
+
+[node name="shdw_42" type="Sprite" parent="."]
+position = Vector2( 76, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 41
+
+[node name="shdw_43" type="Sprite" parent="."]
+position = Vector2( 84, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 42
+
+[node name="shdw_44" type="Sprite" parent="."]
+position = Vector2( 92, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 43
+
+[node name="shdw_45" type="Sprite" parent="."]
+position = Vector2( 100, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 44
+
+[node name="shdw_46" type="Sprite" parent="."]
+position = Vector2( 108, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 45
+
+[node name="shdw_47" type="Sprite" parent="."]
+position = Vector2( 116, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 46
+
+[node name="shdw_48" type="Sprite" parent="."]
+position = Vector2( 124, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 47
+
+[node name="shdw_49" type="Sprite" parent="."]
+position = Vector2( 132, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 48
+
+[node name="shdw_50" type="Sprite" parent="."]
+position = Vector2( 140, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 49
+
+[node name="shdw_51" type="Sprite" parent="."]
+position = Vector2( 148, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 50
+
+[node name="shdw_52" type="Sprite" parent="."]
+position = Vector2( 156, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 51
+
+[node name="shdw_53" type="Sprite" parent="."]
+position = Vector2( 164, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 52
+
+[node name="shdw_54" type="Sprite" parent="."]
+position = Vector2( 172, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 53
+
+[node name="shdw_55" type="Sprite" parent="."]
+position = Vector2( 180, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 54
+
+[node name="shdw_56" type="Sprite" parent="."]
+position = Vector2( 188, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 55
+
+[node name="shdw_57" type="Sprite" parent="."]
+position = Vector2( 196, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 56
+
+[node name="shdw_58" type="Sprite" parent="."]
+position = Vector2( 204, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 57
+
+[node name="shdw_59" type="Sprite" parent="."]
+position = Vector2( 212, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 58
+
+[node name="shdw_60" type="Sprite" parent="."]
+position = Vector2( 220, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 59
+
+[node name="shdw_61" type="Sprite" parent="."]
+position = Vector2( 228, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 60
+
+[node name="shdw_62" type="Sprite" parent="."]
+position = Vector2( 236, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 61
+
+[node name="shdw_63" type="Sprite" parent="."]
+position = Vector2( 244, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 62
+
+[node name="shdw_64" type="Sprite" parent="."]
+position = Vector2( 252, 12 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 63
+
+[node name="shdw_65" type="Sprite" parent="."]
+position = Vector2( 4, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 64
+
+[node name="shdw_66" type="Sprite" parent="."]
+position = Vector2( 12, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 65
+
+[node name="shdw_67" type="Sprite" parent="."]
+position = Vector2( 20, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 66
+
+[node name="shdw_68" type="Sprite" parent="."]
+position = Vector2( 28, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 67
+
+[node name="shdw_69" type="Sprite" parent="."]
+position = Vector2( 36, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 68
+
+[node name="shdw_70" type="Sprite" parent="."]
+position = Vector2( 44, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 69
+
+[node name="shdw_71" type="Sprite" parent="."]
+position = Vector2( 52, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 70
+
+[node name="shdw_72" type="Sprite" parent="."]
+position = Vector2( 60, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 71
+
+[node name="shdw_73" type="Sprite" parent="."]
+position = Vector2( 68, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 72
+
+[node name="shdw_74" type="Sprite" parent="."]
+position = Vector2( 76, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 73
+
+[node name="shdw_75" type="Sprite" parent="."]
+position = Vector2( 84, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 74
+
+[node name="shdw_76" type="Sprite" parent="."]
+position = Vector2( 92, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 75
+
+[node name="shdw_77" type="Sprite" parent="."]
+position = Vector2( 100, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 76
+
+[node name="shdw_78" type="Sprite" parent="."]
+position = Vector2( 108, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 77
+
+[node name="shdw_79" type="Sprite" parent="."]
+position = Vector2( 116, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 78
+
+[node name="shdw_80" type="Sprite" parent="."]
+position = Vector2( 124, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 79
+
+[node name="shdw_81" type="Sprite" parent="."]
+position = Vector2( 132, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 80
+
+[node name="shdw_82" type="Sprite" parent="."]
+position = Vector2( 140, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 81
+
+[node name="shdw_83" type="Sprite" parent="."]
+position = Vector2( 148, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 82
+
+[node name="shdw_84" type="Sprite" parent="."]
+position = Vector2( 156, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 83
+
+[node name="shdw_85" type="Sprite" parent="."]
+position = Vector2( 164, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 84
+
+[node name="shdw_86" type="Sprite" parent="."]
+position = Vector2( 172, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 85
+
+[node name="shdw_87" type="Sprite" parent="."]
+position = Vector2( 180, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 86
+
+[node name="shdw_88" type="Sprite" parent="."]
+position = Vector2( 188, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 87
+
+[node name="shdw_89" type="Sprite" parent="."]
+position = Vector2( 196, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 88
+
+[node name="shdw_90" type="Sprite" parent="."]
+position = Vector2( 204, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 89
+
+[node name="shdw_91" type="Sprite" parent="."]
+position = Vector2( 212, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 90
+
+[node name="shdw_92" type="Sprite" parent="."]
+position = Vector2( 220, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 91
+
+[node name="shdw_93" type="Sprite" parent="."]
+position = Vector2( 228, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 92
+
+[node name="shdw_94" type="Sprite" parent="."]
+position = Vector2( 236, 20 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 32
+frame = 93

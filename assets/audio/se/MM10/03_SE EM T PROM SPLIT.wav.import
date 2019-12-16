@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/03_SE EM T PROM SPLIT.wav-1c4bd0767f253a08c380f45c1b56a139.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/03_SE EM T PROM SPLIT.wav"
+dest_files=[ "res://.import/03_SE EM T PROM SPLIT.wav-1c4bd0767f253a08c380f45c1b56a139.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

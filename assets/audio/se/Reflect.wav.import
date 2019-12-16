@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/Reflect.wav-9380aaaabec4f6863477cad7b5a0d825.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/Reflect.wav"
+dest_files=[ "res://.import/Reflect.wav-9380aaaabec4f6863477cad7b5a0d825.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

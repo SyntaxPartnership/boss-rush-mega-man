@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/89_SE EM SENSOR LOOP.wav-f6c94a08d686f9b59cb3495e01471390.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/89_SE EM SENSOR LOOP.wav"
+dest_files=[ "res://.import/89_SE EM SENSOR LOOP.wav-f6c94a08d686f9b59cb3495e01471390.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

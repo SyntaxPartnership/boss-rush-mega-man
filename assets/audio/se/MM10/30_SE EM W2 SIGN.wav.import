@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/30_SE EM W2 SIGN.wav-27d2429299735fd57ad0fdfb74173328.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/30_SE EM W2 SIGN.wav"
+dest_files=[ "res://.import/30_SE EM W2 SIGN.wav-27d2429299735fd57ad0fdfb74173328.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

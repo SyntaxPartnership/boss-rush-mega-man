@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/sprites/objects/vert_gate.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/objects/horiz_gate.png" type="Texture" id=2]
+[ext_resource path="res://assets/tilesets/test/testtiles.png" type="Texture" id=3]
+
+[node name="object_tiles" type="Node2D"]
+
+[node name="vert_gate" type="Sprite" parent="."]
+position = Vector2( 16, 32 )
+texture = ExtResource( 1 )
+hframes = 5
+
+[node name="horiz_gate" type="Sprite" parent="."]
+position = Vector2( 64, 16 )
+texture = ExtResource( 2 )
+vframes = 5
+
+[node name="teleporter" type="Sprite" parent="."]
+position = Vector2( 112, 16 )
+scale = Vector2( 2, 2 )
+texture = ExtResource( 3 )
+vframes = 3
+hframes = 6
+frame = 13

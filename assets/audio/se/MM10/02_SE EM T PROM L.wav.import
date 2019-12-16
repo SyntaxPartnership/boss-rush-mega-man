@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/02_SE EM T PROM L.wav-a2f7e23b2420230d6ae31800bbb04a75.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/02_SE EM T PROM L.wav"
+dest_files=[ "res://.import/02_SE EM T PROM L.wav-a2f7e23b2420230d6ae31800bbb04a75.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

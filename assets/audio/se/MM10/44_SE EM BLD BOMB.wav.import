@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/44_SE EM BLD BOMB.wav-e16edde8d5754d1a86413fad90e10c4b.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/44_SE EM BLD BOMB.wav"
+dest_files=[ "res://.import/44_SE EM BLD BOMB.wav-e16edde8d5754d1a86413fad90e10c4b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/67_SE EM I GEL SALVO.wav-009e9a409acb744648d27da5ed665b9b.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/67_SE EM I GEL SALVO.wav"
+dest_files=[ "res://.import/67_SE EM I GEL SALVO.wav-009e9a409acb744648d27da5ed665b9b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

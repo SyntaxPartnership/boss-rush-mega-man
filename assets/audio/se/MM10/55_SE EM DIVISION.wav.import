@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/55_SE EM DIVISION.wav-e5edd2cb26003106b4cd1067e13b48d8.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/55_SE EM DIVISION.wav"
+dest_files=[ "res://.import/55_SE EM DIVISION.wav-e5edd2cb26003106b4cd1067e13b48d8.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

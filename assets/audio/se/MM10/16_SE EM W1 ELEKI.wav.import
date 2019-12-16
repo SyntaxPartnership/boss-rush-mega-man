@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/16_SE EM W1 ELEKI.wav-b71ed6acefee91e15d1c25a803696664.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/16_SE EM W1 ELEKI.wav"
+dest_files=[ "res://.import/16_SE EM W1 ELEKI.wav-b71ed6acefee91e15d1c25a803696664.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

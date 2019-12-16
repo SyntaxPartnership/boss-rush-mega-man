@@ -1,0 +1,227 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://scripts/weapons/tango.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=2]
+[ext_resource path="res://assets/audio/se/Tango.wav" type="AudioStream" id=3]
+[ext_resource path="res://assets/audio/se/Saw Blade.wav" type="AudioStream" id=4]
+[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="Animation" id=3]
+length = 0.3
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18, 0.24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 0, 3 ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.06
+loop = true
+step = 0.02
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.02, 0.04 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16 ]
+}
+
+[sub_resource type="Animation" id=5]
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "get_up1"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16 ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.4
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 11, 10 ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.6
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 1.25
+loop = true
+step = 0.75
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.75 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 12, 13 ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.6
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.6
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9 ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.8
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 12 ]
+}
+
+[node name="tango" type="KinematicBody2D" groups=[
+"adaptor_dmg",
+"adaptors",
+]]
+collision_layer = 70
+collision_mask = 32
+script = ExtResource( 1 )
+
+[node name="box" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
+
+[node name="block_det" type="Area2D" parent="."]
+collision_layer = 66
+collision_mask = 32
+
+[node name="box" type="CollisionShape2D" parent="block_det"]
+shape = SubResource( 2 )
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 0, -7 )
+texture = ExtResource( 2 )
+hframes = 17
+frame = 11
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/appear = SubResource( 3 )
+anims/attack = SubResource( 4 )
+anims/beam = SubResource( 5 )
+anims/get_up1 = SubResource( 6 )
+anims/get_up2 = SubResource( 7 )
+anims/idle1 = SubResource( 8 )
+anims/sleep = SubResource( 9 )
+anims/sleep_1 = SubResource( 10 )
+anims/sleep_2 = SubResource( 11 )
+anims/sleep_3 = SubResource( 12 )
+
+[node name="on_screen" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -8, -8, 16, 16 )
+
+[node name="meow" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="buzzsaw" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="dink" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
+[connection signal="screen_exited" from="on_screen" to="." method="_on_screen_exited"]

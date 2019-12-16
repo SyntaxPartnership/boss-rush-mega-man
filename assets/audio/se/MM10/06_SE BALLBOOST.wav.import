@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/06_SE BALLBOOST.wav-68f1a4d2982a55358d305e8d22d4ceb6.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/06_SE BALLBOOST.wav"
+dest_files=[ "res://.import/06_SE BALLBOOST.wav-68f1a4d2982a55358d305e8d22d4ceb6.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

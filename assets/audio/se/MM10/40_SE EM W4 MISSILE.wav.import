@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/40_SE EM W4 MISSILE.wav-a6ef085234009b0f1b2321eb16495a79.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/MM10/40_SE EM W4 MISSILE.wav"
+dest_files=[ "res://.import/40_SE EM W4 MISSILE.wav-a6ef085234009b0f1b2321eb16495a79.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0
