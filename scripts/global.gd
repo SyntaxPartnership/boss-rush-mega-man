@@ -5,7 +5,7 @@ var debug_menu = 0
 
 #Player Variables
 var player = 0
-var player_id = [0, 1]
+var player_id = [0, 99]
 var player_life = [280, 280]
 var player_weap = [0, 0]
 var lives = 2
