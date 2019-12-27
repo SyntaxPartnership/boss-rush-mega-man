@@ -44,7 +44,7 @@ var res = Vector2()
 var center = Vector2()
 
 var cam_move = 0
-var cam_allow = []
+var cam_allow = [0, 1, 0, 1]
 var scroll = false
 var scroll_len = 0
 var scroll_spd = 4
@@ -93,9 +93,6 @@ func _ready():
 	
 	#Spawn stage objects.
 	spawn_objects()
-	
-	#Add Continue and Spawn Scripts here
-	cam_allow = [1, 1, 1, 1]
 	
 	#Set lives counter.
 	$hud/hud/lives.set_text(str(global.lives))

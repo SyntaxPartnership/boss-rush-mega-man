@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/sprites/bosses/batton/not_roll.png" type="Texture" id=1]
+
+[node name="not_roll" type="KinematicBody2D"]
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 0, -3 )
+texture = ExtResource( 1 )
+hframes = 6

@@ -4,35 +4,8 @@
 
 [node name="enemy_tile" type="Node2D"]
 
-[node name="met_01" type="Sprite" parent="."]
+[node name="not_roll" type="Sprite" parent="."]
 position = Vector2( 8, 8 )
 texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
-
-[node name="ravemet" type="Sprite" parent="."]
-position = Vector2( 28, 8 )
-texture = ExtResource( 1 )
-vframes = 20
-hframes = 20
-
-[node name="bouncer" type="Sprite" parent="."]
-position = Vector2( 48, 8 )
-texture = ExtResource( 1 )
-vframes = 20
-hframes = 20
-frame = 1
-
-[node name="linetosser" type="Sprite" parent="."]
-position = Vector2( 68, 8 )
-texture = ExtResource( 1 )
-vframes = 20
-hframes = 20
-frame = 2
-
-[node name="laser_gabyoall_v" type="Sprite" parent="."]
-position = Vector2( 88, 8 )
-texture = ExtResource( 1 )
-vframes = 20
-hframes = 20
-frame = 3

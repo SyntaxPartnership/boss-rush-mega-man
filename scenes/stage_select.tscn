@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://scripts/stage_select.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/stage_sel/mugshots.png" type="Texture" id=2]
@@ -6,18 +6,16 @@
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/sprites/stage_sel/highlight.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/stage_sel/bflash.png" type="Texture" id=6]
-[ext_resource path="res://assets/sprites/stage_sel/charsel2.png" type="Texture" id=7]
-[ext_resource path="res://assets/sprites/stage_sel/charsel1.png" type="Texture" id=8]
-[ext_resource path="res://assets/sprites/stage_sel/charsprites.png" type="Texture" id=9]
-[ext_resource path="res://assets/sprites/stage_sel/ok.png" type="Texture" id=10]
-[ext_resource path="res://assets/sprites/stage_sel/charcursor.png" type="Texture" id=11]
-[ext_resource path="res://assets/sprites/stage_sel/char_info.png" type="Texture" id=12]
-[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=13]
-[ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=14]
-[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=15]
-[ext_resource path="res://assets/audio/se/Select.wav" type="AudioStream" id=16]
-[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=17]
-[ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/sprites/stage_sel/charsprites.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/stage_sel/ok.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/stage_sel/charcursor.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/stage_sel/char_info.png" type="Texture" id=10]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/audio/se/Select.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=16]
 
 [sub_resource type="StreamTexture" id=1]
 load_path = "res://.import/charsprites.png-c5d3bb8017f6dfac37d2ad38b921b535.stex"
@@ -304,8 +302,9 @@ margin_right = 212.0
 margin_bottom = 224.0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = "NOT GLOW             ??????
-    MAN
+text = " BATTON              ??????
+
+
 
 
 
@@ -333,17 +332,8 @@ scale = Vector2( 128, 120 )
 texture = ExtResource( 6 )
 
 [node name="char_menu" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
-
-[node name="char_sel_top" type="Sprite" parent="char_menu"]
-position = Vector2( 128, -4 )
-texture = ExtResource( 7 )
-
-[node name="char_sel_bot" type="Sprite" parent="char_menu"]
-position = Vector2( 128, 244 )
-texture = ExtResource( 8 )
 
 [node name="chars" type="Control" parent="char_menu"]
 visible = false
@@ -352,36 +342,36 @@ margin_bottom = 40.0
 
 [node name="rock" type="Sprite" parent="char_menu/chars"]
 position = Vector2( 68, 120 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 vframes = 4
 hframes = 5
 
 [node name="blues" type="Sprite" parent="char_menu/chars"]
 position = Vector2( 108, 120 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 vframes = 4
 hframes = 5
 frame = 5
 
 [node name="bass" type="Sprite" parent="char_menu/chars"]
 position = Vector2( 148, 120 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 vframes = 4
 hframes = 5
 frame = 10
 
 [node name="ok" type="Sprite" parent="char_menu/chars"]
 position = Vector2( 188, 120 )
-texture = ExtResource( 10 )
+texture = ExtResource( 8 )
 
 [node name="cursor1" type="Sprite" parent="char_menu/chars"]
 visible = false
-texture = ExtResource( 11 )
+texture = ExtResource( 9 )
 hframes = 3
 
 [node name="cursor2" type="Sprite" parent="char_menu/chars"]
 visible = false
-texture = ExtResource( 11 )
+texture = ExtResource( 9 )
 hframes = 3
 frame = 1
 
@@ -397,7 +387,7 @@ text = "PLAYER SELECT"
 
 [node name="info" type="Sprite" parent="char_menu/chars"]
 position = Vector2( 128, 48 )
-texture = ExtResource( 12 )
+texture = ExtResource( 10 )
 vframes = 3
 
 [node name="leave" type="Control" parent="char_menu"]
@@ -421,7 +411,7 @@ frame = 8
 
 [node name="bass_leave" type="Sprite" parent="char_menu/leave"]
 position = Vector2( 148, 120 )
-texture = ExtResource( 9 )
+texture = ExtResource( 7 )
 vframes = 4
 hframes = 5
 frame = 11
@@ -446,23 +436,23 @@ anims/leave3 = SubResource( 8 )
 anims/leave4 = SubResource( 9 )
 anims/leave5 = SubResource( 10 )
 
-[node name="fade" parent="." instance=ExtResource( 13 )]
+[node name="fade" parent="." instance=ExtResource( 11 )]
 position = Vector2( 128, 120 )
 
 [node name="cursor" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 14 )
+stream = ExtResource( 12 )
 
 [node name="bling" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 15 )
+stream = ExtResource( 13 )
 
 [node name="char_sel" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 16 )
+stream = ExtResource( 14 )
 
 [node name="dink" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 17 )
+stream = ExtResource( 15 )
 
 [node name="teleport" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 18 )
+stream = ExtResource( 16 )
 [connection signal="tween_all_completed" from="fake_fade/action" to="." method="_on_tween_all_completed"]
 [connection signal="animation_finished" from="char_anim" to="." method="_on_anim_finished"]
 [connection signal="animation_finished" from="other_anim" to="." method="_on_other_anim_finished"]
