@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://scripts/bosses/swoop.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/bosses/batton/batton_wings.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/bosses/batton/batton.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 10 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "flap"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("wings:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+tracks/0/type = "value"
+tracks/0/path = NodePath("wings:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "intro"
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 0, 4 ]
+}
+
+[node name="swoop" type="KinematicBody2D" groups=[
+"boss",
+]]
+collision_layer = 66
+collision_mask = 0
+script = ExtResource( 1 )
+
+[node name="wings" type="Sprite" parent="."]
+position = Vector2( 1, -4 )
+texture = ExtResource( 2 )
+hframes = 3
+frame = 2
+
+[node name="body" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+hframes = 12
+frame = 3
+
+[node name="box" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+disabled = true
+
+[node name="anim_wings" type="AnimationPlayer" parent="."]
+anims/flap = SubResource( 2 )
+anims/idle = SubResource( 3 )
+
+[node name="anim_body" type="AnimationPlayer" parent="."]
+anims/intro = SubResource( 4 )
+[connection signal="animation_finished" from="anim_body" to="." method="_on_body_anim_finished"]

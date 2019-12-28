@@ -26,6 +26,7 @@ const SLIDE_SMOKE = preload('res://scenes/effects/slide_smoke.tscn')
 var start_stage = false
 var can_move = false
 var lock_ctrl = false
+var no_input = false
 # warning-ignore:unused_class_variable
 var gate = false
 
@@ -271,23 +272,25 @@ func _ready():
 # warning-ignore:unused_argument
 func _input(event):
 
-	if Input.is_action_just_pressed("fire"):
-		fire = true
-		if can_move:
-			weapons()
-	
-	if Input.is_action_just_released("fire"):
-		fire = false
+	if !no_input:
+		if Input.is_action_just_pressed("fire"):
+			fire = true
+			if can_move:
+				weapons()
+		
+		if Input.is_action_just_released("fire"):
+			fire = false
 
 func _physics_process(delta):
 	
 	#Make the inputs easier to handle.
-	left_tap = Input.is_action_just_pressed("left")
-	right_tap = Input.is_action_just_pressed("right")
-	jump = Input.is_action_pressed("jump")
-	jump_tap = Input.is_action_just_pressed("jump")
-	dash = Input.is_action_pressed("dash")
-	dash_tap = Input.is_action_just_pressed("dash")	
+	if !no_input:
+		left_tap = Input.is_action_just_pressed("left")
+		right_tap = Input.is_action_just_pressed("right")
+		jump = Input.is_action_pressed("jump")
+		jump_tap = Input.is_action_just_pressed("jump")
+		dash = Input.is_action_pressed("dash")
+		dash_tap = Input.is_action_just_pressed("dash")
 	
 	#TileMap Data function
 	get_data()
@@ -313,8 +316,9 @@ func _physics_process(delta):
 	else:
 		
 		if !lock_ctrl:
-			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
-			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+			if !no_input:
+				x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+				y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 		else:
 			x_dir = 0
 			y_dir = 0
@@ -1311,3 +1315,17 @@ func kill_ladder():
 
 func _on_whistle_finished():
 	emit_signal("whstl_end")
+
+func no_input(state):
+	if state:
+		x_dir = 0
+		left_tap = false
+		right_tap = false
+		jump = false
+		jump_tap = false
+		dash = false
+		dash_tap = false
+		fire = false
+		no_input = true
+	else:
+		no_input = false

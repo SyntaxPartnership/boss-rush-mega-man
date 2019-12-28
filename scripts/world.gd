@@ -35,6 +35,8 @@ var p_menu = false
 var swapping = false
 var shots = 0
 var adaptors = 0
+var fill_b_meter = false
+var boss_hp = 280
 
 #Item Drops
 var item = []
@@ -66,7 +68,8 @@ var room_data = {
 				#Null and void due to the game only having single rooms.
 				}
 
-var boss_rooms = {#Insert boss room coordinates here.
+var boss_rooms = {
+				"(1, 0)" : "batton.tscn"
 				}
 
 # warning-ignore:unused_class_variable
@@ -402,7 +405,15 @@ func _rooms():
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
 				
+	if boss_rooms.has(str(player_room)):
+		#Kill music and display the boss meter.
+		for m in $audio/music.get_children():
+			m.stop()
+		
+		if global.level_id != 0:
+			$audio/music/boss.play()
 			
+		boss = true
 		#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
 		var enemy_loc = []
@@ -459,7 +470,7 @@ func _process(delta):
 		get_tree().paused = true
 	
 	#Refill the necessary energy.
-	if wpn_en != 0 or life_en != 0:
+	if wpn_en != 0 or life_en != 0 or boss and fill_b_meter:
 		heal_delay += 1
 	
 	#Loop the counter
@@ -478,9 +489,21 @@ func _process(delta):
 		$player.wpn_lvl[id][int($player.swap) + 1] += 10
 		wpn_en -= 10
 	
+	#Boss Meters.
+	if $hud/hud/boss.value < boss_hp and heal_delay == 1:
+		$audio/se/meter.play()
+		$hud/hud/boss.value += 10
+	
 	#Allow the player to move again.
 	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap:
 		get_tree().paused = false
+	
+	if boss and fill_b_meter and $hud/hud/boss.value == boss_hp:
+		fill_b_meter = false
+		for b in get_tree().get_nodes_in_group("boss"):
+			b.intro = false
+			b.fill_bar = false
+			$player.no_input(false)
 	
 	#Check to see if the player's weapons or adaptors have gone beyond the screen.
 	var get_weaps = get_tree().get_nodes_in_group("weapons")
@@ -1111,10 +1134,15 @@ func item_drop():
 		item = item_table.get(0)
 
 func _on_player_whstl_end():
-	play_music()
+	play_music("")
 
-func play_music():
-	$audio/music/glow.play()
+func play_music(ogg):
+	if ogg == "":
+		$audio/music/glow.play()
+	else:
+		for m in $audio/music.get_children():
+			if m.name == ogg:
+				m.play()
 
 func sound(sfx):
 	for s in $audio/se.get_children():
