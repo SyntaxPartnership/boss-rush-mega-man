@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://scripts/bosses/swoop.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/batton/batton_wings.png" type="Texture" id=2]
@@ -40,7 +40,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=4]
-resource_name = "intro"
+resource_name = "idle"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:frame")
 tracks/0/interp = 1
@@ -62,15 +78,13 @@ collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="wings" type="Sprite" parent="."]
-position = Vector2( 1, -4 )
+position = Vector2( 1, -6 )
 texture = ExtResource( 2 )
-hframes = 3
-frame = 2
+hframes = 4
 
 [node name="body" type="Sprite" parent="."]
 texture = ExtResource( 3 )
-hframes = 12
-frame = 3
+hframes = 14
 
 [node name="box" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -81,5 +95,9 @@ anims/flap = SubResource( 2 )
 anims/idle = SubResource( 3 )
 
 [node name="anim_body" type="AnimationPlayer" parent="."]
-anims/intro = SubResource( 4 )
+anims/idle = SubResource( 4 )
+anims/intro = SubResource( 5 )
+
+[node name="bat_spawn" type="Position2D" parent="."]
+position = Vector2( 8, -7 )
 [connection signal="animation_finished" from="anim_body" to="." method="_on_body_anim_finished"]

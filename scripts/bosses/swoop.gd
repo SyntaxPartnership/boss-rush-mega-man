@@ -10,6 +10,12 @@ var fill_bar = false
 
 var up = false
 
+var center = 0
+
+var state = 0
+var swoop = 0
+var bat = 0
+
 var velocity = Vector2()
 
 func _ready():
@@ -36,13 +42,39 @@ func _physics_process(delta):
 		
 		if intro_delay == 1:
 			$anim_body.play("intro")
+			$box.disabled = false
 	
 	#Simulate the wings flapping.
-	$wings.offset.y = -$wings.frame
-	$body.offset.y = -$wings.frame
+	if $wings.frame < 3:
+		$wings.offset.y = -$wings.frame
+		$body.offset.y = -$wings.frame
+	
+	if !intro and !fill_bar:
+		if state == 0:
+			if is_on_wall():
+				
+				#Generate a random number:
+				randomize()
+				swoop = floor(rand_range(0, 5))
+				
+				if $body.flip_h:
+					$body.flip_h = false
+					$wings.flip_h = false
+				else:
+					$body.flip_h = true
+					$wings.flip_h = true
+				$bat_spawn.position.x = -$bat_spawn.position.x
+				print($bat_spawn.position.x)
+			if $body.flip_h:
+				velocity.x = 90
+			else:
+				velocity.x = -90
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func _on_body_anim_finished(anim_name):
 	if anim_name == "intro":
 		world.fill_b_meter = true
+
+func play_anim(anim):
+	$anim_body.play(anim)
