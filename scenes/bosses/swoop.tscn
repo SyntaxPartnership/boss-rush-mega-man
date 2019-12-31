@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/bosses/swoop.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/batton/batton_wings.png" type="Texture" id=2]
@@ -39,6 +39,23 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
+[sub_resource type="Animation" id=6]
+resource_name = "down"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 5 ]
+}
+
 [sub_resource type="Animation" id=4]
 resource_name = "idle"
 length = 0.1
@@ -53,7 +70,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 0 ]
+"values": [ 3 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -68,6 +85,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 1, 2, 0, 4 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "up"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.0573023 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
 }
 
 [node name="swoop" type="KinematicBody2D" groups=[
@@ -85,6 +119,7 @@ hframes = 4
 [node name="body" type="Sprite" parent="."]
 texture = ExtResource( 3 )
 hframes = 14
+frame = 3
 
 [node name="box" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -95,8 +130,10 @@ anims/flap = SubResource( 2 )
 anims/idle = SubResource( 3 )
 
 [node name="anim_body" type="AnimationPlayer" parent="."]
+anims/down = SubResource( 6 )
 anims/idle = SubResource( 4 )
 anims/intro = SubResource( 5 )
+anims/up = SubResource( 7 )
 
 [node name="bat_spawn" type="Position2D" parent="."]
 position = Vector2( 8, -7 )

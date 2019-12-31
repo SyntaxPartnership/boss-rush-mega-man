@@ -14,6 +14,7 @@ var center = 0
 
 var state = 0
 var swoop = 0
+var dives = 0
 var bat = 0
 
 var velocity = Vector2()
@@ -55,7 +56,13 @@ func _physics_process(delta):
 				
 				#Generate a random number:
 				randomize()
-				swoop = floor(rand_range(0, 5))
+				swoop = floor(rand_range(0, 10))
+				if swoop <= 3:
+					state = 1
+					$anim_body.play("down")
+					$anim_wings.play("idle")
+					$wings.hide()
+					velocity.y = 400
 				
 				if $body.flip_h:
 					$body.flip_h = false
@@ -64,11 +71,38 @@ func _physics_process(delta):
 					$body.flip_h = true
 					$wings.flip_h = true
 				$bat_spawn.position.x = -$bat_spawn.position.x
-				print($bat_spawn.position.x)
+
 			if $body.flip_h:
 				velocity.x = 90
 			else:
 				velocity.x = -90
+		
+		if state == 1:
+			
+			if $body.flip_h:
+				velocity.x = 120
+			else:
+				velocity.x = -120
+			
+			if velocity.y > -350:
+				velocity.y -= 900 * delta
+			
+			if velocity.y < 0 and velocity.y >= -10:
+				$anim_body.play("up")
+			
+			if global_position.y < camera.limit_top + 96:
+				if dives < 1:
+					velocity.y = 400
+					$anim_body.play("down")
+					dives += 1
+				else:
+					velocity.y = 0
+					global_position.y = camera.limit_top + 96
+					$anim_body.play("idle")
+					$anim_wings.play("flap")
+					$wings.show()
+					state = 0
+					dives = 0
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 

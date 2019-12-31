@@ -105,15 +105,13 @@ func _on_hitbox_body_exited(body):
 		touch = false
 
 func spawn_boss():
+	var boss = load("res://scenes/bosses/swoop.tscn").instance()
 	if spawn == 0:
-		var boss = load("res://scenes/bosses/swoop.tscn").instance()
 		boss.global_position = global_position
-		world.get_child(1).add_child(boss)
 	else:
-		var boss = load("res://scenes/bosses/swoop.tscn").instance()
 		boss.global_position.x = global_position.x
 		boss.global_position.y = camera.limit_top - 32
-		world.get_child(1).add_child(boss)
+	world.get_child(1).add_child(boss)
 	
 	world.boss = true
 	world.play_music("boss")
