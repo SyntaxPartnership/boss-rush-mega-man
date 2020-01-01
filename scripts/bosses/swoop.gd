@@ -132,6 +132,8 @@ func _physics_process(delta):
 				make_bat = true
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+	
+	print(dives)
 
 func _on_body_anim_finished(anim_name):
 	if anim_name == "intro":
