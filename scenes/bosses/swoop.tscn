@@ -1,14 +1,17 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/bosses/swoop.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/batton/batton_wings.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/bosses/batton/batton.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/bosses/flash.png" type="Texture" id=4]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 10 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "flap"
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 10 )
+
+[sub_resource type="Animation" id=3]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -24,8 +27,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "idle"
+[sub_resource type="Animation" id=4]
 tracks/0/type = "value"
 tracks/0/path = NodePath("wings:frame")
 tracks/0/interp = 1
@@ -37,23 +39,6 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 0 ]
-}
-
-[sub_resource type="Animation" id=4]
-resource_name = "down"
-length = 0.1
-loop = true
-tracks/0/type = "value"
-tracks/0/path = NodePath("body:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
-"update": 1,
-"values": [ 5 ]
 }
 
 [sub_resource type="Animation" id=5]
@@ -69,10 +54,26 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 3 ]
+"values": [ 5 ]
 }
 
 [sub_resource type="Animation" id=6]
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 3 ]
+}
+
+[sub_resource type="Animation" id=7]
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:frame")
 tracks/0/interp = 1
@@ -86,8 +87,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 0, 4 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "kiss"
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:frame")
@@ -102,7 +102,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -135,21 +135,34 @@ hframes = 4
 texture = ExtResource( 3 )
 hframes = 14
 
+[node name="flash" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 4 )
+
 [node name="box" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 disabled = true
 
+[node name="hitbox" type="Area2D" parent="."]
+collision_layer = 33
+collision_mask = 4
+
+[node name="box" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource( 2 )
+
 [node name="anim_wings" type="AnimationPlayer" parent="."]
-anims/flap = SubResource( 2 )
-anims/idle = SubResource( 3 )
+anims/flap = SubResource( 3 )
+anims/idle = SubResource( 4 )
 
 [node name="anim_body" type="AnimationPlayer" parent="."]
-anims/down = SubResource( 4 )
-anims/idle = SubResource( 5 )
-anims/intro = SubResource( 6 )
-anims/kiss = SubResource( 7 )
-anims/up = SubResource( 8 )
+anims/down = SubResource( 5 )
+anims/idle = SubResource( 6 )
+anims/intro = SubResource( 7 )
+anims/kiss = SubResource( 8 )
+anims/up = SubResource( 9 )
 
 [node name="bat_spawn" type="Position2D" parent="."]
 position = Vector2( 8, -7 )
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
 [connection signal="animation_finished" from="anim_body" to="." method="_on_body_anim_finished"]

@@ -20,6 +20,10 @@ var make_bat = false
 
 var velocity = Vector2()
 
+var flash = 0
+var flash_delay = 0
+var hit = false
+
 func _ready():
 	$anim_wings.play("flap")
 	
@@ -130,10 +134,34 @@ func _physics_process(delta):
 				else:
 					bat.start = 1
 				make_bat = true
+	
+	if flash > 0:
+		flash_delay += 1
+		flash -= 1
+		
+		if flash_delay == 1:
+			$wings.hide()
+			$body.hide()
+			$flash.show()
+		
+		if flash_delay == 3:
+			$flash.hide()
+			$body.show()
+			if $anim_body.get_current_animation() != "up" and $anim_body.get_current_animation() != "down":
+				$wings.show()
+		
+		if flash_delay > 3:
+			flash_delay = 0
+	
+	if flash == 0 and hit:
+		$flash.hide()
+		$body.show()
+		if $anim_body.get_current_animation() != "up" and $anim_body.get_current_animation() != "down":
+			$wings.show()
+		flash_delay = 0
+		hit = false
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
-	
-	print(dives)
 
 func _on_body_anim_finished(anim_name):
 	if anim_name == "intro":
@@ -150,3 +178,13 @@ func _on_body_anim_finished(anim_name):
 
 func play_anim(anim):
 	$anim_body.play(anim)
+
+func _on_hitbox_body_entered(body):
+	if body.is_in_group("weapons") and flash == 0:
+		world.sound("hit")
+		flash = 24
+		hit = true
+		body.queue_free()
+
+func _on_hitbox_body_exited(body):
+	pass # Replace with function body.
