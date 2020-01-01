@@ -35,14 +35,14 @@ func _physics_process(delta):
 				velocity.y -= 10
 		2:
 			if velocity.x < 0:
-				velocity.x += 10
+				velocity.x += 5
 			elif velocity.x > 0:
-				velocity.x -= 10
+				velocity.x -= 5
 			
 			if velocity.y < 0:
-				velocity.y += 10
+				velocity.y += 5
 			elif velocity.y > 0:
-				velocity.y -= 10
+				velocity.y -= 5
 			
 			cooldown -= 1
 			

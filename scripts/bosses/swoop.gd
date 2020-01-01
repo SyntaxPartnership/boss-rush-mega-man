@@ -106,7 +106,7 @@ func _physics_process(delta):
 			if velocity.y < 0 and velocity.y >= -10:
 				$anim_body.play("up")
 			
-			if global_position.y < camera.limit_top + 96:
+			if global_position.y < camera.limit_top + 96 and velocity.y < 0:
 				if dives < 1:
 					velocity.y = 400
 					$anim_body.play("down")
