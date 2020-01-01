@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/bosses/swoop.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/batton/batton_wings.png" type="Texture" id=2]
@@ -39,7 +39,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 resource_name = "down"
 length = 0.1
 loop = true
@@ -56,8 +56,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "idle"
+[sub_resource type="Animation" id=5]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -73,7 +72,7 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:frame")
 tracks/0/interp = 1
@@ -88,7 +87,22 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=7]
-resource_name = "up"
+resource_name = "kiss"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[sub_resource type="Animation" id=8]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -130,10 +144,11 @@ anims/flap = SubResource( 2 )
 anims/idle = SubResource( 3 )
 
 [node name="anim_body" type="AnimationPlayer" parent="."]
-anims/down = SubResource( 6 )
-anims/idle = SubResource( 4 )
-anims/intro = SubResource( 5 )
-anims/up = SubResource( 7 )
+anims/down = SubResource( 4 )
+anims/idle = SubResource( 5 )
+anims/intro = SubResource( 6 )
+anims/kiss = SubResource( 7 )
+anims/up = SubResource( 8 )
 
 [node name="bat_spawn" type="Position2D" parent="."]
 position = Vector2( 8, -7 )

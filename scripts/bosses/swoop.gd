@@ -16,6 +16,7 @@ var state = 0
 var swoop = 0
 var dives = 0
 var bat = 0
+var make_bat = false
 
 var velocity = Vector2()
 
@@ -57,6 +58,12 @@ func _physics_process(delta):
 				#Generate a random number:
 				randomize()
 				swoop = floor(rand_range(0, 10))
+				
+				var bat_num = get_tree().get_nodes_in_group("bats")
+				
+				if bat_num.size() < 4:
+					bat = floor(rand_range(16, 128))
+				
 				if swoop <= 3:
 					state = 1
 					$anim_body.play("down")
@@ -76,6 +83,15 @@ func _physics_process(delta):
 				velocity.x = 90
 			else:
 				velocity.x = -90
+			
+			#When the bat timer reaches a certain point, spawn a bat.
+			if bat > 0:
+				bat -= 1
+			
+			if bat == 1:
+				state = 2
+				velocity.x = 0
+				$anim_body.play("kiss")
 		
 		if state == 1:
 			
@@ -103,12 +119,32 @@ func _physics_process(delta):
 					$wings.show()
 					state = 0
 					dives = 0
+		
+		if state == 2:
+			if $body.frame == 2 and !make_bat:
+				var bat = load("res://scenes/bosses/bat.tscn").instance()
+				bat.global_position = $bat_spawn.global_position
+				world.get_child(1).add_child(bat)
+				if $body.flip_h:
+					bat.start = 0
+				else:
+					bat.start = 1
+				make_bat = true
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 
 func _on_body_anim_finished(anim_name):
 	if anim_name == "intro":
 		world.fill_b_meter = true
+	
+	if anim_name == "kiss":
+		make_bat = false
+		if $body.flip_h:
+			velocity.x = 90
+		else:
+			velocity.x = -90
+		$anim_body.play("idle")
+		state = 0
 
 func play_anim(anim):
 	$anim_body.play(anim)
