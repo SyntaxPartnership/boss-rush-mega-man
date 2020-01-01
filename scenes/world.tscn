@@ -125,6 +125,7 @@ format = 1
 tile_data = PoolIntArray( 1048582, 0, 0, 1048646, 69, 0, 1048710, 70, 0, 1572987, 50, 0, 1573051, 51, 0, 3014662, 3, 0, 3145903, 71, 0, 4980742, 6, 0, 5505071, 49, 0, 6946822, 9, 0, 7471151, 49, 0 )
 
 [node name="graphic" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 

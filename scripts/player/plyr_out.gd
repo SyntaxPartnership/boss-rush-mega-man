@@ -31,8 +31,7 @@ func _ready():
 	if hurt:
 		if !hurt_boom:
 			var boom = load('res://scenes/effects/l_explode.tscn').instance()
-			add_child(boom)
-			$boom.play()
+			world.get_child(3).add_child(boom)
 		$anim.play("hurt")
 		velocity.y = 0
 	else:
