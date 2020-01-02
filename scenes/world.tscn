@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -11,29 +11,30 @@
 [ext_resource path="res://assets/tilesets/collision/fst_conv_r.tres" type="TileSet" id=9]
 [ext_resource path="res://assets/tilesets/collision/fst_conv_l.tres" type="TileSet" id=10]
 [ext_resource path="res://assets/tilesets/spawn_pts/spawn_pts.tres" type="TileSet" id=11]
-[ext_resource path="res://assets/tilesets/objects/objects.tres" type="TileSet" id=12]
-[ext_resource path="res://assets/tilesets/objects/items.tres" type="TileSet" id=13]
-[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=14]
-[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scripts/effects/ready.gd" type="Script" id=16]
-[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=17]
-[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=19]
-[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=20]
-[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=21]
-[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=22]
-[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=23]
-[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=24]
-[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=25]
-[ext_resource path="res://assets/audio/se/Meter.wav" type="AudioStream" id=26]
-[ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=27]
-[ext_resource path="res://assets/audio/se/b_lancer.wav" type="AudioStream" id=28]
-[ext_resource path="res://assets/audio/se/Signal.wav" type="AudioStream" id=29]
-[ext_resource path="res://assets/audio/se/Throw.wav" type="AudioStream" id=30]
-[ext_resource path="res://assets/audio/se/Big Explosion.wav" type="AudioStream" id=31]
-[ext_resource path="res://assets/audio/se/Hit.wav" type="AudioStream" id=32]
-[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=33]
-[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=34]
+[ext_resource path="res://assets/tilesets/stage_graphics/gfx_tiles.tres" type="TileSet" id=12]
+[ext_resource path="res://assets/tilesets/objects/objects.tres" type="TileSet" id=13]
+[ext_resource path="res://assets/tilesets/objects/items.tres" type="TileSet" id=14]
+[ext_resource path="res://assets/tilesets/enemies/enemies.tres" type="TileSet" id=15]
+[ext_resource path="res://scenes/player/player.tscn" type="PackedScene" id=16]
+[ext_resource path="res://scripts/effects/ready.gd" type="Script" id=17]
+[ext_resource path="res://scenes/hud.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/pause_menu.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=20]
+[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/audio/se/Splash.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/se/Meter.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/audio/se/b_lancer.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/audio/se/Signal.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/audio/se/Throw.wav" type="AudioStream" id=31]
+[ext_resource path="res://assets/audio/se/Big Explosion.wav" type="AudioStream" id=32]
+[ext_resource path="res://assets/audio/se/Hit.wav" type="AudioStream" id=33]
+[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=34]
+[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=35]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -125,7 +126,6 @@ format = 1
 tile_data = PoolIntArray( 1048582, 0, 0, 1048646, 69, 0, 1048710, 70, 0, 1572987, 50, 0, 1573051, 51, 0, 3014662, 3, 0, 3145903, 71, 0, 4980742, 6, 0, 5505071, 49, 0, 6946822, 9, 0, 7471151, 49, 0 )
 
 [node name="graphic" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -133,23 +133,29 @@ margin_bottom = 40.0
 margin_right = 40.0
 margin_bottom = 40.0
 
+[node name="TileMap" type="TileMap" parent="graphic/stage_gfx"]
+tile_set = ExtResource( 12 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 16, 0, 0, 17, 1, 0, 18, 2, 0, 19, 3, 0, 20, 3, 0, 21, 3, 0, 22, 4, 0, 23, 1, 0, 24, 1, 0, 25, 2, 0, 26, 3, 0, 27, 3, 0, 28, 3, 0, 29, 4, 0, 30, 1, 0, 31, 5, 0, 65552, 6, 0, 65553, 24, 0, 65554, 24, 0, 65555, 24, 0, 65556, 24, 0, 65557, 24, 0, 65558, 24, 0, 65559, 24, 0, 65560, 24, 0, 65561, 24, 0, 65562, 24, 0, 65563, 24, 0, 65564, 24, 0, 65565, 24, 0, 65566, 24, 0, 65567, 7, 0, 131088, 6, 0, 131089, 36, 0, 131090, 21, 0, 131091, 22, 0, 131092, 22, 0, 131093, 23, 0, 131094, 36, 0, 131095, 36, 0, 131096, 36, 0, 131097, 36, 0, 131098, 21, 0, 131099, 22, 0, 131100, 22, 0, 131101, 23, 0, 131102, 36, 0, 131103, 7, 0, 196624, 6, 0, 196625, 36, 0, 196626, 21, 0, 196627, 22, 0, 196628, 22, 0, 196629, 23, 0, 196630, 36, 0, 196631, 36, 0, 196632, 36, 0, 196633, 36, 0, 196634, 21, 0, 196635, 22, 0, 196636, 22, 0, 196637, 23, 0, 196638, 36, 0, 196639, 7, 0, 262160, 6, 0, 262161, 36, 0, 262162, 21, 0, 262163, 22, 0, 262164, 22, 0, 262165, 23, 0, 262166, 36, 0, 262167, 36, 0, 262168, 36, 0, 262169, 36, 0, 262170, 21, 0, 262171, 22, 0, 262172, 22, 0, 262173, 23, 0, 262174, 36, 0, 262175, 7, 0, 327696, 6, 0, 327697, 18, 0, 327698, 19, 0, 327699, 19, 0, 327700, 19, 0, 327701, 19, 0, 327702, 19, 0, 327703, 19, 0, 327704, 19, 0, 327705, 19, 0, 327706, 19, 0, 327707, 19, 0, 327708, 19, 0, 327709, 19, 0, 327710, 20, 0, 327711, 7, 0, 393232, 6, 0, 393233, 35, 0, 393234, 35, 0, 393235, 35, 0, 393236, 35, 0, 393237, 35, 0, 393238, 35, 0, 393239, 35, 0, 393240, 35, 0, 393241, 35, 0, 393242, 35, 0, 393243, 35, 0, 393244, 35, 0, 393245, 35, 0, 393246, 35, 0, 393247, 7, 0, 458768, 6, 0, 458769, 37, 0, 458770, 37, 0, 458771, 37, 0, 458772, 37, 0, 458773, 37, 0, 458774, 37, 0, 458775, 37, 0, 458776, 37, 0, 458777, 37, 0, 458778, 37, 0, 458779, 37, 0, 458780, 37, 0, 458781, 37, 0, 458782, 37, 0, 458783, 7, 0, 524304, 6, 0, 524305, 39, 0, 524306, 39, 0, 524307, 39, 0, 524308, 39, 0, 524309, 39, 0, 524310, 39, 0, 524311, 39, 0, 524312, 39, 0, 524313, 39, 0, 524314, 39, 0, 524315, 39, 0, 524316, 39, 0, 524317, 39, 0, 524318, 39, 0, 524319, 7, 0, 589841, 18, 0, 589842, 19, 0, 589843, 19, 0, 589844, 19, 0, 589845, 19, 0, 589846, 19, 0, 589847, 19, 0, 589848, 19, 0, 589849, 19, 0, 589850, 19, 0, 589851, 19, 0, 589852, 19, 0, 589853, 19, 0, 589854, 20, 0, 589855, 7, 0, 655377, 36, 0, 655378, 38, 0, 655379, 36, 0, 655380, 38, 0, 655381, 36, 0, 655382, 38, 0, 655383, 36, 0, 655384, 38, 0, 655385, 36, 0, 655386, 38, 0, 655387, 36, 0, 655388, 25, 0, 655389, 26, 0, 655390, 27, 0, 655391, 7, 0, 720913, 36, 0, 720914, 40, 0, 720915, 41, 0, 720916, 40, 0, 720917, 41, 0, 720918, 40, 0, 720919, 41, 0, 720920, 40, 0, 720921, 41, 0, 720922, 40, 0, 720923, 41, 0, 720924, 28, 0, 720925, 29, 0, 720926, 30, 0, 720927, 7, 0, 786449, 31, 0, 786450, 31, 0, 786451, 31, 0, 786452, 31, 0, 786453, 31, 0, 786454, 31, 0, 786455, 31, 0, 786456, 31, 0, 786457, 31, 0, 786458, 31, 0, 786459, 31, 0, 786460, 32, 0, 786461, 33, 0, 786462, 34, 0, 786463, 7, 0, 851984, 8, 0, 851985, 9, 0, 851986, 10, 0, 851987, 11, 0, 851988, 12, 0, 851989, 10, 0, 851990, 11, 0, 851991, 13, 0, 851992, 9, 0, 851993, 10, 0, 851994, 11, 0, 851995, 12, 0, 851996, 10, 0, 851997, 11, 0, 851998, 9, 0, 851999, 15, 0, 917520, 16, 0, 917521, 16, 0, 917522, 16, 0, 917523, 16, 0, 917524, 17, 0, 917525, 16, 0, 917526, 16, 0, 917527, 16, 0, 917528, 16, 0, 917529, 16, 0, 917530, 16, 0, 917531, 17, 0, 917532, 16, 0, 917533, 16, 0, 917534, 16, 0, 917535, 16, 0 )
+
 [node name="spawn_tiles" type="Control" parent="graphic"]
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="objects" type="TileMap" parent="graphic/spawn_tiles"]
-tile_set = ExtResource( 12 )
+tile_set = ExtResource( 13 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 589839, 0, 0, 589871, 0, 0, 589903, 0, 0, 1572879, 0, 0, 1900630, 1, 0, 2555919, 0, 0, 3538959, 0, 0 )
 
 [node name="items" type="TileMap" parent="graphic/spawn_tiles"]
-tile_set = ExtResource( 13 )
+tile_set = ExtResource( 14 )
 cell_size = Vector2( 16, 16 )
 format = 1
 
 [node name="enemy_map" type="TileMap" parent="graphic/spawn_tiles"]
-tile_set = ExtResource( 14 )
+tile_set = ExtResource( 15 )
 cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 786460, 0, 0 )
@@ -159,7 +165,7 @@ margin_right = 40.0
 margin_bottom = 40.0
 rect_pivot_offset = Vector2( 712, 256 )
 
-[node name="player" parent="." instance=ExtResource( 15 )]
+[node name="player" parent="." instance=ExtResource( 16 )]
 pause_mode = 1
 editor/display_folded = true
 position = Vector2( 64, 132 )
@@ -200,14 +206,14 @@ margin_bottom = 2.5
 custom_fonts/font = SubResource( 2 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
-script = ExtResource( 16 )
+script = ExtResource( 17 )
 
-[node name="hud" parent="hud" instance=ExtResource( 17 )]
+[node name="hud" parent="hud" instance=ExtResource( 18 )]
 
 [node name="pause" type="CanvasLayer" parent="."]
 editor/display_folded = true
 
-[node name="pause_menu" parent="pause" instance=ExtResource( 18 )]
+[node name="pause_menu" parent="pause" instance=ExtResource( 19 )]
 visible = false
 
 [node name="debug_stats" type="CanvasLayer" parent="."]
@@ -379,7 +385,8 @@ text = "Place menu options here."
 [node name="fade" type="CanvasLayer" parent="."]
 pause_mode = 2
 
-[node name="fade" parent="fade" instance=ExtResource( 19 )]
+[node name="fade" parent="fade" instance=ExtResource( 20 )]
+visible = false
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -391,54 +398,54 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="death" type="AudioStreamPlayer" parent="audio/se"]
-stream = ExtResource( 20 )
-
-[node name="splash" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 21 )
 
-[node name="appear" type="AudioStreamPlayer" parent="audio/se"]
+[node name="splash" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 22 )
 
-[node name="menu" type="AudioStreamPlayer" parent="audio/se"]
+[node name="appear" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 23 )
 
-[node name="bling" type="AudioStreamPlayer" parent="audio/se"]
+[node name="menu" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 24 )
 
-[node name="hurt" type="AudioStreamPlayer" parent="audio/se"]
+[node name="bling" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 25 )
 
-[node name="meter" type="AudioStreamPlayer" parent="audio/se"]
+[node name="hurt" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 26 )
 
-[node name="buzz" type="AudioStreamPlayer" parent="audio/se"]
+[node name="meter" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 27 )
 
-[node name="b_lancer" type="AudioStreamPlayer" parent="audio/se"]
+[node name="buzz" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 28 )
 
-[node name="shock" type="AudioStreamPlayer" parent="audio/se"]
+[node name="b_lancer" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 29 )
 
-[node name="throw" type="AudioStreamPlayer" parent="audio/se"]
+[node name="shock" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 30 )
 
-[node name="big_explode" type="AudioStreamPlayer" parent="audio/se"]
+[node name="throw" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 31 )
 
-[node name="hit" type="AudioStreamPlayer" parent="audio/se"]
+[node name="big_explode" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 32 )
+
+[node name="hit" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 33 )
 
 [node name="music" type="Control" parent="audio"]
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="glow" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 33 )
+stream = ExtResource( 34 )
 volume_db = 5.0
 
 [node name="boss" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 34 )
+stream = ExtResource( 35 )
 volume_db = 6.0
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
