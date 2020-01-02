@@ -139,19 +139,19 @@ func _physics_process(delta):
 		flash_delay += 1
 		flash -= 1
 		
+		if flash_delay > 1:
+			flash_delay = 0
+		
 		if flash_delay == 1:
 			$wings.hide()
 			$body.hide()
 			$flash.show()
 		
-		if flash_delay == 3:
+		if flash_delay == 0:
 			$flash.hide()
 			$body.show()
 			if $anim_body.get_current_animation() != "up" and $anim_body.get_current_animation() != "down":
 				$wings.show()
-		
-		if flash_delay > 3:
-			flash_delay = 0
 	
 	if flash == 0 and hit:
 		$flash.hide()

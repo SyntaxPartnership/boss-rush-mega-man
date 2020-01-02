@@ -495,7 +495,7 @@ func _process(delta):
 		$hud/hud/boss.value += 10
 	
 	#Allow the player to move again.
-	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap:
+	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap and !dead:
 		get_tree().paused = false
 	
 	if boss and fill_b_meter and $hud/hud/boss.value == boss_hp:
@@ -559,11 +559,15 @@ func _process(delta):
 		$player.can_move = false
 		get_tree().paused = true
 		$player.hide()
+		for m in $audio/music.get_children():
+			m.stop()
 		
 	if global.player_life[0] <= 0 and global.player_life[1] <= 0 and !dead:
 		dead = true
 		$player.can_move = false
 		get_tree().paused = true
+		for m in $audio/music.get_children():
+			m.stop()
 	
 	if dead and dead_delay > -1:
 		dead_delay -= 1
