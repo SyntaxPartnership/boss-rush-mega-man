@@ -12,7 +12,7 @@ var reflect = false
 
 var ref_dink
 
-var damage = 10
+var id = 0
 
 var velocity = Vector2()
 

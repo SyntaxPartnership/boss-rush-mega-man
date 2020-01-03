@@ -12,13 +12,13 @@ var reflect = false
 
 var ref_dink = false
 
-var damage = 10
+var id = 0
 
 var velocity = Vector2()
 
 func _ready():
 	#Change the sound effect to whatever is needed.
-	$audio/shoot.play()
+	world.sound("shoot_a")
 
 	#Set direction if necessary
 	if p_sprite.flip_h:
@@ -35,7 +35,7 @@ func _physics_process(delta):
 		velocity.x = dir * SPEED
 	else:
 		if !ref_dink:
-			$audio/reflect.play()
+			world.sound("dink")
 			ref_dink = true
 		
 		velocity.x = -dir * SPEED

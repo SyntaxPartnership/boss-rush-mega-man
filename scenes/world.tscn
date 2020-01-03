@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -33,8 +33,10 @@
 [ext_resource path="res://assets/audio/se/Throw.wav" type="AudioStream" id=31]
 [ext_resource path="res://assets/audio/se/Big Explosion.wav" type="AudioStream" id=32]
 [ext_resource path="res://assets/audio/se/Hit.wav" type="AudioStream" id=33]
-[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=34]
-[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=35]
+[ext_resource path="res://assets/audio/se/Buster.wav" type="AudioStream" id=34]
+[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=35]
+[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=36]
+[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=37]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -386,7 +388,6 @@ text = "Place menu options here."
 pause_mode = 2
 
 [node name="fade" parent="fade" instance=ExtResource( 20 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -436,21 +437,27 @@ stream = ExtResource( 32 )
 [node name="hit" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 33 )
 
+[node name="shoot_a" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 34 )
+
+[node name="dink" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 35 )
+
 [node name="music" type="Control" parent="audio"]
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="glow" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 34 )
+stream = ExtResource( 36 )
 volume_db = 5.0
 
 [node name="boss" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 35 )
+stream = ExtResource( 37 )
 volume_db = 6.0
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="whstl_end" from="player" to="." method="_on_player_whstl_end"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]

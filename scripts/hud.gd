@@ -81,3 +81,7 @@ func _process(delta):
 			if global.player == 2:
 				if $weap.value != global.reggae[int(player.swap) + 1]:
 					$weap.value = global.reggae[int(player.swap) + 1]
+	
+	#Boss Meter
+	if $boss.value > world.boss_hp:
+		$boss.value = world.boss_hp

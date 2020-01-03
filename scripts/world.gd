@@ -37,6 +37,7 @@ var shots = 0
 var adaptors = 0
 var fill_b_meter = false
 var boss_hp = 280
+var boss_num = 1
 
 #Item Drops
 var item = []
@@ -69,12 +70,20 @@ var room_data = {
 				}
 
 var boss_rooms = {
-				"(1, 0)" : "batton.tscn"
+				"(1, 0)" : ""
 				}
 
 # warning-ignore:unused_class_variable
 var got_items = {
 				}
+
+var wpn_dmg = {
+				0 : [0, 0],		#Immunity to damage.
+				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 30],	#Swoop Woman
+				}
+				
+var damage = 0
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
@@ -407,13 +416,11 @@ func _rooms():
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
-		for m in $audio/music.get_children():
-			m.stop()
+		kill_music()
 		
 		if global.level_id != 0:
 			$audio/music/boss.play()
-			
-		boss = true
+			boss = true
 		#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
 		var enemy_loc = []
@@ -1138,6 +1145,10 @@ func item_drop():
 	if rate >= 75:
 		item = item_table.get(0)
 
+func enemy_dmg(key, entry):
+	if wpn_dmg.has(key):
+		damage = wpn_dmg.get(key)[entry]
+
 func _on_player_whstl_end():
 	play_music("")
 
@@ -1148,6 +1159,10 @@ func play_music(ogg):
 		for m in $audio/music.get_children():
 			if m.name == ogg:
 				m.play()
+
+func kill_music():
+	for m in $audio/music.get_children():
+		m.stop()
 
 func sound(sfx):
 	for s in $audio/se.get_children():
