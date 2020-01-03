@@ -98,6 +98,9 @@ var bbl_count = 0
 func _ready():
 	res = get_viewport_rect().size
 	
+	#Generate a new random seed.
+	randomize()
+	
 	#Hide Object and Enemy Layers
 	objects.hide()
 	enemies.hide()

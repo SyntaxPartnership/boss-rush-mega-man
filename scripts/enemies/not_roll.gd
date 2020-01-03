@@ -46,10 +46,10 @@ func _physics_process(delta):
 			$anim.play("kick")
 		kick_time = 40
 	
-	if $sprite.frame == 4:
-		$hitbox/kick_box.set_deferred("disabled", false)
-	else:
-		$hitbox/kick_box.set_deferred("disabled", true)
+#	if $sprite.frame == 4:
+#		$hitbox/kick_box.set_deferred("disabled", false)
+#	else:
+#		$hitbox/kick_box.set_deferred("disabled", true)
 
 	if boom_time == 0 and !fly:
 		$anim.play("float")

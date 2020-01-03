@@ -18,6 +18,7 @@ var center = 0
 var state = 0
 var swoop = 0
 var dives = 0
+var limiter = 0
 var bat = 0
 var make_bat = false
 
@@ -54,7 +55,7 @@ func _physics_process(delta):
 		
 		if intro_delay == 1:
 			$anim_body.play("intro")
-			$box.disabled = false
+			$box.set_deferred("disabled", false)
 	
 	#Simulate the wings flapping.
 	if $wings.frame < 3:
@@ -66,7 +67,6 @@ func _physics_process(delta):
 			if is_on_wall():
 				
 				#Generate a random number:
-				randomize()
 				swoop = floor(rand_range(0, 10))
 				
 				var bat_num = get_tree().get_nodes_in_group("bats")
@@ -74,12 +74,25 @@ func _physics_process(delta):
 				if bat_num.size() < 4:
 					bat = floor(rand_range(16, 128))
 				
-				if swoop <= 3:
-					state = 1
-					$anim_body.play("down")
-					$anim_wings.play("idle")
-					$wings.hide()
-					velocity.y = 400
+				if swoop <= 5:
+					if limiter < 2:
+						state = 1
+						$anim_body.play("down")
+						$anim_wings.play("idle")
+						$wings.hide()
+						velocity.y = 400
+						limiter += 1
+					else:
+						velocity.y = 0
+						global_position.y = camera.limit_top + 96
+						$anim_body.play("idle")
+						$anim_wings.play("flap")
+						$wings.show()
+						state = 0
+						dives = 0
+				
+				if swoop > 5 and limiter != 0:
+					limiter = 0
 				
 				if $body.flip_h:
 					$body.flip_h = false
@@ -179,6 +192,7 @@ func _physics_process(delta):
 	
 	if world.boss_hp <= 0:
 		world.kill_music()
+		world.sound("death")
 		var enemy_kill = get_tree().get_nodes_in_group('enemies')
 		for i in enemy_kill:
 			var boom = load("res://scenes/effects/s_explode.tscn").instance()
