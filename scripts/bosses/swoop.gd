@@ -21,6 +21,8 @@ var dives = 0
 var limiter = 0
 var bat = 0
 var make_bat = false
+var clone
+var c_active = false
 
 var velocity = Vector2()
 
@@ -36,8 +38,17 @@ func _ready():
 	
 	if global_position.y > camera.limit_top + 96:
 		up = true
+	
+	center = camera.limit_right - 128
 
 func _physics_process(delta):
+	
+	if clone == null:
+		var get_clone = get_tree().get_nodes_in_group("special")
+		#Set variable for the clone.
+		for c in get_clone:
+			if c.name == "swoop_clone":
+				clone = c
 	
 	#Boss intro dance
 	if intro and !fill_bar:
@@ -187,6 +198,16 @@ func _physics_process(delta):
 			damage = 60
 		global.player_life[int(player.swap)] -= damage
 		player.damage()
+	
+	#Clone behaviors.
+	#Match Y axis
+	clone.global_position.y = global_position.y
+	
+	#Mirror X axis
+	var distance = global_position.x - center
+	clone.global_position.x = center + -distance
+	
+	#Mimic animations.
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	

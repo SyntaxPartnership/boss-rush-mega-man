@@ -46,10 +46,10 @@ func _physics_process(delta):
 			$anim.play("kick")
 		kick_time = 40
 	
-#	if $sprite.frame == 4:
-#		$hitbox/kick_box.set_deferred("disabled", false)
-#	else:
-#		$hitbox/kick_box.set_deferred("disabled", true)
+	if $sprite.frame == 4:
+		$hitbox/kick_box.set_deferred("disabled", false)
+	else:
+		$hitbox/kick_box.set_deferred("disabled", true)
 
 	if boom_time == 0 and !fly:
 		$anim.play("float")
@@ -106,11 +106,16 @@ func _on_hitbox_body_exited(body):
 
 func spawn_boss():
 	var boss = load("res://scenes/bosses/swoop.tscn").instance()
+	var clone = load("res://scenes/bosses/swoop_clone.tscn").instance()
 	if spawn == 0:
 		boss.global_position = global_position
+		clone.global_position = global_position
 	else:
 		boss.global_position.x = global_position.x
+		clone.global_position.x = global_position.x
 		boss.global_position.y = camera.limit_top - 32
+		clone.global_position.y = camera.limit_top - 32
+	world.get_child(1).add_child(clone)
 	world.get_child(1).add_child(boss)
 	
 	world.boss = true

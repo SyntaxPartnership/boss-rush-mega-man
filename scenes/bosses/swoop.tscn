@@ -133,7 +133,7 @@ hframes = 4
 
 [node name="body" type="Sprite" parent="."]
 texture = ExtResource( 3 )
-hframes = 14
+hframes = 16
 
 [node name="flash" type="Sprite" parent="."]
 visible = false

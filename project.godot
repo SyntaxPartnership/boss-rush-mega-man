@@ -15,7 +15,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Boss Rush Mega Man"
+config/name="Mega Man Uprising"
 run/main_scene="res://scenes/disclaimer.tscn"
 boot_splash/image="res://assets/replace/XReGEGC_aN6JWX6LZEhYd-7LNdab-LP4.png"
 boot_splash/fullsize=false
