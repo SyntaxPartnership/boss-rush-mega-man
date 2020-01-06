@@ -23,6 +23,7 @@ var bat = 0
 var make_bat = false
 var clone
 var c_active = false
+var deny_drill = true
 
 var velocity = Vector2()
 
@@ -50,6 +51,8 @@ func _physics_process(delta):
 			if c.name == "swoop_clone":
 				clone = c
 	
+	#Get x distance between boss and player.
+	
 	#Boss intro dance
 	if intro and !fill_bar:
 		if global_position.y < camera.limit_top + 96 and !up:
@@ -74,11 +77,16 @@ func _physics_process(delta):
 		$body.offset.y = -$wings.frame
 	
 	if !intro and !fill_bar:
+		if $body.flip_h:
+			$wings.position.x = -1
+		else:
+			$wings.position.x = 1
+		
 		if state == 0:
 			if is_on_wall():
 				
 				#Generate a random number:
-				swoop = floor(rand_range(0, 10))
+				swoop = floor(rand_range(0, 15))
 				
 				var bat_num = get_tree().get_nodes_in_group("bats")
 				
@@ -102,6 +110,11 @@ func _physics_process(delta):
 						state = 0
 						dives = 0
 				
+				#Drill action.
+				if swoop > 5 and swoop <= 12 and !deny_drill:
+					velocity.x = -velocity.x
+					state = 3
+				
 				if swoop > 5 and limiter != 0:
 					limiter = 0
 				
@@ -112,6 +125,11 @@ func _physics_process(delta):
 					$body.flip_h = true
 					$wings.flip_h = true
 				$bat_spawn.position.x = -$bat_spawn.position.x
+				clone.get_child(2).position.x = -clone.get_child(2).position.x
+				
+				#Disable the flag so the boss can use her drill attack.
+				if deny_drill:
+					deny_drill = false
 
 			if $body.flip_h:
 				velocity.x = 90
@@ -163,7 +181,20 @@ func _physics_process(delta):
 					bat.start = 0
 				else:
 					bat.start = 1
+				#Make the clone spit out a bat.
+				if c_active:
+					var c_bat = load("res://scenes/bosses/bat.tscn").instance()
+					c_bat.global_position = clone.get_child(2).global_position
+					world.get_child(1).add_child(c_bat)
+					if clone.get_child(1).flip_h:
+						bat.start = 0
+					else:
+						bat.start = 1
 				make_bat = true
+		
+		if state == 3:
+			if global_position.distance_to(player.global_position) < 16:
+				velocity.x = 0
 	
 	if flash > 0:
 		flash_delay += 1
@@ -198,7 +229,9 @@ func _physics_process(delta):
 			damage = 60
 		global.player_life[int(player.swap)] -= damage
 		player.damage()
-	
+
+	velocity = move_and_slide(velocity, Vector2(0, -1))
+
 	#Clone behaviors.
 	#Match Y axis
 	clone.global_position.y = global_position.y
@@ -208,8 +241,26 @@ func _physics_process(delta):
 	clone.global_position.x = center + -distance
 	
 	#Mimic animations.
-
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+	#Wings
+	clone.get_child(0).frame = $wings.frame
+	clone.get_child(0).offset.y = $wings.offset.y
+	if $wings.is_visible() and !clone.get_child(0).is_visible():
+		clone.get_child(0).show()
+	elif !$wings.is_visible() and clone.get_child(0).is_visible():
+		clone.get_child(0).hide()
+	
+	#body
+	clone.get_child(1).frame = $body.frame
+	clone.get_child(1).offset.y = $body.offset.y
+	
+	if $body.flip_h:
+		clone.get_child(0).position.x = 1
+		clone.get_child(0).flip_h = false
+		clone.get_child(1).flip_h = false
+	else:
+		clone.get_child(0).position.x = -1
+		clone.get_child(0).flip_h = true
+		clone.get_child(1).flip_h = true
 	
 	if world.boss_hp <= 0:
 		world.kill_music()
