@@ -24,6 +24,10 @@ var make_bat = false
 var clone
 var c_active = false
 var deny_drill = true
+var x_dist = 0
+var drill_time = 60
+var drill_bats = 0
+var orig_state = 0
 
 var velocity = Vector2()
 
@@ -52,6 +56,7 @@ func _physics_process(delta):
 				clone = c
 	
 	#Get x distance between boss and player.
+	x_dist = floor(global_position.x - player.global_position.x)
 	
 	#Boss intro dance
 	if intro and !fill_bar:
@@ -69,7 +74,7 @@ func _physics_process(delta):
 		
 		if intro_delay == 1:
 			$anim_body.play("intro")
-			$box.set_deferred("disabled", false)
+			$box_a.set_deferred("disabled", false)
 	
 	#Simulate the wings flapping.
 	if $wings.frame < 3:
@@ -111,7 +116,7 @@ func _physics_process(delta):
 						dives = 0
 				
 				#Drill action.
-				if swoop > 5 and swoop <= 12 and !deny_drill:
+				if swoop > 5 and swoop <= 9 and !deny_drill:
 					velocity.x = -velocity.x
 					state = 3
 				
@@ -193,8 +198,50 @@ func _physics_process(delta):
 				make_bat = true
 		
 		if state == 3:
-			if global_position.distance_to(player.global_position) < 16:
+			if x_dist >= -16 and x_dist <= 16:
 				velocity.x = 0
+				$anim_body.play("drill_a")
+				$anim_wings.play("begin_drill")
+				state = 4
+		
+		if state == 5:
+			velocity.y += 900 * delta
+		
+		if state == 6:
+			
+			drill_time -= 1
+			
+			if drill_time <= 0:
+				if drill_bats < 2:
+					drill_bats += 1
+					drill_time = 60
+				else:
+					$anim_body.play("drill_e")
+					$box_a.set_deferred("disabled", true)
+					$box_b.set_deferred("disabled", false)
+					id = 2
+					state = 7
+		
+		if state == 8:
+			
+			if velocity.y > -90:
+				velocity.y -= 5
+			
+			if global_position.y < camera.limit_top + 96:
+				velocity.y = 0
+				global_position.y = camera.limit_top + 96
+				drill_bats = 0
+				drill_time = 60
+				state = 0
+	
+#	if world.boss_hp <= 140 and !c_active and state != 9:
+#		id = 0
+#		velocity = Vector2(0, 0)
+#		orig_state = state
+#		$wings.hide()
+#		$anim_body.play("drill_e")
+#		print('what?')
+#		state = 9
 	
 	if flash > 0:
 		flash_delay += 1
@@ -231,6 +278,11 @@ func _physics_process(delta):
 		player.damage()
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+	
+	if is_on_floor() and state == 5:
+		velocity.y = 0
+		$anim_body.play("drill_d")
+		state = 6
 
 	#Clone behaviors.
 	#Match Y axis
@@ -244,10 +296,11 @@ func _physics_process(delta):
 	#Wings
 	clone.get_child(0).frame = $wings.frame
 	clone.get_child(0).offset.y = $wings.offset.y
-	if $wings.is_visible() and !clone.get_child(0).is_visible():
-		clone.get_child(0).show()
-	elif !$wings.is_visible() and clone.get_child(0).is_visible():
-		clone.get_child(0).hide()
+	if flash == 0 and c_active:
+		if $wings.is_visible() and !clone.get_child(0).is_visible():
+			clone.get_child(0).show()
+		elif !$wings.is_visible() and clone.get_child(0).is_visible():
+			clone.get_child(0).hide()
 	
 	#body
 	clone.get_child(1).frame = $body.frame
@@ -291,6 +344,37 @@ func _on_body_anim_finished(anim_name):
 			velocity.x = -90
 		$anim_body.play("idle")
 		state = 0
+	
+	if anim_name == "drill_b":
+		id = 0
+		$anim_body.play("drill_c")
+		velocity.y = -200
+		state = 5
+	
+	if anim_name == "drill_e":
+		if state != 9:
+			$anim_wings.play("end_drill")
+			$anim_body.play("drill_a")
+			$wings.show()
+		else:
+			$anim_wings.play("end_drill")
+			$anim_body.play("clone_a")
+			$wings.show()
+
+func _on_anim_wings_finished(anim_name):
+	if anim_name == "begin_drill":
+		$anim_body.play("drill_b")
+		$wings.hide()
+		$box_a.set_deferred("disabled", true)
+		$box_b.set_deferred("disabled", false)
+	
+	if anim_name == "end_drill":
+		if state != 9:
+			$anim_body.play("idle")
+			$anim_wings.play("flap")
+			state = 8
+		else:
+			$anim_body.play("clone_b")
 
 func play_anim(anim):
 	$anim_body.play(anim)

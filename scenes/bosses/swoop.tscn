@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://scripts/bosses/swoop.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/batton/batton_wings.png" type="Texture" id=2]
@@ -8,12 +8,32 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 10 )
 
+[sub_resource type="RectangleShape2D" id=15]
+extents = Vector2( 8, 18 )
+
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 8, 10 )
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=3]
 resource_name = "begin_drill"
 length = 0.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("wings:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.15, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 0, 1, 2 ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "end_drill"
+length = 0.2
 step = 0.05
 tracks/0/type = "value"
 tracks/0/path = NodePath("wings:frame")
@@ -25,10 +45,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 3, 0, 1, 2 ]
+"values": [ 2, 1, 0, 3 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=4]
 length = 0.3
 loop = true
 tracks/0/type = "value"
@@ -44,7 +64,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 tracks/0/type = "value"
 tracks/0/path = NodePath("wings:frame")
 tracks/0/interp = 1
@@ -58,7 +78,41 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=18]
+resource_name = "clone_a"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 14 ]
+}
+
+[sub_resource type="Animation" id=19]
+resource_name = "clone_b"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 15 ]
+}
+
+[sub_resource type="Animation" id=6]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -74,7 +128,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=7]
 resource_name = "drill_a"
 length = 0.1
 loop = true
@@ -91,7 +145,7 @@ tracks/0/keys = {
 "values": [ 7 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=8]
 resource_name = "drill_b"
 length = 0.1
 step = 0.05
@@ -108,7 +162,7 @@ tracks/0/keys = {
 "values": [ 8, 9 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=9]
 resource_name = "drill_c"
 length = 0.1
 loop = true
@@ -126,7 +180,7 @@ tracks/0/keys = {
 "values": [ 10, 11 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=10]
 resource_name = "drill_d"
 length = 0.1
 loop = true
@@ -144,7 +198,24 @@ tracks/0/keys = {
 "values": [ 12, 13 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=17]
+resource_name = "drill_e"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("body:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 9, 8 ]
+}
+
+[sub_resource type="Animation" id=11]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -160,7 +231,7 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=12]
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:frame")
 tracks/0/interp = 1
@@ -174,7 +245,7 @@ tracks/0/keys = {
 "values": [ 1, 2, 0, 4 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=13]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("body:frame")
@@ -189,7 +260,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=14]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -217,7 +288,7 @@ script = ExtResource( 1 )
 position = Vector2( 1, -6 )
 texture = ExtResource( 2 )
 hframes = 4
-frame = 3
+frame = 2
 
 [node name="body" type="Sprite" parent="."]
 texture = ExtResource( 3 )
@@ -227,8 +298,12 @@ hframes = 16
 visible = false
 texture = ExtResource( 4 )
 
-[node name="box" type="CollisionShape2D" parent="."]
+[node name="box_a" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
+disabled = true
+
+[node name="box_b" type="CollisionShape2D" parent="."]
+shape = SubResource( 15 )
 disabled = true
 
 [node name="hitbox" type="Area2D" parent="."]
@@ -239,23 +314,28 @@ collision_mask = 4
 shape = SubResource( 2 )
 
 [node name="anim_wings" type="AnimationPlayer" parent="."]
-anims/begin_drill = SubResource( 10 )
-anims/flap = SubResource( 3 )
-anims/idle = SubResource( 4 )
+anims/begin_drill = SubResource( 3 )
+anims/end_drill = SubResource( 16 )
+anims/flap = SubResource( 4 )
+anims/idle = SubResource( 5 )
 
 [node name="anim_body" type="AnimationPlayer" parent="."]
-anims/down = SubResource( 5 )
-anims/drill_a = SubResource( 11 )
-anims/drill_b = SubResource( 12 )
-anims/drill_c = SubResource( 13 )
-anims/drill_d = SubResource( 14 )
-anims/idle = SubResource( 6 )
-anims/intro = SubResource( 7 )
-anims/kiss = SubResource( 8 )
-anims/up = SubResource( 9 )
+anims/clone_a = SubResource( 18 )
+anims/clone_b = SubResource( 19 )
+anims/down = SubResource( 6 )
+anims/drill_a = SubResource( 7 )
+anims/drill_b = SubResource( 8 )
+anims/drill_c = SubResource( 9 )
+anims/drill_d = SubResource( 10 )
+anims/drill_e = SubResource( 17 )
+anims/idle = SubResource( 11 )
+anims/intro = SubResource( 12 )
+anims/kiss = SubResource( 13 )
+anims/up = SubResource( 14 )
 
 [node name="bat_spawn" type="Position2D" parent="."]
 position = Vector2( 8, -7 )
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
+[connection signal="animation_finished" from="anim_wings" to="." method="_on_anim_wings_finished"]
 [connection signal="animation_finished" from="anim_body" to="." method="_on_body_anim_finished"]
