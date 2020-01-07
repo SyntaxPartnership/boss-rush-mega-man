@@ -9,6 +9,7 @@ var cooldown = 60
 var start_pos = Vector2()
 
 var velocity = Vector2()
+var spd_mod = 1
 
 var touch = false
 var damage = 40
@@ -21,6 +22,9 @@ func _ready():
 		start_pos = global_position
 
 func _physics_process(delta):
+	
+	if spd_mod > 1:
+		spd_mod = 1.75
 	
 	match state:
 		0:
@@ -55,13 +59,13 @@ func _physics_process(delta):
 				state = 1
 				cooldown = 60
 		3:
-			velocity.x = -20
+			velocity.x = -20 * spd_mod
 		4:
-			velocity.x = -60
+			velocity.x = -60 * spd_mod
 		5:
-			velocity.x = 20
+			velocity.x = 20 * spd_mod
 		6:
-			velocity.x = 60
+			velocity.x = 60 * spd_mod
 	
 	if state > 2:
 		velocity.y += 900 * delta

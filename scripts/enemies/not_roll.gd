@@ -13,6 +13,7 @@ var dist = 0
 var fly = false
 var kick = false
 var up = false
+var get_boss = false
 
 var touch = false
 var damage = 20
@@ -89,12 +90,12 @@ func _on_anim_finished(anim_name):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons"):
-		body.queue_free()
 		spawn = 1
 		spawn_boss()
 		var boom = load("res://scenes/effects/l_explode.tscn").instance()
 		boom.global_position = global_position
 		world.get_child(3).add_child(boom)
+		body.queue_free()
 		queue_free()
 	
 	if body.name == "player":
@@ -105,19 +106,21 @@ func _on_hitbox_body_exited(body):
 		touch = false
 
 func spawn_boss():
-	var boss = load("res://scenes/bosses/swoop.tscn").instance()
-	var clone = load("res://scenes/bosses/swoop_clone.tscn").instance()
-	if spawn == 0:
-		boss.global_position = global_position
-		clone.global_position = global_position
-	else:
-		boss.global_position.x = global_position.x
-		clone.global_position.x = global_position.x
-		boss.global_position.y = camera.limit_top - 32
-		clone.global_position.y = camera.limit_top - 32
-	world.get_child(1).add_child(clone)
-	world.get_child(1).add_child(boss)
-	
-	world.boss = true
-	world.play_music("boss")
-	player.no_input(true)
+	if !get_boss:
+		var boss = load("res://scenes/bosses/swoop.tscn").instance()
+		var clone = load("res://scenes/bosses/swoop_clone.tscn").instance()
+		if spawn == 0:
+			boss.global_position = global_position
+			clone.global_position = global_position
+		else:
+			boss.global_position.x = global_position.x
+			clone.global_position.x = global_position.x
+			boss.global_position.y = camera.limit_top - 32
+			clone.global_position.y = camera.limit_top - 32
+		world.get_child(1).add_child(clone)
+		world.get_child(1).add_child(boss)
+		
+		world.boss = true
+		world.play_music("boss")
+		player.no_input(true)
+		get_boss = true

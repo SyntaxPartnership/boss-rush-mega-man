@@ -409,6 +409,7 @@ func ground_bats():
 		var bat = load("res://scenes/bosses/bat.tscn").instance()
 		bat.global_position.x = global_position.x
 		bat.global_position.y = global_position.y + 12
+		bat.spd_mod += drill_bats
 		bat.state = b + 2
 		bat.velocity.y = -200
 		world.get_child(1).add_child(bat)
@@ -417,6 +418,7 @@ func ground_bats():
 			var bat = load("res://scenes/bosses/bat.tscn").instance()
 			bat.global_position.x = clone.global_position.x
 			bat.global_position.y = clone.global_position.y + 12
+			bat.spd_mod += drill_bats
 			bat.state = b + 2
 			bat.velocity.y = -200
 			world.get_child(1).add_child(bat)
