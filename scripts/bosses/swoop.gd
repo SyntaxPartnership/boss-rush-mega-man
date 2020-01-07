@@ -22,6 +22,7 @@ var limiter = 0
 var bat = 0
 var make_bat = false
 var clone
+var c_heart
 var c_active = false
 var deny_drill = true
 var x_dist = 0
@@ -235,14 +236,14 @@ func _physics_process(delta):
 				drill_time = 30
 				state = 0
 	
-#	if world.boss_hp <= 140 and !c_active and state != 9:
-#		id = 0
-#		velocity = Vector2(0, 0)
-#		orig_state = state
-#		$wings.hide()
-#		$anim_body.play("drill_e")
-#		print('what?')
-#		state = 9
+	if world.boss_hp <= 140 and !c_active and state != 9:
+		id = 0
+		velocity = Vector2(0, 0)
+		orig_state = state
+		$wings.hide()
+		$anim_body.play("drill_e")
+		print('what?')
+		state = 9
 	
 	if flash > 0:
 		flash_delay += 1
@@ -361,6 +362,9 @@ func _on_body_anim_finished(anim_name):
 		else:
 			$anim_wings.play("end_drill")
 			$anim_body.play("clone_a")
+			var heart = load("res://scenes/bosses/heart.tscn").instance()
+			heart.global_position = global_position
+			world.get_child(1).add_child(heart)
 			$wings.show()
 
 func _on_anim_wings_finished(anim_name):
