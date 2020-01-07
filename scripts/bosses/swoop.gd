@@ -215,6 +215,7 @@ func _physics_process(delta):
 				if drill_bats < 2:
 					drill_bats += 1
 					drill_time = 60
+					ground_bats()
 				else:
 					$anim_body.play("drill_e")
 					$box_a.set_deferred("disabled", true)
@@ -401,3 +402,11 @@ func _on_hitbox_body_entered(body):
 func _on_hitbox_body_exited(body):
 	if body.name == "player":
 		touch = false
+
+func ground_bats():
+	for b in range(0, 3):
+		var bat = load("res://scenes/bosses/bat.tscn").instance()
+		bat.global_position.x = global_position.x
+		bat.global_position.y = global_position.y + 12
+		bat.state = b + 2
+		world.get_child(1).add_child(bat)
