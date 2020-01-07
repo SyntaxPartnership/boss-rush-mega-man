@@ -25,7 +25,7 @@ var clone
 var c_active = false
 var deny_drill = true
 var x_dist = 0
-var drill_time = 60
+var drill_time = 30
 var drill_bats = 0
 var orig_state = 0
 
@@ -212,9 +212,9 @@ func _physics_process(delta):
 			drill_time -= 1
 			
 			if drill_time <= 0:
-				if drill_bats < 2:
+				if drill_bats < 1:
 					drill_bats += 1
-					drill_time = 60
+					drill_time = 30
 					ground_bats()
 				else:
 					$anim_body.play("drill_e")
@@ -232,7 +232,7 @@ func _physics_process(delta):
 				velocity.y = 0
 				global_position.y = camera.limit_top + 96
 				drill_bats = 0
-				drill_time = 60
+				drill_time = 30
 				state = 0
 	
 #	if world.boss_hp <= 140 and !c_active and state != 9:
@@ -283,6 +283,7 @@ func _physics_process(delta):
 	if is_on_floor() and state == 5:
 		velocity.y = 0
 		$anim_body.play("drill_d")
+		ground_bats()
 		state = 6
 
 	#Clone behaviors.
@@ -404,9 +405,18 @@ func _on_hitbox_body_exited(body):
 		touch = false
 
 func ground_bats():
-	for b in range(0, 3):
+	for b in range(1, 5):
 		var bat = load("res://scenes/bosses/bat.tscn").instance()
 		bat.global_position.x = global_position.x
 		bat.global_position.y = global_position.y + 12
 		bat.state = b + 2
+		bat.velocity.y = -200
 		world.get_child(1).add_child(bat)
+	if c_active:
+		for b in range(1, 5):
+			var bat = load("res://scenes/bosses/bat.tscn").instance()
+			bat.global_position.x = clone.global_position.x
+			bat.global_position.y = clone.global_position.y + 12
+			bat.state = b + 2
+			bat.velocity.y = -200
+			world.get_child(1).add_child(bat)
