@@ -14,6 +14,7 @@ var fly = false
 var kick = false
 var up = false
 var get_boss = false
+var dead = false
 
 var touch = false
 var damage = 20
@@ -57,8 +58,26 @@ func _physics_process(delta):
 		boom_time = 400
 		fly = true
 
-	if boom_time == 0 and fly:
-		spawn_boss()
+	if boom_time == 0 and fly and !dead:
+		dead = true
+	
+	if dead and !get_boss:
+		if !get_boss:
+			var boss = load("res://scenes/bosses/swoop.tscn").instance()
+			var clone = load("res://scenes/bosses/swoop_clone.tscn").instance()
+			if spawn == 0:
+				boss.set_deferred("global_position", global_position)
+				boss.up = true
+				clone.set_deferred("global_position", global_position)
+			else:
+				boss.set_deferred("global_position", Vector2(global_position.x, camera.limit_top - 32))
+				clone.set_deferred("global_position", Vector2(global_position.x, camera.limit_top - 32))
+			world.get_child(1).add_child(clone)
+			world.get_child(1).add_child(boss)
+			world.boss = true
+			world.play_music("boss")
+			player.no_input(true)
+			get_boss = true
 		#Spawn explosion sprite.
 		var boom = load("res://scenes/effects/l_explode.tscn").instance()
 		boom.global_position = global_position
@@ -90,13 +109,10 @@ func _on_anim_finished(anim_name):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons"):
-		spawn = 1
-		spawn_boss()
-		var boom = load("res://scenes/effects/l_explode.tscn").instance()
-		boom.global_position = global_position
-		world.get_child(3).add_child(boom)
+		if !dead:
+			spawn = 1
+			dead = true
 		body.queue_free()
-		queue_free()
 	
 	if body.name == "player":
 		touch = true
@@ -104,23 +120,3 @@ func _on_hitbox_body_entered(body):
 func _on_hitbox_body_exited(body):
 	if body.name == "player":
 		touch = false
-
-func spawn_boss():
-	if !get_boss:
-		var boss = load("res://scenes/bosses/swoop.tscn").instance()
-		var clone = load("res://scenes/bosses/swoop_clone.tscn").instance()
-		if spawn == 0:
-			boss.global_position = global_position
-			clone.global_position = global_position
-		else:
-			boss.global_position.x = global_position.x
-			clone.global_position.x = global_position.x
-			boss.global_position.y = camera.limit_top - 32
-			clone.global_position.y = camera.limit_top - 32
-		world.get_child(1).add_child(clone)
-		world.get_child(1).add_child(boss)
-		
-		world.boss = true
-		world.play_music("boss")
-		player.no_input(true)
-		get_boss = true

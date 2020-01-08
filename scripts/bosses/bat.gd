@@ -19,7 +19,6 @@ func _ready():
 		$anim.play("appear")
 	else:
 		$anim.play("flap")
-		start_pos = global_position
 
 func _physics_process(delta):
 	
@@ -67,20 +66,20 @@ func _physics_process(delta):
 		6:
 			velocity.x = 60 * spd_mod
 	
-	if state > 2:
-		velocity.y += 900 * delta
-		
-		if global_position.y > start_pos.y + 8:
-			var boom = load("res://scenes/effects/s_explode.tscn").instance()
-			boom.global_position = global_position
-			world.get_child(3).add_child(boom)
-			queue_free()
-	
 	if touch and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
 		global.player_life[int(player.swap)] -= damage
 		player.damage()
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+
+	if state > 2:
+		velocity.y += 900 * delta
+		
+		if global_position.y > start_pos.y + 16:
+			var boom = load("res://scenes/effects/s_explode.tscn").instance()
+			boom.global_position = global_position
+			world.get_child(3).add_child(boom)
+			queue_free()
 
 func _on_anim_finished(anim_name):
 	if anim_name == "appear":

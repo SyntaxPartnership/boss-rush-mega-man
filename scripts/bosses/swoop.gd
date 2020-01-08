@@ -30,7 +30,14 @@ var drill_time = 30
 var drill_bats = 0
 var orig_state = 0
 
+var h_state = 0
+var h_dir = 0
+var h_vel = Vector2()
+var c_flash = 30
+var c_f_delay = 0
+
 var velocity = Vector2()
+var orig_vel = Vector2()
 
 var flash = 0
 var flash_delay = 0
@@ -46,6 +53,12 @@ func _ready():
 		up = true
 	
 	center = camera.limit_right - 128
+	
+	var heart = load("res://scenes/bosses/heart.tscn").instance()
+	heart.global_position = global_position
+	world.get_child(1).add_child(heart)
+	c_heart = heart
+	c_heart.hide()
 
 func _physics_process(delta):
 	
@@ -216,7 +229,23 @@ func _physics_process(delta):
 				if drill_bats < 1:
 					drill_bats += 1
 					drill_time = 30
-					ground_bats()
+					for b in range(1, 5):
+						var bat = load("res://scenes/bosses/bat.tscn").instance()
+						bat.set_deferred("global_position", Vector2(global_position.x, global_position.y + 12))
+						bat.spd_mod += drill_bats
+						bat.state = b + 2
+						bat.velocity.y = -200
+						world.get_child(1).add_child(bat)
+						bat.start_pos = global_position
+					if c_active:
+						for b in range(1, 5):
+							var bat = load("res://scenes/bosses/bat.tscn").instance()
+							bat.set_deferred("global_position", Vector2(clone.global_position.x, clone.global_position.y + 12))
+							bat.spd_mod += drill_bats
+							bat.state = b + 2
+							bat.velocity.y = -200
+							world.get_child(1).add_child(bat)
+							bat.start_pos = global_position
 				else:
 					$anim_body.play("drill_e")
 					$box_a.set_deferred("disabled", true)
@@ -236,13 +265,13 @@ func _physics_process(delta):
 				drill_time = 30
 				state = 0
 	
-	if world.boss_hp <= 140 and !c_active and state != 9:
+	if world.boss_hp <= 140 and !c_active and state == 0:
 		id = 0
+		orig_vel = velocity
 		velocity = Vector2(0, 0)
 		orig_state = state
 		$wings.hide()
 		$anim_body.play("drill_e")
-		print('what?')
 		state = 9
 	
 	if flash > 0:
@@ -284,8 +313,69 @@ func _physics_process(delta):
 	if is_on_floor() and state == 5:
 		velocity.y = 0
 		$anim_body.play("drill_d")
-		ground_bats()
+		for b in range(1, 5):
+			var bat = load("res://scenes/bosses/bat.tscn").instance()
+			bat.set_deferred("global_position", Vector2(global_position.x, global_position.y + 12))
+			bat.spd_mod += drill_bats
+			bat.state = b + 2
+			bat.velocity.y = -200
+			world.get_child(1).add_child(bat)
+			bat.start_pos = global_position
+		if c_active:
+			for b in range(1, 5):
+				var bat = load("res://scenes/bosses/bat.tscn").instance()
+				bat.set_deferred("global_position", Vector2(clone.global_position.x, clone.global_position.y + 12))
+				bat.spd_mod += drill_bats
+				bat.state = b + 2
+				bat.velocity.y = -200
+				world.get_child(1).add_child(bat)
+				bat.start_pos = global_position
 		state = 6
+	
+	#Heart behaviors.
+	if h_state == 0:
+		c_heart.global_position = global_position
+	elif h_state == 1:
+		if c_heart.global_position.x < clone.global_position.x and h_dir == 1:
+			h_vel.x = 180 * delta
+		elif c_heart.global_position.x >= clone.global_position.x and h_dir == 1:
+			c_heart.global_position = clone.global_position
+			h_state = 2
+		
+		if c_heart.global_position.x > clone.global_position.x and h_dir == -1:
+			h_vel.x = -180 * delta
+		elif c_heart.global_position.x <= clone.global_position.x and h_dir == -1:
+			c_heart.global_position = clone.global_position
+			h_state = 2
+		
+		c_heart.global_position += h_vel
+	
+	if h_state == 2:
+		if c_flash > 0:
+			c_f_delay += 1
+			c_flash -= 1
+			
+			if c_f_delay > 3:
+				c_f_delay = 0
+			
+			if c_f_delay == 1:
+				clone.get_child(0).show()
+				clone.get_child(1).show()
+				c_heart.hide()
+			
+			if c_f_delay == 3:
+				clone.get_child(0).hide()
+				clone.get_child(1).hide()
+				c_heart.show()
+		
+		if c_flash == 0:
+			c_active = true
+			$anim_body.play("idle")
+			$anim_wings.play("flap")
+			h_state = 3
+			id = 2
+			clone.get_child(3).get_child(0).set_deferred("disabled", false)
+			state = 0
 
 	#Clone behaviors.
 	#Match Y axis
@@ -323,9 +413,14 @@ func _physics_process(delta):
 		world.sound("death")
 		var enemy_kill = get_tree().get_nodes_in_group('enemies')
 		for i in enemy_kill:
-			var boom = load("res://scenes/effects/s_explode.tscn").instance()
-			boom.global_position = i.global_position
-			world.get_child(3).add_child(boom)
+			if i.name == "swoop_clone":
+				var boom = load("res://scenes/effects/l_explode.tscn").instance()
+				boom.global_position = clone.global_position
+				world.get_child(3).add_child(boom)
+			else:
+				var boom = load("res://scenes/effects/s_explode.tscn").instance()
+				boom.global_position = i.global_position
+				world.get_child(3).add_child(boom)
 			i.queue_free()
 		world.enemy_count = 0
 		for n in range(16):
@@ -362,9 +457,7 @@ func _on_body_anim_finished(anim_name):
 		else:
 			$anim_wings.play("end_drill")
 			$anim_body.play("clone_a")
-			var heart = load("res://scenes/bosses/heart.tscn").instance()
-			heart.global_position = global_position
-			world.get_child(1).add_child(heart)
+			c_heart.show()
 			$wings.show()
 
 func _on_anim_wings_finished(anim_name):
@@ -381,6 +474,11 @@ func _on_anim_wings_finished(anim_name):
 			state = 8
 		else:
 			$anim_body.play("clone_b")
+			h_state = 1
+			if c_heart.global_position.x < clone.global_position.x:
+				h_dir = 1
+			else:
+				h_dir = -1
 
 func play_anim(anim):
 	$anim_body.play(anim)
@@ -407,22 +505,3 @@ func _on_hitbox_body_entered(body):
 func _on_hitbox_body_exited(body):
 	if body.name == "player":
 		touch = false
-
-func ground_bats():
-	for b in range(1, 5):
-		var bat = load("res://scenes/bosses/bat.tscn").instance()
-		bat.global_position.x = global_position.x
-		bat.global_position.y = global_position.y + 12
-		bat.spd_mod += drill_bats
-		bat.state = b + 2
-		bat.velocity.y = -200
-		world.get_child(1).add_child(bat)
-	if c_active:
-		for b in range(1, 5):
-			var bat = load("res://scenes/bosses/bat.tscn").instance()
-			bat.global_position.x = clone.global_position.x
-			bat.global_position.y = clone.global_position.y + 12
-			bat.spd_mod += drill_bats
-			bat.state = b + 2
-			bat.velocity.y = -200
-			world.get_child(1).add_child(bat)
