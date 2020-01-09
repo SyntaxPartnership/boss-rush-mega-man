@@ -32,14 +32,14 @@ func _physics_process(delta):
 			else:
 				velocity = Vector2(10, -20)
 		1:
-			if global_position.x < player.global_position.x and velocity.x < 100:
+			if global_position.x < player.global_position.x and velocity.x < 80:
 				velocity.x += 10
-			elif global_position.x > player.global_position.x and velocity.x > -100:
+			elif global_position.x > player.global_position.x and velocity.x > -80:
 				velocity.x -= 10
 			
-			if global_position.y < player.global_position.y and velocity.y < 100:
+			if global_position.y < player.global_position.y and velocity.y < 80:
 				velocity.y += 10
-			elif global_position.y > player.global_position.y and velocity.y > -100:
+			elif global_position.y > player.global_position.y and velocity.y > -80:
 				velocity.y -= 10
 		2:
 			if velocity.x < 0:

@@ -4,7 +4,6 @@
 [ext_resource path="res://assets/sprites/objects/vert_gate.png" type="Texture" id=2]
 [ext_resource path="res://assets/audio/se/Gate.wav" type="AudioStream" id=3]
 
-
 [sub_resource type="Animation" id=1]
 resource_name = "closed"
 length = 0.1
@@ -63,7 +62,7 @@ extents = Vector2( 4, 32 )
 extents = Vector2( 16, 32 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 4, 32 )
+extents = Vector2( 2, 32 )
 
 [node name="vert_gate" type="Node2D"]
 script = ExtResource( 1 )
@@ -108,8 +107,6 @@ collision_mask = 64
 shape = SubResource( 5 )
 
 [node name="act_left" type="Area2D" parent="."]
-editor/display_folded = true
-visible = false
 position = Vector2( -4, 24 )
 collision_mask = 2
 
@@ -117,8 +114,6 @@ collision_mask = 2
 shape = SubResource( 6 )
 
 [node name="act_right" type="Area2D" parent="."]
-editor/display_folded = true
-visible = false
 position = Vector2( 20, 24 )
 collision_mask = 2
 
