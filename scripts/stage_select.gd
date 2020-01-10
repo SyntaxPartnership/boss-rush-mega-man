@@ -40,14 +40,6 @@ func _ready():
 		$mugs/mug_03.hide()
 	if global.boss4_clear:
 		$mugs/mug_04.hide()
-	if global.boss5_clear:
-		$mugs/mug_06.hide()
-	if global.boss6_clear:
-		$mugs/mug_07.hide()
-	if global.boss7_clear:
-		$mugs/mug_08.hide()
-	if global.boss8_clear:
-		$mugs/mug_09.hide()
 	
 	#Set player icon positions depending on if bass has been unlocked.	
 	if !global.bass:

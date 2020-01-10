@@ -38,19 +38,12 @@ var perma_items = {
 	}
 
 #Stage Cleared Flags
-var intro_clear = false
 var boss1_clear = false
 var boss2_clear = false
 var boss3_clear = false
 var boss4_clear = false
-var boss5_clear = false
-var boss6_clear = false
-var boss7_clear = false
-var boss8_clear = false
 var wily1_clear = false
 var wily2_clear = false
-var wily3_clear = false
-var wily4_clear = false
 
 #Strider's location and health
 var location = 0

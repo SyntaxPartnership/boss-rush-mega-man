@@ -37,7 +37,10 @@ var shots = 0
 var adaptors = 0
 var fill_b_meter = false
 var boss_hp = 280
-var boss_dead = 120
+var boss_dead = false
+var end_delay = 360
+var end_stage = true
+var middle = false
 
 #Item Drops
 var item = []
@@ -84,6 +87,8 @@ var wpn_dmg = {
 				}
 				
 var damage = 0
+
+var wpn_get_anim = [0, 1, 2, 3]
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
@@ -615,15 +620,15 @@ func _process(delta):
 	
 	#Teleporters
 	if spawn_pt != -1 and $player.is_on_floor():
-		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.lock_ctrl:
-			$player.lock_ctrl = true
+		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input:
+			$player.no_input(true)
 			$player.anim_state(2)
 			$player.slide = false
 			$player.slide_timer = 0
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.lock_ctrl and tele_timer > -1:
+	if $player.no_input and tele_timer > -1 and !boss:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
@@ -643,102 +648,31 @@ func _process(delta):
 		if bbl_count == 0 and !scroll:
 			bubble()
 	
-	#Debug Menus and Statistics.
+	#End Stage Functions.
+	if boss_hp == 0 and !boss_dead:
+		global.boss_num -= 1
+		boss_dead = true
 	
-	#Debug Menu
-	if Input.is_key_pressed(KEY_F1) and global.debug_menu == 0:
-		global.debug_menu += 1
-		get_tree().paused = true
-		$debug_menu/menu.show()
-	if !Input.is_key_pressed(KEY_F1) and global.debug_menu == 1:
-		global.debug_menu += 1
-	if Input.is_key_pressed(KEY_F1) and global.debug_menu == 2:
-		global.debug_menu += 1
-		get_tree().paused = false
-		$debug_menu/menu.hide()
-	if !Input.is_key_pressed(KEY_F1) and global.debug_menu == 3:
-		global.debug_menu = 0
+	if global.boss_num == 0:
+		end_delay -= 1
 	
-	#Debug stats
-	if Input.is_key_pressed(KEY_F2) and global.debug_stats == 0:
-		global.debug_stats += 1
-		get_tree().paused = true
-		$debug_stats/debug.show()
-	if !Input.is_key_pressed(KEY_F2) and global.debug_stats == 1:
-		global.debug_stats += 1
-	if Input.is_key_pressed(KEY_F2) and global.debug_stats == 2:
-		global.debug_stats += 1
-		get_tree().paused = false
-		$debug_stats/debug.hide()
-	if !Input.is_key_pressed(KEY_F2) and global.debug_stats == 3:
-		global.debug_stats = 0
-	
-	#Debug Stats
-	if global.debug_stats == 1:
-#		#Debug Information.
-#		$debug1/posx.set_text(str(pos.x))				#Player X Position
-#		$debug1/posy.set_text(str(pos.y))				#Player Y Position
-#		$debug1/tpos.set_text(str(player_tilepos))		#Tile that the player is occupying
-#		$debug1/room.set_text(str(player_room))			#Room that the player is occupying
-#		$debug1/cam_allow.set_text(str(cam_allow))		#Which way the camera can pan, if at all.
-#		$debug1/state.set_text(str($player.state))		#Which state the player is in.
-#		$debug1/anim.set_text(str($player.anim))		#Which animation is playing.
-#		$debug1/anim.set_uppercase(true)				#Set anim text to uppercase.
-#
-#		if stand_on == -1:								#Tile ID that the player is standing on.
-#			$debug1/stand_on.set_text('NULL')
-#		if stand_on == 0:
-#			$debug1/stand_on.set_text('FLOOR')
-#		if stand_on == 1:
-#			$debug1/stand_on.set_text('SNOW')
-#		if stand_on == 2:
-#			$debug1/stand_on.set_text('ICE')
-#		if stand_on == 3:
-#			$debug1/stand_on.set_text('LADDER')
-#		if stand_on == 5:
-#			$debug1/stand_on.set_text('DEATH')
-#		if stand_on == 6 or stand_on == 7:
-#			$debug1/stand_on.set_text('WATER')
-#		if stand_on == 8:
-#			$debug1/stand_on.set_text('SLW R CONV')
-#		if stand_on == 9:
-#			$debug1/stand_on.set_text('FST R CONV')
-#		if stand_on == 10:
-#			$debug1/stand_on.set_text('SLW L CONV')
-#		if stand_on == 11:
-#			$debug1/stand_on.set_text('FST L CONV')
-#
-#		if overlap == -1:								#Tile the player is overlapping. Add to for new tiles.
-#			$debug1/overlap.set_text('NULL')
-#		if overlap == 3:
-#			$debug1/overlap.set_text('LADDER')
-#		if overlap == 4:
-#			$debug1/overlap.set_text('LADDER')
-#		if overlap == 6 or overlap == 7:
-#			$debug1/overlap.set_text('WATER')
-#
-#		$debug1/ladder_set.set_text(str(ladder_set))	#X coordinate of where the player will be snapped to when grabbing a ladder.
-#		$debug1/xvelocity.set_text(str(floor($player.velocity.x)))
-#		$debug1/yvelocity.set_text(str(floor($player.velocity.y)))
-#		$debug1/act_state.set_text(str($player.act_state))
-#		$debug1/act_state.set_uppercase(true)
-#		$debug1/collide.set_text(str($player.tile_name))
-#		$debug1/collide.set_uppercase(true)
+	if end_delay == 0:
+		$player.cutscene(true)
+		if wpn_get_anim.has(global.level_id):
+			print('GET WEAPON')
+		else:
+			print('LEAVE')
 		
-		$debug_stats/debug/fps.set_text(str(Engine.get_frames_per_second()))#Display frames per second.
-	
-#	if shots < 0:
-#		shots = 0
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
 	
-	if $fade/fade.state == 3 and $player.lock_ctrl:
+	if $fade/fade.state == 3 and $player.no_input:
 		$player/anim.stop(true)
 		$player.show()
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-		$player.lock_ctrl = false
+		$player.no_input(false)
 	
 	if $fade/fade.state == 7:
 		$pause/pause_menu.start = true
@@ -979,8 +913,8 @@ func palette_swap():
 	$hud/hud/weap.material.set_shader_param('r_col3', palette[2])
 	
 	#Items
-	var items = get_tree().get_nodes_in_group('items')
-	for i in items:
+	var item_pal = get_tree().get_nodes_in_group('items')
+	for i in item_pal:
 		i.material.set_shader_param('r_col1', palette[0])
 		i.material.set_shader_param('r_col2', palette[1])
 		i.material.set_shader_param('r_col3', palette[2])

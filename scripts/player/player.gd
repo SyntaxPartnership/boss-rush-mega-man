@@ -25,8 +25,8 @@ const SLIDE_SMOKE = preload('res://scenes/effects/slide_smoke.tscn')
 #Determines if the player can move or not.
 var start_stage = false
 var can_move = false
-var lock_ctrl = false
 var no_input = false
+var cutscene = false
 # warning-ignore:unused_class_variable
 var gate = false
 
@@ -314,10 +314,10 @@ func _physics_process(delta):
 			
 	else:
 		
-		if !lock_ctrl:
-			if !no_input:
-				x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
-				y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+
+		if !no_input:
+			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
+			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
 		else:
 			x_dir = 0
 			y_dir = 0
@@ -736,9 +736,9 @@ func weapons():
 
 func _on_anim_finished(anim_name):
 	if anim_name == 'appear1' or anim_name == 'appear2':
-		if lock_ctrl:
+		if no_input:
 			emit_signal('teleport')
-		elif !lock_ctrl:
+		elif !no_input:
 			anim_state(IDLE)
 			can_move = true
 	
@@ -1316,6 +1316,7 @@ func kill_ladder():
 func _on_whistle_finished():
 	emit_signal("whstl_end")
 
+# warning-ignore:function_conflicts_variable
 func no_input(state):
 	if state:
 		x_dir = 0
@@ -1328,3 +1329,14 @@ func no_input(state):
 		no_input = true
 	else:
 		no_input = false
+
+#This is a separate version of no_input which will prevent the player from firing.
+# warning-ignore:function_conflicts_variable
+func cutscene(state):
+	if state:
+		no_input(true)
+		fire = false
+		cutscene = true
+	else:
+		no_input(false)
+		cutscene = false
