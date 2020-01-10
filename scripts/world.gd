@@ -35,12 +35,14 @@ var p_menu = false
 var swapping = false
 var shots = 0
 var adaptors = 0
+
 var fill_b_meter = false
-var boss_hp = 280
+var boss_hp = 150
+
 var boss_dead = false
 var end_delay = 360
 var end_stage = true
-var middle = false
+var end_state = 0
 
 #Item Drops
 var item = []
@@ -649,7 +651,7 @@ func _process(delta):
 			bubble()
 	
 	#End Stage Functions.
-	if boss_hp == 0 and !boss_dead:
+	if boss_hp <= 0 and !boss_dead:
 		global.boss_num -= 1
 		boss_dead = true
 	
@@ -657,12 +659,26 @@ func _process(delta):
 		end_delay -= 1
 	
 	if end_delay == 0:
-		$player.cutscene(true)
-		if wpn_get_anim.has(global.level_id):
-			print('GET WEAPON')
-		else:
-			print('LEAVE')
-		
+		if end_state == 0:
+			$player.cutscene(true)
+			if wpn_get_anim.has(global.level_id):
+				if $player.global_position.x < $player/camera.limit_right - 128:
+					$player.x_dir = 1
+				else:
+					$player.x_dir = -1
+				end_state = 1
+			else:
+				print('LEAVE')
+	
+	if end_state == 1:
+		if $player.x_dir == 1 and $player.global_position.x >= $player/camera.limit_right - 128 or $player.x_dir == -1 and $player.global_position.x <= $player/camera.limit_right - 128:
+			$player.x_dir = 0
+			$player.jump_mod = 1.75
+			$player.jump_tap = true
+			$player.jump = true
+			end_state = 2
+	
+	print(global.boss_num,', ',$player.velocity.y,', ',end_delay,', ',end_state)
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():

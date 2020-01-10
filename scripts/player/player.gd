@@ -64,6 +64,7 @@ var final_tex = ''
 #Miscellaneous variables
 var force_idle = true
 var jumps = 1
+var jump_mod = 1
 var slide_timer = 0
 var slide_act = 0
 var slide_delay = 0
@@ -318,9 +319,6 @@ func _physics_process(delta):
 		if !no_input:
 			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
-		else:
-			x_dir = 0
-			y_dir = 0
 		
 		if hurt_timer == 0:
 
@@ -1070,7 +1068,7 @@ func standing():
 	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top and !b_lance_pull:
 		anim_state(JUMP)
 		jumps -= 1
-		velocity.y = JUMP_SPEED
+		velocity.y = JUMP_SPEED * jump_mod
 		slide = false
 	elif global.player != 0 and jump_tap and is_on_floor() and jumps > 0:
 		if slide_timer > 0:
