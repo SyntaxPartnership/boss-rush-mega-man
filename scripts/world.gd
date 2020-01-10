@@ -109,6 +109,12 @@ func _ready():
 	#Spawn stage objects.
 	spawn_objects()
 	
+	#Set charge loop values.
+	$audio/se/charge.stream.loop_mode = 1
+	$audio/se/charge.stream.loop_begin = 56938
+	$audio/se/charge.stream.loop_end = 62832
+
+	
 	#Set lives counter.
 	$hud/hud/lives.set_text(str(global.lives))
 	
