@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/swoop_c.wav-35a06c048ecffd58a433f04eeaec47f4.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/swoop_c.wav"
+dest_files=[ "res://.import/swoop_c.wav-35a06c048ecffd58a433f04eeaec47f4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

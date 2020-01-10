@@ -466,11 +466,6 @@ func _process(delta):
 	_camera()
 	#Print Shit
 	
-#	#Charge sound effect.
-#	if $audio/se/charge.get_playback_position() == 1.390181:
-#		$audio/se/charge.seek(1.158)
-	print($audio/se/charge.get_playback_position())
-	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
 	stand_on = $coll_mask/tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
@@ -574,6 +569,7 @@ func _process(delta):
 		$player.can_move = false
 		get_tree().paused = true
 		$player.hide()
+		kill_se("charge")
 		for m in $audio/music.get_children():
 			m.stop()
 		
@@ -581,6 +577,7 @@ func _process(delta):
 		dead = true
 		$player.can_move = false
 		get_tree().paused = true
+		kill_se("charge")
 		for m in $audio/music.get_children():
 			m.stop()
 	

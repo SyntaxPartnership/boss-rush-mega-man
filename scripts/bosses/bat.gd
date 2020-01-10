@@ -14,6 +14,8 @@ var spd_mod = 1
 var touch = false
 var damage = 40
 
+var hp = 2
+
 func _ready():
 	if state == 0:
 		$anim.play("appear")
@@ -80,6 +82,13 @@ func _physics_process(delta):
 			boom.global_position = global_position
 			world.get_child(3).add_child(boom)
 			queue_free()
+	
+	if hp == 0:
+		var boom = load("res://scenes/effects/s_explode.tscn").instance()
+		boom.global_position = global_position
+		world.get_child(3).add_child(boom)
+		queue_free()
+		hp -= 1
 
 func _on_anim_finished(anim_name):
 	if anim_name == "appear":
@@ -90,7 +99,8 @@ func _on_anim_finished(anim_name):
 func _on_hitbox_body_entered(body):
 	if state < 3:
 		if body.is_in_group("weapons"):
-			body.queue_free()
+			if body.id != 1:
+				body.queue_free()
 			world.sound("hit")
 			var boom = load("res://scenes/effects/s_explode.tscn").instance()
 			boom.global_position = global_position
@@ -103,6 +113,7 @@ func _on_hitbox_body_entered(body):
 			velocity.x = -velocity.x
 			velocity.y = -velocity.y
 			state = 2
+			hp -= 1
 		else:
 			touch = true
 

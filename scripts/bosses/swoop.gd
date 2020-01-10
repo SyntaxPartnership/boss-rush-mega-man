@@ -115,6 +115,7 @@ func _physics_process(delta):
 				if swoop <= 5:
 					if limiter < 2:
 						state = 1
+						world.sound("swoop_d")
 						$anim_body.play("down")
 						$anim_wings.play("idle")
 						$wings.hide()
@@ -180,6 +181,7 @@ func _physics_process(delta):
 			if global_position.y < camera.limit_top + 96 and velocity.y < 0:
 				if dives < 1:
 					velocity.y = 400
+					world.sound("swoop_d")
 					$anim_body.play("down")
 					dives += 1
 				else:
@@ -193,6 +195,7 @@ func _physics_process(delta):
 		
 		if state == 2:
 			if $body.frame == 2 and !make_bat:
+				world.sound("swoop_a")
 				var bat = load("res://scenes/bosses/bat.tscn").instance()
 				bat.global_position = $bat_spawn.global_position
 				world.get_child(1).add_child(bat)
@@ -312,6 +315,7 @@ func _physics_process(delta):
 	
 	if is_on_floor() and state == 5:
 		velocity.y = 0
+		world.sound("swoop_c")
 		$anim_body.play("drill_d")
 		for b in range(1, 5):
 			var bat = load("res://scenes/bosses/bat.tscn").instance()
@@ -340,12 +344,14 @@ func _physics_process(delta):
 			h_vel.x = 180 * delta
 		elif c_heart.global_position.x >= clone.global_position.x and h_dir == 1:
 			c_heart.global_position = clone.global_position
+			world.sound("swoop_b")
 			h_state = 2
 		
 		if c_heart.global_position.x > clone.global_position.x and h_dir == -1:
 			h_vel.x = -180 * delta
 		elif c_heart.global_position.x <= clone.global_position.x and h_dir == -1:
 			c_heart.global_position = clone.global_position
+			world.sound("swoop_b")
 			h_state = 2
 		
 		c_heart.global_position += h_vel
@@ -474,6 +480,7 @@ func _on_anim_wings_finished(anim_name):
 			state = 8
 		else:
 			$anim_body.play("clone_b")
+			world.sound("swoop_a")
 			h_state = 1
 			if c_heart.global_position.x < clone.global_position.x:
 				h_dir = 1
