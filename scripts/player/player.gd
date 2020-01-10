@@ -272,14 +272,13 @@ func _ready():
 # warning-ignore:unused_argument
 func _input(event):
 
-	if !no_input:
-		if Input.is_action_just_pressed("fire"):
-			fire = true
-			if can_move:
-				weapons()
-		
-		if Input.is_action_just_released("fire"):
-			fire = false
+	if Input.is_action_just_pressed("fire"):
+		fire = true
+		if can_move:
+			weapons()
+	
+	if Input.is_action_just_released("fire"):
+		fire = false
 
 func _physics_process(delta):
 	
@@ -353,7 +352,7 @@ func _physics_process(delta):
 				var c_pal_chnge = [0, 2, 4, 6]
 				
 				if charge == 32:
-					$audio/charge.play()
+					world.sound("charge")
 				
 				if charge > 32:
 					c_flash += 1
@@ -659,79 +658,80 @@ func _on_slide_wall_body_exited(body):
 func weapons():
 	#Set timer for the shooting/throwing sprites.
 	if !slide:
-		if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
-			#Fire normal shots.
-			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
-			if wpn_data.has(wkey):
+		if !no_input:
+			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
+				#Fire normal shots.
+				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
+				if wpn_data.has(wkey):
+					
+					var get_adptr = get_tree().get_nodes_in_group('adaptors').size()
+					var get_wpn = get_tree().get_nodes_in_group('weapons').size()
+					world.adaptors = get_adptr
+					world.shots = get_wpn
+					
+					#If world.adaptors = adaptor value or the adaptor energy meter is empty, fire shots.
+					if  world.adaptors == wpn_data.get(wkey)[3] and !cooldown or wpn_data.get(wkey)[0][int(swap) + 1] <= 0 and !cooldown:
+						if world.shots < wpn_data.get(wkey)[2] and wpn_data.get(wkey)[0][int(swap)+1] > 0:
+							shot_delay = 20
+							shot_state(wpn_data.get(wkey)[5])
+							var weapon = wpn_data.get(wkey)[7].instance()
+							wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
+							#Set spawn position
+							if wpn_data.get(wkey)[9] == 0:
+								weapon.position = $sprite/shoot_pos.global_position
+								
+							graphic.add_child(weapon)
+							world.shots += wpn_data.get(wkey)[1]
+						
+					#Check and see if any adaptors need spawning.
+					if world.adaptors < wpn_data.get(wkey)[3] and wpn_data.get(wkey)[0][int(swap) + 1] > 0:
+						var adaptor = wpn_data.get(wkey)[6].instance()
+						
+						#set spawn position
+						if wpn_data.get(wkey)[8] == 1:
+							if !$sprite.flip_h:
+								adaptor.position.x = position.x + 32
+							else:
+								adaptor.position.x = position.x - 32
+							adaptor.position.y = camera.limit_top - 16
+						
+						#Adaptors are added to the effect layer rather than the graphic.
+						effect.add_child(adaptor)
+						world.adaptors += 1
 				
-				var get_adptr = get_tree().get_nodes_in_group('adaptors').size()
-				var get_wpn = get_tree().get_nodes_in_group('weapons').size()
-				world.adaptors = get_adptr
-				world.shots = get_wpn
+			elif chrg_lvl >= 32 and chrg_lvl < 96:
+				#Fire charged shots based on level.
+				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(32)+'-'+str(95)
+				if wpn_data.has(wkey):
+					shot_delay = 20
+					shot_state(wpn_data.get(wkey)[5])
+					var weapon = wpn_data.get(wkey)[7].instance()
+					#Set spawn position
+					if wpn_data.get(wkey)[9] == 0:
+						weapon.position = $sprite/shoot_pos.global_position
+						
+					graphic.add_child(weapon)
+					world.shots = wpn_data.get(wkey)[2]
+					cooldown = true
+			
+			elif chrg_lvl >= 96:
 				
-				#If world.adaptors = adaptor value or the adaptor energy meter is empty, fire shots.
-				if  world.adaptors == wpn_data.get(wkey)[3] and !cooldown or wpn_data.get(wkey)[0][int(swap) + 1] <= 0 and !cooldown:
-					if world.shots < wpn_data.get(wkey)[2] and wpn_data.get(wkey)[0][int(swap)+1] > 0:
-						shot_delay = 20
-						shot_state(wpn_data.get(wkey)[5])
-						var weapon = wpn_data.get(wkey)[7].instance()
-						wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
-						#Set spawn position
-						if wpn_data.get(wkey)[9] == 0:
-							weapon.position = $sprite/shoot_pos.global_position
-							
-						graphic.add_child(weapon)
-						world.shots += wpn_data.get(wkey)[1]
-					
-				#Check and see if any adaptors need spawning.
-				if world.adaptors < wpn_data.get(wkey)[3] and wpn_data.get(wkey)[0][int(swap) + 1] > 0:
-					var adaptor = wpn_data.get(wkey)[6].instance()
-					
-					#set spawn position
-					if wpn_data.get(wkey)[8] == 1:
-						if !$sprite.flip_h:
-							adaptor.position.x = position.x + 32
-						else:
-							adaptor.position.x = position.x - 32
-						adaptor.position.y = camera.limit_top - 16
-					
-					#Adaptors are added to the effect layer rather than the graphic.
-					effect.add_child(adaptor)
-					world.adaptors += 1
-			
-		elif chrg_lvl >= 32 and chrg_lvl < 96:
-			#Fire charged shots based on level.
-			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(32)+'-'+str(95)
-			if wpn_data.has(wkey):
-				shot_delay = 20
-				shot_state(wpn_data.get(wkey)[5])
-				var weapon = wpn_data.get(wkey)[7].instance()
-				#Set spawn position
-				if wpn_data.get(wkey)[9] == 0:
-					weapon.position = $sprite/shoot_pos.global_position
-					
-				graphic.add_child(weapon)
-				world.shots = wpn_data.get(wkey)[2]
-				cooldown = true
-		
-		elif chrg_lvl >= 96:
-			
-			var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(96)+'-'+str(99)
-			if wpn_data.has(wkey):
-				shot_delay = 20
-				shot_state(wpn_data.get(wkey)[5])
-				var weapon = wpn_data.get(wkey)[7].instance()
-				#Set spawn position
-				if wpn_data.get(wkey)[9] == 0:
-					weapon.position = $sprite/shoot_pos.global_position
-					
-				graphic.add_child(weapon)
-				world.shots = wpn_data.get(wkey)[2]
-				cooldown = true
+				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(96)+'-'+str(99)
+				if wpn_data.has(wkey):
+					shot_delay = 20
+					shot_state(wpn_data.get(wkey)[5])
+					var weapon = wpn_data.get(wkey)[7].instance()
+					#Set spawn position
+					if wpn_data.get(wkey)[9] == 0:
+						weapon.position = $sprite/shoot_pos.global_position
+						
+					graphic.add_child(weapon)
+					world.shots = wpn_data.get(wkey)[2]
+					cooldown = true
 					
 	chrg_lvl = 0
 	c_flash = 0
-	$audio/charge.stop()
+	world.kill_se("charge")
 	world.palette_swap()
 
 func _on_anim_finished(anim_name):
@@ -1325,7 +1325,6 @@ func no_input(state):
 		jump_tap = false
 		dash = false
 		dash_tap = false
-		fire = false
 		no_input = true
 	else:
 		no_input = false

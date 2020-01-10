@@ -487,7 +487,6 @@ position = Vector2( 0, 2 )
 shape = SubResource( 2 )
 
 [node name="audio" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 

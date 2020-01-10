@@ -466,6 +466,11 @@ func _process(delta):
 	_camera()
 	#Print Shit
 	
+#	#Charge sound effect.
+#	if $audio/se/charge.get_playback_position() == 1.390181:
+#		$audio/se/charge.seek(1.158)
+	print($audio/se/charge.get_playback_position())
+	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
 	stand_on = $coll_mask/tiles.get_cellv(Vector2(player_tilepos.x, player_tilepos.y + 1))
@@ -634,7 +639,6 @@ func _process(delta):
 	if overlap == 6 or overlap == 12 or overlap == 13:
 		if bbl_count == 0 and !scroll:
 			bubble()
-		
 	
 	#Debug Menus and Statistics.
 	
@@ -1171,3 +1175,8 @@ func sound(sfx):
 	for s in $audio/se.get_children():
 		if s.name == sfx:
 			s.play()
+
+func kill_se(sfx):
+	for s in $audio/se.get_children():
+		if s.name == sfx:
+			s.stop()
