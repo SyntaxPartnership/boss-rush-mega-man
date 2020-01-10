@@ -22,10 +22,10 @@ var blues_leave = false
 var bass_leave = false
 
 var lvl_ids = {
-	"(0, 0)" : 0,
-	"(1, 0)" : 1,
-	"(0, 1)" : 2,
-	"(1, 1)" : 3,
+	"(0, 0)" : [0, 1],
+	"(1, 0)" : [1, 1],
+	"(0, 1)" : [2, 1],
+	"(1, 1)" : [3, 1],
 	}
 
 var char_ids = [0, 0]
@@ -93,7 +93,8 @@ func _input(event):
 			$misc/flash.show()
 			$bling.play()
 			pressed = true
-			global.level_id = lvl_ids.get(str(select))
+			global.level_id = lvl_ids.get(str(select))[0]
+			global.boss_num = lvl_ids.get(str(select))[1]
 			menu = 2
 		
 # warning-ignore:unused_argument
