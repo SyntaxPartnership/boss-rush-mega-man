@@ -65,7 +65,8 @@ func _ready():
 
 func _physics_process(delta):
 	
-	position += (dir * speed) * delta
+	if id <16:
+		position += (dir * speed) * delta
 
 func _on_screen_exited():
 	queue_free()

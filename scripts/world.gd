@@ -44,6 +44,15 @@ var end_delay = 360
 var end_stage = true
 var end_state = 0
 
+#Edit as needed. For the Get Weapon animation. Add GameEndeavor to Special Thanks
+
+var radius = Vector2.ONE * 256 # Distance on the x and y axis to orbit around the controller
+var rotation_duration := 4.0 # How many seconds it takes for one platform to complete one rotation
+
+var platforms = [] # References to the platforms that will orbit controller
+var orbit_angle_offset = 0 # Angle that first platform will orbit around controller
+var prev_child_count = 0 # How many children this controller had, used to check if new children added or removed
+
 #Item Drops
 var item = []
 
@@ -676,9 +685,21 @@ func _process(delta):
 			$player.jump_mod = 1.75
 			$player.jump_tap = true
 			$player.jump = true
+			$audio/se/beam_out.play()
+			
+		if $player.global_position.y >= $player/camera.limit_top + 64 and $player.velocity.y > 0:
+			$player.global_position.y = $player/camera.limit_top + 64
+			$player.can_move = false
+			for w in range(0, 4):
+				var wpn_get = load('res://scenes/effects/s_explode_loop.tscn').instance()
+				wpn_get.id = 16
+				$overlap.add_child(wpn_get)
+				wpn_get.global_position = $player.global_position
 			end_state = 2
-	
-	print(global.boss_num,', ',$player.velocity.y,', ',end_delay,', ',end_state)
+
+func _physics_process(delta):
+	pass
+
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():

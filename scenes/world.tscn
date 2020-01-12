@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -40,8 +40,9 @@
 [ext_resource path="res://assets/audio/se/swoop_c.wav" type="AudioStream" id=38]
 [ext_resource path="res://assets/audio/se/swoop_d.wav" type="AudioStream" id=39]
 [ext_resource path="res://assets/audio/se/Charge2.wav" type="AudioStream" id=40]
-[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=41]
-[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=42]
+[ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=41]
+[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=42]
+[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=43]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -465,21 +466,24 @@ stream = ExtResource( 39 )
 [node name="charge" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 40 )
 
+[node name="beam_out" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 41 )
+
 [node name="music" type="Control" parent="audio"]
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="glow" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 41 )
+stream = ExtResource( 42 )
 volume_db = 5.0
 
 [node name="boss" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 42 )
+stream = ExtResource( 43 )
 volume_db = 6.0
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="whstl_end" from="player" to="." method="_on_player_whstl_end"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
