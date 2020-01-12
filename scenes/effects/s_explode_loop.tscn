@@ -23,6 +23,7 @@ tracks/0/keys = {
 
 [node name="s_explode_loop" type="Node2D" groups=[
 "effects",
+"pews",
 ]]
 script = ExtResource( 1 )
 

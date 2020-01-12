@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -41,8 +41,10 @@
 [ext_resource path="res://assets/audio/se/swoop_d.wav" type="AudioStream" id=39]
 [ext_resource path="res://assets/audio/se/Charge2.wav" type="AudioStream" id=40]
 [ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=41]
-[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=42]
-[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=43]
+[ext_resource path="res://assets/audio/se/wpn_get.wav" type="AudioStream" id=42]
+[ext_resource path="res://assets/audio/music/Bad Apple.ogg" type="AudioStream" id=43]
+[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=44]
+[ext_resource path="res://assets/audio/music/Clear.ogg" type="AudioStream" id=45]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -134,6 +136,7 @@ format = 1
 tile_data = PoolIntArray( 1048582, 0, 0, 1048646, 69, 0, 1048710, 70, 0, 1572987, 50, 0, 1573051, 51, 0, 3014662, 3, 0, 3145903, 71, 0, 4980742, 6, 0, 5505071, 49, 0, 6946822, 9, 0, 7471151, 49, 0 )
 
 [node name="graphic" type="Control" parent="."]
+editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
@@ -469,21 +472,28 @@ stream = ExtResource( 40 )
 [node name="beam_out" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 41 )
 
+[node name="wpn_get" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 42 )
+
 [node name="music" type="Control" parent="audio"]
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="glow" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 42 )
+stream = ExtResource( 43 )
 volume_db = 5.0
 
 [node name="boss" type="AudioStreamPlayer" parent="audio/music"]
-stream = ExtResource( 43 )
+stream = ExtResource( 44 )
 volume_db = 6.0
+
+[node name="clear" type="AudioStreamPlayer" parent="audio/music"]
+stream = ExtResource( 45 )
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="whstl_end" from="player" to="." method="_on_player_whstl_end"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
+[connection signal="finished" from="audio/music/clear" to="." method="_on_clear_finished"]

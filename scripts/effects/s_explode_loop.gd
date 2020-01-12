@@ -9,8 +9,6 @@ var velocity
 
 func _ready():
 	
-
-	
 	$anim.play('anim')
 	
 	match id:
@@ -62,6 +60,7 @@ func _ready():
 		15:
 			dir = Vector2(-1, -1)
 			speed = 35
+			
 
 func _physics_process(delta):
 	

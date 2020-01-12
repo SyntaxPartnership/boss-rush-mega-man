@@ -46,12 +46,11 @@ var end_state = 0
 
 #Edit as needed. For the Get Weapon animation. Add GameEndeavor to Special Thanks
 
-var radius = Vector2.ONE * 256 # Distance on the x and y axis to orbit around the controller
-var rotation_duration := 4.0 # How many seconds it takes for one platform to complete one rotation
+export var radius = Vector2.ONE * 256 # Distance on the x and y axis to orbit around the controller
+export var rotation_duration := 4.0 # How many seconds it takes for one platform to complete one rotation
 
-var platforms = [] # References to the platforms that will orbit controller
+var pews = [] # References to the platforms that will orbit controller
 var orbit_angle_offset = 0 # Angle that first platform will orbit around controller
-var prev_child_count = 0 # How many children this controller had, used to check if new children added or removed
 
 #Item Drops
 var item = []
@@ -93,8 +92,8 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0],		#Immunity to damage.
-				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 30],	#Swoop Woman
+				1 : [280, 280],	#Standard enemy. All Weapons hurt it.
+				2 : [280, 280],	#Swoop Woman
 				}
 				
 var damage = 0
@@ -129,7 +128,6 @@ func _ready():
 	$audio/se/charge.stream.loop_mode = 1
 	$audio/se/charge.stream.loop_begin = 56938
 	$audio/se/charge.stream.loop_end = 62832
-
 	
 	#Set lives counter.
 	$hud/hud/lives.set_text(str(global.lives))
@@ -639,14 +637,13 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and tele_timer > -1 and !boss:
+	if $player.no_input and tele_timer > -1 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
 		$player.can_move = false
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-			
 	
 	#Special Effects
 	if overlap == 7 and !spl_trigger:
@@ -669,17 +666,21 @@ func _process(delta):
 	
 	if end_delay == 0:
 		if end_state == 0:
+			$audio/music/clear.play()
 			$player.cutscene(true)
-			if wpn_get_anim.has(global.level_id):
-				if $player.global_position.x < $player/camera.limit_right - 128:
-					$player.x_dir = 1
-				else:
-					$player.x_dir = -1
-				end_state = 1
-			else:
-				print('LEAVE')
-	
+			boss = false
+			
 	if end_state == 1:
+		if wpn_get_anim.has(global.level_id):
+			if $player.global_position.x < $player/camera.limit_right - 128:
+				$player.x_dir = 1
+			else:
+				$player.x_dir = -1
+			end_state = 2
+		else:
+			print('LEAVE')
+	
+	if end_state == 2:
 		if $player.x_dir == 1 and $player.global_position.x >= $player/camera.limit_right - 128 or $player.x_dir == -1 and $player.global_position.x <= $player/camera.limit_right - 128:
 			$player.x_dir = 0
 			$player.jump_mod = 1.75
@@ -687,19 +688,19 @@ func _process(delta):
 			$player.jump = true
 			$audio/se/beam_out.play()
 			
-		if $player.global_position.y >= $player/camera.limit_top + 64 and $player.velocity.y > 0:
-			$player.global_position.y = $player/camera.limit_top + 64
+		if $player.global_position.y >= $player/camera.limit_top + 80 and $player.velocity.y > 0:
+			var get_wpn = load('res://scenes/effects/wpn_get.tscn').instance()
+			$overlap.add_child(get_wpn)
+			get_wpn.position = $player.position
+			$player.global_position.y = $player/camera.limit_top + 80
+			$player.velocity.y = 0
 			$player.can_move = false
-			for w in range(0, 4):
-				var wpn_get = load('res://scenes/effects/s_explode_loop.tscn').instance()
-				wpn_get.id = 16
-				$overlap.add_child(wpn_get)
-				wpn_get.global_position = $player.global_position
-			end_state = 2
-
-func _physics_process(delta):
-	pass
-
+			end_state = 3
+	
+	if end_state == 4:
+		print('CONTINUE?')
+		$player.can_move = true
+		end_state = 5
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
@@ -1154,3 +1155,6 @@ func kill_se(sfx):
 	for s in $audio/se.get_children():
 		if s.name == sfx:
 			s.stop()
+
+func _on_clear_finished():
+	end_state = 1

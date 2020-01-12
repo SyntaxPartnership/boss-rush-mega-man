@@ -39,7 +39,7 @@ func _physics_process(delta):
 	dist = player.global_position.distance_to(global_position)
 
 	#If the player is close enough, trigger kick action.
-	if dist <= 30 and !kick:
+	if dist <= 30 and !kick and !fly:
 		$anim.play("idle2")
 		kick = true
 
