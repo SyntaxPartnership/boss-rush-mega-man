@@ -61,15 +61,14 @@ func _physics_process(delta):
 				dir.x = -1
 			
 			velocity.x = dir.x * SPEED
-		print(x_lock,', ',dir.x)
 		
 		if !y_lock:
 			if global_position.y < player.global_position.y:
 				dir.y = 1
-				velocity.y = 100
+				velocity.y = 200
 			else:
 				dir.y = -1
-				velocity.y = -100
+				velocity.y = -200
 			
 			if global_position.y >= player.global_position.y and dir.y == 1:
 				y_lock = true
@@ -92,12 +91,13 @@ func _physics_process(delta):
 		$anim.play("return")
 		dir.x = 0
 		reflect = true
-
+	
+	print(dist)
 
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
-		print('GOT IT!')
-		player.shot_state(player.NORMAL)
-		world.shots = 0
-		player.cooldown = false
-		queue_free()
+		if reflect:
+			player.shot_state(player.NORMAL)
+			world.shots = 0
+			player.cooldown = false
+			queue_free()

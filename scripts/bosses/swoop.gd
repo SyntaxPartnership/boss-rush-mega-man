@@ -507,9 +507,19 @@ func _on_hitbox_body_entered(body):
 				hit = true
 				world.boss_hp -= world.damage
 			#Edit this for individual weapon behaviors.
-			body.queue_free()
+			if body.property == 0:
+				body.queue_free()
+			elif body.property == 2:
+				if world.damage < world.boss_hp:
+					body.queue_free()
+			elif body.property == 3:
+				body.dist = 1
 		else:
-			body.reflect = true
+			if body.property != 3:
+				body.reflect = true
+			else:
+				body.dist = 1
+			
 	
 	if body.name == "player":
 		touch = true

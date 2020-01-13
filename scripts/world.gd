@@ -1088,6 +1088,8 @@ func kill_effects():
 		s.get_child(0).hide()
 
 func kill_weapons():
+	if $player.shot_st == $player.HANDSHOT or $player.shot_st == $player.NO_HAND:
+		$player.shot_state($player.NORMAL)
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:
 		i.queue_free()

@@ -109,10 +109,13 @@ func _on_anim_finished(anim_name):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons"):
+		if body.property != 3:
+			body.queue_free()
+		else:
+			body.dist = 1
 		if !dead:
 			spawn = 1
 			dead = true
-		body.queue_free()
 	
 	if body.name == "player":
 		touch = true
