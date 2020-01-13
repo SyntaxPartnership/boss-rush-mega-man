@@ -37,20 +37,13 @@ var shots = 0
 var adaptors = 0
 
 var fill_b_meter = false
-var boss_hp = 150
+var boss_hp = 280
 
 var boss_dead = false
 var end_delay = 360
 var end_stage = true
 var end_state = 0
-
-#Edit as needed. For the Get Weapon animation. Add GameEndeavor to Special Thanks
-
-export var radius = Vector2.ONE * 256 # Distance on the x and y axis to orbit around the controller
-export var rotation_duration := 4.0 # How many seconds it takes for one platform to complete one rotation
-
-var pews = [] # References to the platforms that will orbit controller
-var orbit_angle_offset = 0 # Angle that first platform will orbit around controller
+var leave_delay = 120
 
 #Item Drops
 var item = []
@@ -92,8 +85,8 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0],		#Immunity to damage.
-				1 : [280, 280],	#Standard enemy. All Weapons hurt it.
-				2 : [280, 280],	#Swoop Woman
+				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 30],	#Swoop Woman
 				}
 				
 var damage = 0
@@ -197,8 +190,17 @@ func _input(event):
 				global.player_weap[int($player.swap)] += 1
 			if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
 				global.player_weap[int($player.swap)] += 1
+			
+			#Loop the value
+			if global.player_weap[int($player.swap)] > 11:
+				global.player_weap[int($player.swap)] = 0
+			
 		
 		if Input.is_action_just_pressed("prev"):
+			#Loop the value.
+			if global.player_weap[int($player.swap)] < 0:
+				global.player_weap[int($player.swap)] = 11
+
 			#These skips are done in reverse order to make them move to the next item seemlessly.
 			if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
 				global.player_weap[int($player.swap)] -= 1
@@ -226,12 +228,6 @@ func _input(event):
 			#Rush/Proto Jet
 			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player != 0:
 				global.player_weap[int($player.swap)] -= 1
-	
-		#Loop the value.
-		if global.player_weap[int($player.swap)] < 0:
-			global.player_weap[int($player.swap)] = 11
-		elif global.player_weap[int($player.swap)] > 11:
-			global.player_weap[int($player.swap)] = 0
 		
 		#Start swap process.
 		if Input.is_action_just_pressed('select') and !swapping and $player.blink_timer == 0 and $player.blink == 0:
@@ -264,9 +260,10 @@ func _input(event):
 #		palette_swap()
 	
 		#Pause menu
-		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping:
+		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0:
 			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
-			$audio/se/menu.play()
+			sound("menu")
+			kill_se("charge")
 			p_menu = true
 			$fade/fade.state = 6
 			$fade/fade.end = true
@@ -480,7 +477,10 @@ func _rooms():
 		
 		for s in see_item:
 			s.get_child(0).show()
-	
+
+func _physics_process(delta):
+	pass
+
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
@@ -678,7 +678,7 @@ func _process(delta):
 				$player.x_dir = -1
 			end_state = 2
 		else:
-			print('LEAVE')
+			end_state = 5
 	
 	if end_state == 2:
 		if $player.x_dir == 1 and $player.global_position.x >= $player/camera.limit_right - 128 or $player.x_dir == -1 and $player.global_position.x <= $player/camera.limit_right - 128:
@@ -698,9 +698,28 @@ func _process(delta):
 			end_state = 3
 	
 	if end_state == 4:
-		print('CONTINUE?')
-		$player.can_move = true
+		$player.anim_state($player.GET_WPN)
+		sound("bling")
 		end_state = 5
+	
+	if end_state == 6:
+		$player.can_move = true
+		end_state = 7
+	
+	if end_state == 7:
+		leave_delay -= 1
+		
+		if leave_delay == 0:
+			sound("beam_out")
+			$player.anim_state($player.APPEAR)
+			$player.can_move = false
+		
+		if $player.get_child(3).offset.y == -241 and !$fade/fade.end:
+			$fade/fade.state = 10
+			$fade/fade.begin = false
+			$fade/fade.end = true
+	
+	print(end_state)
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
@@ -762,6 +781,12 @@ func _on_fade_fadeout():
 		$pause/pause_menu.hide()
 		$fade/fade.begin = true
 		$fade/fade.state = 9
+	
+	if $fade/fade.state == 10:
+		if wpn_get_anim.has(global.level_id):
+			get_tree().change_scene("res://scenes/new_weap.tscn")
+		else:
+			get_tree().change_scene("res://scenes/stage_select.tscn")
 
 func palette_swap():
 	#Set palettes for the player.

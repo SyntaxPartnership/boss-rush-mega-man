@@ -250,6 +250,7 @@ func _physics_process(delta):
 							world.get_child(1).add_child(bat)
 							bat.start_pos = global_position
 				else:
+					world.kill_se("swoop_c")
 					$anim_body.play("drill_e")
 					$box_a.set_deferred("disabled", true)
 					$box_b.set_deferred("disabled", false)
@@ -375,6 +376,10 @@ func _physics_process(delta):
 				c_heart.show()
 		
 		if c_flash == 0:
+			if $wings.is_visible():
+				clone.get_child(0).show()
+			clone.get_child(1).show()
+			c_heart.hide()
 			c_active = true
 			$anim_body.play("idle")
 			$anim_wings.play("flap")
@@ -498,7 +503,7 @@ func _on_hitbox_body_entered(body):
 		if world.damage != 0:
 			if flash == 0:
 				world.sound("hit")
-				flash = 24
+				flash = 20
 				hit = true
 				world.boss_hp -= world.damage
 			#Edit this for individual weapon behaviors.

@@ -8,8 +8,8 @@
 extents = Vector2( 8, 10 )
 
 [node name="swoop_clone" type="KinematicBody2D" groups=[
-"enemies",
 "special",
+"enemies",
 ]]
 script = ExtResource( 1 )
 

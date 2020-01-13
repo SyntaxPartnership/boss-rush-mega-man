@@ -1,8 +1,8 @@
 [gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
-[ext_resource path="res://shaders/player.shader" type="Shader" id=2]
-[ext_resource path="res://assets/sprites/player/bass-shoot.png" type="Texture" id=3]
+[ext_resource path="res://shaders/player.tres" type="Material" id=2]
+[ext_resource path="res://assets/sprites/player/mega-norm.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/player/weapicons.png" type="Texture" id=4]
 [ext_resource path="res://assets/audio/se/Whistle.wav" type="AudioStream" id=5]
 [ext_resource path="res://assets/audio/se/Landing.wav" type="AudioStream" id=6]
@@ -21,20 +21,6 @@ extents = Vector2( 6.5, 10 )
 
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 8, 7 )
-
-[sub_resource type="ShaderMaterial" id=4]
-shader = ExtResource( 2 )
-shader_param/t_col1 = Color( 0, 0, 0, 1 )
-shader_param/t_col2 = Color( 0, 0, 0, 1 )
-shader_param/t_col3 = Color( 0, 0, 0, 1 )
-shader_param/t_col4 = null
-shader_param/f_col1 = Color( 0.988235, 0.972549, 0.988235, 1 )
-shader_param/f_col2 = Color( 0.988235, 0.847059, 0.517647, 1 )
-shader_param/f_col3 = Color( 0, 0, 0, 1 )
-shader_param/r_col1 = null
-shader_param/r_col2 = null
-shader_param/r_col3 = null
-shader_param/trans = null
 
 [sub_resource type="Animation" id=5]
 length = 0.3
@@ -179,6 +165,22 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 18 ]
+}
+
+[sub_resource type="Animation" id=29]
+resource_name = "get_wpn"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 25, 26, 10 ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -419,12 +421,12 @@ shape = SubResource( 3 )
 disabled = true
 
 [node name="sprite" type="Sprite" parent="."]
-material = SubResource( 4 )
+material = ExtResource( 2 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 3
+frame = 10
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -445,6 +447,7 @@ anims/climb-shot-d-up = SubResource( 10 )
 anims/climb-shot-up = SubResource( 11 )
 anims/climbtop = SubResource( 12 )
 anims/fall = SubResource( 13 )
+anims/get_wpn = SubResource( 29 )
 anims/hurt = SubResource( 14 )
 anims/idle1 = SubResource( 15 )
 anims/idle2 = SubResource( 16 )

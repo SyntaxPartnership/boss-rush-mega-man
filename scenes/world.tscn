@@ -398,7 +398,6 @@ text = "Place menu options here."
 pause_mode = 2
 
 [node name="fade" parent="fade" instance=ExtResource( 20 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -493,7 +492,7 @@ stream = ExtResource( 45 )
 [connection signal="teleport" from="player" to="." method="_on_teleport"]
 [connection signal="whstl_end" from="player" to="." method="_on_player_whstl_end"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
-[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
 [connection signal="finished" from="audio/music/clear" to="." method="_on_clear_finished"]

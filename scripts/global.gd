@@ -29,7 +29,7 @@ var quick_swap = false
 var level_id = 0
 var cont_id = 0
 var boss = false
-var boss_num = 0
+var boss_num = 1
 
 var temp_items = {}
 #Update list with permanent items.

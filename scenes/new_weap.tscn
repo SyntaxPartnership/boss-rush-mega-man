@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
+
+[node name="new_weap" type="Node2D"]
+
+[node name="text" type="Label" parent="."]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 1 )
+text = "What? You expected the game to continue from here?
+
+Feckin' slave drivers.
+
+End of Demo."
+autowrap = true

@@ -95,6 +95,7 @@ var c_flash = 0
 var w_icon = 0
 var rush_coil = false
 var rush_jet = false
+var leave = false
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -237,7 +238,8 @@ enum {
 	SHOOT,
 	HAND,
 	BASSSHOT,
-	THROW
+	THROW,
+	GET_WPN
 	}
 
 #Set the appropriate states and values
@@ -277,9 +279,6 @@ func _input(event):
 		fire = true
 		if can_move:
 			weapons()
-	
-	if Input.is_action_just_released("fire"):
-		fire = false
 
 func _physics_process(delta):
 	
@@ -291,6 +290,10 @@ func _physics_process(delta):
 		jump_tap = Input.is_action_just_pressed("jump")
 		dash = Input.is_action_pressed("dash")
 		dash_tap = Input.is_action_just_pressed("dash")
+	
+	if !cutscene:
+		if !Input.is_action_pressed("fire"):
+			fire = false
 	
 	#TileMap Data function
 	get_data()
@@ -312,13 +315,22 @@ func _physics_process(delta):
 			anim_state(APPEAR)
 			$audio/appear.play()
 			start_stage = false
-			
+		
+		if leave:
+			$sprite.offset.y -= 8
 	else:
 		
 
 		if !no_input:
 			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
 			y_dir = int(Input.is_action_pressed("down")) - int(Input.is_action_pressed("up"))
+		
+		if hurt_timer > 0:
+			if !fire and charge > 0:
+				chrg_lvl = charge
+				weapons()
+				charge = 0
+				rapid = 0
 		
 		if hurt_timer == 0:
 
@@ -563,6 +575,8 @@ func anim_state(new_anim_state):
 			effect.add_child(spark)
 		FALL:
 			change_anim('fall')
+		GET_WPN:
+			change_anim('get_wpn')
 
 
 func change_anim(new_anim):
@@ -656,7 +670,7 @@ func _on_slide_wall_body_exited(body):
 func weapons():
 	#Set timer for the shooting/throwing sprites.
 	if !slide:
-		if !no_input:
+		if !no_input and hurt_timer == 0:
 			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
 				#Fire normal shots.
 				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
@@ -734,17 +748,24 @@ func weapons():
 
 func _on_anim_finished(anim_name):
 	if anim_name == 'appear1' or anim_name == 'appear2':
-		if no_input:
-			emit_signal('teleport')
-		elif !no_input:
-			anim_state(IDLE)
-			can_move = true
+		if world.leave_delay > 0:
+			if no_input:
+				emit_signal('teleport')
+			elif !no_input:
+				anim_state(IDLE)
+				can_move = true
+		else:
+			anim_state(BEAM)
+			leave = true
 	
 	if anim_name == 'lilstep':
 		if x_dir == 0:
 			anim_state(IDLE)
 		else:
 			anim_state(RUN)
+	
+	if anim_name == "get_wpn":
+		world.end_state = 6
 			
 func shot_pos():
 	
