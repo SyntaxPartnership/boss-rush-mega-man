@@ -355,7 +355,7 @@ func _physics_process(delta):
 						world.hurt_swap = false
 
 			#Charge level.
-			if fire and charge < 99:
+			if fire and charge < 99 and !cooldown:
 				charge += 1
 			
 			#Start charge sound loop. Change attributes of more than one charging weapon is made.

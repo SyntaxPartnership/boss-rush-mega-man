@@ -66,10 +66,10 @@ func _physics_process(delta):
 		if !y_lock:
 			if global_position.y < player.global_position.y:
 				dir.y = 1
-				velocity.y = 200
+				velocity.y = SPEED
 			else:
 				dir.y = -1
-				velocity.y = -200
+				velocity.y = -SPEED
 			
 			if global_position.y >= player.global_position.y and dir.y == 1:
 				y_lock = true
@@ -93,10 +93,10 @@ func _physics_process(delta):
 		dir.x = 0
 		reflect = true
 	
-
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
 		if reflect:
+			world.sound("connect")
 			player.shot_state(player.NORMAL)
 			world.shots = 0
 			player.cooldown = false

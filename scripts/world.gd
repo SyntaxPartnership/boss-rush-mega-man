@@ -485,7 +485,6 @@ func _physics_process(delta):
 func _process(delta):
 	_camera()
 	#Print Shit
-	print($player.cooldown)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
