@@ -51,6 +51,9 @@ func _physics_process(delta):
 		queue_free()
 
 func update_pews():
+	if !is_visible():
+		show()
+	
 	if pews.size() != 0:
 		var spacing = 2 * PI / float(pews.size())
 		for i in pews.size():
