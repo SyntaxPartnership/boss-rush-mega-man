@@ -4,7 +4,7 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var p_sprite = player.get_child(3)
 
-const SPEED = 300
+const SPEED = 350
 var level = 0
 var dir = Vector2()
 var id = 0
@@ -24,13 +24,14 @@ var property = 3
 
 func _ready():
 	$anim.play("idle")
+	world.sound("shoot_b")
 	
 	if level == 0:
 		id = 0
 		dist = 10
 	else:
 		id = 1
-		dist = 32
+		dist = 24
 	
 	if p_sprite.flip_h:
 		$sprite.flip_h = true
@@ -92,7 +93,6 @@ func _physics_process(delta):
 		dir.x = 0
 		reflect = true
 	
-	print(dist)
 
 func _on_player_detect_body_entered(body):
 	if body.name == "player":

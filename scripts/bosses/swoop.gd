@@ -498,28 +498,28 @@ func play_anim(anim):
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons"):
 		#Get weapon and boss id for the damage table.
-		world.enemy_dmg(id, body.id)
-		#If not flashing, damage the boss
-		if world.damage != 0:
-			if flash == 0:
-				world.sound("hit")
-				flash = 20
-				hit = true
-				world.boss_hp -= world.damage
-			#Edit this for individual weapon behaviors.
-			if body.property == 0:
-				body.queue_free()
-			elif body.property == 2:
-				if world.damage < world.boss_hp:
+		if !body.reflect:
+			world.enemy_dmg(id, body.id)
+			#If not flashing, damage the boss
+			if world.damage != 0:
+				if flash == 0:
+					world.sound("hit")
+					flash = 20
+					hit = true
+					world.boss_hp -= world.damage
+				#Edit this for individual weapon behaviors.
+				if body.property == 0:
 					body.queue_free()
-			elif body.property == 3:
-				body.dist = 1
-		else:
-			if body.property != 3:
-				body.reflect = true
+				elif body.property == 2:
+					if world.damage < world.boss_hp:
+						body.queue_free()
+				elif body.property == 3:
+					body.dist = 1
 			else:
-				body.dist = 1
-			
+				if body.property != 3:
+					body.reflect = true
+				else:
+					body.dist = 1
 	
 	if body.name == "player":
 		touch = true

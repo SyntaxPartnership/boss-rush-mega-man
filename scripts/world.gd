@@ -485,6 +485,7 @@ func _physics_process(delta):
 func _process(delta):
 	_camera()
 	#Print Shit
+	print($player.cooldown)
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -1090,6 +1091,8 @@ func kill_effects():
 func kill_weapons():
 	if $player.shot_st == $player.HANDSHOT or $player.shot_st == $player.NO_HAND:
 		$player.shot_state($player.NORMAL)
+	if $player.cooldown:
+		$player.cooldown = false
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:
 		i.queue_free()

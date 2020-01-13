@@ -23,6 +23,7 @@ tracks/0/keys = {
 [node name="heart" type="KinematicBody2D" groups=[
 "boss_heart",
 ]]
+pause_mode = 1
 script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]

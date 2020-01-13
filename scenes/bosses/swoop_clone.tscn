@@ -8,9 +8,10 @@
 extents = Vector2( 8, 10 )
 
 [node name="swoop_clone" type="KinematicBody2D" groups=[
-"special",
 "enemies",
+"special",
 ]]
+pause_mode = 1
 script = ExtResource( 1 )
 
 [node name="wings" type="Sprite" parent="."]

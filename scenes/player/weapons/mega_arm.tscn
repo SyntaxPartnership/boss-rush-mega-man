@@ -81,6 +81,7 @@ extents = Vector2( 6, 6 )
 [node name="mega_arm" type="KinematicBody2D" groups=[
 "weapons",
 ]]
+pause_mode = 1
 collision_layer = 4
 collision_mask = 32
 script = ExtResource( 1 )

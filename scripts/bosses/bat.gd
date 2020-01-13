@@ -99,15 +99,17 @@ func _on_anim_finished(anim_name):
 func _on_hitbox_body_entered(body):
 	if state < 3:
 		if body.is_in_group("weapons"):
-			if body.property == 0:
-				body.queue_free()
-			elif body.property == 3:
-				body.dist = 1
-			world.sound("hit")
-			var boom = load("res://scenes/effects/s_explode.tscn").instance()
-			boom.global_position = global_position
-			world.get_child(3).add_child(boom)
-			queue_free()
+			if !body.reflect:
+				if body.property == 0:
+					body.queue_free()
+				elif body.property == 3:
+					if body.level == 0:
+						body.dist = 1
+				world.sound("hit")
+				var boom = load("res://scenes/effects/s_explode.tscn").instance()
+				boom.global_position = global_position
+				world.get_child(3).add_child(boom)
+				queue_free()
 	
 	if body.name =="player":
 		if state < 3:
