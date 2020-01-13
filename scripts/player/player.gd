@@ -183,9 +183,9 @@ var wpn_data = {
 	#Mega Man - Level 0 Shot
 	'0-0-0-31' : [global.dummy, 1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
 	#Mega Man - Level 1 Shot
-	'0-0-32-95' : [global.dummy,3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_c.tscn'), 0, 0],
+	'0-0-32-95' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
 	#Mega Man - Level 2 Shot
-	'0-0-96-99' : [global.dummy,3, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_e.tscn'), 0, 0],
+	'0-0-96-99' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
 	#Proto Man - Level 0 Shot
 	'1-0-0-31' : [global.dummy,1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
 	#Proto Man - Level 1 Shot
@@ -236,10 +236,11 @@ enum {
 	TBOOST,
 	NORMAL,
 	SHOOT,
-	HAND,
+	HANDSHOT,
 	BASSSHOT,
 	THROW,
-	GET_WPN
+	GET_WPN,
+	NO_HAND
 	}
 
 #Set the appropriate states and values
@@ -395,7 +396,7 @@ func _physics_process(delta):
 					rapid = 0
 
 			#Code to revert back to normal sprites.
-			if shot_delay > 0:
+			if shot_delay > -1:
 				#Fix the animations.
 				if shot_st == THROW or shot_st == BASSSHOT:
 					if is_on_floor() and anim_st != IDLE:
@@ -411,7 +412,10 @@ func _physics_process(delta):
 
 			if shot_delay == 0:
 				bass_dir = ''
-				shot_state(NORMAL)
+				if shot_st != HANDSHOT:
+					shot_state(NORMAL)
+				else:
+					shot_state(NO_HAND)
 
 			#The player's actions are divided into 3 main sections. Standing, Climbing and Sliding.
 			if act_st == STANDING:
@@ -595,8 +599,14 @@ func shot_state(new_shot_state):
 		NORMAL:
 			texture = '-norm'
 			change_char()
+		NO_HAND:
+			texture = '-a-norm'
+			change_char()
 		SHOOT:
 			texture = '-shoot'
+			change_char()
+		HANDSHOT:
+			texture = '-a-shoot'
 			change_char()
 		BASSSHOT:
 			texture = '-shoot'
@@ -687,6 +697,7 @@ func weapons():
 							shot_delay = 20
 							shot_state(wpn_data.get(wkey)[5])
 							var weapon = wpn_data.get(wkey)[7].instance()
+							
 							wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
 							#Set spawn position
 							if wpn_data.get(wkey)[9] == 0:
@@ -718,6 +729,11 @@ func weapons():
 					shot_delay = 20
 					shot_state(wpn_data.get(wkey)[5])
 					var weapon = wpn_data.get(wkey)[7].instance()
+					
+					#Mega Arm Only.
+					if global.player == 0 and global.player_weap[int(swap)] == 0:
+						weapon.level = 0
+					
 					#Set spawn position
 					if wpn_data.get(wkey)[9] == 0:
 						weapon.position = $sprite/shoot_pos.global_position
@@ -733,6 +749,11 @@ func weapons():
 					shot_delay = 20
 					shot_state(wpn_data.get(wkey)[5])
 					var weapon = wpn_data.get(wkey)[7].instance()
+					
+					#Mega Arm Only.
+					if global.player == 0 and global.player_weap[int(swap)] == 0:
+						weapon.level = 1
+						
 					#Set spawn position
 					if wpn_data.get(wkey)[9] == 0:
 						weapon.position = $sprite/shoot_pos.global_position

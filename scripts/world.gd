@@ -543,7 +543,9 @@ func _process(delta):
 	if get_weaps.size() > 0 or get_adaps.size() > 0:
 		for w in get_weaps:
 			if w.global_position.y < $player/camera.limit_top - 16 or w.global_position.y > $player/camera.limit_bottom + 16 or w.global_position.x < $player/camera.get_camera_screen_center().x - 144 or w.global_position.x > $player/camera.get_camera_screen_center().x + 144:
-				w._on_screen_exited()
+				#Ignore for the Mega Arm, as it needs to return to the player.
+				if global.player_weap[int($player.swap)] != 0 and global.player == 0:
+					w._on_screen_exited()
 		
 		for a in get_adaps:
 			if a.global_position.y < $player/camera.limit_top - 16 or a.global_position.y > $player/camera.limit_bottom + 16 or a.global_position.x < $player/camera.get_camera_screen_center().x - 144 or a.global_position.x > $player/camera.get_camera_screen_center().x + 144:
@@ -718,8 +720,6 @@ func _process(delta):
 			$fade/fade.state = 10
 			$fade/fade.begin = false
 			$fade/fade.end = true
-	
-	print(end_state)
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
