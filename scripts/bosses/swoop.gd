@@ -345,14 +345,22 @@ func _physics_process(delta):
 						if world.boss_hp > 0:
 							world.sound("hit")
 						else:
-							body.choke = false
-							body.choke_delay = 0
-							body.f_target = player
+							if !body.ret:
+								body.dist = 1
+								body.choke = false
+								body.choke_delay = 0
+								body.f_target = player
+								body.velocity = -velocity
 					else:
 						if body.property != 3:
 							body.reflect = true
 						else:
-							body.dist = 1
+							if !body.ret:
+								body.dist = 1
+								body.choke = false
+								body.choke_delay = 0
+								body.f_target = player
+								body.velocity = -velocity
 			
 			if body.name == "mega_arm" and body.choke:
 				body.global_position = global_position

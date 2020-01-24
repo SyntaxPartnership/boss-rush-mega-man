@@ -5,7 +5,7 @@ onready var player = world.get_child(2)
 onready var camera = player.get_child(9)
 onready var p_sprite = player.get_child(3)
 
-const SPEED = 350
+const SPEED = 300
 const RET_SPD = 500
 const ST_FORCE = 50
 const RET_FORCE = 70
@@ -122,6 +122,9 @@ func _physics_process(delta):
 				if body.is_in_group('items') and body.grab == 0:
 					body.global_position = global_position
 	
+	if f_target != null:
+		print(f_target.name,', ',ret,', ',dist,', ',reflect)
+	
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
 		if ret:
@@ -149,12 +152,8 @@ func choke_check():
 func seek():
 	var steer = Vector2.ZERO
 	var desired = Vector2.ZERO
-	if !ret:
-		desired = (f_target.position - position).normalized() * SPEED
-		steer = (desired - velocity).normalized() * ST_FORCE
-	else:
-		desired = (f_target.position - position).normalized() * RET_SPD
-		steer = (desired - velocity).normalized() * RET_FORCE
+	desired = (f_target.position - position).normalized() * SPEED
+	steer = (desired - velocity).normalized() * ST_FORCE
 	return steer
 
 func get_targets():
