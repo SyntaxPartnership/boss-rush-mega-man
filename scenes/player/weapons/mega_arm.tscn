@@ -4,7 +4,7 @@
 [ext_resource path="res://assets/sprites/weapons/m_arm.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
-resource_name = "clobber"
+resource_name = "choke"
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -91,7 +91,7 @@ texture = ExtResource( 2 )
 hframes = 4
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/clobber = SubResource( 1 )
+anims/choke = SubResource( 1 )
 anims/grab = SubResource( 2 )
 anims/idle = SubResource( 3 )
 anims/return = SubResource( 4 )

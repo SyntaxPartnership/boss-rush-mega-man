@@ -6,6 +6,7 @@ onready var player = world.get_child(2)
 
 #Id to determine which damage table to use.
 var id = 2
+const CHOKE = 3
 
 var intro = true
 var intro_delay = 30
@@ -45,6 +46,8 @@ var hit = false
 
 var touch = false
 var damage = 0
+
+var overlap = []
 
 func _ready():
 	$anim_wings.play("flap")
@@ -314,6 +317,70 @@ func _physics_process(delta):
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
+	#Object overlap detection
+	overlap = $hitbox.get_overlapping_bodies()
+	
+	if overlap != []:
+		for body in overlap:
+			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+				if flash == 0:
+					world.enemy_dmg(id, body.id)
+					if world.damage != 0 and !body.reflect:
+						#Weapon behaviors.
+						match body.property:
+							0:
+								body._on_screen_exited()
+							2:
+								if world.damage < world.boss_hp:
+									body._on_screen_exited()
+							3:
+								if world.damage < world.boss_hp:
+									body.choke_check()
+									body.choke_max = CHOKE
+									body.choke_delay = 6
+									body.velocity = -velocity
+						world.boss_hp -= world.damage
+						flash = 20
+						hit = true
+						if world.boss_hp > 0:
+							world.sound("hit")
+						else:
+							body.choke = false
+							body.choke_delay = 0
+							body.f_target = player
+					else:
+						if body.property != 3:
+							body.reflect = true
+						else:
+							body.dist = 1
+			
+			if body.name == "mega_arm" and body.choke:
+				body.global_position = global_position
+				if flash == 0 and body.choke_delay == 0:
+					if body.choke_max > 0:
+						world.boss_hp -= 10
+						body.choke_max -= 1
+						body.choke_delay = 6
+						flash = 20
+						hit = true
+						world.sound("hit")
+						#Make the Mega Arm return to the player if boss dies.
+						if world.boss_hp <= 0:
+							body.choke = false
+							body.choke_delay = 0
+				elif body.choke_max == 0 or id == 0:
+					body.choke = false
+					body.choke_delay = 0
+			
+			if body.name == "player":
+				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+					global.player_life[int(player.swap)] -= damage
+					player.damage()
+	
+	if $anim_body.get_current_animation() == 'drill_b' or $anim_body.get_current_animation() == 'drill_c' or $anim_body.get_current_animation() == 'drill_d' or $anim_body.get_current_animation() == 'drill_e':
+		if $wings.is_visible():
+			$wings.hide()
+	
 	if is_on_floor() and state == 5:
 		velocity.y = 0
 		world.sound("swoop_c")
@@ -495,35 +562,35 @@ func _on_anim_wings_finished(anim_name):
 func play_anim(anim):
 	$anim_body.play(anim)
 
-func _on_hitbox_body_entered(body):
-	if body.is_in_group("weapons"):
-		#Get weapon and boss id for the damage table.
-		if !body.reflect:
-			world.enemy_dmg(id, body.id)
-			#If not flashing, damage the boss
-			if world.damage != 0:
-				if flash == 0:
-					world.sound("hit")
-					flash = 20
-					hit = true
-					world.boss_hp -= world.damage
-				#Edit this for individual weapon behaviors.
-				if body.property == 0:
-					body.queue_free()
-				elif body.property == 2:
-					if world.damage < world.boss_hp:
-						body.queue_free()
-				elif body.property == 3:
-					body.dist = 1
-			else:
-				if body.property != 3:
-					body.reflect = true
-				else:
-					body.dist = 1
-	
-	if body.name == "player":
-		touch = true
-
-func _on_hitbox_body_exited(body):
-	if body.name == "player":
-		touch = false
+#func _on_hitbox_body_entered(body):
+#	if body.is_in_group("weapons"):
+#		#Get weapon and boss id for the damage table.
+#		if !body.reflect:
+#			world.enemy_dmg(id, body.id)
+#			#If not flashing, damage the boss
+#			if world.damage != 0:
+#				if flash == 0:
+#					world.sound("hit")
+#					flash = 20
+#					hit = true
+#					world.boss_hp -= world.damage
+#				#Edit this for individual weapon behaviors.
+#				if body.property == 0:
+#					body.queue_free()
+#				elif body.property == 2:
+#					if world.damage < world.boss_hp:
+#						body.queue_free()
+#				elif body.property == 3:
+#					body.dist = 1
+#			else:
+#				if body.property != 3:
+#					body.reflect = true
+#				else:
+#					body.dist = 1
+#
+#	if body.name == "player":
+#		touch = true
+#
+#func _on_hitbox_body_exited(body):
+#	if body.name == "player":
+#		touch = false
