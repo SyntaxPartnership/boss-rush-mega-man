@@ -45,7 +45,7 @@ var flash_delay = 0
 var hit = false
 
 var touch = false
-var damage = 0
+var damage = 40
 
 var overlap = []
 
