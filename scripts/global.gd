@@ -35,7 +35,7 @@ var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
 	'ebalancer'			: false,
-	'choke_hand'		: false,
+	'choke_hand'		: true,
 	'magnet_hand'		: false,
 	'seeker_hand'		: true
 	}

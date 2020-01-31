@@ -169,3 +169,10 @@ func get_targets():
 					f_target = t
 	else:
 		f_target = nearest
+
+func ret():
+	dist = 1
+	choke = false
+	choke_delay = 0
+	f_target = player
+	velocity = -velocity
