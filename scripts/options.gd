@@ -502,7 +502,6 @@ func save_config():
 	if !err:
 		for action_name in global.actions:
 			var action_list = InputMap.get_action_list(action_name)
-			print(action_list)
 			# There could be multiple actions in the list, but we save the first one by default
 			var scancode = OS.get_scancode_string(action_list[0].scancode)
 			var pad_button = Input.get_joy_button_string(action_list[1].button_index)
