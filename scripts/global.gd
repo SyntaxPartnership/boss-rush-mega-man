@@ -19,11 +19,18 @@ var icey = false
 var low_grav = false
 
 #Option Flags
-var sound = 100
-var music = 100
+var sound = 4
+var music = 4
 var res = 3
 var f_screen = false
 var quick_swap = false
+var use_analog = false
+var dash_btn = false
+var dbl_tap_dash = false
+var a_charge = false
+var a_fire = false
+var r_fire = false
+var chrg_sfx = 2
 
 #Level/Continue Point IDs
 var level_id = 0
