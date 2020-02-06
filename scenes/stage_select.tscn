@@ -253,7 +253,7 @@ margin_bottom = 40.0
 position = Vector2( 48, 56 )
 texture = ExtResource( 2 )
 hframes = 11
-frame = 3
+frame = 1
 
 [node name="mug_03" type="Sprite" parent="mugs"]
 position = Vector2( 208, 56 )
@@ -302,8 +302,8 @@ margin_right = 212.0
 margin_bottom = 224.0
 custom_fonts/font = ExtResource( 4 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-text = " BATTON              ??????
-
+text = " SWOOP               ??????
+  WOMAN
 
 
 
@@ -320,6 +320,9 @@ text = " BATTON              ??????
 
 
  ??????              ??????"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="select" type="Sprite" parent="misc"]
 position = Vector2( 48, 56 )
@@ -417,10 +420,12 @@ hframes = 5
 frame = 11
 
 [node name="fake_fade" type="ColorRect" parent="."]
-editor/display_folded = true
 margin_right = 256.0
 margin_bottom = 240.0
 color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="action" type="Tween" parent="fake_fade"]
 
@@ -437,6 +442,7 @@ anims/leave4 = SubResource( 9 )
 anims/leave5 = SubResource( 10 )
 
 [node name="fade" parent="." instance=ExtResource( 11 )]
+visible = false
 position = Vector2( 128, 120 )
 
 [node name="cursor" type="AudioStreamPlayer" parent="."]

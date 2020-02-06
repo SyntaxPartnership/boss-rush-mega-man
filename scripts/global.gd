@@ -53,9 +53,9 @@ var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
 	'ebalancer'			: false,
-	'choke_hand'		: true,
+	'choke_hand'		: false,
 	'magnet_hand'		: false,
-	'seeker_hand'		: true
+	'seeker_hand'		: false
 	}
 
 #Stage Cleared Flags
