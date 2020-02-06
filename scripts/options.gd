@@ -50,6 +50,10 @@ const REPLACE = {
 	"Right"			: "RIGHT",
 	"Semicolon"		: ";",
 	"Apostrophe"	: "'",
+	"DPAD Up"				: "UP",
+	"DPAD Down"				: "DOWN",
+	"DPAD Left"				: "LEFT",
+	"DPAD Right"			: "RIGHT",
 	"Face Button Top"		: "Y",
 	"Face Button Bottom"	: "A",
 	"Face Button Left"		: "X",
@@ -454,7 +458,7 @@ func _on_txt_fade_completed(object, _key):
 				
 				for b in range(global.actions.size()):
 					if global.actions[b] == buttons[b].name:
-						if REPLACE.has(global.key_ctrls[b]):
+						if REPLACE.has(global.joy_ctrls[b]):
 							buttons[b].set_text('('+REPLACE.get(global.joy_ctrls[b])+')')
 						else:
 							buttons[b].set_text('('+global.joy_ctrls[b]+')')
