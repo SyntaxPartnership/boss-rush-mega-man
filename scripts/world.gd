@@ -38,6 +38,8 @@ var adaptors = 0
 
 var fill_b_meter = false
 var boss_hp = 280
+var boss_delay = 60
+var ready_boss = false
 
 var boss_dead = false
 var end_delay = 360
@@ -76,7 +78,8 @@ var room_data = {
 				}
 
 var boss_rooms = {
-				"(1, 0)" : ""
+				"(1, 0)" : "",
+				"(1, 1)" : "res://scenes/bosses/roto.tscn"
 				}
 
 # warning-ignore:unused_class_variable
@@ -439,8 +442,9 @@ func _rooms():
 		kill_music()
 		
 		if global.level_id != 0:
-			$audio/music/boss.play()
-			boss = true
+			ready_boss = true
+			$player.no_input(true)
+
 		#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
 		var enemy_loc = []
@@ -494,6 +498,18 @@ func _process(delta):
 	ladder_top = $coll_mask/tiles.map_to_world(player_tilepos)
 	player_room = Vector2(floor(pos.x / 256), floor(pos.y / 240))
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
+	
+	#Get ready to load the boss.
+	if ready_boss and boss_delay > -1:
+		boss_delay -= 1
+	
+	if boss_delay == 0:
+		$audio/music/boss.play()
+		boss = true
+		#Load the boss scene(s).
+		print(boss_rooms.get(player_room))
+		var boss = load(boss_rooms.get(str(player_room))).instance()
+		$graphic.add_child(boss)
 	
 	#Pause the game if life_en or wpn_en is greater than 0.
 	if wpn_en != 0 and !get_tree().paused and !p_menu or life_en != 0 and !get_tree().paused and !p_menu:

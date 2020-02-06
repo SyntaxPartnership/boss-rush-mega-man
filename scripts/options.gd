@@ -50,6 +50,9 @@ const REPLACE = {
 	"Right"			: "RIGHT",
 	"Semicolon"		: ";",
 	"Apostrophe"	: "'",
+	}
+
+const XINPUT_RPLCE = {
 	"DPAD Up"				: "UP",
 	"DPAD Down"				: "DOWN",
 	"DPAD Left"				: "LEFT",
@@ -61,6 +64,34 @@ const REPLACE = {
 	"Select"				: "SELECT",
 	"Start"					: "START"
 	}
+
+const SWITCH_RPLCE = {
+	"DPAD Up"				: "UP",
+	"DPAD Down"				: "DOWN",
+	"DPAD Left"				: "LEFT",
+	"DPAD Right"			: "RIGHT",
+	"Face Button Top"		: "X",
+	"Face Button Bottom"	: "B",
+	"Face Button Left"		: "Y",
+	"Face Button Right"		: "A",
+	"Select"				: "SELECT",
+	"Start"					: "START"
+	}
+
+const SONY_RPLCE = {
+	"DPAD Up"				: "UP",
+	"DPAD Down"				: "DOWN",
+	"DPAD Left"				: "LEFT",
+	"DPAD Right"			: "RIGHT",
+	"Face Button Top"		: "TRIANG",
+	"Face Button Bottom"	: "CROSS",
+	"Face Button Left"		: "SQUARE",
+	"Face Button Right"		: "CIRCLE",
+	"Select"				: "SELECT",
+	"Start"					: "START"
+	}
+
+var which_pad
 
 var menu = 0
 var menu_pos = 0
@@ -76,6 +107,20 @@ var buttons = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	for g in global.gp_list:
+		if g == global.gp_name:
+			print(g)
+			match g:
+#				"XInput Gamepad":
+#					which_pad = XINPUT_RPLCE
+#				"Wireless Controller":
+#					which_pad = SWITCH_RPLCE
+				"Sony DualShock 4":
+					which_pad = SONY_RPLCE
+#				"HORIPAD S":
+#					which_pad = SWITCH_RPLCE
+	print(which_pad)
 	
 	ca_start = $cursor.position.y
 	cb_start = $cursor2.position.x
@@ -166,8 +211,8 @@ func _input(event):
 		
 		if event is InputEventJoypadButton and set_mode == 2 and menu == 4 and menu_pos != menu_size[menu]:
 			global.joy_ctrls[menu_pos] = Input.get_joy_button_string(event.button_index)
-			if REPLACE.has(global.joy_ctrls[menu_pos]):
-				buttons[menu_pos].set_text('('+REPLACE.get(global.joy_ctrls[menu_pos])+')')
+			if which_pad.has(global.joy_ctrls[menu_pos]):
+				buttons[menu_pos].set_text('('+which_pad.get(global.joy_ctrls[menu_pos])+')')
 			else:
 				buttons[menu_pos].set_text('('+global.joy_ctrls[menu_pos]+')')
 			pressed = true
@@ -409,8 +454,6 @@ func _input(event):
 
 func _physics_process(_delta):
 	
-	print(menu_size[menu],', ',menu_pos)
-	
 	if set_mode == 3:
 		set_mode = 0
 	
@@ -465,8 +508,8 @@ func _on_txt_fade_completed(object, _key):
 				
 				for b in range(global.actions.size()):
 					if global.actions[b] == buttons[b].name:
-						if REPLACE.has(global.joy_ctrls[b]):
-							buttons[b].set_text('('+REPLACE.get(global.joy_ctrls[b])+')')
+						if which_pad.has(global.joy_ctrls[b]):
+							buttons[b].set_text('('+which_pad.get(global.joy_ctrls[b])+')')
 						else:
 							buttons[b].set_text('('+global.joy_ctrls[b]+')')
 							

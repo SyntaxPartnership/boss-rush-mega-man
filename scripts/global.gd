@@ -43,6 +43,8 @@ var key_ctrls = ["W", "S", "A", "D", "Period", "Comma", "Slash", "L", "Semicolon
 var joy_ctrls = ["DPAD Up", "DPAD Down", "DPAD Left", "DPAD Right", "Face Button Bottom", "Face Button Left", "Face Button Right", "Face Button Top", "L", "R", "Select", "Start"]
 var l_stick = [["Left Stick Y", -1.0], ["Left Stick Y", 1.0], ["Left Stick X", -1.0], ["Left Stick X", 1.0]]
 
+var gp_list = ["XInput Gamepad", "Wireless Controller", "Sony DualShock 4", "HORIPAD S"]
+
 #Level/Continue Point IDs
 var level_id = 0
 var cont_id = 0
@@ -175,6 +177,9 @@ func _ready():
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 	
 	gamepads = Input.get_connected_joypads()
+	
+	if gamepads != []:
+		print(Input.get_joy_name(gamepads[0]))
 	
 	if gamepads != gp_update:
 		gp_connect = true

@@ -228,7 +228,6 @@ visible = false
 pause_mode = 2
 
 [node name="fade" parent="fade" instance=ExtResource( 20 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
