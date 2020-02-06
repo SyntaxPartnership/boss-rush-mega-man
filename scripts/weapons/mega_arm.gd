@@ -122,9 +122,6 @@ func _physics_process(delta):
 				if body.is_in_group('items') and body.grab == 0:
 					body.global_position = global_position
 	
-	if f_target != null:
-		print(f_target.name,', ',ret,', ',dist,', ',reflect)
-	
 func _on_player_detect_body_entered(body):
 	if body.name == "player":
 		if ret:

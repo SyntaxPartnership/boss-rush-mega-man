@@ -337,6 +337,10 @@ func _input(event):
 						else:
 							$misc/ac_flag.set_text("ON")
 							global.a_charge = true
+							global.r_fire = true
+							if global.a_fire:
+								$misc/af_flag.set_text("OFF")
+								global.a_fire = false
 					3:
 						if global.a_fire:
 							$misc/af_flag.set_text("OFF")
@@ -357,6 +361,9 @@ func _input(event):
 						else:
 							$misc/rf_flag.set_text("ON")
 							global.r_fire = true
+							if global.a_fire:
+								$misc/af_flag.set_text("OFF")
+								global.a_fire = false
 					5:
 						if global.use_analog:
 							$misc/la_flag.set_text("OFF")
