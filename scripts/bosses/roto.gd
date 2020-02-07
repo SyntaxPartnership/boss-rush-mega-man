@@ -5,6 +5,7 @@ onready var camera = world.get_child(2).get_child(9)
 onready var player = world.get_child(2)
 
 const SPEED = 75
+const CHRG_SPD = 125
 
 var radius = Vector2.ONE * 0.5
 var rotation_duration = 1.0
@@ -16,10 +17,14 @@ var intro_delay = 30
 var fill_bar = false
 
 var state = 0
-var act_timer = 240
+var act_timer = 120
 var action = 0
+var prev_action = 0
 var act_count = 0
 var side = 0
+var chrg_delay = 0
+var chrg_dir = Vector2()
+var plyr_pos = Vector2()
 
 var bomb_drop = 0
 var bomb_max = 2
@@ -36,6 +41,7 @@ func _ready():
 	global_position.y = camera.limit_top + 128
 	
 	$anim.play("teleport")
+	
 
 func _physics_process(delta):
 	
@@ -52,7 +58,7 @@ func _physics_process(delta):
 		act_timer -= 1
 	
 	#When the timer expires, choose an action
-		if act_timer == 0:
+		if act_timer == 0 and state == 1:
 			if world.boss_hp > 200:
 				action = rand_range(0, 1)
 			else:
@@ -85,6 +91,27 @@ func _physics_process(delta):
 				velocity.x -= 5
 			if player.global_position > global_position and velocity.x < SPEED:
 				velocity.x += 5
+		
+			#Get angle of player if they stay in one place too long.
+			if plyr_pos != player.global_position:
+				chrg_delay = 0
+				plyr_pos = player.global_position
+			
+			if plyr_pos == player.global_position:
+				chrg_delay += 1
+				
+				if chrg_delay == 110:
+					var target = (player.global_position - global_position).normalized()
+					chrg_dir = target
+					velocity = Vector2(0, 0)
+					if global_position.x < player.global_position.x:
+						$sprite.flip_h = true
+						$sprite/bubble.flip_h = true
+						$sprite/bubble.position.x = -$sprite/bubble.position.x
+					$sprite/bubble.show()
+					$anim.play("surprise")
+					chrg_delay = 0
+					state = 6
 	
 	if state == 5:
 		
@@ -114,6 +141,13 @@ func _physics_process(delta):
 			$anim.play_backwards("teleport")
 			c_bomb = false
 			carpet_bmb = 0
+	
+	if state == 7:
+		velocity = chrg_dir * 300
+		
+		if is_on_floor() or is_on_wall():
+			state = 8
+			$anim.play_backwards("teleport")
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 		
@@ -185,7 +219,7 @@ func _on_anim_finished(anim_name):
 					$anim.play("teleport")
 					intro_tele += 1
 				8:
-					$anim.play("idle")
+					$anim.play("surprise")
 					fill_bar = true
 					state = 1
 		
@@ -230,7 +264,7 @@ func _on_anim_finished(anim_name):
 					$anim.play("spin-norm")
 					state = 1
 					act_count = 0
-					act_timer = 240
+					act_timer = 120
 		
 		if state == 5:
 			match act_count:
@@ -261,7 +295,20 @@ func _on_anim_finished(anim_name):
 					$anim.play("spin-norm")
 					state = 1
 					act_count = 0
-					act_timer = 240
+					act_timer = 120
+		
+		if state == 8:
+			match act_count:
+				0:
+					global_position.x = player.global_position.x
+					global_position.y = camera.limit_top + 136
+					$anim.play("teleport")
+					act_count += 1
+				1:
+					$anim.play("spin-norm")
+					state = 1
+					act_count = 0
+					act_timer = 120
 	
 	if anim_name == "drop1":
 		if bomb_drop < bomb_max:
@@ -271,9 +318,17 @@ func _on_anim_finished(anim_name):
 			$anim.play("spin-norm")
 			state = 1
 			bomb_drop -= bomb_max
-			act_timer = 240
+			act_timer = 120
 		toss = false
 		act_count = 0
+	
+	if anim_name == "surprise":
+		if state == 6:
+			$sprite.flip_h = false
+			$sprite/bubble.flip_h = false
+			$sprite/bubble.hide()
+			$anim.play("spin-fast")
+			state = 7
 	
 	if anim_name == "intro":
 		world.fill_b_meter = true
