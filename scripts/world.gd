@@ -37,7 +37,7 @@ var shots = 0
 var adaptors = 0
 
 var fill_b_meter = false
-var boss_hp = 280
+var boss_hp = 200
 var boss_delay = 60
 var ready_boss = false
 

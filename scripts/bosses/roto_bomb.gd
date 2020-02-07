@@ -14,6 +14,7 @@ func _physics_process(delta):
 	#Add function in case the bomb strikes the player.
 	
 	if is_on_floor():
+		world.sound("big_explode")
 		var boom = load('res://scenes/bosses/roto_explode.tscn').instance()
 		boom.global_position = global_position
 		world.get_child(3).add_child(boom)
