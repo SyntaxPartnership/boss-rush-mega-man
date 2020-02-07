@@ -23,6 +23,9 @@ var side = 0
 
 var bomb_drop = 0
 var bomb_max = 2
+var c_bomb = false
+var carpet_bmb = 0
+var toss = false
 
 var velocity = Vector2()
 
@@ -49,8 +52,7 @@ func _physics_process(delta):
 		act_timer -= 1
 	
 	#When the timer expires, choose an action
-		if act_timer == 1:
-			print('GO TIME')
+		if act_timer == 0:
 			if world.boss_hp > 200:
 				action = rand_range(0, 1)
 			else:
@@ -64,8 +66,10 @@ func _physics_process(delta):
 				velocity.x = 0
 				state = 3
 				$anim.play_backwards("teleport")
-#			if action == 2:
-#				state = 5
+			if action == 2:
+				velocity.x = 0
+				state = 5
+				$anim.play_backwards("teleport")
 	
 	if state == 1:
 		#Hover function
@@ -81,6 +85,35 @@ func _physics_process(delta):
 				velocity.x -= 5
 			if player.global_position > global_position and velocity.x < SPEED:
 				velocity.x += 5
+	
+	if state == 5:
+		
+		if c_bomb:
+			carpet_bmb += 1
+		
+		if carpet_bmb == 8:
+			var bomb = load('res://scenes/bosses/roto_bomb.tscn').instance()
+			bomb.global_position = global_position
+			world.get_child(1).add_child(bomb)
+			carpet_bmb = 0
+		
+		if act_count == 2 and global_position.x < camera.limit_left + 128:
+			velocity.x = 100
+		elif act_count == 2 and global_position.x >= camera.limit_left + 128:
+			velocity.x = 0
+			act_count += 1
+			$anim.play_backwards("teleport")
+			c_bomb = false
+			carpet_bmb = 0
+		
+		if act_count == 5 and global_position.x > camera.limit_left + 128:
+			velocity.x = -100
+		elif act_count == 5 and global_position.x <= camera.limit_left + 128:
+			velocity.x = 0
+			act_count += 1
+			$anim.play_backwards("teleport")
+			c_bomb = false
+			carpet_bmb = 0
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 		
@@ -99,6 +132,20 @@ func _physics_process(delta):
 			velocity.y = 0
 			$anim.play_backwards("teleport")
 			state = 4
+	
+	if $anim.get_current_animation() == "drop1" and $sprite.get_frame() == 18 and !toss:
+		var bomb = load('res://scenes/bosses/roto_bomb.tscn').instance()
+		bomb.global_position = global_position
+		bomb.velocity.y = -200
+		world.get_child(1).add_child(bomb)
+		toss = true
+	
+	#Increase Bomb Drops as Roto takes damage.
+	if world.boss_hp <= 210 and bomb_max < 4:
+		bomb_max = 4
+
+	if world.boss_hp <= 140 and bomb_max != 6:
+		bomb_max = 6
 
 func _on_anim_finished(anim_name):
 	
@@ -184,6 +231,37 @@ func _on_anim_finished(anim_name):
 					state = 1
 					act_count = 0
 					act_timer = 240
+		
+		if state == 5:
+			match act_count:
+				0:
+					global_position.x = camera.limit_left + 24
+					global_position.y = camera.limit_top + 136
+					$anim.play("teleport")
+					act_count += 1
+				1:
+					$anim.play("spin-fast")
+					c_bomb = true
+					act_count += 1
+				3:
+					global_position.x = camera.limit_right - 24
+					global_position.y = camera.limit_top + 136
+					$anim.play("teleport")
+					act_count += 1
+				4:
+					$anim.play("spin-fast")
+					c_bomb = true
+					act_count += 1
+				6:
+					global_position.x = player.global_position.x
+					global_position.y = camera.limit_top + 136
+					$anim.play("teleport")
+					act_count += 1
+				7:
+					$anim.play("spin-norm")
+					state = 1
+					act_count = 0
+					act_timer = 240
 	
 	if anim_name == "drop1":
 		if bomb_drop < bomb_max:
@@ -194,6 +272,7 @@ func _on_anim_finished(anim_name):
 			state = 1
 			bomb_drop -= bomb_max
 			act_timer = 240
+		toss = false
 		act_count = 0
 	
 	if anim_name == "intro":

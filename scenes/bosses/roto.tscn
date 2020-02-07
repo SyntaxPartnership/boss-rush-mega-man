@@ -133,6 +133,7 @@ script = ExtResource( 2 )
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 hframes = 23
+frame = 18
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/drop1 = SubResource( 1 )
@@ -144,5 +145,6 @@ anims/spin-norm = SubResource( 6 )
 anims/teleport = SubResource( 7 )
 
 [node name="coll_box" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 8 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]

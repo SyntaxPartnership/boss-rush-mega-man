@@ -198,6 +198,9 @@ editor_draw_drag_margin = true
 [node name="overlap" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="hud" type="CanvasLayer" parent="."]
 pause_mode = 2
