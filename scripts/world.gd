@@ -549,7 +549,11 @@ func _process(delta):
 		for b in get_tree().get_nodes_in_group("boss"):
 			b.intro = false
 			b.fill_bar = false
-			b.play_anim("idle")
+			match global.level_id:
+				0:
+					b.play_anim("idle")
+				1:
+					b.play_anim("spin-norm")
 			$player.no_input(false)
 	
 	#Check to see if the player's weapons or adaptors have gone beyond the screen.
