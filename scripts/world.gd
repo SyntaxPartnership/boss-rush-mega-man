@@ -37,7 +37,7 @@ var shots = 0
 var adaptors = 0
 
 var fill_b_meter = false
-var boss_hp = 200
+var boss_hp = 280
 var boss_delay = 60
 var ready_boss = false
 
@@ -409,7 +409,7 @@ func _camera():
 func _rooms():
 	#This section handles the Left/Right camera limits and toggles which direction the screen
 	#is allowed to scroll based on the player_room value.
-	print(player_room)
+	print("In Room: ",player_room)
 	
 	#This function also houses the counter for Endless Mode.
 	if endless:

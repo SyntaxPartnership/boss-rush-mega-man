@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/sprites/bosses/telly/roto.png" type="Texture" id=1]
 [ext_resource path="res://scripts/bosses/roto.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/effects/exclamation.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/bosses/flash.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "drop1"
@@ -120,10 +121,11 @@ tracks/0/keys = {
 }
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 10, 16 )
+extents = Vector2( 8, 16 )
 
 [node name="roto" type="KinematicBody2D" groups=[
 "boss",
+"roto",
 ]]
 pause_mode = 1
 collision_layer = 66
@@ -140,6 +142,10 @@ position = Vector2( -12, -16 )
 texture = ExtResource( 3 )
 flip_h = true
 
+[node name="flash" type="Sprite" parent="."]
+visible = false
+texture = ExtResource( 4 )
+
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/drop1 = SubResource( 1 )
 anims/drop2 = SubResource( 2 )
@@ -150,11 +156,9 @@ anims/surprise = SubResource( 6 )
 anims/teleport = SubResource( 7 )
 
 [node name="coll_box" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 8 )
 
 [node name="hit_box" type="Area2D" parent="."]
-visible = false
 collision_layer = 33
 collision_mask = 4
 

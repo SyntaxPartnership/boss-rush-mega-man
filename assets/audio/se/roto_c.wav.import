@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/roto_c.wav-3b3ced2acf73c4d8a0cd4b6d8232d176.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/roto_c.wav"
+dest_files=[ "res://.import/roto_c.wav-3b3ced2acf73c4d8a0cd4b6d8232d176.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

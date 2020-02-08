@@ -44,7 +44,6 @@ var flash = 0
 var flash_delay = 0
 var hit = false
 
-var touch = false
 var damage = 40
 
 var overlap = []
@@ -306,14 +305,6 @@ func _physics_process(delta):
 			$wings.show()
 		flash_delay = 0
 		hit = false
-	
-	if touch and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-		if $anim_body.get_current_animation() != "drill":
-			damage = 40
-		else:
-			damage = 60
-		global.player_life[int(player.swap)] -= damage
-		player.damage()
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
@@ -345,8 +336,9 @@ func _physics_process(delta):
 						if world.boss_hp > 0:
 							world.sound("hit")
 						else:
-							if !body.ret:
-								body.ret()
+							if body.property == 3:
+								if !body.ret:
+									body.ret()
 					else:
 						if body.property != 3:
 							body.reflect = true
@@ -561,36 +553,3 @@ func _on_anim_wings_finished(anim_name):
 
 func play_anim(anim):
 	$anim_body.play(anim)
-
-#func _on_hitbox_body_entered(body):
-#	if body.is_in_group("weapons"):
-#		#Get weapon and boss id for the damage table.
-#		if !body.reflect:
-#			world.enemy_dmg(id, body.id)
-#			#If not flashing, damage the boss
-#			if world.damage != 0:
-#				if flash == 0:
-#					world.sound("hit")
-#					flash = 20
-#					hit = true
-#					world.boss_hp -= world.damage
-#				#Edit this for individual weapon behaviors.
-#				if body.property == 0:
-#					body.queue_free()
-#				elif body.property == 2:
-#					if world.damage < world.boss_hp:
-#						body.queue_free()
-#				elif body.property == 3:
-#					body.dist = 1
-#			else:
-#				if body.property != 3:
-#					body.reflect = true
-#				else:
-#					body.dist = 1
-#
-#	if body.name == "player":
-#		touch = true
-#
-#func _on_hitbox_body_exited(body):
-#	if body.name == "player":
-#		touch = false
