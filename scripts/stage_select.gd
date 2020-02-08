@@ -1,137 +1,160 @@
 extends Node2D
 
-var menu = 0
-var c_menu = 0
-var select = Vector2(0, 0)
-var sel_flash = 0
-var big_flash = 0
-var bf_time = 60
+var cur_start = Vector2()
+var cur_pos = Vector2(0, 0)
 
-var pressed = false
+var start = false
 
-var begin_fade = true
+var flash = 0
+var f_delay = 0
 
-var reverse = false
-var bar_spd = 200
-var tile_pos_a
-var tile_pos_b
+var move_state = 0
+var move_delay = 0
 
-var final = 24
-var rock_leave = false
-var blues_leave = false
-var bass_leave = false
+const GRAVITY = 900
 
-var lvl_ids = {
-	"(0, 0)" : [0, 1],
-	"(1, 0)" : [1, 1],
-	"(0, 1)" : [2, 1],
-	"(1, 1)" : [3, 1],
-	}
-
-var char_ids = [0, 0]
+var stage_id = {
+	Vector2(0, 0) : 0,
+	Vector2(0, 1) : 1,
+	Vector2(1, 0) : 2,
+	Vector2(1, 1) : 3,
+}
 
 func _ready():
-	#Make defeated bosses invisible.
-	if global.boss1_clear:
-		$mugs/mug_01.hide()
-	if global.boss2_clear:
-		$mugs/mug_02.hide()
-	if global.boss3_clear:
-		$mugs/mug_03.hide()
-	if global.boss4_clear:
-		$mugs/mug_04.hide()
+	$music.play()
 	
-	#Set player icon positions depending on if bass has been unlocked.	
-	if !global.bass:
-		$char_menu/chars/rock.position.x = 88
-		$char_menu/chars/blues.position.x = 128
-		$char_menu/chars/ok.position.x = 168
-		$char_menu/chars/bass.hide()
-	else:
-		$char_menu/chars/bass.show()
-	
-	#Set default cursor position.
-	$misc/select.position.x = 48 + (80 * select.x)
-	$misc/select.position.y = 56 + (64 * select.y)
+	$stage_sel/halves/cursor/anim.play("idle")
+	cur_start = $stage_sel/halves/cursor.position
 
-# warning-ignore:unused_argument
-func _input(event):
+func _input(_event):
 	
-	if menu == 1:
-		#Set cursor position
-		if Input.is_action_just_pressed("left") and select.x > 0:
-			select.x -= 1
-			sel_flash = 0
-			$misc/select.show()
-			$cursor.play()
-		if Input.is_action_just_pressed("right") and select.x < 1:
-			select.x += 1
-			sel_flash = 0
-			$misc/select.show()
-			$cursor.play()
-		if Input.is_action_just_pressed("up") and select.y > 0:
-			select.y -= 1
-			sel_flash = 0
-			$misc/select.show()
-			$cursor.play()
-		if Input.is_action_just_pressed("down") and select.y < 1:
-			select.y += 1
-			sel_flash = 0
-			$misc/select.show()
-			$cursor.play()
+	if start:
+		if Input.is_action_just_pressed("right") and cur_pos.x != 1:
+			cur_pos.x = 1
+			set_cursor()
 		
-		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start") and !pressed:
-			$misc/select.hide()
-			$misc/flash.show()
+		if Input.is_action_just_pressed("left") and cur_pos.x != 0:
+			cur_pos.x = 0
+			set_cursor()
+		
+		if Input.is_action_just_pressed("up") and cur_pos.y != 0:
+			cur_pos.y = 0
+			set_cursor()
+		
+		if Input.is_action_just_pressed("down") and cur_pos.y != 1:
+			cur_pos.y = 1
+			set_cursor()
+		
+		if Input.is_action_just_pressed("jump"):
+			start = false
 			$bling.play()
-			pressed = true
-			global.level_id = lvl_ids.get(str(select))[0]
-			global.boss_num = lvl_ids.get(str(select))[1]
-			menu = 2
-		
-# warning-ignore:unused_argument
-func _process(delta):
+			$stage_sel/halves/cursor.hide()
+			$stage_sel/halves/flash.show()
+			flash = 48
+
+func _physics_process(delta):
+	starfield()
 	
-	if menu == 1:
-		#Make the mugshot selected flash.
-		sel_flash += 1
+	if flash > 0 and !start:
+		if f_delay == 0:
+			$stage_sel/halves/flash.show()
+		
+		if f_delay == 2:
+			$stage_sel/halves/flash.hide()
+		
+		flash -= 1
+		f_delay += 1
+		
+		if f_delay > 3:
+			f_delay = 0
+		
+		if flash == 1:
+			$door.play()
+			$stage_sel/halves/door/anim.play("open_close")
+			move_state = 1
 	
-		if sel_flash > 17:
-			sel_flash = 0
+	if move_state == 1:
+		if move_delay > 0:
+			move_delay -= 1
 		
-		if sel_flash == 0:
-			$misc/select.show()
-		
-		if sel_flash == 8:
-			$misc/select.hide()
-		
-		#Select the appropriate mugshot.
-		$misc/select.position.x = 48 + (160 * select.x)
-		$misc/select.position.y = 56 + (128 * select.y)
+		if move_delay == 1:
+			#Blank out mugshot
+			for m in get_tree().get_nodes_in_group("mug"):
+				if m.global_position == $stage_sel/halves/cursor.global_position:
+					m.set_frame(0)
+			
+			#Face the boss towards the middle of the screen
+			if cur_pos.x == 0:
+				$stage_sel/halves/boss_sprite/wings.flip_h = true
+				$stage_sel/halves/boss_sprite/boss.flip_h = true
+			
+			#Choose the appropriate sprite.
+			$stage_sel/halves/boss_sprite/anim.play(str(cur_pos.x)+"-"+str(cur_pos.y)+"-idle")
+			
+			$stage_sel/halves/boss_sprite.show()
+			if cur_pos == Vector2(0, 0):
+				$stage_sel/halves/boss_sprite/wings.show()
+			$door.play()
+			$stage_sel/halves/door/anim.play_backwards("open_close")
+			move_state = 2
 	
-	#Make the screen flash upon selecting a stage.
-	if menu == 2:
-		big_flash += 1
-		bf_time -= 1
+	if move_state == 2:
+		if move_delay > 0:
+			move_delay -= 1
 		
-		if big_flash > 5:
-			big_flash = 0
+		if move_delay == 1:
+			$music.stop()
+			$start.play()
+			
+			$stage_sel/halves/boss_sprite/anim.play(str(cur_pos.x)+"-"+str(cur_pos.y)+"-jump")
+			if cur_pos == Vector2(0, 0):
+				$stage_sel/halves/boss_sprite/wings.hide()
+			
+
+func starfield():
+	#Star Layer 1.
+	for a in $starfield/layer1.get_children():
+		a.global_position += Vector2(-4, 4)
 		
-		if big_flash == 0:
-			$misc/flash.show()
+		if a.global_position.x < 0:
+			a.global_position.x = 260
+		if a.global_position.y > 240:
+			a.global_position.y = -4
+	
+	#Star Layer 2.
+	for b in $starfield/layer2.get_children():
+		b.global_position += Vector2(-3, 3)
 		
-		if big_flash == 3:
-			$misc/flash.hide()
-		
-		if bf_time == 0:
-			$fade.state = 2
-			$fade.end = true
-		
+		if b.global_position.x < 0:
+			b.global_position.x = 259
+		if b.global_position.y > 240:
+			b.global_position.y = -3
+	
+	#Star Layer 3.
+	for c in $starfield/layer3.get_children():
+		c.global_position += Vector2(-2, 2)
+	
+		if c.global_position.x < 0:
+			c.global_position.x = 258
+		if c.global_position.y > 240:
+			c.global_position.y = -2
 
 func _on_fadein():
-	menu = 1
+	start = true
 
 func _on_fadeout():
-	
-	if $fade.state == 2:
+	if $fade.state == 1:
 		get_tree().change_scene("res://scenes/world.tscn")
+
+func set_cursor():
+	$cursor.play()
+	$stage_sel/halves/cursor/anim.stop(true)
+	$stage_sel/halves/cursor/anim.play("idle")
+	$stage_sel/halves/cursor.position = cur_start + (cur_pos * Vector2(128, 128))
+	$stage_sel/halves/door.position = $stage_sel/halves/cursor.position
+	$stage_sel/halves/boss_sprite/boss.position  = $stage_sel/halves/cursor.position
+	$stage_sel/halves/boss_sprite/wings.position  = $stage_sel/halves/cursor.position
+
+func _on_door_finished(anim_name):
+	if move_state == 1 or move_state == 2:
+		move_delay = 32

@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Free Game Start 1.ogg-4fa45b273de6065b5c02a43eb72369fd.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/music/Free Game Start 1.ogg"
+dest_files=[ "res://.import/Free Game Start 1.ogg-4fa45b273de6065b5c02a43eb72369fd.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

@@ -15,7 +15,7 @@ var kill
 func _ready():
 	world.connect('close_gate', self, 'on_close_gate')
 	
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	#Stop the player from walking back through the gate as necessary.
 	if $solid_left/box.is_disabled() and world.cam_allow[3] == 0:
@@ -28,7 +28,7 @@ func _physics_process(delta):
 	elif !$solid_right/box.is_disabled() and world.cam_allow[2] == 1:
 		$solid_right/box.set_disabled(true)
 
-func _on_act_left_body_entered(body):
+func _on_act_left_body_entered(_body):
 	if !$act_left/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
 		$open.play()
@@ -43,7 +43,7 @@ func _on_act_left_body_entered(body):
 		#Open the gate.
 		$anim.play('opening')
 
-func _on_act_right_body_entered(body):
+func _on_act_right_body_entered(_body):
 	if !$act_right/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
 		$open.play()
@@ -58,13 +58,13 @@ func _on_act_right_body_entered(body):
 		#Open the gate.
 		$anim.play('opening')
 
-func _on_act_left_body_exited(body):
+func _on_act_left_body_exited(_body):
 	right = false
 
-func _on_act_right_body_exited(body):
+func _on_act_right_body_exited(_body):
 	left = false
 
-func _on_anim_animation_finished(opening):
+func _on_anim_animation_finished(_opening):
 	if open and left:
 		player_anim.play()
 		camera.limit_left = world.center.x - (world.res.x / 2)

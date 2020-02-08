@@ -14,7 +14,7 @@ var kill
 func _ready():
 	world.connect('close_gate', self, 'on_close_gate')
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	#Stop the player from walking back through the gate as necessary.
 	if $solid_top/box.is_disabled() and world.cam_allow[1] == 0:
@@ -27,7 +27,7 @@ func _physics_process(delta):
 	elif !$solid_bottom/box.is_disabled() and world.cam_allow[0] == 1:
 		$solid_bottom/box.set_disabled(true)
 
-func _on_act_top_body_entered(body):
+func _on_act_top_body_entered(_body):
 	if !$act_top/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
 		$open.play()
@@ -42,7 +42,7 @@ func _on_act_top_body_entered(body):
 		#Open the gate.
 		$anim.play('opening')
 
-func _on_act_bottom_body_entered(body):
+func _on_act_bottom_body_entered(_body):
 	if !$act_bottom/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
 		$open.play()
@@ -58,13 +58,13 @@ func _on_act_bottom_body_entered(body):
 		$anim.play('opening')
 		
 
-func _on_act_top_body_exited(body):
+func _on_act_top_body_exited(_body):
 	bottom = false
 
-func _on_act_bottom_body_exited(body):
+func _on_act_bottom_body_exited(_body):
 	top = false
 
-func _on_anim_animation_finished(opening):
+func _on_anim_animation_finished(_opening):
 	if open and top:
 		player_anim.play()
 		world.scroll = true
