@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://scripts/stage_select.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/stage_sel/mugshots.png" type="Texture" id=2]
@@ -17,8 +17,10 @@
 [ext_resource path="res://assets/sprites/stage_sel/boss_wings.png" type="Texture" id=15]
 [ext_resource path="res://assets/audio/music/Free Stage Select 2.ogg" type="AudioStream" id=16]
 [ext_resource path="res://assets/audio/music/Free Game Start 1.ogg" type="AudioStream" id=17]
+[ext_resource path="res://assets/sprites/bosses/gabyoall/spin.png" type="Texture" id=18]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=19]
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=1]
 resource_name = "0-0-fall"
 length = 0.1
 loop = true
@@ -35,7 +37,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "0-0-idle"
 length = 0.1
 loop = true
@@ -52,7 +54,23 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=16]
+resource_name = "0-0-intro"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 0, 5 ]
+}
+
+[sub_resource type="Animation" id=3]
 resource_name = "0-0-jump"
 length = 0.1
 loop = true
@@ -69,7 +87,7 @@ tracks/0/keys = {
 "values": [ 1 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=4]
 resource_name = "0-1-fall"
 length = 0.1
 loop = true
@@ -86,8 +104,7 @@ tracks/0/keys = {
 "values": [ 22 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "0-1-idle"
+[sub_resource type="Animation" id=5]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -103,7 +120,24 @@ tracks/0/keys = {
 "values": [ 20 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=17]
+resource_name = "0-1-intro"
+length = 1.5
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.15, 0.25, 0.35, 0.45, 0.55, 0.65, 0.75, 0.85, 0.95, 1.05, 1.15, 1.25, 1.35, 1.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 23, 24, 25, 26, 25, 26, 25, 26, 25, 26, 25, 26, 25, 26, 25, 27 ]
+}
+
+[sub_resource type="Animation" id=6]
 resource_name = "0-1-jump"
 length = 0.1
 loop = true
@@ -120,7 +154,7 @@ tracks/0/keys = {
 "values": [ 21 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=7]
 resource_name = "1-0-fall"
 length = 0.1
 tracks/0/type = "value"
@@ -136,8 +170,7 @@ tracks/0/keys = {
 "values": [ 11 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "1-0-idle"
+[sub_resource type="Animation" id=8]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -153,7 +186,24 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=18]
+resource_name = "1-0-intro"
+length = 1.5
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075, 0.15, 0.225, 0.3, 0.375, 0.45, 0.525, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 11, 12, 13, 14, 15, 16, 17, 18, 19 ]
+}
+
+[sub_resource type="Animation" id=9]
 resource_name = "1-0-jump"
 length = 0.1
 tracks/0/type = "value"
@@ -169,7 +219,7 @@ tracks/0/keys = {
 "values": [ 11 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=10]
 resource_name = "1-1-fall"
 length = 0.1
 loop = true
@@ -183,11 +233,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 30 ]
+"values": [ 31 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "1-1-idle"
+[sub_resource type="Animation" id=11]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -200,10 +249,26 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 30 ]
+"values": [ 31 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=19]
+resource_name = "1-1-intro"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("boss:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.3, 0.4, 0.5, 0.6, 0.8, 0.9, 1, 1.1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 33, 34, 32, 31, 33, 34, 32, 31, 33, 34 ]
+}
+
+[sub_resource type="Animation" id=12]
 resource_name = "1-1-jump"
 length = 0.1
 loop = true
@@ -217,11 +282,45 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 30 ]
+"values": [ 31 ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "open_close"
+[sub_resource type="Animation" id=15]
+resource_name = "flap"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("wings:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "spin"
+length = 0.4
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("spin:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
+}
+
+[sub_resource type="Animation" id=13]
 length = 0.55
 step = 0.11
 tracks/0/type = "value"
@@ -237,7 +336,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=14]
 length = 0.75
 loop = true
 step = 0.075
@@ -389,6 +488,9 @@ __meta__ = {
 [node name="name_bar" type="Control" parent="stage_sel"]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="map" type="TileMap" parent="stage_sel/name_bar"]
 tile_set = ExtResource( 3 )
@@ -411,7 +513,7 @@ texture = ExtResource( 2 )
 hframes = 5
 frame = 1
 
-[node name="mug_03" type="Sprite" parent="stage_sel/halves" groups=[
+[node name="mug_02" type="Sprite" parent="stage_sel/halves" groups=[
 "mug",
 ]]
 position = Vector2( 192, 56 )
@@ -419,7 +521,7 @@ texture = ExtResource( 2 )
 hframes = 5
 frame = 2
 
-[node name="mug_07" type="Sprite" parent="stage_sel/halves" groups=[
+[node name="mug_03" type="Sprite" parent="stage_sel/halves" groups=[
 "mug",
 ]]
 position = Vector2( 64, 184 )
@@ -427,7 +529,7 @@ texture = ExtResource( 2 )
 hframes = 5
 frame = 3
 
-[node name="mug_09" type="Sprite" parent="stage_sel/halves" groups=[
+[node name="mug_04" type="Sprite" parent="stage_sel/halves" groups=[
 "mug",
 ]]
 position = Vector2( 192, 184 )
@@ -447,38 +549,58 @@ vframes = 4
 frame = 1
 
 [node name="boss_sprite" type="Control" parent="stage_sel/halves"]
+visible = false
 margin_right = 8.0
 margin_bottom = 8.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="wings" type="Sprite" parent="stage_sel/halves/boss_sprite"]
+[node name="move" type="KinematicBody2D" parent="stage_sel/halves/boss_sprite"]
+
+[node name="wings" type="Sprite" parent="stage_sel/halves/boss_sprite/move"]
 visible = false
 position = Vector2( 64, 56 )
 texture = ExtResource( 15 )
 hframes = 3
 
-[node name="boss" type="Sprite" parent="stage_sel/halves/boss_sprite"]
+[node name="spin" type="Sprite" parent="stage_sel/halves/boss_sprite/move"]
+visible = false
+position = Vector2( 52, 35 )
+texture = ExtResource( 18 )
+hframes = 8
+frame = 3
+
+[node name="boss" type="Sprite" parent="stage_sel/halves/boss_sprite/move"]
 position = Vector2( 64, 56 )
 texture = ExtResource( 14 )
 vframes = 4
 hframes = 10
-frame = 30
+frame = 27
 
-[node name="anim" type="AnimationPlayer" parent="stage_sel/halves/boss_sprite"]
-anims/0-0-fall = SubResource( 7 )
-anims/0-0-idle = SubResource( 3 )
-anims/0-0-jump = SubResource( 8 )
-anims/0-1-fall = SubResource( 9 )
-anims/0-1-idle = SubResource( 4 )
-anims/0-1-jump = SubResource( 10 )
-anims/1-0-fall = SubResource( 11 )
-anims/1-0-idle = SubResource( 5 )
-anims/1-0-jump = SubResource( 12 )
-anims/1-1-fall = SubResource( 13 )
-anims/1-1-idle = SubResource( 6 )
-anims/1-1-jump = SubResource( 14 )
+[node name="anim" type="AnimationPlayer" parent="stage_sel/halves/boss_sprite/move"]
+anims/0-0-fall = SubResource( 1 )
+anims/0-0-idle = SubResource( 2 )
+anims/0-0-intro = SubResource( 16 )
+anims/0-0-jump = SubResource( 3 )
+anims/0-1-fall = SubResource( 4 )
+anims/0-1-idle = SubResource( 5 )
+anims/0-1-intro = SubResource( 17 )
+anims/0-1-jump = SubResource( 6 )
+anims/1-0-fall = SubResource( 7 )
+anims/1-0-idle = SubResource( 8 )
+anims/1-0-intro = SubResource( 18 )
+anims/1-0-jump = SubResource( 9 )
+anims/1-1-fall = SubResource( 10 )
+anims/1-1-idle = SubResource( 11 )
+anims/1-1-intro = SubResource( 19 )
+anims/1-1-jump = SubResource( 12 )
+
+[node name="anim_w" type="AnimationPlayer" parent="stage_sel/halves/boss_sprite/move"]
+anims/flap = SubResource( 15 )
+
+[node name="anim_s" type="AnimationPlayer" parent="stage_sel/halves/boss_sprite/move"]
+anims/spin = SubResource( 20 )
 
 [node name="door" type="Sprite" parent="stage_sel/halves"]
 position = Vector2( 64, 56 )
@@ -486,7 +608,7 @@ texture = ExtResource( 4 )
 hframes = 5
 
 [node name="anim" type="AnimationPlayer" parent="stage_sel/halves/door"]
-anims/open_close = SubResource( 1 )
+anims/open_close = SubResource( 13 )
 
 [node name="cursor" type="Sprite" parent="stage_sel/halves"]
 position = Vector2( 64, 56 )
@@ -494,7 +616,7 @@ texture = ExtResource( 5 )
 hframes = 8
 
 [node name="anim" type="AnimationPlayer" parent="stage_sel/halves/cursor"]
-anims/idle = SubResource( 2 )
+anims/idle = SubResource( 14 )
 
 [node name="flash" type="ColorRect" parent="stage_sel/halves"]
 visible = false
@@ -505,8 +627,18 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="name" type="Label" parent="stage_sel"]
+margin_left = 72.0
+margin_top = 136.0
+margin_right = 184.0
+margin_bottom = 144.0
+custom_fonts/font = ExtResource( 19 )
+custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+text = " DEFEND WOMAN"
+percent_visible = 0.0
+
 [node name="fade" parent="." instance=ExtResource( 11 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="cursor" type="AudioStreamPlayer" parent="."]
@@ -523,6 +655,8 @@ stream = ExtResource( 16 )
 
 [node name="start" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 17 )
+[connection signal="animation_finished" from="stage_sel/halves/boss_sprite/move/anim" to="." method="_on_intro_finished"]
 [connection signal="animation_finished" from="stage_sel/halves/door/anim" to="." method="_on_door_finished"]
 [connection signal="fadein" from="fade" to="." method="_on_fadein"]
 [connection signal="fadeout" from="fade" to="." method="_on_fadeout"]
+[connection signal="finished" from="start" to="." method="_on_start_finished"]
