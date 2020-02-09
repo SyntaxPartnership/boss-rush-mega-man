@@ -23,8 +23,8 @@ const GRAVITY = 900
 
 var stage_id = {
 	Vector2(0, 0) : 0,
-	Vector2(0, 1) : 1,
-	Vector2(1, 0) : 2,
+	Vector2(1, 0) : 1,
+	Vector2(0, 1) : 2,
 	Vector2(1, 1) : 3,
 }
 
@@ -275,7 +275,8 @@ func _on_door_finished(anim_name):
 		move_delay = 32
 
 func _on_intro_finished(anim_name):
-	move_state = 4
+	if anim_name == "0-0-intro" or anim_name == "1-0-intro" or anim_name == "0-1-intro" or anim_name == "1-1-intro":
+		move_state = 4
 
 func _on_start_finished():
 	$fade.state = 1
