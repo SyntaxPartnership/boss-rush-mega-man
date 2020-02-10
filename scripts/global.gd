@@ -55,7 +55,7 @@ var boss_num = 1
 var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
-	'super_adaptor'		: true,
+	'super_adaptor'		: false,
 	'choke_hand'		: false,
 	'magnet_hand'		: false,
 	'seeker_hand'		: false
@@ -77,9 +77,9 @@ var bass = true
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var dummy = [true, 280, 280]
-var weapon1 = [false, 140, 280]
+var weapon1 = [true, 140, 280]
 var weapon2 = [false, 140, 280]
-var weapon3 = [false, 140, 280]
+var weapon3 = [true, 140, 280]
 var weapon4 = [false, 140, 280]
 
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.

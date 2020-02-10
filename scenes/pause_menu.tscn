@@ -519,17 +519,6 @@ texture = ExtResource( 6 )
 hframes = 18
 frame = 6
 
-[node name="text" type="Label" parent="items_menu/extra"]
-margin_left = 200.0
-margin_top = 272.0
-margin_right = 224.0
-margin_bottom = 280.0
-custom_fonts/font = ExtResource( 1 )
-text = ":00"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="bolts" type="Control" parent="items_menu"]
 margin_top = -76.0
 margin_right = 40.0

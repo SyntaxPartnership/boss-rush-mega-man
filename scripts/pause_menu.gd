@@ -54,8 +54,6 @@ func _ready():
 		g.material.set_shader_param('t_col2', global.t_color3)
 		g.material.set_shader_param('t_col3', global.yellow0)
 		g.material.set_shader_param('t_col4', global.white)
-	
-	dir_allow()
 
 func _input(_event):
 	if ignore_input:
@@ -64,50 +62,250 @@ func _input(_event):
 	if Input.is_action_just_pressed("up"):
 		if menu_pos.y == 1: #Middle Row
 			if menu_pos.x == 0: #S_Kick
-				pass
+				#Go to M_Arm
+				menu_pos.y -= 1
+				select(true)
 			elif menu_pos.x == 1: #A_Shield
-				pass
+				#Check for S_Adaptor
+				if global.perma_items.get("super_adaptor"):
+					menu_pos.y -= 1
+					select(true)
+				else: #No S_Adaptor. Go to M_Arm
+					menu_pos.y -= 1
+					menu_pos.x -= 1
+					select(true)
 			elif menu_pos.x == 2: #W_tanks
-				pass
+				menu_pos.y -= 1
+				select(true)
 		elif menu_pos.y == 2: #Bottom Row
 			if menu_pos.x == 0: #R_Boost
-				pass
+				#Check for S_Kick
+				if global.weapon1[0]:
+					menu_pos.y -= 1
+					select(true)
+				else: #No S_Kick. Go to M_Arm
+					menu_pos.y -= 2
+					select(true)
 			elif menu_pos.x == 1: #S_Puck
-				pass
+				#Check for A_Shield.
+				if global.weapon4[0]:
+					menu_pos.y -= 1
+					select(true)
+				else: #No A_Shield. Check for S_Adaptor.
+					if global.perma_items.get("super_adaptor"):
+						menu_pos.y -= 2
+						select(true)
+					else: #No S_Adaptor. Check for S_Kick.
+						if global.weapon1[0]:
+							menu_pos.x -= 1
+							menu_pos.y -= 1
+							select(true)
+						else: #No S_Kick. Go to M_Arm
+							menu_pos.y -= 2
+							menu_pos.x -= 1
+							select(true)
 
 	if Input.is_action_just_pressed("down"):
 		if menu_pos.y == 1: #Middle Row
 			if menu_pos.x == 0: #S_Kick
-				pass
+				#Check for R_Boost
+				if global.weapon2[0]:
+					menu_pos.y += 1
+					select(true)
+				else: #No R_Boost. Check for S_Puck
+					if global.weapon3[0]:
+						menu_pos.y += 1
+						menu_pos.x += 1
+						select(true)
 			elif menu_pos.x == 1: #A_Shield
-				pass
+				#Check for S_Puck
+				if global.weapon3[0]:
+					menu_pos.y += 1
+					select(true)
+				else: #No S_Puck, check for R_Boost.
+					if global.weapon2[0]:
+						menu_pos.y += 1
+						menu_pos.x -= 1
+						select(true)
 		elif menu_pos.y == 0: #Top Row
 			if menu_pos.x == 0: #M_Arm
-				pass
+				#Check for S_Kick.
+				if global.weapon1[0]:
+					menu_pos.y += 1
+					select(true)
+				else: #No S_Kick. Check for R_Boost.
+					if global.weapon2[0]:
+						menu_pos.y += 2
+						select(true)
+					else: #No R_Boost. Check for A_Shield.
+						if global.weapon4[0]:
+							menu_pos.y += 1
+							menu_pos.x += 1
+							select(true)
+						else: #No A_Shield. Check for S_Puck.
+							if global.weapon3[0]:
+								menu_pos.y += 2
+								menu_pos.x += 1
+								select(true)
 			elif menu_pos.x == 1: #S_Adaptor
-				pass
+				#Check for A_Shield.
+				if global.weapon4[0]:
+					menu_pos.y += 1
+					select(true)
+				else: #No A_Shield. Check for S_Puck
+					if global.weapon3[0]:
+						menu_pos.y += 2
+						select(true)
+					else: #No S_Puck. Check for S_Kick.
+						if global.weapon1[0]:
+							menu_pos.y += 1
+							menu_pos.x -= 1
+							select(true)
+						else: #No S_Kick. Check for R_Boost
+							if global.weapon2[0]:
+								menu_pos.y += 2
+								menu_pos.x -= 1
+								select(true)
 			elif menu_pos.x == 2: #E_Tanks
-				pass
+				menu_pos.y += 1
+				select(true)
 						
 	if Input.is_action_just_pressed("left"):
 		if menu_pos.x == 1: #Middle column
 			if menu_pos.y == 0: #Super Adaptor
-				pass
+				menu_pos.x -= 1 #No restrictions. Go to M_Arm
+				select(true)
 			elif menu_pos.y == 1: #A_Shield
-				pass
+				#Check for S_Kick.
+				if global.weapon1[0]:
+					menu_pos.x -= 1
+					select(true)
+				else: #No S_Kick. Go to M_Arm
+					menu_pos.x -= 1
+					menu_pos.y -= 1
+					select(true)
 			elif menu_pos.y == 2: #S_Puck
-				pass
+				#Check for R_Boost.
+				if global.weapon2[0]:
+					menu_pos.x -= 1
+					select(true)
+				else: #No R_Boost. Check for S_Kick.
+					if global.weapon1[0]:
+						menu_pos.x -= 1
+						menu_pos.y -= 1
+						select(true)
+					else: #No S_Kick. Go to M_Arm
+						menu_pos.x -= 1
+						menu_pos.y -= 2
+						select(true)
 		elif menu_pos.x == 2: #Right column
 			if menu_pos.y == 0: #E_Tanks
-				pass
+				#Check for S_Adaptor.
+				if global.perma_items.get("super_adaptor"):
+					menu_pos.x -= 1
+					select(true)
+				else: #No S_Adaptor. Check for A_Shield.
+					if global.weapon4[0]:
+						menu_pos.x -= 1
+						menu_pos.y += 1
+						select(true)
+					else: #No A_Shield. Check for S_Puck.
+						if global.weapon3[0]:
+							menu_pos.x -= 1
+							menu_pos.y += 2
+							select(true)
+						else: #No S_Puck. Go to M_Arm
+							menu_pos.x -= 2
+							menu_pos.y -= 1
+							select(true)
 			elif menu_pos.y == 1: #W_Tanks
-				pass
-			
+				#Check for A_Shield.
+				if global.weapon4[0]:
+					menu_pos.x -= 1
+					select(true)
+				else: #No A_Shield. Check for S_Adaptor.
+					if global.perma_items.get("super_adaptor"):
+						menu_pos.x -= 1
+						menu_pos.y -= 1
+						select(true)
+					else: #No S_Adaptor. Check for S_Puck.
+						if global.weapon3[0]:
+							menu_pos.x -= 1
+							menu_pos.y += 1
+							select(true)
+						else: #No S_Puck. Check for S_Kick.
+							if global.weapon1[0]:
+								menu_pos.x -= 2
+								select(true)
+							else: #No S_Kick. Go to M_Arm.
+								menu_pos.x -= 2
+								menu_pos.y -= 1
+								select(true)
+
 	if Input.is_action_just_pressed("right"):
-		menu_pos.x += 1
-		select()
-	
-	print(menu_pos)
+		if menu_pos.x == 1: #Middle column
+			if menu_pos.y == 0: #S_Adaptor
+				menu_pos.x += 1 #Items are unrestricted.
+				select(true)
+			elif menu_pos.y == 1: #A_Shield
+				menu_pos.x += 1 #Items are unrestricted.
+				select(true)
+			elif menu_pos.y == 2: #S_Puck
+				menu_pos.y -= 1
+				menu_pos.x += 1 #Items are unrestricted.
+				select(true)
+		elif menu_pos.x == 0: #Left column
+			if menu_pos.y == 0: #M_Arm
+				#Check for S_Adaptor.
+				if global.perma_items.get("super_adaptor"):
+					menu_pos.x += 1
+					select(true)
+				else: #No S_Adaptor. Check for A_Shield.
+					if global.weapon4[0]:
+						menu_pos.x += 1
+						menu_pos.y += 1
+						select(true)
+					else: #No A_Shield. Check for S_Puck.
+						if global.weapon3[0]:
+							menu_pos.x += 1
+							menu_pos.y += 2
+							select(true)
+						else: #No S_Puck. Go to E_Tank
+							menu_pos.x += 2
+							select(true)
+			elif menu_pos.y == 1: #S_Kick
+				#Check for A_Shield.
+				if global.weapon4[0]:
+					menu_pos.x += 1
+					select(true)
+				else: #No A_Shield. Check for S_Adaptor.
+					if global.perma_items.get("super_adaptor"):
+						menu_pos.x += 1
+						menu_pos.y -= 1
+						select(true)
+					else: #No S_Adaptor. Check for S_Puck.
+						if global.weapon3[0]:
+							menu_pos.x += 1
+							menu_pos.y += 1
+							select(true)
+						else: #No S_Puck. Go to W_Tank
+							menu_pos.x += 2
+							select(true)
+			elif menu_pos.y == 2: #R_Boost
+				#Check for S_Puck.
+				if global.weapon3[0]:
+					menu_pos.x += 1
+				else: #No S_Puck. Check for A_Shield.
+					if global.weapon4[0]:
+						menu_pos.x += 1
+						menu_pos.y -= 1
+					else: #No A_Shield. Check for S_Adaptor.
+						if global.perma_items.get("super_adaptor"):
+							menu_pos.x += 1
+							menu_pos.y -= 2
+						else: #NO S_adaptor. Go to W_Tanks.
+							menu_pos.x += 2
+							menu_pos.y -= 1	
 	
 	if Input.is_action_just_pressed("jump"):
 		
@@ -136,7 +334,7 @@ func _input(_event):
 			else:
 				world.sound("buzz")
 
-func _process(delta):
+func _process(_delta):
 	
 	#Make items flash.
 	if menu_pos.x == 2 and blink > 0:
@@ -149,21 +347,12 @@ func _process(delta):
 				else:
 					$items_menu/e_tanks/icon.show()
 				$items_menu/w_tanks/icon.show()
-				$items_menu/extra/icon.show()
 			if menu_pos.y == 1:
 				if $items_menu/w_tanks/icon.is_visible_in_tree():
 					$items_menu/w_tanks/icon.hide()
 				else:
 					$items_menu/w_tanks/icon.show()
 				$items_menu/e_tanks/icon.show()
-				$items_menu/extra/icon.show()
-			if menu_pos.y == 2:
-				if $items_menu/extra/icon.is_visible_in_tree():
-					$items_menu/extra/icon.hide()
-				else:
-					$items_menu/extra/icon.show()
-				$items_menu/e_tanks/icon.show()
-				$items_menu/w_tanks/icon.show()
 		
 			blink = 8
 	
@@ -210,11 +399,15 @@ func _process(delta):
 			ignore_input = false
 			heal_delay = 0
 			heal_type = 0
+			menu_pos = Vector2(0, 0)
+			select(false)
 		
 		if heal_type == 2 and heal_amt == 0:
 			ignore_input = false
 			heal_delay = 0
 			heal_type = 0
+			menu_pos = Vector2(0, 0)
+			select(false)
 	
 	#Update Meters and Counters
 	if int($items_menu/bolts/text.get_text()) != global.bolts:
@@ -233,9 +426,6 @@ func _process(delta):
 	if int($items_menu/w_tanks/text.get_text()) != global.wtanks:
 		$items_menu/w_tanks/text.set_text(":0"+str(global.wtanks))
 	
-	if int($items_menu/extra/text.get_text()) != global.tokens:
-		$items_menu/extra/text.set_text(":0"+str(global.tokens))
-	
 	if $weap_menu/default/meter.get_value() != global.player_life[int(player.swap)]:
 		$weap_menu/default/meter.value = global.player_life[int(player.swap)]
 	
@@ -248,7 +438,7 @@ func _process(delta):
 	if $weap_menu/a_shield/meter.get_value() != global.weapon4[int(player.swap) + 1]:
 		$weap_menu/a_shield/meter.value = global.weapon4[int(player.swap) + 1]
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 #	if prev_mpos != menu_pos:
 #		dir_allow()
@@ -305,8 +495,9 @@ func wpn_menu():
 
 			get_nodes[i].get_child(1).set('custom_colors/font_color', desel_color[2])
 
-func select():
-	world.sound("cursor")
+func select(sound):
+	if sound:
+		world.sound("cursor")
 	blink = 8
 	global.player_weap[int(player.swap)] = set_weap.get(menu_pos)
 	wpn_menu()
@@ -322,54 +513,3 @@ func init_cursor():
 	}
 	
 	menu_pos = start_pos.get(global.player_weap[int(player.swap)])
-
-func dir_allow():
-	match menu_pos:
-		Vector2(0, 0):
-			#Up
-			dirs[0] = Vector2(0, 0)
-			#Down
-			if !global.weapon1[0] and !global.weapon2[0]:
-				dirs[1] = Vector2(0, 0)
-			elif !global.weapon1[0] and global.weapon2[0]:
-				dirs[1] = Vector2(0, 2)
-			else:
-				dirs[1] = Vector2(0, 1)
-			#Left
-			dirs[2] = Vector2(0, 0)
-			#Right
-			if !global.perma_items.get("super_adaptor"):
-				dirs[3] = Vector2(2, 0)
-			else:
-				dirs[3] = Vector2(1, 0)
-		
-		Vector2(1, 0):
-			#Up
-			dirs[0] = Vector2(1, 0)
-			#Down
-			if !global.weapon4[0] and !global.weapon3[0]:
-				dirs[1] = Vector2(1, 0)
-			elif !global.weapon4[0] and global.weapon3[0]:
-				dirs[1] = Vector2(1, 2)
-			else:
-				dirs[1] = Vector2(1, 1)
-			#Left
-			dirs[2] = Vector2(0, 0)
-			#Right
-			dirs[3] = Vector2(2, 0)
-		
-		Vector2(2, 0):
-			#Up
-			dirs[0] = Vector2(2, 0)
-			#Down
-			dirs[3] = Vector2(2, 1)
-			#Left
-			if !global.perma_items.get("super_adaptor"):
-				dirs[2] = Vector2(2, 0)
-			else:
-				dirs[2] = Vector2(2, 0)
-			#Right
-			dirs[3] = Vector2(2, 0)
-	
-	prev_mpos = menu_pos
-	print(dirs)
