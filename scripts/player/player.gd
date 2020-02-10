@@ -181,39 +181,39 @@ var s_frame = {
 
 var wpn_data = {
 	#Mega Man - Level 0 Shot
-	'0-0-0-31' : [global.dummy, 1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
-	#Mega Man - Level 1 Shot
-	'0-0-32-95' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
-	#Mega Man - Level 2 Shot
-	'0-0-96-99' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
-	#Proto Man - Level 0 Shot
-	'1-0-0-31' : [global.dummy,1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
-	#Proto Man - Level 1 Shot
-	'1-0-32-95' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_d.tscn'), 0, 0],
-	#Proto Man - Level 2 Shot
-	'1-0-96-99' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_f.tscn'), 0, 0],
-	#Bass - Normal Shot
-	'2-0-0-31' : [global.dummy,1, 3, 0, 0, BASSSHOT, '', load('res://scenes/player/weapons/buster_b.tscn'), 0, 0],
-	#Mega Man - Rush Coil
-	'0-1-0-31' : [global.rp_coil, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_coil.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
-	#Proto Man - Carry
-	#Bass - Treble Boost
-	#Mega Man - Rush Jet
-	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
-	#Master Weapon 1
-	'0-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
-	'1-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
-	'2-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
-	#Master Weapon 2
-	#Master Weapon 3
-	#Master Weapon 4
-	#Master Weapon 5
-	#Master Weapon 6
-	#Master Weapon 7
-	#Master Weapon 8
-	#Mega Man - Beat
-	#Proto Man - Tango
-	'1-11-0-31' : [global.tango, 1, 2, 1, 0, SHOOT, load('res://scenes/player/weapons/tango.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0]
+#	'0-0-0-31' : [global.dummy, 1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
+#	#Mega Man - Level 1 Shot
+#	'0-0-32-95' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
+#	#Mega Man - Level 2 Shot
+#	'0-0-96-99' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
+#	#Proto Man - Level 0 Shot
+#	'1-0-0-31' : [global.dummy,1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
+#	#Proto Man - Level 1 Shot
+#	'1-0-32-95' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_d.tscn'), 0, 0],
+#	#Proto Man - Level 2 Shot
+#	'1-0-96-99' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_f.tscn'), 0, 0],
+#	#Bass - Normal Shot
+#	'2-0-0-31' : [global.dummy,1, 3, 0, 0, BASSSHOT, '', load('res://scenes/player/weapons/buster_b.tscn'), 0, 0],
+#	#Mega Man - Rush Coil
+#	'0-1-0-31' : [global.rp_coil, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_coil.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
+#	#Proto Man - Carry
+#	#Bass - Treble Boost
+#	#Mega Man - Rush Jet
+#	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
+#	#Master Weapon 1
+#	'0-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+#	'1-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+#	'2-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+#	#Master Weapon 2
+#	#Master Weapon 3
+#	#Master Weapon 4
+#	#Master Weapon 5
+#	#Master Weapon 6
+#	#Master Weapon 7
+#	#Master Weapon 8
+#	#Mega Man - Beat
+#	#Proto Man - Tango
+#	'1-11-0-31' : [global.tango, 1, 2, 1, 0, SHOOT, load('res://scenes/player/weapons/tango.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0]
 	#Bass - Reggae
 	}
 

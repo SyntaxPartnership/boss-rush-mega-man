@@ -211,7 +211,7 @@ func _physics_process(delta):
 	else:
 		$stage_sel/halves/boss_sprite/move/spin.offset.y = 0
 	
-	if $stage_sel/halves/boss_sprite/move/anim.get_current_animation() == "0-1-intro" and $stage_sel/halves/boss_sprite/move/boss.get_frame() == 27:
+	if $stage_sel/halves/boss_sprite/move/boss.get_frame() == 27:
 		if spin_toss == Vector2(0, 0):
 			spin_toss = Vector2(4, -6)
 	
@@ -267,7 +267,7 @@ func set_cursor():
 	$stage_sel/halves/door.position = $stage_sel/halves/cursor.position
 	$stage_sel/halves/boss_sprite/move/boss.position = $stage_sel/halves/cursor.position
 	$stage_sel/halves/boss_sprite/move/wings.position = $stage_sel/halves/cursor.position
-	$stage_sel/halves/boss_sprite/move/spin.position.x = $stage_sel/halves/cursor.position.x - 12
+	$stage_sel/halves/boss_sprite/move/spin.position.x = $stage_sel/halves/cursor.position.x - 13
 	$stage_sel/halves/boss_sprite/move/spin.position.y = $stage_sel/halves/cursor.position.y - 21
 
 func _on_door_finished(anim_name):

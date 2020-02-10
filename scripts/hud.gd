@@ -9,6 +9,7 @@ var p_swap
 
 func _ready():
 	#Get the colors to be replaced.
+	$weap.material.set_shader_param('t_col1', global.t_color1)
 	$weap.material.set_shader_param('t_col2', global.t_color2)
 	$weap.material.set_shader_param('t_col3', global.t_color3)
 
@@ -25,7 +26,7 @@ func _process(delta):
 	if global.player_weap[int(player.swap)] != 0 and !$weap.is_visible():
 		$weap.show()
 	
-	if global.player_weap[int(player.swap)] == 0 and $weap.is_visible():
+	if global.player_weap[int(player.swap)] == 0 and $weap.is_visible() or global.player_weap[int(player.swap)] == 5 and $weap.is_visible() or global.player_weap[int(player.swap)] == null and $weap.is_visible():
 		$weap.hide()
 	
 	if world.boss and !$boss.is_visible():
@@ -42,45 +43,18 @@ func _process(delta):
 	#Weapon Meters
 	match global.player_weap[int(player.swap)]:
 		1:
-			if $weap.value != global.rp_coil[int(player.swap) + 1]:
-				$weap.value = global.rp_coil[int(player.swap) + 1]
-		2:
-			if $weap.value != global.rp_jet[int(player.swap) + 1]:
-				$weap.value = global.rp_jet[int(player.swap) + 1]
-		3:
 			if $weap.value != global.weapon1[int(player.swap) + 1]:
 				$weap.value = global.weapon1[int(player.swap) + 1]
-		4:
+		2:
 			if $weap.value != global.weapon2[int(player.swap) + 1]:
 				$weap.value = global.weapon2[int(player.swap) + 1]
-		5:
+		3:
 			if $weap.value != global.weapon3[int(player.swap) + 1]:
 				$weap.value = global.weapon3[int(player.swap) + 1]
-		6:
+		4:
 			if $weap.value != global.weapon4[int(player.swap) + 1]:
 				$weap.value = global.weapon4[int(player.swap) + 1]
-		7:
-			if $weap.value != global.weapon5[int(player.swap) + 1]:
-				$weap.value = global.weapon5[int(player.swap) + 1]
-		8:
-			if $weap.value != global.weapon6[int(player.swap) + 1]:
-				$weap.value = global.weapon6[int(player.swap) + 1]
-		9:
-			if $weap.value != global.weapon7[int(player.swap) + 1]:
-				$weap.value = global.weapon7[int(player.swap) + 1]
-		10:
-			if $weap.value != global.weapon8[int(player.swap) + 1]:
-				$weap.value = global.weapon8[int(player.swap) + 1]
-		11:
-			if global.player == 0:
-				if $weap.value != global.beat[int(player.swap) + 1]:
-					$weap.value = global.beat[int(player.swap) + 1]
-			if global.player == 1:
-				if $weap.value != global.tango[int(player.swap) + 1]:
-					$weap.value = global.tango[int(player.swap) + 1]
-			if global.player == 2:
-				if $weap.value != global.reggae[int(player.swap) + 1]:
-					$weap.value = global.reggae[int(player.swap) + 1]
+
 	
 	#Boss Meter
 	if $boss.value > world.boss_hp:

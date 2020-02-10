@@ -1,37 +1,11 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/hud.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/hud/meter_e.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/hud/meter_l.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/hud/meter_f.png" type="Texture" id=4]
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=5]
-
-[sub_resource type="Shader" id=1]
-code = "shader_type canvas_item;
-
-uniform vec4 t_col2 : hint_color;
-uniform vec4 t_col3 : hint_color;
-
-uniform vec4 r_col2 : hint_color;
-uniform vec4 r_col3 : hint_color;
-
-uniform vec4 f_col1 : hint_color;
-
-void fragment() {
-	vec4 color = texture(TEXTURE, UV);
-	
-	if (color == t_col2) COLOR = r_col2;
-	else if (color == t_col3) COLOR = r_col3;
-	else if (color == f_col1) COLOR = f_col1;
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/t_col2 = null
-shader_param/t_col3 = null
-shader_param/r_col2 = null
-shader_param/r_col3 = null
-shader_param/f_col1 = null
+[ext_resource path="res://shaders/player.tres" type="Material" id=6]
 
 [node name="hud" type="Node2D"]
 pause_mode = 2
@@ -50,7 +24,7 @@ fill_mode = 3
 
 [node name="weap" type="TextureProgress" parent="."]
 visible = false
-material = SubResource( 2 )
+material = ExtResource( 6 )
 margin_left = 32.0
 margin_top = 16.0
 margin_right = 8.0

@@ -52,20 +52,20 @@ custom_fonts/font = ExtResource( 4 )
 text = "SAMPLE VERSION"
 
 [node name="fade" parent="." instance=ExtResource( 5 )]
+visible = false
 position = Vector2( 128, 120 )
 
 [node name="sounds" type="Control" parent="."]
-editor/display_folded = true
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="cursor" type="AudioStreamPlayer2D" parent="sounds"]
+[node name="cursor" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 6 )
 
-[node name="select" type="AudioStreamPlayer2D" parent="sounds"]
+[node name="select" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 7 )
 
-[node name="back" type="AudioStreamPlayer2D" parent="sounds"]
+[node name="back" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 8 )
 [connection signal="tween_completed" from="menu_fade" to="." method="_on_menu_fade_tween_completed"]
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]

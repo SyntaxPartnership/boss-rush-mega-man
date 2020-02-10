@@ -1,9 +1,35 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=2]
 
-[ext_resource path="res://shaders/pause_menu.shader" type="Shader" id=1]
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 black : hint_color;
+
+uniform vec4 t_col1 : hint_color;
+uniform vec4 t_col2 : hint_color;
+uniform vec4 t_col3 : hint_color;
+uniform vec4 t_col4 : hint_color;
+
+uniform vec4 r_col1 : hint_color;
+uniform vec4 r_col2 : hint_color;
+uniform vec4 r_col3 : hint_color;
+uniform vec4 r_col4 : hint_color;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	
+//	Set black color
+	if (color == black) COLOR = black;
+	
+//	Set other colors
+	if (color == t_col1) COLOR = r_col1;
+	else if (color == t_col2) COLOR = r_col2;
+	else if (color == t_col3) COLOR = r_col3;
+	else if (color == t_col4) COLOR = r_col4;
+}"
 
 [resource]
-shader = ExtResource( 1 )
+shader = SubResource( 1 )
 shader_param/black = null
 shader_param/t_col1 = null
 shader_param/t_col2 = null

@@ -6,12 +6,13 @@ var debug_menu = 0
 #Player Variables
 var player = 0
 var player_id = [0, 99]
-var player_life = [280, 0]
+var player_life = [140, 0]
 var player_weap = [0, 0]
 var lives = 2
-var bolts = 0
-var etanks = 0
-var mtanks = 0
+var bolts = 4281
+var etanks = 4
+var wtanks = 2
+var tokens = 3
 var game_over = false
 
 #Global Level Flags
@@ -54,7 +55,7 @@ var boss_num = 1
 var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
-	'ebalancer'			: false,
+	'super_adaptor'		: false,
 	'choke_hand'		: false,
 	'magnet_hand'		: false,
 	'seeker_hand'		: false
@@ -76,19 +77,10 @@ var bass = true
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var dummy = [true, 280, 280]
-var rp_coil = [true, 280, 280]
-var rp_jet = [false, 280, 280]
-var weapon1 = [false, 280, 280]
-var weapon2 = [false, 280, 280]
-var weapon3 = [false, 280, 280]
-var weapon4 = [false, 280, 280]
-var weapon5 = [false, 280, 280]
-var weapon6 = [false, 280, 280]
-var weapon7 = [false, 280, 280]
-var weapon8 = [false, 280, 280]
-var beat = [false, 280, 280]
-var tango = [false, 280, 280]
-var reggae = [false, 280, 280]
+var weapon1 = [false, 140, 280]
+var weapon2 = [true, 140, 280]
+var weapon3 = [false, 140, 280]
+var weapon4 = [false, 140, 280]
 
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.
 
@@ -174,6 +166,7 @@ var white = Color('#fcf8fc')
 onready var viewport = get_viewport()
 
 func _ready():
+# warning-ignore:return_value_discarded
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 	
 	gamepads = Input.get_connected_joypads()
@@ -187,9 +180,10 @@ func _ready():
 		gp_update = gamepads
 
 func resize():
+# warning-ignore:return_value_discarded
 	get_tree().connect("screen_resized", self, "_screen_resized")
 
-func _input(event):
+func _input(_event):
 	#Quick way to close the game.
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
@@ -223,7 +217,7 @@ func _screen_resized():
 	
 	#Set window position
 	var screen_size = OS.get_screen_size(0)
-	var win_size = OS.get_window_size()
+	var _win_size = OS.get_window_size()
 	
 	OS.set_window_position(screen_size*0.5 - window_size*0.5)
 

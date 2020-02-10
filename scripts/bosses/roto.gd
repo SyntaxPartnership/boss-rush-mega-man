@@ -33,7 +33,7 @@ var chrg_dir = Vector2()
 var plyr_pos = Vector2()
 var pinch = false
 
-var t_delay_max = 10
+var t_delay_max = 12
 var t_delay = 0
 var pinch_bomb = 0
 
