@@ -11,8 +11,11 @@ var heal_delay = 0
 var heal_type = 0
 var heal_amt = 0
 
+var dirs = [Vector2(), Vector2(), Vector2(), Vector2()]
+
 var blink = 8
 
+var prev_mpos = Vector2()
 var menu_pos = Vector2()
 var set_weap = {
 	Vector2(0, 0) : 0,
@@ -51,6 +54,8 @@ func _ready():
 		g.material.set_shader_param('t_col2', global.t_color3)
 		g.material.set_shader_param('t_col3', global.yellow0)
 		g.material.set_shader_param('t_col4', global.white)
+	
+	dir_allow()
 
 func _input(_event):
 	if ignore_input:
@@ -58,54 +63,19 @@ func _input(_event):
 		
 	if Input.is_action_just_pressed("up") and menu_pos.y > 0:
 		menu_pos.y -= 1
-		if menu_pos == Vector2(0, 1) and !global.weapon1[0] or menu_pos == Vector2(1, 1) and !global.weapon4[0]:
-			menu_pos.y -= 1
-		if menu_pos == Vector2(1, 0) and !global.perma_items.get("super_adaptor"):
-			menu_pos = Vector2(0, 0)
 		select()
-		
 	if Input.is_action_just_pressed("down") and menu_pos.y < 2:
-		if menu_pos.x == 2 or menu_pos.x < 2:
-			if global.weapon1[0] or global.weapon2[0] or global.weapon3[0] or global.weapon4[0]:
-				menu_pos.y += 1
-				
-				if menu_pos == Vector2(0, 1) and !global.weapon1[0]:
-					if global.weapon2[0]:
-						menu_pos.y += 1
-					if !global.weapon2[0] and global.weapon4[0]:
-						menu_pos.x += 1
-				if menu_pos == Vector2(0, 2) and !global.weapon2[0]:
-					if global.weapon3[0]:
-						menu_pos.x += 1
-					else:
-						menu_pos.y -= 1
-				select()
-			
+		menu_pos.y += 1
+		select()
 	if Input.is_action_just_pressed("left") and menu_pos.x > 0:
 		menu_pos.x -= 1
-		if menu_pos.x == 1:
-			if global.weapon3[0] or global.weapon4[0] or global.perma_items.get("super_adaptor"):
-				if menu_pos.y == 2 and !global.weapon3[0]:
-					menu_pos.y -= 1
-				if menu_pos.y == 1 and !global.weapon4[0]:
-					menu_pos.y -= 1
-				if menu_pos.y == 0 and !global.perma_items.get("super_adaptor"):
-					if global.weapon3[0] or global.weapon4[0]:
-						menu_pos.y += 1
-					else:
-						menu_pos.x -= 1
-			else:
-				menu_pos.x -= 1
-				if menu_pos == Vector2(0, 2) and !global.weapon2[0]:
-					menu_pos.y -=1
-				if menu_pos == Vector2(0, 1) and !global.weapon1[0]:
-					menu_pos.y -=1
-		print(menu_pos)
-			
 		select()
+		print(menu_pos)
 	if Input.is_action_just_pressed("right") and menu_pos.x < 2:
 		menu_pos.x += 1
 		select()
+	
+	print(menu_pos)
 	
 	if Input.is_action_just_pressed("jump"):
 		
@@ -248,6 +218,9 @@ func _process(delta):
 
 func _physics_process(delta):
 	
+	if prev_mpos != menu_pos:
+		dir_allow()
+	
 	if start and global_position.y > 0:
 		global_position.y -= 8
 	
@@ -305,3 +278,66 @@ func select():
 	blink = 8
 	global.player_weap[int(player.swap)] = set_weap.get(menu_pos)
 	wpn_menu()
+
+func init_cursor():
+	var start_pos = {
+		0: Vector2(0, 0),
+		1: Vector2(0, 1),
+		2: Vector2(0, 2),
+		3: Vector2(1, 2),
+		4: Vector2(1, 1),
+		5: Vector2(1, 0)
+	}
+	
+	menu_pos = start_pos.get(global.player_weap[int(player.swap)])
+
+func dir_allow():
+	match menu_pos:
+		Vector2(0, 0):
+			#Up
+			dirs[0] = Vector2(0, 0)
+			#Down
+			if !global.weapon1[0] and !global.weapon2[0]:
+				dirs[1] = Vector2(0, 0)
+			elif !global.weapon1[0] and global.weapon2[0]:
+				dirs[1] = Vector2(0, 2)
+			else:
+				dirs[1] = Vector2(0, 1)
+			#Left
+			dirs[2] = Vector2(0, 0)
+			#Right
+			if !global.perma_items.get("super_adaptor"):
+				dirs[3] = Vector2(2, 0)
+			else:
+				dirs[3] = Vector2(1, 0)
+		
+		Vector2(1, 0):
+			#Up
+			dirs[0] = Vector2(1, 0)
+			#Down
+			if !global.weapon4[0] and !global.weapon3[0]:
+				dirs[1] = Vector2(1, 0)
+			elif !global.weapon4[0] and global.weapon3[0]:
+				dirs[1] = Vector2(1, 2)
+			else:
+				dirs[1] = Vector2(1, 1)
+			#Left
+			dirs[2] = Vector2(0, 0)
+			#Right
+			dirs[3] = Vector2(2, 0)
+		
+		Vector2(2, 0):
+			#Up
+			dirs[0] = Vector2(2, 0)
+			#Down
+			dirs[3] = Vector2(2, 1)
+			#Left
+			if !global.perma_items.get("super_adaptor"):
+				dirs[2] = Vector2(2, 0)
+			else:
+				dirs[2] = Vector2(2, 0)
+			#Right
+			dirs[3] = Vector2(2, 0)
+	
+	prev_mpos = menu_pos
+	print(dirs)

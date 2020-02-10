@@ -271,6 +271,7 @@ func _input(event):
 			kill_se("charge")
 			p_menu = true
 			$pause/pause_menu.start = true
+			$pause/pause_menu.init_cursor()
 			$player.hide()
 			for i in get_tree().get_nodes_in_group('enemies'):
 				i.hide()
