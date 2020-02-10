@@ -61,17 +61,49 @@ func _input(_event):
 	if ignore_input:
 		return
 		
-	if Input.is_action_just_pressed("up") and menu_pos.y > 0:
-		menu_pos.y -= 1
-		select()
-	if Input.is_action_just_pressed("down") and menu_pos.y < 2:
-		menu_pos.y += 1
-		select()
-	if Input.is_action_just_pressed("left") and menu_pos.x > 0:
-		menu_pos.x -= 1
-		select()
-		print(menu_pos)
-	if Input.is_action_just_pressed("right") and menu_pos.x < 2:
+	if Input.is_action_just_pressed("up"):
+		if menu_pos.y == 1: #Middle Row
+			if menu_pos.x == 0: #S_Kick
+				pass
+			elif menu_pos.x == 1: #A_Shield
+				pass
+			elif menu_pos.x == 2: #W_tanks
+				pass
+		elif menu_pos.y == 2: #Bottom Row
+			if menu_pos.x == 0: #R_Boost
+				pass
+			elif menu_pos.x == 1: #S_Puck
+				pass
+
+	if Input.is_action_just_pressed("down"):
+		if menu_pos.y == 1: #Middle Row
+			if menu_pos.x == 0: #S_Kick
+				pass
+			elif menu_pos.x == 1: #A_Shield
+				pass
+		elif menu_pos.y == 0: #Top Row
+			if menu_pos.x == 0: #M_Arm
+				pass
+			elif menu_pos.x == 1: #S_Adaptor
+				pass
+			elif menu_pos.x == 2: #E_Tanks
+				pass
+						
+	if Input.is_action_just_pressed("left"):
+		if menu_pos.x == 1: #Middle column
+			if menu_pos.y == 0: #Super Adaptor
+				pass
+			elif menu_pos.y == 1: #A_Shield
+				pass
+			elif menu_pos.y == 2: #S_Puck
+				pass
+		elif menu_pos.x == 2: #Right column
+			if menu_pos.y == 0: #E_Tanks
+				pass
+			elif menu_pos.y == 1: #W_Tanks
+				pass
+			
+	if Input.is_action_just_pressed("right"):
 		menu_pos.x += 1
 		select()
 	
@@ -218,8 +250,8 @@ func _process(delta):
 
 func _physics_process(delta):
 	
-	if prev_mpos != menu_pos:
-		dir_allow()
+#	if prev_mpos != menu_pos:
+#		dir_allow()
 	
 	if start and global_position.y > 0:
 		global_position.y -= 8

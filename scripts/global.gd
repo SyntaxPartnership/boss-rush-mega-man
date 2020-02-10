@@ -55,7 +55,7 @@ var boss_num = 1
 var temp_items = {}
 #Update list with permanent items.
 var perma_items = {
-	'super_adaptor'		: false,
+	'super_adaptor'		: true,
 	'choke_hand'		: false,
 	'magnet_hand'		: false,
 	'seeker_hand'		: false
