@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://scripts/weapons/roto_boost.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/telly/roto_explode.png" type="Texture" id=2]
@@ -20,13 +20,24 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 3, 4 ]
 }
 
-[node name="roto_boost" type="Node2D"]
+[sub_resource type="CircleShape2D" id=2]
+radius = 15.0
+
+[node name="roto_boost" type="KinematicBody2D" groups=[
+"weapons",
+]]
+collision_layer = 4
+collision_mask = 32
 script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 hframes = 5
+frame = 4
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/boom = SubResource( 1 )
+
+[node name="box" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
 [connection signal="animation_finished" from="anim" to="." method="_on_boom_finished"]

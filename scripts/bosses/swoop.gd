@@ -318,61 +318,7 @@ func _physics_process(delta):
 	
 	if overlap != []:
 		for body in overlap:
-			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
-				if flash == 0:
-					world.enemy_dmg(id, body.id)
-					if world.damage != 0 and !body.reflect:
-						#Weapon behaviors.
-						match body.property:
-							0:
-								body._on_screen_exited()
-							2:
-								if world.damage < world.boss_hp:
-									body._on_screen_exited()
-							3:
-								if world.damage < world.boss_hp:
-									body.choke_check()
-									body.choke_max = CHOKE
-									body.choke_delay = 6
-									body.velocity = -velocity
-						world.boss_hp -= world.damage
-						flash = 20
-						hit = true
-						if world.boss_hp > 0:
-							world.sound("hit")
-						else:
-							if body.property == 3:
-								if !body.ret:
-									body.ret()
-					else:
-						if body.property != 3:
-							body.reflect = true
-						else:
-							if !body.ret:
-								body.ret()
-			
-			if body.name == "mega_arm" and body.choke:
-				body.global_position = global_position
-				if flash == 0 and body.choke_delay == 0:
-					if body.choke_max > 0:
-						world.boss_hp -= 10
-						body.choke_max -= 1
-						body.choke_delay = 6
-						flash = 20
-						hit = true
-						world.sound("hit")
-						#Make the Mega Arm return to the player if boss dies.
-						if world.boss_hp <= 0:
-							body.choke = false
-							body.choke_delay = 0
-				elif body.choke_max == 0 or id == 0:
-					body.choke = false
-					body.choke_delay = 0
-			
-			if body.name == "player":
-				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-					global.player_life[int(player.swap)] -= damage
-					player.damage()
+			do_damage(body)
 	
 	if $anim_body.get_current_animation() == 'drill_b' or $anim_body.get_current_animation() == 'drill_c' or $anim_body.get_current_animation() == 'drill_d' or $anim_body.get_current_animation() == 'drill_e':
 		if $wings.is_visible():
@@ -558,3 +504,77 @@ func _on_anim_wings_finished(anim_name):
 
 func play_anim(anim):
 	$anim_body.play(anim)
+
+func do_damage(body):
+	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+		world.enemy_dmg(id, body.id)
+		if world.damage != 0 and !body.reflect:
+			#Weapon behaviors.
+			match body.property:
+				0:
+					body._on_screen_exited()
+				2:
+					if world.damage < world.boss_hp:
+						body._on_screen_exited()
+				3:
+					if world.damage < world.boss_hp:
+						if flash == 0:
+							body.choke_check()
+							body.choke_max = CHOKE
+							body.choke_delay = 6
+						body.velocity = Vector2(0, 0)
+			if flash == 0:
+				world.boss_hp -= world.damage
+			flash = 20
+			hit = true
+			if world.boss_hp > 0:
+				world.sound("hit")
+			else:
+				if body.property == 3:
+					if !body.ret:
+						body.ret()
+		else:
+			if body.property != 3:
+				body.reflect = true
+			else:
+				if !body.ret:
+					body.ret()
+			
+	if body.name == "mega_arm" and body.choke:
+		body.global_position = global_position
+		if flash == 0 and body.choke_delay == 0:
+			if body.choke_max > 0:
+				world.boss_hp -= 10
+				body.choke_max -= 1
+				body.choke_delay = 6
+				flash = 20
+				hit = true
+				world.sound("hit")
+				#Make the Mega Arm return to the player if boss dies.
+				if world.boss_hp <= 0:
+					body.choke = false
+					body.choke_delay = 0
+		elif body.choke_max == 0 or id == 0:
+			body.choke = false
+			body.choke_delay = 0
+	
+	if body.name == "player":
+		if player.r_boost:
+			var dist = player.global_position.x - global_position.x
+			if dist <= 12 and dist >= -12 and player.global_position.y < global_position.y - 12 and player.velocity.y >= 0:
+				player.velocity.y = (player.JUMP_SPEED) / player.jump_mod
+			elif dist <= 12 and dist >= -12 and player.global_position.y > global_position.y  and player.velocity.y >= 0:
+				player.velocity.y = 0
+			if id != 0:
+				if flash == 0:
+					world.boss_hp -= 20
+				flash = 20
+				hit = true
+				if world.boss_hp > 0:
+					world.sound("hit")
+			else:
+				world.sound("dink")
+		
+		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+			global.player_life[int(player.swap)] -= damage
+			player.damage()

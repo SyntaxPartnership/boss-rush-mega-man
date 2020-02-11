@@ -33,6 +33,7 @@ var accel = Vector2.ZERO
 #1: Pierce
 #2: Pierce if HP is equal or lower than damage.
 #3: Pierce if HP is equal or lower than damage. Begin return script.
+#4: Nothing
 # warning-ignore:unused_class_variable
 var property = 3
 
