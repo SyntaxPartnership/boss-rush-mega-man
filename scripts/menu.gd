@@ -15,19 +15,10 @@ var c_pos = Vector2()
 var max_en = 280
 var en_lvls = {
 	0 : global.player_life,
-	1 : global.rp_coil,
-	2 : global.rp_jet,
-	3 : global.weapon1,
-	4 : global.weapon2,
-	5 : global.weapon3,
-	6 : global.weapon4,
-	7 : global.weapon5,
-	8 : global.weapon6,
-	9 : global.weapon7,
-	10 : global.weapon8,
-	11 : global.beat,
-	12 : global.tango,
-	13 : global.reggae
+	1 : global.weapon1,
+	2 : global.weapon2,
+	3 : global.weapon3,
+	4 : global.weapon4,
 	}
 
 # Called when the node enters the scene tree for the first time.

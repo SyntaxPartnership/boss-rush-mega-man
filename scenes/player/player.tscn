@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://shaders/player.tres" type="Material" id=2]
@@ -22,7 +22,7 @@ extents = Vector2( 6.5, 10 )
 [sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 8, 7 )
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=4]
 length = 0.3
 step = 0.06
 tracks/0/type = "value"
@@ -38,7 +38,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 0, 3 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=5]
 length = 0.6
 step = 0.06
 tracks/0/type = "value"
@@ -54,7 +54,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 0, 3, 19, 20, 19 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=6]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -70,7 +70,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=7]
 length = 0.24
 loop = true
 step = 0.12
@@ -87,7 +87,7 @@ tracks/0/keys = {
 "values": [ 11, 12 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=8]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -103,7 +103,7 @@ tracks/0/keys = {
 "values": [ 27 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=9]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -119,7 +119,7 @@ tracks/0/keys = {
 "values": [ 28 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=10]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -135,7 +135,7 @@ tracks/0/keys = {
 "values": [ 29 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=11]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -151,7 +151,7 @@ tracks/0/keys = {
 "values": [ 13 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=12]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -167,7 +167,7 @@ tracks/0/keys = {
 "values": [ 18 ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=13]
 resource_name = "get_wpn"
 length = 0.5
 tracks/0/type = "value"
@@ -312,6 +312,24 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=22]
+resource_name = "rboost"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 29, 30, 31, 32 ]
+}
+
+[sub_resource type="Animation" id=23]
 length = 0.44
 loop = true
 step = 0.11
@@ -328,7 +346,41 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 8 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=24]
+resource_name = "skick_air"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 27 ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "skick_ground"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 28 ]
+}
+
+[sub_resource type="Animation" id=26]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -344,7 +396,7 @@ tracks/0/keys = {
 "values": [ 14, 15 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=27]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -360,7 +412,7 @@ tracks/0/keys = {
 "values": [ 21 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=28]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -376,7 +428,7 @@ tracks/0/keys = {
 "values": [ 22 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=29]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -392,10 +444,10 @@ tracks/0/keys = {
 "values": [ 23 ]
 }
 
-[sub_resource type="RectangleShape2D" id=27]
+[sub_resource type="RectangleShape2D" id=30]
 extents = Vector2( 8, 1 )
 
-[sub_resource type="RectangleShape2D" id=28]
+[sub_resource type="RectangleShape2D" id=31]
 extents = Vector2( 0.5, 7 )
 
 [node name="player" type="KinematicBody2D"]
@@ -403,7 +455,6 @@ collision_layer = 6
 script = ExtResource( 1 )
 
 [node name="lad_top_detect" type="Area2D" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -7 )
 
@@ -426,7 +477,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 10
+frame = 29
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -438,16 +489,16 @@ vframes = 18
 [node name="shoot_pos" type="Position2D" parent="sprite"]
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/appear1 = SubResource( 5 )
-anims/appear2 = SubResource( 6 )
-anims/beam = SubResource( 7 )
-anims/climb = SubResource( 8 )
-anims/climb-shot-d-down = SubResource( 9 )
-anims/climb-shot-d-up = SubResource( 10 )
-anims/climb-shot-up = SubResource( 11 )
-anims/climbtop = SubResource( 12 )
-anims/fall = SubResource( 13 )
-anims/get_wpn = SubResource( 29 )
+anims/appear1 = SubResource( 4 )
+anims/appear2 = SubResource( 5 )
+anims/beam = SubResource( 6 )
+anims/climb = SubResource( 7 )
+anims/climb-shot-d-down = SubResource( 8 )
+anims/climb-shot-d-up = SubResource( 9 )
+anims/climb-shot-up = SubResource( 10 )
+anims/climbtop = SubResource( 11 )
+anims/fall = SubResource( 12 )
+anims/get_wpn = SubResource( 13 )
 anims/hurt = SubResource( 14 )
 anims/idle1 = SubResource( 15 )
 anims/idle2 = SubResource( 16 )
@@ -456,21 +507,23 @@ anims/jump-shot-d-down = SubResource( 18 )
 anims/jump-shot-d-up = SubResource( 19 )
 anims/jump-shot-up = SubResource( 20 )
 anims/lilstep = SubResource( 21 )
-anims/run = SubResource( 22 )
-anims/slide = SubResource( 23 )
-anims/stand-shot-d-down = SubResource( 24 )
-anims/stand-shot-d-up = SubResource( 25 )
-anims/stand-shot-up = SubResource( 26 )
+anims/rboost = SubResource( 22 )
+anims/run = SubResource( 23 )
+anims/skick_air = SubResource( 24 )
+anims/skick_ground = SubResource( 25 )
+anims/slide = SubResource( 26 )
+anims/stand-shot-d-down = SubResource( 27 )
+anims/stand-shot-d-up = SubResource( 28 )
+anims/stand-shot-up = SubResource( 29 )
 
 [node name="slide_top" type="Area2D" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 0, -4 )
 collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_top"]
-shape = SubResource( 27 )
+shape = SubResource( 30 )
 
 [node name="slide_wall" type="Area2D" parent="."]
 visible = false
@@ -479,10 +532,9 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_wall"]
-shape = SubResource( 28 )
+shape = SubResource( 31 )
 
 [node name="item_det" type="Area2D" parent="."]
-editor/display_folded = true
 collision_layer = 8
 
 [node name="box" type="CollisionShape2D" parent="item_det"]

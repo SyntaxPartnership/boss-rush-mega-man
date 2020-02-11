@@ -96,6 +96,7 @@ var w_icon = 0
 var rush_coil = false
 var rush_jet = false
 var leave = false
+var r_boost = false
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -181,19 +182,19 @@ var s_frame = {
 
 var wpn_data = {
 	#Mega Man - Level 0 Shot
-#	'0-0-0-31' : [global.dummy, 1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
-#	#Mega Man - Level 1 Shot
-#	'0-0-32-95' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
-#	#Mega Man - Level 2 Shot
-#	'0-0-96-99' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
-#	#Proto Man - Level 0 Shot
-#	'1-0-0-31' : [global.dummy,1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
-#	#Proto Man - Level 1 Shot
-#	'1-0-32-95' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_d.tscn'), 0, 0],
-#	#Proto Man - Level 2 Shot
-#	'1-0-96-99' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_f.tscn'), 0, 0],
-#	#Bass - Normal Shot
-#	'2-0-0-31' : [global.dummy,1, 3, 0, 0, BASSSHOT, '', load('res://scenes/player/weapons/buster_b.tscn'), 0, 0],
+	'0-0-0-31' : [global.dummy, 1, 3, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
+	#Mega Man - Level 1 Shot
+	'0-0-32-95' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
+	#Mega Man - Level 2 Shot
+	'0-0-96-99' : [global.dummy,3, 3, 0, 0, HANDSHOT, '', load('res://scenes/player/weapons/mega_arm.tscn'), 0, 0],
+	#Proto Man - Level 0 Shot
+	'1-0-0-31' : [global.dummy,1, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_a.tscn'), 0, 0],
+	#Proto Man - Level 1 Shot
+	'1-0-32-95' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_d.tscn'), 0, 0],
+	#Proto Man - Level 2 Shot
+	'1-0-96-99' : [global.dummy,2, 2, 0, 0, SHOOT, '', load('res://scenes/player/weapons/buster_f.tscn'), 0, 0],
+	#Bass - Normal Shot
+	'2-0-0-31' : [global.dummy,1, 3, 0, 0, BASSSHOT, '', load('res://scenes/player/weapons/buster_b.tscn'), 0, 0],
 #	#Mega Man - Rush Coil
 #	'0-1-0-31' : [global.rp_coil, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_coil.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
 #	#Proto Man - Carry
@@ -205,6 +206,9 @@ var wpn_data = {
 #	'1-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
 #	'2-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
 #	#Master Weapon 2
+	'0-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
+	'1-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
+	'2-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
 #	#Master Weapon 3
 #	#Master Weapon 4
 #	#Master Weapon 5
@@ -240,7 +244,8 @@ enum {
 	BASSSHOT,
 	THROW,
 	GET_WPN,
-	NO_HAND
+	NO_HAND,
+	RBOOST
 	}
 
 #Set the appropriate states and values
@@ -539,6 +544,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		
 		var top = $slide_top.get_overlapping_bodies()
 		if slide_top and top == []:
 			slide_top = false
@@ -581,6 +587,8 @@ func anim_state(new_anim_state):
 			change_anim('fall')
 		GET_WPN:
 			change_anim('get_wpn')
+		RBOOST:
+			change_anim('rboost')
 
 
 func change_anim(new_anim):
@@ -679,9 +687,9 @@ func _on_slide_wall_body_exited(body):
 
 func weapons():
 	#Set timer for the shooting/throwing sprites.
-	if !slide:
+	if !slide and !r_boost:
 		if !no_input and hurt_timer == 0:
-			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0:
+			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 and !r_boost or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0 and !r_boost:
 				#Fire normal shots.
 				var wkey = str(global.player)+'-'+str(global.player_weap[int(swap)])+'-'+str(0)+'-'+str(31)
 				if wpn_data.has(wkey):
@@ -700,8 +708,14 @@ func weapons():
 							
 							wpn_data.get(wkey)[0][int(swap)+1] -= wpn_data.get(wkey)[4]
 							#Set spawn position
+							#Arm Cannon
 							if wpn_data.get(wkey)[9] == 0:
 								weapon.position = $sprite/shoot_pos.global_position
+							
+							#Below Player.
+							if wpn_data.get(wkey)[9] == 3:
+								weapon.position.x = global_position.x
+								weapon.position.y = global_position.y + 10
 								
 							graphic.add_child(weapon)
 							world.shots += wpn_data.get(wkey)[1]
@@ -1011,7 +1025,7 @@ func standing():
 					x_speed -= 1
 				elif x_dir == 0 and x_speed < 0:
 					x_speed += 1
-		if anim_st == JUMP:
+		if anim_st == JUMP or anim_st == RBOOST:
 			if !b_lance_pull:
 				x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 	else:
@@ -1028,7 +1042,7 @@ func standing():
 		anim_state(LILSTEP)
 	
 	#Reset the jumps counter. Cancel sliding.
-	if !jump and is_on_floor() and jumps == 0 and !slide:
+	if !jump and is_on_floor() and jumps <= 0 and !slide:
 		jumps = 1
 		slide = false
 		slide_timer = 0
@@ -1096,10 +1110,14 @@ func standing():
 
 	#Change the player's animation based on if they're on the floor or not.
 	if !is_on_floor() and anim_st != JUMP and !force_idle:
-		anim_state(JUMP)
+		if !r_boost:
+			anim_state(JUMP)
+		else:
+			anim_state(RBOOST)
 		jumps = 0
-	elif is_on_floor() and anim_st == JUMP and !slide:
+	elif is_on_floor() and anim_st == JUMP and !slide or is_on_floor() and anim_st == RBOOST  and velocity.y >= 0 and !slide:
 		rush_coil = false
+		r_boost = false
 		if x_dir == 0:
 			anim_state(IDLE)
 		else:
@@ -1129,7 +1147,7 @@ func standing():
 		grav_mod = 1
 	
 	#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
-	if !jump and velocity.y < 0 and !rush_coil:
+	if !jump and velocity.y < 0 and !rush_coil and !r_boost:
 		velocity.y = 0
 	
 	#This is a small fix to prevent the jumping sprite from appearing during some animations.

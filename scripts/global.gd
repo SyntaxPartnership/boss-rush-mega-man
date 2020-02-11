@@ -6,13 +6,13 @@ var debug_menu = 0
 #Player Variables
 var player = 0
 var player_id = [0, 99]
-var player_life = [140, 0]
+var player_life = [280, 0]
 var player_weap = [0, 0]
 var lives = 2
-var bolts = 4281
-var etanks = 4
-var wtanks = 2
-var tokens = 3
+var bolts = 0
+var etanks = 0
+var wtanks = 0
+var tokens = 0
 var game_over = false
 
 #Global Level Flags
@@ -77,10 +77,10 @@ var bass = true
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var dummy = [true, 280, 280]
-var weapon1 = [true, 140, 280]
-var weapon2 = [false, 140, 280]
-var weapon3 = [true, 140, 280]
-var weapon4 = [false, 140, 280]
+var weapon1 = [false, 280, 280]
+var weapon2 = [true, 280, 280]
+var weapon3 = [false, 280, 280]
+var weapon4 = [false, 280, 280]
 
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.
 
@@ -235,7 +235,6 @@ func set_ctrls():
 			#Get gamepad value to set.
 			var j_event = InputEventJoypadButton.new()
 			j_event.set_button_index(Input.get_joy_button_index_from_string(joy_ctrls[i]))
-#			print(joy_ctrls[i])
 			
 			#Add the buttons.
 			InputMap.action_add_event(actions[i], k_event)

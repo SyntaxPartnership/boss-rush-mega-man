@@ -40,6 +40,7 @@ func _ready():
 	
 	hide_icons()
 	wpn_menu()
+	init_cursor()
 	
 	for c in color_set:
 		c.material.set_shader_param('black', global.black)
@@ -58,7 +59,21 @@ func _ready():
 func _input(_event):
 	if ignore_input:
 		return
-		
+	
+	#Supeedi's Version
+#	if Input.is_action_just_pressed("up"):
+#		if menu_pos.x == 0:
+#			#Check for S_Kick.
+#			if global.weapon1[0]:
+#				menu_pos.y -= 1
+#			else: #No S_Kick. Go to M_Arm
+#				menu_pos.y -= 2
+#		elif menu_pos.x == 1:
+#			pass
+#		elif menu_pos.x == 2:
+#			pass
+	
+	#Strider's Version
 	if Input.is_action_just_pressed("up"):
 		if menu_pos.y == 1: #Middle Row
 			if menu_pos.x == 0: #S_Kick
@@ -169,7 +184,7 @@ func _input(_event):
 			elif menu_pos.x == 2: #E_Tanks
 				menu_pos.y += 1
 				select(true)
-						
+
 	if Input.is_action_just_pressed("left"):
 		if menu_pos.x == 1: #Middle column
 			if menu_pos.y == 0: #Super Adaptor

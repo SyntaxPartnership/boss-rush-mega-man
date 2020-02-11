@@ -155,114 +155,49 @@ func _input(event):
 	#Weapon Swapping.
 	if $player.can_move:
 		#L and R Button.
-#		if Input.is_action_just_pressed("prev"):
-#			global.player_weap[int($player.swap)] -= 1
-#			$player.w_icon = 64
-#			kill_weapons()
-#			palette_swap()
-#		if Input.is_action_just_pressed("next"):
-#			global.player_weap[int($player.swap)] += 1
-#			$player.w_icon = 64
-#			kill_weapons()
-#			palette_swap()
-		
-		#Skip Unacquired Weapons.
-#		if Input.is_action_just_pressed("next"):
-#			#Skip Rush/Proto Jet if if playing as Mega/Proto Man and hasn't been acquired. Skip altogether if playing as Bass.
-#			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player != 0:
-#				global.player_weap[int($player.swap)] += 1
-#			#Skip unacquired Master Weapons
-#			if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 4 and !global.weapon2[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 5 and !global.weapon3[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 6 and !global.weapon4[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 7 and !global.weapon5[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 8 and !global.weapon6[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 9 and !global.weapon7[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 10 and !global.weapon8[0]:
-#				global.player_weap[int($player.swap)] += 1
-#			#Skip player specific adaptors.
-#			if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 11 and !global.tango[0] and global.player == 1:
-#				global.player_weap[int($player.swap)] += 1
-#			if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
-#				global.player_weap[int($player.swap)] += 1
-#
-#			#Loop the value
-#			if global.player_weap[int($player.swap)] > 11:
-#				global.player_weap[int($player.swap)] = 0
-#
-#
-#		if Input.is_action_just_pressed("prev"):
-#			#Loop the value.
-#			if global.player_weap[int($player.swap)] < 0:
-#				global.player_weap[int($player.swap)] = 11
-#
-#			#These skips are done in reverse order to make them move to the next item seemlessly.
-#			if global.player_weap[int($player.swap)] == 11 and !global.beat[0] and global.player == 0:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 11 and !global.tango[0] and global.player == 1:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 11 and !global.reggae[0] and global.player == 2:
-#				global.player_weap[int($player.swap)] -= 1
-#			#Master Weapons
-#			if global.player_weap[int($player.swap)] == 10 and !global.weapon8[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 9 and !global.weapon7[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 8 and !global.weapon6[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 7 and !global.weapon5[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 6 and !global.weapon4[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 5 and !global.weapon3[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 4 and !global.weapon2[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			if global.player_weap[int($player.swap)] == 3 and !global.weapon1[0]:
-#				global.player_weap[int($player.swap)] -= 1
-#			#Rush/Proto Jet
-#			if global.player_weap[int($player.swap)] == 2 and !global.rp_jet[0] or global.player_weap[int($player.swap)] == 2 and global.player != 0:
-#				global.player_weap[int($player.swap)] -= 1
-		
-		#Start swap process.
-#		if Input.is_action_just_pressed('select') and !swapping and $player.blink_timer == 0 and $player.blink == 0:
-#			if $player.act_st != 13 and !$player.slide:
-#				if global.player_life[int(!$player.swap)] != 0:
-#					kill_weapons()
-#					$player/audio/charge.stop()
-#					$player.shot_delay = 0
-#					$player.c_flash = 0
-#					$player.charge = 0
-#					$player.w_icon = 0
-#					$player.shot_state($player.NORMAL)
-#					$player/sprite/weap_icon_lr.hide()
-#					$player.hide()
-#					$player.can_move = false
-#					swapping = true
-#					swap_out()
-#					if !$player.swap:
-#						$player.swap = true
-#					else:
-#						$player.swap = false
-#					swap()
-#					swap_in()
-#					$pause/pause_menu.menu_color()
-#					$pause/pause_menu.set_names()
-#					$pause/pause_menu.hide_icons()
-#					$pause/pause_menu.wpn_menu()
-#					get_tree().paused = true
+		if Input.is_action_just_pressed("prev"):
+			global.player_weap[int($player.swap)] -= 1
+			$player.w_icon = 64
+			kill_weapons()
 			
-#		palette_swap()
+			if global.player_weap[int($player.swap)] < 0:
+				global.player_weap[int($player.swap)] = 5
+			
+			#Skip unacquired weapons.
+			if global.player_weap[int($player.swap)] == 5 and !global.perma_items.get("super_adaptor"):
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 4 and !global.weapon4[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 3 and !global.weapon3[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 2 and !global.weapon2[0]:
+				global.player_weap[int($player.swap)] -= 1
+			if global.player_weap[int($player.swap)] == 1 and !global.weapon1[0]:
+				global.player_weap[int($player.swap)] -= 1
+			
+			palette_swap()
+			
+		if Input.is_action_just_pressed("next"):
+			global.player_weap[int($player.swap)] += 1
+			$player.w_icon = 64
+			kill_weapons()
+			
+			#Skip unacquired weapons.
+			if global.player_weap[int($player.swap)] == 1 and !global.weapon1[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 2 and !global.weapon2[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 3 and !global.weapon3[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 4 and !global.weapon4[0]:
+				global.player_weap[int($player.swap)] += 1
+			if global.player_weap[int($player.swap)] == 5 and !global.perma_items.get("super_adaptor"):
+				global.player_weap[int($player.swap)] += 1
+				
+			if global.player_weap[int($player.swap)] > 5:
+				global.player_weap[int($player.swap)] = 0
+				
+			palette_swap()
 	
 		#Pause menu
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0:
@@ -932,40 +867,15 @@ func palette_swap():
 		else:
 			$player/sprite/weap_icon_lr.set_frame(1)
 	if global.player_weap[int($player.swap)] == 1:
-		if global.player == 0:
-			$player/sprite/weap_icon_lr.set_frame(2)
-		elif global.player == 1:
-			$player/sprite/weap_icon_lr.set_frame(4)
-		elif global.player == 2:
-			$player/sprite/weap_icon_lr.set_frame(6)
-	if global.player_weap[int($player.swap)] == 2:
-		if global.player == 0:
-			$player/sprite/weap_icon_lr.set_frame(3)
-		elif global.player == 1:
-			$player/sprite/weap_icon_lr.set_frame(5)
-	if global.player_weap[int($player.swap)] == 3:
 		$player/sprite/weap_icon_lr.set_frame(7)
-	if global.player_weap[int($player.swap)] == 4:
+	if global.player_weap[int($player.swap)] == 2:
 		$player/sprite/weap_icon_lr.set_frame(8)
-	if global.player_weap[int($player.swap)] == 5:
+	if global.player_weap[int($player.swap)] == 3:
 		$player/sprite/weap_icon_lr.set_frame(9)
-	if global.player_weap[int($player.swap)] == 6:
+	if global.player_weap[int($player.swap)] == 4:
 		$player/sprite/weap_icon_lr.set_frame(10)
-	if global.player_weap[int($player.swap)] == 7:
+	if global.player_weap[int($player.swap)] == 5:
 		$player/sprite/weap_icon_lr.set_frame(11)
-	if global.player_weap[int($player.swap)] == 8:
-		$player/sprite/weap_icon_lr.set_frame(12)
-	if global.player_weap[int($player.swap)] == 9:
-		$player/sprite/weap_icon_lr.set_frame(13)
-	if global.player_weap[int($player.swap)] == 10:
-		$player/sprite/weap_icon_lr.set_frame(14)
-	if global.player_weap[int($player.swap)] == 11:
-		if global.player == 0:
-			$player/sprite/weap_icon_lr.set_frame(15)
-		elif global.player == 1:
-			$player/sprite/weap_icon_lr.set_frame(16)
-		elif global.player == 2:
-			$player/sprite/weap_icon_lr.set_frame(17)
 	
 			
 	#Set Colors
