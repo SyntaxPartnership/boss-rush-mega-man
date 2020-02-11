@@ -528,3 +528,4 @@ func init_cursor():
 	}
 	
 	menu_pos = start_pos.get(global.player_weap[int(player.swap)])
+	select(false)
