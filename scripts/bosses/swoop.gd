@@ -64,6 +64,11 @@ func _ready():
 
 func _physics_process(delta):
 	
+	var dist = player.global_position.x - global_position.x
+	
+	if dist in range(-8, 8):
+		print('GET HER!')
+	
 	if clone == null:
 		var get_clone = get_tree().get_nodes_in_group("special")
 		#Set variable for the clone.

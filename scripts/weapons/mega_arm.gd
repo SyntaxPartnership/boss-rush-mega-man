@@ -43,10 +43,10 @@ func _ready():
 	get_targets()
 	
 	if level == 0:
-		id = 0
+		id = 1
 		dist = 10
 	else:
-		id = 1
+		id = 2
 		if f_target == null:
 			dist = 24
 		else:

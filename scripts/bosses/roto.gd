@@ -4,7 +4,7 @@ onready var world = get_parent().get_parent()
 onready var camera = world.get_child(2).get_child(9)
 onready var player = world.get_child(2)
 
-var id = 2
+var id = 3
 const CHOKE = 3
 
 const SPEED = 75
@@ -231,9 +231,6 @@ func _physics_process(delta):
 				world.sound("roto_a")
 				act_count = 0
 				state = 10
-	
-	if state == 10:
-		pass
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
