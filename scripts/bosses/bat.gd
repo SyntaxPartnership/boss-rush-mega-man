@@ -112,14 +112,17 @@ func _on_hitbox_body_entered(body):
 				queue_free()
 	
 	if body.name =="player":
+		
 		if state < 3:
-			touch = true
+			if !player.r_boost:
+				touch = true
 			velocity.x = -velocity.x
 			velocity.y = -velocity.y
 			state = 2
 			hp -= 1
 		else:
-			touch = true
+			if !player.r_boost:
+				touch = true
 
 func _on_hitbox_body_exited(body):
 	if body.name =="player":

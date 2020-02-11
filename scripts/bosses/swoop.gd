@@ -365,7 +365,12 @@ func _physics_process(delta):
 					body.choke_delay = 0
 			
 			if body.name == "player":
-				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+				if player.r_boost:
+					var dist = player.global_position.x - global_position.x
+					if dist <= 12 and dist >= -12 and player.global_position.y < global_position.y - 12 and player.velocity.y >= 0:
+						player.velocity.y = (player.JUMP_SPEED) / player.jump_mod
+				
+				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
 					global.player_life[int(player.swap)] -= damage
 					player.damage()
 	
