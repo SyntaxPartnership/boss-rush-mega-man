@@ -330,5 +330,6 @@ anims/up = SubResource( 19 )
 
 [node name="bat_spawn" type="Position2D" parent="."]
 position = Vector2( 8, -7 )
+[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
 [connection signal="animation_finished" from="anim_wings" to="." method="_on_anim_wings_finished"]
 [connection signal="animation_finished" from="anim_body" to="." method="_on_body_anim_finished"]

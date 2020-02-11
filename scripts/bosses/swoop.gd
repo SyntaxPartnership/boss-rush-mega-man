@@ -43,6 +43,7 @@ var orig_vel = Vector2()
 var flash = 0
 var flash_delay = 0
 var hit = false
+var touch = false
 
 var damage = 40
 
@@ -63,11 +64,6 @@ func _ready():
 	c_heart.hide()
 
 func _physics_process(delta):
-	
-	var dist = player.global_position.x - global_position.x
-	
-	if dist in range(-8, 8):
-		print('GET HER!')
 	
 	if clone == null:
 		var get_clone = get_tree().get_nodes_in_group("special")
@@ -559,22 +555,29 @@ func do_damage(body):
 			body.choke_delay = 0
 	
 	if body.name == "player":
-		if player.r_boost:
+		if player.r_boost and !touch:
 			var dist = player.global_position.x - global_position.x
 			if dist <= 12 and dist >= -12 and player.global_position.y < global_position.y - 12 and player.velocity.y >= 0:
 				player.velocity.y = (player.JUMP_SPEED) / player.jump_mod
 			elif dist <= 12 and dist >= -12 and player.global_position.y > global_position.y  and player.velocity.y >= 0:
 				player.velocity.y = 0
 			if id != 0:
-				if flash == 0:
+				if flash == 0 and !hit:
 					world.boss_hp -= 20
-				flash = 20
-				hit = true
-				if world.boss_hp > 0:
-					world.sound("hit")
-			else:
-				world.sound("dink")
+					flash = 20
+					hit = true
+					if world.boss_hp > 0:
+						world.sound("hit")
+			elif id == 0:
+					world.sound("dink")
+			touch = true
 		
 		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
 			global.player_life[int(player.swap)] -= damage
 			player.damage()
+
+
+func _on_hitbox_body_exited(body):
+	if body.name == "player":
+		if touch:
+			touch = false
