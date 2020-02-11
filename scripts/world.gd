@@ -88,8 +88,8 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0],		#Immunity to damage.
-				1 : [10, 30],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 30],	#Swoop Woman
+				1 : [10, 20, 30, 0, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 20, 30, 0, 40, 0, 0],	#Swoop Woman
 				}
 				
 var damage = 0

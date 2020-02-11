@@ -3,6 +3,11 @@ extends Node2D
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 
+var id = 4
+var property = 4
+
+var reflect = false
+
 func _ready():
 	$anim.play("boom")
 	world.sound("big_explode")
