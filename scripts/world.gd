@@ -47,6 +47,11 @@ var end_stage = true
 var end_state = 0
 var leave_delay = 120
 
+var og_limits = []
+var shake_delay = 2
+var shake_x = 0
+var shake_y = 0
+
 #Item Drops
 var item = []
 
@@ -151,7 +156,7 @@ func _ready():
 	prev_room = player_room
 	
 	_rooms()
-		
+
 
 # warning-ignore:unused_argument
 func _input(event):
@@ -161,6 +166,7 @@ func _input(event):
 		if Input.is_action_just_pressed("prev"):
 			global.player_weap[int($player.swap)] -= 1
 			$player.w_icon = 64
+			$player.r_boost = false
 			kill_weapons()
 			
 			if global.player_weap[int($player.swap)] < 0:
@@ -183,6 +189,7 @@ func _input(event):
 		if Input.is_action_just_pressed("next"):
 			global.player_weap[int($player.swap)] += 1
 			$player.w_icon = 64
+			$player.r_boost = false
 			kill_weapons()
 			
 			#Skip unacquired weapons.
@@ -240,14 +247,6 @@ func _camera():
 	#Get Center of the screen.
 	center = $player/camera.get_camera_screen_center()
 	center = Vector2(floor(center.x), floor(center.y))
-	
-	#Basic screen shaking effect. Change if needed.
-	if shake > 0:
-		$player/camera.set_offset(Vector2(rand_range(-2.0, 2.0), rand_range(-3.0, 3.0)))
-		shake -= 1
-	
-	if shake == 0:
-		$player/camera.set_offset(Vector2(0, 0))
 	
 	#FOR FUTURE REFERENCE: The cam_allow stores values for up, down, left, right in that order in the array.
 	
@@ -426,6 +425,8 @@ func _rooms():
 		
 		for s in see_item:
 			s.get_child(0).show()
+		
+		og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
 
 func _physics_process(delta):
 	pass
@@ -434,6 +435,21 @@ func _physics_process(delta):
 func _process(delta):
 	_camera()
 	#Print Shit
+	
+	#Camera shake?
+#	if shake_delay > 0:
+#		shake_delay -= 1
+#
+#		if shake_delay == 0:
+#			shake_x = floor(rand_range(-2, 2))
+#			shake_y = floor(rand_range(-2, 2))
+#
+#			$player/camera.limit_top = og_limits[0] + shake_y
+#			$player/camera.limit_bottom = og_limits[1] + shake_y
+#			$player/camera.limit_left = og_limits[2] + shake_x
+#			$player/camera.limit_right = og_limits[3] + shake_x
+#
+#			shake_delay = 2
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)
@@ -632,6 +648,7 @@ func _process(delta):
 	
 	if end_delay == 0:
 		if end_state == 0:
+			$hud/hud.hide()
 			$audio/music/clear.play()
 			$player.cutscene(true)
 			boss = false
@@ -665,6 +682,8 @@ func _process(delta):
 	
 	if end_state == 4:
 		$player.anim_state($player.GET_WPN)
+		global.player_weap[0] = global.level_id + 1
+		palette_swap()
 		sound("bling")
 		end_state = 5
 	

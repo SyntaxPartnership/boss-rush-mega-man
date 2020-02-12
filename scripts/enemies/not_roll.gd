@@ -13,6 +13,7 @@ var dist = 0
 var fly = false
 var kick = false
 var up = false
+var boing = false
 var get_boss = false
 var dead = false
 
@@ -28,38 +29,46 @@ func _ready():
 
 func _physics_process(delta):
 	
+	if !boing:
 	#Boom_time and kick_time are always subtracted.
-	if boom_time > 0:
-		boom_time -= 1
-
-	if kick and kick_time > 0:
-		kick_time -= 1
-
-	#Get distance to player.
-	dist = player.global_position.distance_to(global_position)
-
-	#If the player is close enough, trigger kick action.
-	if dist <= 30 and !kick and !fly:
-		$anim.play("idle2")
-		kick = true
-
-	if kick_time == 0 and !fly:
-		if dist <= 30:
-			$anim.play("kick")
-		kick_time = 40
+		if boom_time > 0:
+			boom_time -= 1
 	
-	if $sprite.frame == 4:
-		$hitbox/kick_box.set_deferred("disabled", false)
+		if kick and kick_time > 0:
+			kick_time -= 1
+	
+		#Get distance to player.
+		dist = player.global_position.distance_to(global_position)
+	
+		#If the player is close enough, trigger kick action.
+		if dist <= 30 and !kick and !fly:
+			$anim.play("idle2")
+			kick = true
+	
+		if kick_time == 0 and !fly:
+			if dist <= 30:
+				$anim.play("kick")
+			kick_time = 40
+		
+		if $sprite.frame == 4:
+			$hitbox/kick_box.set_deferred("disabled", false)
+		else:
+			$hitbox/kick_box.set_deferred("disabled", true)
+	
+		if boom_time == 0 and !fly:
+			$anim.play("float")
+			boom_time = 400
+			fly = true
+	
+		if boom_time == 0 and fly and !dead:
+			dead = true
+	
 	else:
-		$hitbox/kick_box.set_deferred("disabled", true)
-
-	if boom_time == 0 and !fly:
-		$anim.play("float")
-		boom_time = 400
-		fly = true
-
-	if boom_time == 0 and fly and !dead:
-		dead = true
+		global_position.y -= 12
+		
+		if global_position.y < camera.limit_top + 16:
+			spawn = 1
+			dead = true
 	
 	if dead and !get_boss:
 		if !get_boss:
@@ -109,13 +118,21 @@ func _on_anim_finished(anim_name):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons"):
-		if body.property != 3:
-			body.queue_free()
+		if body.name == "scuttle_puck":
+			boing = true
+			$anim.play("boing")
+			body.velocity.x = 0
+			body.boing = true
+			body.get_child(1).play("boing")
+			world.sound("boing")
 		else:
-			body.dist = 1
-		if !dead:
-			spawn = 1
-			dead = true
+			if body.property != 3:
+				body.queue_free()
+			else:
+				body.dist = 1
+			if !dead:
+				spawn = 1
+				dead = true
 	
 	if body.name == "player":
 		touch = true

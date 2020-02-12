@@ -1,10 +1,26 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/enemies/not_roll.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/batton/not_roll.png" type="Texture" id=2]
 
 [sub_resource type="Animation" id=1]
-resource_name = "float"
+resource_name = "boing"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 7 ]
+}
+
+[sub_resource type="Animation" id=2]
 length = 0.6
 loop = true
 tracks/0/type = "value"
@@ -20,8 +36,7 @@ tracks/0/keys = {
 "values": [ 5, 6 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "idle"
+[sub_resource type="Animation" id=3]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -37,8 +52,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "idle2"
+[sub_resource type="Animation" id=4]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -54,8 +68,7 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "kick"
+[sub_resource type="Animation" id=5]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -70,10 +83,10 @@ tracks/0/keys = {
 "values": [ 2, 3, 4 ]
 }
 
-[sub_resource type="RectangleShape2D" id=5]
+[sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 8, 8 )
 
-[sub_resource type="RectangleShape2D" id=6]
+[sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 4, 4 )
 
 [node name="not_roll" type="KinematicBody2D" groups=[
@@ -86,24 +99,26 @@ rotation_duration = 1.5
 [node name="sprite" type="Sprite" parent="."]
 position = Vector2( 0, -3 )
 texture = ExtResource( 2 )
-hframes = 7
+hframes = 8
+frame = 7
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/float = SubResource( 1 )
-anims/idle = SubResource( 2 )
-anims/idle2 = SubResource( 3 )
-anims/kick = SubResource( 4 )
+anims/boing = SubResource( 1 )
+anims/float = SubResource( 2 )
+anims/idle = SubResource( 3 )
+anims/idle2 = SubResource( 4 )
+anims/kick = SubResource( 5 )
 
 [node name="hitbox" type="Area2D" parent="."]
 collision_layer = 33
 collision_mask = 4
 
 [node name="box" type="CollisionShape2D" parent="hitbox"]
-shape = SubResource( 5 )
+shape = SubResource( 6 )
 
 [node name="kick_box" type="CollisionShape2D" parent="hitbox"]
 position = Vector2( -12, 0 )
-shape = SubResource( 6 )
+shape = SubResource( 7 )
 disabled = true
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]

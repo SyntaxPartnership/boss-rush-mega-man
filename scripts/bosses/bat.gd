@@ -113,6 +113,13 @@ func _on_hitbox_body_entered(body):
 	
 	if body.name =="player":
 		
+		if player.r_boost:
+			world.sound("hit")
+			var boom = load("res://scenes/effects/s_explode.tscn").instance()
+			boom.global_position = global_position
+			world.get_child(3).add_child(boom)
+			queue_free()
+		
 		if state < 3:
 			if !player.r_boost:
 				touch = true

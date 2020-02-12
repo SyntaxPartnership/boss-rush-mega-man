@@ -26,6 +26,7 @@ radius = 15.0
 [node name="roto_boost" type="KinematicBody2D" groups=[
 "weapons",
 ]]
+pause_mode = 1
 collision_layer = 4
 collision_mask = 32
 script = ExtResource( 1 )

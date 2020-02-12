@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/shade_eq.wav-4b5a52877fb8b973d90a2cc2317bf75b.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/shade_eq.wav"
+dest_files=[ "res://.import/shade_eq.wav-4b5a52877fb8b973d90a2cc2317bf75b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

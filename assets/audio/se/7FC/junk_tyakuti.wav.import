@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/junk_tyakuti.wav-77b32c8f835c3712085a0bcc460a2392.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/junk_tyakuti.wav"
+dest_files=[ "res://.import/junk_tyakuti.wav-77b32c8f835c3712085a0bcc460a2392.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/sprites/weapons/s_kick.png" type="Texture" id=1]
+[ext_resource path="res://scripts/weapons/swoop_kick.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "air"
+length = 0.15
+loop = true
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "ground"
+length = 0.15
+loop = true
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[node name="swoop_kick" type="Node2D" groups=[
+"weapons",
+]]
+script = ExtResource( 2 )
+
+[node name="sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 4
+frame = 1
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/air = SubResource( 1 )
+anims/ground = SubResource( 2 )

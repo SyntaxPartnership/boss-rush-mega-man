@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/generalea.wav-2b0779fc107bef016f2be975db476b87.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/generalea.wav"
+dest_files=[ "res://.import/generalea.wav-2b0779fc107bef016f2be975db476b87.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

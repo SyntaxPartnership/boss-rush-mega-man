@@ -97,6 +97,7 @@ var rush_coil = false
 var rush_jet = false
 var leave = false
 var r_boost = false
+var s_kick = false
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -202,23 +203,18 @@ var wpn_data = {
 #	#Mega Man - Rush Jet
 #	'0-2-0-31' : [global.rp_jet, 1, 3, 1, 0, SHOOT, load('res://scenes/player/weapons/rush_jet.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0],
 #	#Master Weapon 1
-#	'0-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
-#	'1-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
-#	'2-3-0-31' : [global.weapon1, 1, 1, 0, 20, SHOOT, '', load('res://scenes/player/weapons/bone_lancer.tscn'), 0, 0],
+	'0-1-0-31' : [global.weapon1, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/swoop_kick.tscn'), 0, 4],
+	'1-1-0-31' : [global.weapon1, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/swoop_kick.tscn'), 0, 4],
+	'2-1-0-31' : [global.weapon1, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/swoop_kick.tscn'), 0, 4],
 #	#Master Weapon 2
 	'0-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
 	'1-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
 	'2-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
 #	#Master Weapon 3
+	'0-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 0],
+	'1-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 0],
+	'2-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 0],
 #	#Master Weapon 4
-#	#Master Weapon 5
-#	#Master Weapon 6
-#	#Master Weapon 7
-#	#Master Weapon 8
-#	#Mega Man - Beat
-#	#Proto Man - Tango
-#	'1-11-0-31' : [global.tango, 1, 2, 1, 0, SHOOT, load('res://scenes/player/weapons/tango.tscn'), load('res://scenes/player/weapons/buster_a.tscn'), 1, 0]
-	#Bass - Reggae
 	}
 
 #Player States
@@ -245,7 +241,9 @@ enum {
 	THROW,
 	GET_WPN,
 	NO_HAND,
-	RBOOST
+	RBOOST,
+	SKICK_AIR,
+	SKICK_SLD
 	}
 
 #Set the appropriate states and values
@@ -281,7 +279,7 @@ func _ready():
 # warning-ignore:unused_argument
 func _input(event):
 
-	if Input.is_action_just_pressed("fire"):
+	if Input.is_action_just_pressed("fire") and !cutscene:
 		fire = true
 		if can_move:
 			weapons()
@@ -300,6 +298,8 @@ func _physics_process(delta):
 	if !cutscene:
 		if !Input.is_action_pressed("fire"):
 			fire = false
+	if cutscene:
+		fire = false
 	
 	#TileMap Data function
 	get_data()
@@ -360,7 +360,7 @@ func _physics_process(delta):
 						world.hurt_swap = false
 
 			#Charge level.
-			if fire and charge < 99 and !cooldown:
+			if !cutscene and fire and charge < 99 and !cooldown:
 				charge += 1
 			
 			#Start charge sound loop. Change attributes of more than one charging weapon is made.
@@ -458,9 +458,23 @@ func _physics_process(delta):
 
 		#Use GRAVITY to pull the player down.
 		if act_st != CLIMBING:
-			velocity.x = x_speed
-			if !b_lance_pull:
+			if !s_kick:
+				velocity.x = x_speed
+			else:
+				if $sprite.flip_h:
+					if is_on_floor():
+						velocity.x = -RUN_SPEED * 2
+					else:
+						velocity.x = -RUN_SPEED * 3
+				else:
+					if is_on_floor():
+						velocity.x = RUN_SPEED * 2
+					else:
+						velocity.x = RUN_SPEED * 3
+			if !b_lance_pull and !s_kick:
 				velocity.y += (GRAVITY / grav_mod) * delta
+			elif s_kick:
+				velocity.y = 270
 			else:
 				velocity.y = 0
 
@@ -501,6 +515,9 @@ func _physics_process(delta):
 		#Get what the player is standing on.
 		for idx in range(get_slide_count()):
 			var collision = get_slide_collision(idx)
+			
+			if s_kick and is_on_wall() and !is_on_floor():
+				s_kick = false
 			
 			if !is_on_wall():
 			
@@ -574,6 +591,10 @@ func anim_state(new_anim_state):
 			change_anim('jump')
 		SLIDE:
 			change_anim('slide')
+		SKICK_AIR:
+			change_anim('skick_air')
+		SKICK_SLD:
+			change_anim('skick_sld')
 		CLIMB:
 			change_anim('climb')
 		CLIMBTOP:
@@ -711,13 +732,19 @@ func weapons():
 							#Arm Cannon
 							if wpn_data.get(wkey)[9] == 0:
 								weapon.position = $sprite/shoot_pos.global_position
+								graphic.add_child(weapon)
 							
 							#Below Player.
 							if wpn_data.get(wkey)[9] == 3:
 								weapon.position.x = global_position.x
 								weapon.position.y = global_position.y + 10
-								
-							graphic.add_child(weapon)
+								effect.add_child(weapon)
+							
+							#Center of player.
+							if wpn_data.get(wkey)[9] == 4:
+								weapon.position = global_position
+								effect.add_child(weapon)
+							
 							world.shots += wpn_data.get(wkey)[1]
 						
 					#Check and see if any adaptors need spawning.
@@ -819,6 +846,7 @@ func shot_pos():
 func damage():
 	if !hurt_swap:
 		if hurt_timer == 0 and blink_timer == 0 and global.player_life[int(swap)] > 0:
+			s_kick = false
 			$audio/hurt.play()
 			velocity.y = 0
 			anim_state(HURT)
@@ -968,7 +996,7 @@ func _on_item_entered(body):
 		body.pickup()
 
 func standing():
-	if !b_lancer:
+	if !b_lancer and !s_kick:
 		if x_dir < 0 and !rush_jet:
 			shot_dir = 0
 			$sprite.flip_h = true
@@ -1066,6 +1094,7 @@ func standing():
 				x_speed = RUN_SPEED
 		$standbox.set_disabled(false)
 		$slidebox.set_disabled(true)
+		s_kick = false
 		slide = false
 	
 	#When the player touches a wall. cancel sliding.
@@ -1074,6 +1103,7 @@ func standing():
 		slide_timer = 0
 		$standbox.set_disabled(false)
 		$slidebox.set_disabled(true)
+		s_kick = false
 		slide = false
 	
 	#When the player is no longer on the floor, cancel slide.
@@ -1083,6 +1113,7 @@ func standing():
 		jumps = 0
 		$standbox.set_disabled(false)
 		$slidebox.set_disabled(true)
+		s_kick = false
 		slide = false
 	
 	if global.player == 1 and slide and !is_on_floor():
@@ -1090,6 +1121,7 @@ func standing():
 		jumps = 0
 		$standbox.set_disabled(false)
 		$slidebox.set_disabled(true)
+		s_kick = false
 		slide = false
 	
 	#When the opposite direction is pressed on the ground, cancel slide.
@@ -1099,6 +1131,7 @@ func standing():
 			slide_timer = 0
 			$standbox.set_disabled(false)
 			$slidebox.set_disabled(true)
+			s_kick = false
 			slide = false
 	
 	#Failsafe in case the player gets stuck on the floor.
@@ -1109,11 +1142,16 @@ func standing():
 			anim_state(RUN)
 
 	#Change the player's animation based on if they're on the floor or not.
-	if !is_on_floor() and anim_st != JUMP and !force_idle:
-		if !r_boost:
-			anim_state(JUMP)
-		else:
-			anim_state(RBOOST)
+	if !is_on_floor() and !force_idle:
+		if !r_boost and !s_kick:
+			if anim_st != JUMP:
+				anim_state(JUMP)
+		elif r_boost and !s_kick:
+			if anim_st != RBOOST:
+				anim_state(RBOOST)
+		elif !r_boost and s_kick:
+			if anim_st != SKICK_AIR:
+				anim_state(SKICK_AIR)
 		jumps = 0
 	elif is_on_floor() and anim_st == JUMP and !slide or is_on_floor() and anim_st == RBOOST  and velocity.y >= 0 and !slide:
 		rush_coil = false
@@ -1129,6 +1167,7 @@ func standing():
 		anim_state(JUMP)
 		jumps -= 1
 		velocity.y = JUMP_SPEED * jump_mod
+		s_kick = false
 		slide = false
 	elif global.player != 0 and jump_tap and is_on_floor() and jumps > 0:
 		if slide_timer > 0:
@@ -1164,8 +1203,11 @@ func standing():
 		
 	#Begin sliding functions.
 	if global.player == 0:
-		if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide:
-			anim_state(SLIDE)
+		if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide or s_kick and is_on_floor() and !wall and !slide:
+			if !s_kick:
+				anim_state(SLIDE)
+			else:
+				anim_state(SKICK_SLD)
 			#Add slide smoke.
 			var smoke = SLIDE_SMOKE.instance()
 			var smk_sprite = smoke.get_child(0)

@@ -364,7 +364,7 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=25]
-resource_name = "skick_ground"
+resource_name = "skick_sld"
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -477,7 +477,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 29
+frame = 28
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -510,7 +510,7 @@ anims/lilstep = SubResource( 21 )
 anims/rboost = SubResource( 22 )
 anims/run = SubResource( 23 )
 anims/skick_air = SubResource( 24 )
-anims/skick_ground = SubResource( 25 )
+anims/skick_sld = SubResource( 25 )
 anims/slide = SubResource( 26 )
 anims/stand-shot-d-down = SubResource( 27 )
 anims/stand-shot-d-up = SubResource( 28 )

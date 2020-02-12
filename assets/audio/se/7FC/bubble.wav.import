@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/bubble.wav-f3679b174bf914eedacd3f94ed6d5d0b.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/bubble.wav"
+dest_files=[ "res://.import/bubble.wav-f3679b174bf914eedacd3f94ed6d5d0b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

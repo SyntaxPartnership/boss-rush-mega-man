@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/thiun.wav-3f1edff550b5f366e04bc61e7f884d84.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/thiun.wav"
+dest_files=[ "res://.import/thiun.wav-3f1edff550b5f366e04bc61e7f884d84.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

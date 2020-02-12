@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/s_kick_reject.wav-90cadfe1595f3cdb5925e03c34d80a0c.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/s_kick_reject.wav"
+dest_files=[ "res://.import/s_kick_reject.wav-90cadfe1595f3cdb5925e03c34d80a0c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=true
+edit/normalize=true
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sp2.wav-6bbff4741f6d7afa826cf9c3a90e5b46.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/sp2.wav"
+dest_files=[ "res://.import/sp2.wav-6bbff4741f6d7afa826cf9c3a90e5b46.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

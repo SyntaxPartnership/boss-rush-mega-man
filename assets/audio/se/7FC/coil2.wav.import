@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/coil2.wav-d0158f087f30ac4d9be4f0bf762fa1f9.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/7FC/coil2.wav"
+dest_files=[ "res://.import/coil2.wav-d0158f087f30ac4d9be4f0bf762fa1f9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
