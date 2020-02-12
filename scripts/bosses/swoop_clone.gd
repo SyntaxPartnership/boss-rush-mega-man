@@ -17,7 +17,8 @@ func _physics_process(delta):
 
 func _on_hitbox_body_entered(body):
 	if body.name == "player":
-		touch = true
+		if !player.r_boost:
+			touch = true
 
 func _on_hitbox_body_exited(body):
 	if body.name == "player":
