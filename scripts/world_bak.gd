@@ -47,14 +47,6 @@ var end_stage = true
 var end_state = 0
 var leave_delay = 120
 
-var wpn_txt_delay = 6
-var drop_back = 60
-
-var floor_boom = 8
-var boom_delay = 0
-
-var opening = 0
-
 var og_limits = []
 var shake_delay = 2
 var shake_x = 0
@@ -68,7 +60,7 @@ var res = Vector2()
 var center = Vector2()
 
 var cam_move = 0
-var cam_allow = [1, 1, 1, 1]
+var cam_allow = [0, 1, 0, 1]
 var scroll = false
 var scroll_len = 0
 var scroll_spd = 4
@@ -87,8 +79,7 @@ var enemy_count = 0
 #scrolling section of the code, as it will only change the screen transitions.
 
 var room_data = {
-				"(10, 4)" : [0, 0, 0, 0, 2, 1],
-				"(11, 4)" : [0, 0, 0, 0, 2, -1] #Main Hub
+				#Null and void due to the game only having single rooms.
 				}
 
 var boss_rooms = {
@@ -437,11 +428,13 @@ func _rooms():
 		
 		og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
 
+func _physics_process(delta):
+	pass
+
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
 	#Print Shit
-	
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -626,11 +619,10 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and opening == 99 and tele_timer > -1 and !boss and end_delay > 0:
+	if $player.no_input and tele_timer > -1 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
-		print('Is it here?')
 		$player.can_move = false
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
@@ -673,7 +665,6 @@ func _process(delta):
 	
 	if end_state == 2:
 		if $player.x_dir == 1 and $player.global_position.x >= $player/camera.limit_right - 128 or $player.x_dir == -1 and $player.global_position.x <= $player/camera.limit_right - 128:
-			$player.global_position.x = floor($player.global_position.x)
 			$player.x_dir = 0
 			$player.jump_mod = 1.75
 			$player.jump_tap = true
@@ -681,7 +672,6 @@ func _process(delta):
 			$audio/se/beam_out.play()
 			
 		if $player.global_position.y >= $player/camera.limit_top + 80 and $player.velocity.y > 0:
-			$player.global_position = Vector2(floor($player.global_position.x), floor($player.global_position.y))
 			var get_wpn = load('res://scenes/effects/wpn_get.tscn').instance()
 			$overlap.add_child(get_wpn)
 			get_wpn.position = $player.position
@@ -698,107 +688,21 @@ func _process(delta):
 		end_state = 5
 	
 	if end_state == 6:
-		$fake_fade/fade.interpolate_property($fake_fade/rect, 'color', Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$fake_fade/fade.start()
-		$wpn_get/wpn_get1.frame = $player/sprite.get_frame()
-		$wpn_get/wpn_get1.flip_h = $player/sprite.flip_h
-		$wpn_get/wpn_get1.position = Vector2(($player.global_position.x - $player/camera.limit_left), ($player.global_position.y - $player/camera.limit_top))
-		$wpn_get/wpn_get1.show()
-		end_state =7
+		$player.can_move = true
+		end_state = 7
 	
-	if end_state == 8:
-		$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$wpn_get/wpn_fade.interpolate_property($wpn_get/wpn_get1, 'position', $wpn_get/wpn_get1.position, $wpn_get/mod_ctrl/wpn_get2.position, 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$wpn_get/wpn_fade.interpolate_property($wpn_get/wpn_get1, 'scale', Vector2(1, 1), Vector2(3, 3), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$wpn_get/wpn_fade.interpolate_property($wpn_get/wpn_get1, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl/top, 'rect_position', Vector2(0, 0), Vector2(0, -60), 0.75, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl/bottom, 'rect_position', Vector2(0, 0), Vector2(0, 60), 0.75, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-		$wpn_get/wpn_fade.start()
-		end_state = 9
-	
-	if end_state == 10:
-		if wpn_txt_delay > 0:
-			wpn_txt_delay -= 1
+	if end_state == 7:
+		leave_delay -= 1
 		
-		if wpn_txt_delay == 0:
-			if $wpn_get/mod_ctrl/txt.visible_characters < $wpn_get/mod_ctrl/txt.get_total_character_count():
-				$wpn_get/mod_ctrl/txt.set_visible_characters($wpn_get/mod_ctrl/txt.visible_characters + 1)
-				wpn_txt_delay = 6
-			
-			if $wpn_get/mod_ctrl/txt.visible_characters == $wpn_get/mod_ctrl/txt.get_total_character_count():
-				end_state = 11
-	
-	if end_state == 11:
-		if drop_back > 0:
-			drop_back -= 1
-			
-		if drop_back == 0:
-			$fake_fade/fade.interpolate_property($fake_fade/rect, 'color', Color(0.0, 0.0, 0.0, 1.0), Color(0.0, 0.0, 0.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			$fake_fade/fade.start()
-			$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
-			$wpn_get/wpn_fade.start()
-			end_state = 12
-	
-	if opening == 0:
-		if $player.global_position.x >= $player/camera.limit_left + 96 and $player.global_position.x <= $player/camera.limit_right -96 and $player.is_on_floor():
+		if leave_delay == 0:
+			sound("beam_out")
+			$player.anim_state($player.APPEAR)
 			$player.can_move = false
-			$player.cutscene(true)
-			$player/anim.stop()
-			opening = 1
-	
-	if opening == 1:
-		if boom_delay > 0:
-			boom_delay -= 1
 		
-		if boom_delay == 0 and floor_boom > 0:
-			sound("big_explode")
-			var l_boom = $coll_mask/tiles.map_to_world(Vector2(165, 13))
-			var r_boom = $coll_mask/tiles.map_to_world(Vector2(170, 13))
-			for b in range(4):
-				var boom = load("res://scenes/effects/s_explode.tscn").instance()
-				boom.position.x = floor(rand_range(l_boom.x, r_boom.x + 16))
-				boom.position.y = floor(rand_range(l_boom.y, l_boom.y + 16))
-				$graphic.add_child(boom)
-			floor_boom -= 1
-			boom_delay = 8
-		
-		if floor_boom == 0:
-			for f in range(6):
-				$coll_mask/tiles.set_cellv(Vector2(165 + f, 13), -1)
-			$player.can_move = true
-			opening = 2
-		
-# SAVE THESE FOR MMC
-#	if end_state == 6:
-#		$player.can_move = true
-#		end_state = 7
-#
-#	if end_state == 7:
-#		leave_delay -= 1
-#
-#		if leave_delay == 0:
-#			sound("beam_out")
-#			$player.anim_state($player.APPEAR)
-#			$player.can_move = false
-#
-#		if $player.get_child(3).offset.y == -241 and !$fade/fade.end:
-#			$fade/fade.state = 10
-#			$fade/fade.begin = false
-#			$fade/fade.end = true
-	
-	if end_state != 0:
-		for a in $wpn_get/mod_ctrl/top/layera.get_children() + $wpn_get/mod_ctrl/bottom/layera.get_children():
-			if a.position.x <= 8:
-				a.position.x = 264
-			a.position.x -= 8
-		for b in $wpn_get/mod_ctrl/top/layerb.get_children() + $wpn_get/mod_ctrl/bottom/layerb.get_children():
-			if b.position.x <= 5:
-				b.position.x = 261
-			b.position.x -= 4
-		for c in $wpn_get/mod_ctrl/top/layerc.get_children() + $wpn_get/mod_ctrl/bottom/layerc.get_children():
-			if c.position.x <= 4:
-				c.position.x = 260
-			c.position.x -= 2
+		if $player.get_child(3).offset.y == -241 and !$fade/fade.end:
+			$fade/fade.state = 10
+			$fade/fade.begin = false
+			$fade/fade.end = true
 
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
@@ -863,10 +767,8 @@ func _on_fade_fadeout():
 	
 	if $fade/fade.state == 10:
 		if wpn_get_anim.has(global.level_id):
-# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/new_weap.tscn")
 		else:
-# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/stage_select.tscn")
 
 func palette_swap():
@@ -1234,21 +1136,3 @@ func show_shit():
 	$hud/hud.show()
 	$player.can_move = true
 	p_menu = false
-
-func _on_fade_tween_completed(_object, _key):
-	if end_state == 7:
-		end_state = 8
-
-func _on_wpn_fade_tween_completed(object, _key):
-	if object.name == "bottom":
-		end_state = 10
-	
-	if object.name == 'mod_ctrl':
-		if end_state == 12:
-			$wpn_get/mod_ctrl/txt.set_visible_characters(0)
-			$wpn_get/mod_ctrl/top.set_position(Vector2(0, 0))
-			$wpn_get/mod_ctrl/bottom.set_position(Vector2(0, 0))
-			$player.can_move = true
-			$player.jump_mod = 1
-			end_state = 0
-			$player.cutscene(false)

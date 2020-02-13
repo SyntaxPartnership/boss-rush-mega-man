@@ -169,13 +169,13 @@ func _physics_process(delta):
 	
 	if half_move == 1:
 		if $stage_sel/halves/top.global_position.y > -52:
-			$stage_sel/halves/top.global_position.y -= 2
-			$stage_sel/halves/mug_01.global_position.y -= 2
-			$stage_sel/halves/mug_02.global_position.y -= 2
+			$stage_sel/halves/top.global_position.y -= 4
+			$stage_sel/halves/mug_01.global_position.y -= 4
+			$stage_sel/halves/mug_02.global_position.y -= 4
 			
-			$stage_sel/halves/bottom.global_position.y += 2
-			$stage_sel/halves/mug_03.global_position.y += 2
-			$stage_sel/halves/mug_04.global_position.y += 2
+			$stage_sel/halves/bottom.global_position.y += 4
+			$stage_sel/halves/mug_03.global_position.y += 4
+			$stage_sel/halves/mug_04.global_position.y += 4
 		
 		if $stage_sel/halves/top.global_position.y == -52:
 			$stage_sel/halves/top.set_frame(2)
@@ -191,8 +191,8 @@ func _physics_process(delta):
 				$stage_sel/name_bar/map.set_cellv(Vector2(t, tile_pos[1].y - 7), -1)
 		
 		if $stage_sel/halves/top.global_position.y < 20:
-			$stage_sel/halves/top.global_position.y += 2
-			$stage_sel/halves/bottom.global_position.y -= 2
+			$stage_sel/halves/top.global_position.y += 4
+			$stage_sel/halves/bottom.global_position.y -= 4
 		
 		if $stage_sel/halves/top.global_position.y == 20:
 			move_delay -= 1

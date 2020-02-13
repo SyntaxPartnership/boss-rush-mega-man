@@ -61,7 +61,7 @@ func _on_fade_fadein():
 func _on_fade_fadeout():
 	if menu_pos == 0:
 		# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/stage_select.tscn")
+		get_tree().change_scene("res://scenes/world.tscn")
 	elif menu_pos == 2:
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/options.tscn")
