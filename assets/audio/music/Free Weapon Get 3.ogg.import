@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/Free Weapon Get 3.ogg-2a4a091fabbc915b032bc4d3d4d90e66.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/music/Free Weapon Get 3.ogg"
+dest_files=[ "res://.import/Free Weapon Get 3.ogg-2a4a091fabbc915b032bc4d3d4d90e66.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -48,10 +48,22 @@ var end_state = 0
 var leave_delay = 120
 
 var wpn_txt_delay = 6
-var drop_back = 60
+var drop_back = 180
 
 var floor_boom = 8
 var boom_delay = 0
+
+var opn_lk_delay = 60
+var opn_look_cnt = 0
+
+var blink_delay = 30
+var blink_cnt = 0
+
+var mntr_frame = 0
+var mntr_rand = 4
+var j_delay = 16
+
+var j_release = 0
 
 var opening = 0
 
@@ -442,7 +454,7 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-	
+#	print(fill_b_meter,', ',boss,', ',boss_hp)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -505,6 +517,7 @@ func _process(delta):
 	
 	#Boss Meters.
 	if $hud/hud/boss.value < boss_hp and heal_delay == 1:
+		print('help')
 		$audio/se/meter.play()
 		$hud/hud/boss.value += 10
 	
@@ -627,7 +640,7 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and opening == 2 and tele_timer > -1 and !boss and end_delay > 0:
+	if $player.no_input and opening >= 7 and tele_timer > -1 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
@@ -699,6 +712,7 @@ func _process(delta):
 		end_state = 5
 	
 	if end_state == 6:
+		play_music("wpn_get")
 		$fake_fade/fade.interpolate_property($fake_fade/rect, 'color', Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		$fake_fade/fade.start()
 		$wpn_get/wpn_get1.frame = $player/sprite.get_frame()
@@ -732,19 +746,25 @@ func _process(delta):
 	if end_state == 11:
 		if drop_back > 0:
 			drop_back -= 1
+		
+		if drop_back <= 10 and $audio/music/wpn_get.get_volume_db() > -80:
+			$audio/music/wpn_get.set_volume_db($audio/music/wpn_get.get_volume_db() - 8)
 			
 		if drop_back == 0:
 			$fake_fade/fade.interpolate_property($fake_fade/rect, 'color', Color(0.0, 0.0, 0.0, 1.0), Color(0.0, 0.0, 0.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			$fake_fade/fade.start()
 			$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			$wpn_get/wpn_fade.start()
+			kill_music()
+			$audio/music/wpn_get.set_volume_db(0)
 			end_state = 12
 	
 	if opening == 0:
 		if $player.global_position.x >= $player/camera.limit_left + 96 and $player.global_position.x <= $player/camera.limit_right -96 and $player.is_on_floor():
 			$player.can_move = false
-#			$player.cutscene(true)
+			$player.cutscene(true)
 			$player/anim.stop()
+			$hud/hud.hide()
 			opening = 1
 	
 	if opening == 1:
@@ -755,7 +775,7 @@ func _process(delta):
 			sound("big_explode")
 			var l_boom = $coll_mask/tiles.map_to_world(Vector2(165, 13))
 			var r_boom = $coll_mask/tiles.map_to_world(Vector2(170, 13))
-			for b in range(4):
+			for _b in range(4):
 				var boom = load("res://scenes/effects/s_explode.tscn").instance()
 				boom.position.x = floor(rand_range(l_boom.x, r_boom.x + 16))
 				boom.position.y = floor(rand_range(l_boom.y, l_boom.y + 16))
@@ -771,6 +791,92 @@ func _process(delta):
 			$graphic/stage_gfx/world.set_cellv(Vector2(171, 13), 446)
 			$player.can_move = true
 			opening = 2
+	
+	if opening == 2 and $player.is_on_floor():
+		opn_lk_delay -= 1
+		
+		if opn_lk_delay == 0:
+			if opn_look_cnt < 3:
+				if $player/sprite.flip_h:
+					$player/sprite.flip_h = false
+				else:
+					$player/sprite.flip_h = true
+			
+			opn_lk_delay = 16
+			opn_look_cnt += 1
+		
+		if opn_look_cnt == 4:
+			$player.anim_state($player.LOOKUP)
+			opening = 3
+	
+	if opening == 3:
+		blink_delay -= 1
+		
+		if blink_delay == 0:
+			if $graphic/stage_overlap/dark.is_visible_in_tree():
+				$graphic/stage_overlap/dark.hide()
+				$overlap.show()
+			else:
+				$graphic/stage_overlap/dark.show()
+				$overlap.hide()
+			
+			if blink_cnt < 7:
+				blink_delay = 4
+			elif blink_cnt == 7:
+				blink_delay = 16
+			elif blink_cnt < 28:
+				blink_delay = 1
+			else:
+				for m in $graphic/stage_gfx/mugshots.get_children():
+					m.show()
+				opening = 4
+			
+			blink_cnt += 1
+	
+	if opening == 4:
+		mntr_rand -= 1
+		
+		if mntr_rand == 0:
+			if mntr_frame < 3:
+				mntr_rand = 4
+				mntr_frame += 1
+				for m in $graphic/stage_gfx/mugshots.get_children():
+					m.frame = mntr_frame
+			
+			if mntr_frame >= 3:
+				opening = 5
+
+	if opening >= 4:
+			if mntr_frame >= 3:
+				mntr_frame = floor(rand_range(3, 6))
+				mntr_rand = floor(rand_range(4, 10))
+				for m in $graphic/stage_gfx/mugshots.get_children():
+					m.frame = mntr_frame
+	
+	if opening == 5:
+		j_delay -= 1
+		
+		if j_delay == 0:
+			$player.jump_tap = true
+			$player.jump = true
+			j_release = 8
+			opening = 6
+	
+	if opening == 6:
+		j_release -= 1
+		
+		if j_release == 0:
+			if $player.jump:
+				j_release = 90
+				$player.jump_tap = false
+				$player.jump = false
+			else:
+				$player/sprite.flip_h = false
+				$hud/hud.show()
+				$player.cutscene(false)
+				opening = 7
+				play_music("main")
+				
 		
 # SAVE THESE FOR MMC
 #	if end_state == 6:
@@ -1201,12 +1307,9 @@ func _on_player_whstl_end():
 	play_music("")
 
 func play_music(ogg):
-	if ogg == "":
-		$audio/music/glow.play()
-	else:
-		for m in $audio/music.get_children():
-			if m.name == ogg:
-				m.play()
+	for m in $audio/music.get_children():
+		if m.name == ogg:
+			m.play()
 
 func kill_music():
 	for m in $audio/music.get_children():
@@ -1254,5 +1357,14 @@ func _on_wpn_fade_tween_completed(object, _key):
 			$wpn_get/mod_ctrl/bottom.set_position(Vector2(0, 0))
 			$player.can_move = true
 			$player.jump_mod = 1
+			end_delay = 360
+			boss_dead = false
+			boss = false
+			fill_b_meter = false
+			boss_hp = 280
+			heal_delay = 0
+			$hud/hud.show()
+			global.boss_num = 1
 			end_state = 0
+			play_music('main')
 			$player.cutscene(false)

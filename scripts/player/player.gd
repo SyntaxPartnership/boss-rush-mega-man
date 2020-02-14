@@ -243,7 +243,8 @@ enum {
 	NO_HAND,
 	RBOOST,
 	SKICK_AIR,
-	SKICK_SLD
+	SKICK_SLD,
+	LOOKUP
 	}
 
 #Set the appropriate states and values
@@ -610,6 +611,8 @@ func anim_state(new_anim_state):
 			change_anim('get_wpn')
 		RBOOST:
 			change_anim('rboost')
+		LOOKUP:
+			change_anim('lookup')
 
 
 func change_anim(new_anim):

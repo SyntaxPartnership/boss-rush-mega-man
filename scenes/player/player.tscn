@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://shaders/player.tres" type="Material" id=2]
@@ -312,7 +312,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=22]
-resource_name = "rboost"
+resource_name = "lookup"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 19 ]
+}
+
+[sub_resource type="Animation" id=23]
 length = 0.2
 loop = true
 step = 0.05
@@ -329,7 +345,7 @@ tracks/0/keys = {
 "values": [ 29, 30, 31, 32 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=24]
 length = 0.44
 loop = true
 step = 0.11
@@ -346,8 +362,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 8 ]
 }
 
-[sub_resource type="Animation" id=24]
-resource_name = "skick_air"
+[sub_resource type="Animation" id=25]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -363,8 +378,7 @@ tracks/0/keys = {
 "values": [ 27 ]
 }
 
-[sub_resource type="Animation" id=25]
-resource_name = "skick_sld"
+[sub_resource type="Animation" id=26]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -380,7 +394,7 @@ tracks/0/keys = {
 "values": [ 28 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=27]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -396,7 +410,7 @@ tracks/0/keys = {
 "values": [ 14, 15 ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=28]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -412,7 +426,7 @@ tracks/0/keys = {
 "values": [ 21 ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=29]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -428,7 +442,7 @@ tracks/0/keys = {
 "values": [ 22 ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=30]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -444,10 +458,10 @@ tracks/0/keys = {
 "values": [ 23 ]
 }
 
-[sub_resource type="RectangleShape2D" id=30]
+[sub_resource type="RectangleShape2D" id=31]
 extents = Vector2( 8, 1 )
 
-[sub_resource type="RectangleShape2D" id=31]
+[sub_resource type="RectangleShape2D" id=32]
 extents = Vector2( 0.5, 7 )
 
 [node name="player" type="KinematicBody2D"]
@@ -477,7 +491,6 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 28
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -507,14 +520,15 @@ anims/jump-shot-d-down = SubResource( 18 )
 anims/jump-shot-d-up = SubResource( 19 )
 anims/jump-shot-up = SubResource( 20 )
 anims/lilstep = SubResource( 21 )
-anims/rboost = SubResource( 22 )
-anims/run = SubResource( 23 )
-anims/skick_air = SubResource( 24 )
-anims/skick_sld = SubResource( 25 )
-anims/slide = SubResource( 26 )
-anims/stand-shot-d-down = SubResource( 27 )
-anims/stand-shot-d-up = SubResource( 28 )
-anims/stand-shot-up = SubResource( 29 )
+anims/lookup = SubResource( 22 )
+anims/rboost = SubResource( 23 )
+anims/run = SubResource( 24 )
+anims/skick_air = SubResource( 25 )
+anims/skick_sld = SubResource( 26 )
+anims/slide = SubResource( 27 )
+anims/stand-shot-d-down = SubResource( 28 )
+anims/stand-shot-d-up = SubResource( 29 )
+anims/stand-shot-up = SubResource( 30 )
 
 [node name="slide_top" type="Area2D" parent="."]
 visible = false
@@ -523,7 +537,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_top"]
-shape = SubResource( 30 )
+shape = SubResource( 31 )
 
 [node name="slide_wall" type="Area2D" parent="."]
 visible = false
@@ -532,7 +546,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_wall"]
-shape = SubResource( 31 )
+shape = SubResource( 32 )
 
 [node name="item_det" type="Area2D" parent="."]
 collision_layer = 8
