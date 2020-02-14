@@ -88,11 +88,12 @@ var enemy_count = 0
 
 var room_data = {
 				"(10, 4)" : [0, 0, 0, 0, 2, 1],
-				"(11, 4)" : [0, 0, 0, 0, 2, -1] #Main Hub
+				"(11, 4)" : [0, 0, 0, 0, 2, -1], #Main Hub
+				"(7, 6)" : [0, 0, 1, 1, 1, 1]
 				}
 
 var boss_rooms = {
-				"(1, 0)" : "",
+				"(8, 6)" : "",
 				"(1, 1)" : "res://scenes/bosses/roto.tscn"
 				}
 
@@ -626,7 +627,7 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and opening == 99 and tele_timer > -1 and !boss and end_delay > 0:
+	if $player.no_input and opening == 2 and tele_timer > -1 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
@@ -742,7 +743,7 @@ func _process(delta):
 	if opening == 0:
 		if $player.global_position.x >= $player/camera.limit_left + 96 and $player.global_position.x <= $player/camera.limit_right -96 and $player.is_on_floor():
 			$player.can_move = false
-			$player.cutscene(true)
+#			$player.cutscene(true)
 			$player/anim.stop()
 			opening = 1
 	
@@ -765,6 +766,9 @@ func _process(delta):
 		if floor_boom == 0:
 			for f in range(6):
 				$coll_mask/tiles.set_cellv(Vector2(165 + f, 13), -1)
+				$graphic/stage_gfx/world.set_cellv(Vector2(165 + f, 13), -1)
+			$graphic/stage_gfx/world.set_cellv(Vector2(164, 13), 445)
+			$graphic/stage_gfx/world.set_cellv(Vector2(171, 13), 446)
 			$player.can_move = true
 			opening = 2
 		
