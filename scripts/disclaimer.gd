@@ -2,7 +2,7 @@ extends Node2D
 
 var allow_ctrl = false
 
-var text_a = "       ----WARNING!----\n\n\n\n\nThis is a test demo of a fan\ngame currently in production.\n\n\nAnything found within is\nsubject to change and may not\nbe included in the final\nrelease.\n\n\nMega Man™ and all related\ncharacters are © Capcom\nCo., LTD.\n\n\nThis game was developed as\na free, non profit project."
+
 
 const INPUT_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'fire', 'dash', 'prev', 'next', 'select', 'start']
 const CONFIG_FILE = 'user://options.cfg'
@@ -10,11 +10,9 @@ const CONFIG_FILE = 'user://options.cfg'
 var txt_line = 0
 
 func _ready():
+	$sprite/anim.play("run")
 	global._screen_resized()
-	
-	$text.set_text(text_a)
 	load_config()
-	pass
 
 #Using the example of loading/saving from the Input Mapping tutorial.
 func load_config():

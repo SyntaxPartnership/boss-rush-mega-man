@@ -474,14 +474,24 @@ func _physics_process(_delta):
 func hide_icons():
 	if !global.weapon1[0]:
 		$weap_menu/s_kick.hide()
+	else:
+		$weap_menu/s_kick.show()
 	if !global.weapon2[0]:
 		$weap_menu/r_boost.hide()
+	else:
+		$weap_menu/r_boost.show()
 	if !global.weapon3[0]:
 		$weap_menu/s_puck.hide()
+	else:
+		$weap_menu/s_puck.show()
 	if !global.weapon4[0]:
 		$weap_menu/a_shield.hide()
+	else:
+		$weap_menu/a_shield.show()
 	if !global.perma_items.get("super_adaptor"):
 		$weap_menu/s_adaptor.hide()
+	else:
+		$weap_menu/s_adaptor.show()
 
 func wpn_menu():
 	var get_nodes = get_tree().get_nodes_in_group('icons')

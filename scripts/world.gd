@@ -13,6 +13,13 @@ const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
 # warning-ignore:unused_class_variable
 var fade_state
 
+var get_scrn_txt = {
+	0 : "YOU GOT\n\n\n   SWOOP KICK",
+	1 : "YOU GOT\n\n\n   ROTO BOOST",
+	2 : "YOU GOT\n\n\n   SPRING PUCK",
+	3 : "YOU GOT\n\n\n   ATTACK SHIELD"
+}
+
 #Determines player position in the game world.
 var pos = Vector2()
 var player_tilepos = Vector2()
@@ -49,6 +56,7 @@ var leave_delay = 120
 
 var wpn_txt_delay = 6
 var drop_back = 180
+var which_wpn = 0
 
 var floor_boom = 8
 var boom_delay = 0
@@ -99,14 +107,19 @@ var enemy_count = 0
 #scrolling section of the code, as it will only change the screen transitions.
 
 var room_data = {
-				"(10, 4)" : [0, 0, 0, 0, 2, 1],
-				"(11, 4)" : [0, 0, 0, 0, 2, -1], #Main Hub
-				"(7, 6)" : [0, 0, 1, 1, 1, 1]
+				"(10, 4)" : [0, 0, 0, 0, 2, 1, 0],
+				"(11, 4)" : [0, 0, 0, 0, 2, -1, 0], #Main Hub
+				"(7, 6)" : [0, 0, 1, 1, 1, 1, 0], #Swoop Hub
+				"(8, 6)" : [0, 0, 0, 0, 1, 1, 0], #Swoop Boss Room
+				"(7, 10)" : [0, 0, 1, 1, 1, 1, 1], #Roto Hub
+				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
 				}
+
+var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
 
 var boss_rooms = {
 				"(8, 6)" : "",
-				"(1, 1)" : "res://scenes/bosses/roto.tscn"
+				"(8, 10)" : "res://scenes/bosses/roto.tscn"
 				}
 
 # warning-ignore:unused_class_variable
@@ -391,6 +404,8 @@ func _rooms():
 		cam_allow[1] = room_data.get(str(player_room))[1]
 		cam_allow[2] = room_data.get(str(player_room))[2]
 		cam_allow[3] = room_data.get(str(player_room))[3]
+		which_wpn = room_data.get(str(player_room))[6]
+		$wpn_get/mod_ctrl/txt.set_text(get_scrn_txt.get(which_wpn))
 		#Set scrolling.
 		if room_data.get(str(player_room))[4] != 0:
 			#Is it a single room area?
@@ -402,12 +417,22 @@ func _rooms():
 			else:
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
+	
+	#Prevent the player from re-entering a boss room until they've visted the main hub.
+	if hub_rooms.has(player_room):
+		match which_wpn:
+			0:
+				if global.weapon1[0] and !global.boss1_clear:
+					cam_allow[3] = 0
+			1:
+				if global.weapon2[0] and !global.boss2_clear:
+					cam_allow[3] = 0
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
 		kill_music()
 		
-		if global.level_id != 0:
+		if which_wpn != 0:
 			ready_boss = true
 			$player.no_input(true)
 
@@ -454,7 +479,6 @@ func _rooms():
 func _process(delta):
 	_camera()
 	#Print Shit
-#	print(fill_b_meter,', ',boss,', ',boss_hp)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -530,7 +554,7 @@ func _process(delta):
 		for b in get_tree().get_nodes_in_group("boss"):
 			b.intro = false
 			b.fill_bar = false
-			match global.level_id:
+			match which_wpn:
 				0:
 					b.play_anim("idle")
 				1:
@@ -706,7 +730,7 @@ func _process(delta):
 	
 	if end_state == 4:
 		$player.anim_state($player.GET_WPN)
-		global.player_weap[0] = global.level_id + 1
+		global.player_weap[0] = which_wpn + 1
 		palette_swap()
 		sound("bling")
 		end_state = 5
@@ -829,6 +853,7 @@ func _process(delta):
 			else:
 				for m in $graphic/stage_gfx/mugshots.get_children():
 					m.show()
+				$graphic/stage_overlap/dark.queue_free()
 				opening = 4
 			
 			blink_cnt += 1
@@ -848,8 +873,8 @@ func _process(delta):
 
 	if opening >= 4:
 			if mntr_frame >= 3:
-				mntr_frame = floor(rand_range(3, 6))
-				mntr_rand = floor(rand_range(4, 10))
+				mntr_frame = floor(rand_range(3, 8))
+				mntr_rand = floor(rand_range(8, 12))
 				for m in $graphic/stage_gfx/mugshots.get_children():
 					m.frame = mntr_frame
 	
@@ -1352,6 +1377,18 @@ func _on_wpn_fade_tween_completed(object, _key):
 	
 	if object.name == 'mod_ctrl':
 		if end_state == 12:
+			match which_wpn:
+				0:
+					global.weapon1[0] = true
+				1:
+					global.weapon2[0] = true
+				2:
+					global.weapon3[0] = true
+				3:
+					global.weapon4[0] = true
+				
+			$pause/pause_menu.hide_icons()
+			cam_allow[2] = 1
 			$wpn_get/mod_ctrl/txt.set_visible_characters(0)
 			$wpn_get/mod_ctrl/top.set_position(Vector2(0, 0))
 			$wpn_get/mod_ctrl/bottom.set_position(Vector2(0, 0))
@@ -1360,9 +1397,12 @@ func _on_wpn_fade_tween_completed(object, _key):
 			end_delay = 360
 			boss_dead = false
 			boss = false
+			ready_boss = false
+			boss_delay = 60
 			fill_b_meter = false
 			boss_hp = 280
 			heal_delay = 0
+			drop_back = 180
 			$hud/hud.show()
 			global.boss_num = 1
 			end_state = 0
