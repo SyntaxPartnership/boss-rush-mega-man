@@ -443,7 +443,7 @@ func _physics_process(delta):
 				spawn.type = 0
 			spawn.global_position = global_position
 			spawn.time = 420
-			spawn.velocity.y = spawn.JUMP_SPEED
+			spawn.velocity.y = spawn.JUMP_SPEED * 1.5
 			spawn.x_spd = rand_range(-100, 100)
 			world.get_child(1).add_child(spawn)
 				
