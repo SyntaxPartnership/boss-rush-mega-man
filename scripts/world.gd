@@ -7,6 +7,8 @@ onready var objects = $graphic/spawn_tiles/objects
 onready var items = $graphic/spawn_tiles/items
 onready var enemies = $graphic/spawn_tiles/enemy_map
 
+onready var start_time = OS.get_ticks_msec()
+
 #Object constants
 const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
 
@@ -157,7 +159,8 @@ var shot_num = 0.0
 var hit_num = 0.0
 var hits = 0
 var time = 0
-var deaths = 0
+var deaths = false
+var tanks = false
 
 func _ready():
 	res = get_viewport_rect().size
@@ -485,6 +488,10 @@ func _rooms():
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
+	
+	#Calculate time during a boss fight.
+	if boss:
+		time = OS.get_ticks_msec() - start_time
 	#Print Shit
 	
 	#Camera shake?
@@ -548,7 +555,6 @@ func _process(delta):
 	
 	#Boss Meters.
 	if $hud/hud/boss.value < boss_hp and heal_delay == 1:
-		print('help')
 		$audio/se/meter.play()
 		$hud/hud/boss.value += 10
 	
@@ -915,7 +921,7 @@ func _process(delta):
 		mntr_rand -= 1
 		
 		if show_boss == 0:
-			if mntr_frame >= 3 and mntr_rand == 0:
+			if mntr_frame >= 3 and mntr_rand <= 0:
 				mntr_frame = floor(rand_range(3, 8))
 				mntr_rand = floor(rand_range(2, 6))
 				for m in $graphic/stage_gfx/mugshots.get_children():
@@ -1503,4 +1509,49 @@ func _on_wpn_fade_tween_completed(object, _key):
 			$player.cutscene(false)
 
 func bolt_calc():
-	pass
+	#Bolts start at 0
+	var max_bolts = 0
+	
+	#Calculate accuracy for later.
+	var accuracy = (hit_num / shot_num) * 100
+	
+	#Set value for time.
+	var total_time = time
+	
+	#Add bolts for time
+	if total_time <= 45000:
+		max_bolts += 10
+	elif total_time >= 45001 and total_time <= 60000:
+		max_bolts += 8
+	elif total_time >= 60001 and total_time <= 75000:
+		max_bolts += 6
+	elif total_time >= 75001 and total_time <= 90000:
+		max_bolts += 4
+	elif total_time >= 90001 and total_time <= 105000:
+		max_bolts += 2
+		
+	var hits_dict = {
+		0 : 10,
+		1 : 8,
+		2 : 6,
+		3 : 4,
+		4 : 2
+	}
+	
+	#Add bolts for hits taken.
+	if hits <= 4:
+		max_bolts += hits_dict.get(hits)
+	
+	if !deaths:
+		max_bolts += 5
+	
+	print(max_bolts)
+
+func reset_bolt_calc(all):
+	shot_num = 0.0
+	hit_num = 0.0
+	hits = 0
+	time = 0
+	if all:
+		deaths = false
+		tanks = false

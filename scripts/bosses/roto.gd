@@ -56,6 +56,8 @@ var overlap = []
 
 func _ready():
 	
+	world.reset_bolt_calc(false)
+	
 	#Set position and starting animation.
 	global_position.x = camera.limit_left + 40
 	global_position.y = camera.limit_top + 128
@@ -350,6 +352,7 @@ func _physics_process(delta):
 	if world.boss_hp <= 0:
 		world.kill_music()
 		world.sound("death")
+		world.bolt_calc()
 		for n in range(16):
 			var boom = world.DEATH_BOOM.instance()
 			boom.global_position = global_position

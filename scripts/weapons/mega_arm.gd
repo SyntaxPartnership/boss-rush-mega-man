@@ -40,6 +40,7 @@ var property = 3
 func _ready():
 	$anim.play("idle")
 	world.sound("shoot_b")
+	world.shot_num += 1
 	
 	get_targets()
 	
