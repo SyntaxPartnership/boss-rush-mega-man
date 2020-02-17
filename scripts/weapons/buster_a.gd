@@ -20,6 +20,8 @@ var velocity = Vector2()
 func _ready():
 	#Change the sound effect to whatever is needed.
 	world.sound("shoot_a")
+	
+	world.shot_num += 1
 
 	#Set direction if necessary
 	if p_sprite.flip_h:

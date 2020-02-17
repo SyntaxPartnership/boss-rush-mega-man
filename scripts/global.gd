@@ -58,7 +58,8 @@ var perma_items = {
 	'super_adaptor'		: false,
 	'choke_hand'		: false,
 	'magnet_hand'		: false,
-	'seeker_hand'		: false
+	'seeker_hand'		: false,
+	'ebalancer'			: false
 	}
 
 #Stage Cleared Flags

@@ -29,6 +29,8 @@ var ladder_set
 var ladder_top
 var player_room = Vector2(0, 0)
 var spawn_pt
+var arr_blnk = 0
+var arr_up = false
 var boss = false
 var hurt_swap = false
 var dead = false
@@ -69,6 +71,7 @@ var blink_cnt = 0
 
 var mntr_frame = 0
 var mntr_rand = 4
+var show_boss = 0
 var j_delay = 16
 
 var j_release = 0
@@ -149,6 +152,13 @@ var tele_dest
 var spl_trigger = false
 var bbl_count = 0
 
+#Bolt Calculations
+var shot_num = 0.0
+var hit_num = 0.0
+var hits = 0
+var time = 0
+var deaths = 0
+
 func _ready():
 	res = get_viewport_rect().size
 	
@@ -167,9 +177,6 @@ func _ready():
 	$audio/se/charge.stream.loop_mode = 1
 	$audio/se/charge.stream.loop_begin = 56938
 	$audio/se/charge.stream.loop_end = 62832
-	
-	#Set lives counter.
-	$hud/hud/lives.set_text(str(global.lives))
 	
 	#Set player position and reset camera.
 	for spawn in $coll_mask/spawn_pts.get_used_cells():
@@ -655,12 +662,47 @@ func _process(delta):
 	#Right Analog Stick
 	
 	#Teleporters
+	if arr_up:
+		arr_blnk += 4
+	else:
+		arr_blnk += 1
+	
+	if arr_blnk > 15:
+		arr_blnk = 0
+		
+	if arr_blnk < 8:
+		$graphic/stage_overlap/arrow.show()
+	else:
+		$graphic/stage_overlap/arrow.hide()
+			
+	if spawn_pt != -1:
+		if spawn_pt >= 49 and spawn_pt <= 68:
+			match spawn_pt:
+				49:
+					$graphic/stage_overlap/arrow.global_position = Vector2(2608, 1128)
+					show_boss = 1
+				50:
+					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 1528)
+				51:
+					$graphic/stage_overlap/arrow.global_position = Vector2(2656, 1128)
+					show_boss = 2
+				52:
+					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
+	else:
+		if $graphic/stage_overlap/arrow.global_position != Vector2(2500, 1100):
+			 $graphic/stage_overlap/arrow.global_position = Vector2(2500, 1100)
+		if show_boss != 0:
+			show_boss = 0
+			
+			
+	
 	if spawn_pt != -1 and $player.is_on_floor():
-		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input:
+		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input and Input.is_action_just_pressed("up"):
 			$player.no_input(true)
 			$player.anim_state(2)
 			$player.slide = false
 			$player.slide_timer = 0
+			arr_up = true
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
@@ -668,7 +710,6 @@ func _process(delta):
 		tele_timer -= 1
 	
 	if tele_timer == 0:
-		print('Is it here?')
 		$player.can_move = false
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
@@ -859,7 +900,6 @@ func _process(delta):
 			blink_cnt += 1
 	
 	if opening == 4:
-		mntr_rand -= 1
 		
 		if mntr_rand == 0:
 			if mntr_frame < 3:
@@ -872,11 +912,58 @@ func _process(delta):
 				opening = 5
 
 	if opening >= 4:
-			if mntr_frame >= 3:
+		mntr_rand -= 1
+		
+		if show_boss == 0:
+			if mntr_frame >= 3 and mntr_rand == 0:
 				mntr_frame = floor(rand_range(3, 8))
-				mntr_rand = floor(rand_range(8, 12))
+				mntr_rand = floor(rand_range(2, 6))
 				for m in $graphic/stage_gfx/mugshots.get_children():
 					m.frame = mntr_frame
+		else:
+			match show_boss:
+				1:
+					for m in $graphic/stage_gfx/mugshots.get_children():
+						if !global.weapon1[0]:
+							m.frame = 9
+						else:
+							if m.get_frame() < 13:
+								m.frame = 13
+								mntr_rand = 3
+				2:
+					for m in $graphic/stage_gfx/mugshots.get_children():
+						if !global.weapon2[0]:
+							m.frame = 10
+						else:
+							if m.get_frame() < 13:
+								m.frame = 13
+								mntr_rand = 3
+				3:
+					for m in $graphic/stage_gfx/mugshots.get_children():
+						if !global.weapon3[0]:
+							m.frame = 11
+						else:
+							if m.get_frame() < 13:
+								m.frame = 13
+								mntr_rand = 3
+				4:
+					for m in $graphic/stage_gfx/mugshots.get_children():
+						if !global.weapon4[0]:
+							m.frame = 12
+						else:
+							if m.get_frame() < 13:
+								m.frame = 13
+								mntr_rand = 3
+			
+			for m in $graphic/stage_gfx/mugshots.get_children():
+				if m.get_frame() > 12:
+					if mntr_rand == 0:
+						if m.get_frame() == 14:
+							m.frame = 13
+						elif m.get_frame() == 13:
+							m.frame = 14
+						
+						mntr_rand = 3
 	
 	if opening == 5:
 		j_delay -= 1
@@ -954,14 +1041,25 @@ func _on_fade_fadein():
 
 func _on_fade_fadeout():
 	if $fade/fade.state == 2:
-
-		for teleport in $coll_mask/spawn_pts.get_used_cells():
-			var tele_id = $coll_mask/spawn_pts.get_cellv(teleport)
+		
+		arr_up = false
+		
+		for teleport in $coll_mask/receive_pts.get_used_cells():
+			var tele_id = $coll_mask/receive_pts.get_cellv(teleport)
 			if tele_id == tele_dest:
-				var tele_pos = $coll_mask/spawn_pts.map_to_world(teleport)
+				var tele_pos = $coll_mask/receive_pts.map_to_world(teleport)
 			
-				$player.position.x = tele_pos.x + $coll_mask/spawn_pts.cell_size.x
-				$player.position.y = tele_pos.y + $coll_mask/spawn_pts.cell_size.y / 2
+				$player.position.x = tele_pos.x + $coll_mask/receive_pts.cell_size.x
+				$player.position.y = tele_pos.y + $coll_mask/receive_pts.cell_size.y / 2
+
+#Edit this for MMC as well.
+#		for teleport in $coll_mask/spawn_pts.get_used_cells():
+#			var tele_id = $coll_mask/spawn_pts.get_cellv(teleport)
+#			if tele_id == tele_dest:
+#				var tele_pos = $coll_mask/spawn_pts.map_to_world(teleport)
+#
+#				$player.position.x = tele_pos.x + $coll_mask/spawn_pts.cell_size.x
+#				$player.position.y = tele_pos.y + $coll_mask/spawn_pts.cell_size.y / 2
 
 		$player/camera.limit_top = ((floor($player.position.y/240))*240)
 		$player/camera.limit_bottom = ((floor($player.position.y/240))*240)+240
@@ -978,13 +1076,8 @@ func _on_fade_fadeout():
 				global.player_life[1] = 280
 			global.player_weap[0] = 0
 			global.player_weap[1] = 0
-			global.lives -= 1
 # warning-ignore:return_value_discarded
 			get_tree().reload_current_scene()
-		else:
-			global.game_over = true
-# warning-ignore:return_value_discarded
-			get_tree().change_scene("res://scenes/menu.tscn")
 	
 	if $fade/fade.state == 6:
 		$pause/pause_menu.show()
@@ -1408,3 +1501,6 @@ func _on_wpn_fade_tween_completed(object, _key):
 			end_state = 0
 			play_music('main')
 			$player.cutscene(false)
+
+func bolt_calc():
+	pass

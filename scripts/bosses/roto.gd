@@ -262,6 +262,7 @@ func _physics_process(delta):
 				if flash == 0:
 					world.enemy_dmg(id, body.id)
 					if world.damage != 0 and !body.reflect:
+						var add_count = false
 						#Weapon behaviors.
 						match body.property:
 							0:
@@ -278,6 +279,8 @@ func _physics_process(delta):
 						world.boss_hp -= world.damage
 						flash = 20
 						hit = true
+						if !add_count:
+							world.hit_num += 1
 						if world.boss_hp > 0:
 							world.sound("hit")
 						else:

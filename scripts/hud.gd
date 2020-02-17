@@ -16,9 +16,6 @@ func _ready():
 # warning-ignore:unused_argument
 func _process(delta):
 	
-	if int($lives.get_text()) != global.lives:
-		$lives.set_text(str(global.lives))
-	
 	p_swap = int(player.swap) + 1
 	weap = 'weapon'+str(global.player_weap[int(player.swap)])
 	

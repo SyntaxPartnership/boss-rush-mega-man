@@ -899,19 +899,10 @@ func _on_item_entered(body):
 			
 			wpn_lvl = {
 				0 : [true, 280, 280], #Set higher than the max meter values so it doesn't get picked.
-				1 : global.rp_coil,
-				2 : global.rp_jet,
 				3 : global.weapon1,
 				4 : global.weapon2,
 				5 : global.weapon3,
 				6 : global.weapon4,
-				7 : global.weapon5,
-				8 : global.weapon6,
-				9 : global.weapon7,
-				10 : global.weapon8,
-				11 : global.beat,
-				12 : global.tango,
-				13 : global.reggae
 				}
 			
 			#Get the weapon's ID
@@ -978,7 +969,7 @@ func _on_item_entered(body):
 				$audio/oneup.play()
 				global.etanks += 1
 		
-		if global.mtanks < 1:
+		if global.wtanks < 1:
 			if body.type == 7:
 				$audio/oneup.play()
 				global.mtanks += 1
