@@ -849,6 +849,7 @@ func shot_pos():
 func damage():
 	if !hurt_swap:
 		if hurt_timer == 0 and blink_timer == 0 and global.player_life[int(swap)] > 0:
+			world.hits += 1
 			s_kick = false
 			$audio/hurt.play()
 			velocity.y = 0
@@ -899,10 +900,10 @@ func _on_item_entered(body):
 			
 			wpn_lvl = {
 				0 : [true, 280, 280], #Set higher than the max meter values so it doesn't get picked.
-				3 : global.weapon1,
-				4 : global.weapon2,
-				5 : global.weapon3,
-				6 : global.weapon4,
+				1 : global.weapon1,
+				2 : global.weapon2,
+				3 : global.weapon3,
+				4 : global.weapon4,
 				}
 			
 			#Get the weapon's ID

@@ -9,6 +9,7 @@ var property = 4
 var reflect = false
 
 func _ready():
+	world.shot_num += 1
 	$anim.play("boom")
 	world.sound("big_explode")
 	

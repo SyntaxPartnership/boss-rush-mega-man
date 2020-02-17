@@ -353,6 +353,22 @@ func _physics_process(delta):
 		world.kill_music()
 		world.sound("death")
 		world.bolt_calc()
+		
+		for b in range(world.max_bolts):
+			var which = rand_range(0, 100)
+			var spawn
+			if which <= world.accuracy:
+				spawn = load("res://scenes/objects/bolt_l.tscn").instance()
+				spawn.type = 1
+			else:
+				spawn = load("res://scenes/objects/bolt_s.tscn").instance()
+				spawn.type = 0
+			spawn.global_position = global_position
+			spawn.time = 420
+			spawn.velocity.y = spawn.JUMP_SPEED
+			spawn.x_spd = rand_range(-100, 100)
+			world.get_child(1).add_child(spawn)
+		
 		for n in range(16):
 			var boom = world.DEATH_BOOM.instance()
 			boom.global_position = global_position

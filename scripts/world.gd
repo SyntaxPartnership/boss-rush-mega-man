@@ -161,6 +161,8 @@ var hits = 0
 var time = 0
 var deaths = false
 var tanks = false
+var max_bolts = 0
+var accuracy = 0.0
 
 func _ready():
 	res = get_viewport_rect().size
@@ -493,6 +495,7 @@ func _process(delta):
 	if boss:
 		time = OS.get_ticks_msec() - start_time
 	#Print Shit
+#	print(hit_num,', ',shot_num)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -1509,11 +1512,9 @@ func _on_wpn_fade_tween_completed(object, _key):
 			$player.cutscene(false)
 
 func bolt_calc():
-	#Bolts start at 0
-	var max_bolts = 0
 	
 	#Calculate accuracy for later.
-	var accuracy = (hit_num / shot_num) * 100
+	accuracy = (hit_num / shot_num) * 100
 	
 	#Set value for time.
 	var total_time = time
@@ -1545,7 +1546,8 @@ func bolt_calc():
 	if !deaths:
 		max_bolts += 5
 	
-	print(max_bolts)
+	if tanks:
+		max_bolts = round(max_bolts / 2)
 
 func reset_bolt_calc(all):
 	shot_num = 0.0

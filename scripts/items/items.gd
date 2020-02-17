@@ -46,6 +46,9 @@ func _physics_process(delta):
 	velocity.y += GRAVITY * delta
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+	
+	if is_on_floor():
+		x_spd = 0
 
 	if time > -1:
 		time -= 1

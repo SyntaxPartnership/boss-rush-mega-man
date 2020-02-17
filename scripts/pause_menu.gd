@@ -326,6 +326,7 @@ func _input(_event):
 		
 		#Heal with E-Tank
 		if menu_pos == Vector2(2, 0) and global.etanks > 0 and global.player_life[int(player.swap)] < 280:
+			world.tanks = true
 			ignore_input = true
 			global.etanks -= 1
 			heal_amt = ((global.player_life[int(player.swap)] - 280) * -1) / 10
@@ -343,6 +344,7 @@ func _input(_event):
 				global.weapon4[int(player.swap) + 1]
 			]
 			if levels.min() < 280:
+				world.tanks = true
 				global.wtanks -= 1
 				heal_amt = ((levels.min() - 280) * -1) / 10
 				heal_type = 2

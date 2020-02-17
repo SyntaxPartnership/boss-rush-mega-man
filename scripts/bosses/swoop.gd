@@ -50,6 +50,8 @@ var damage = 40
 var overlap = []
 
 func _ready():
+	world.reset_bolt_calc(false)
+	
 	$anim_wings.play("flap")
 	
 	if global_position.y > camera.limit_top + 96:
@@ -428,6 +430,23 @@ func _physics_process(delta):
 	if world.boss_hp <= 0:
 		world.kill_music()
 		world.sound("death")
+		world.bolt_calc()
+		
+		for b in range(world.max_bolts):
+			var which = rand_range(0, 100)
+			var spawn
+			if which <= world.accuracy:
+				spawn = load("res://scenes/objects/bolt_l.tscn").instance()
+				spawn.type = 1
+			else:
+				spawn = load("res://scenes/objects/bolt_s.tscn").instance()
+				spawn.type = 0
+			spawn.global_position = global_position
+			spawn.time = 420
+			spawn.velocity.y = spawn.JUMP_SPEED
+			spawn.x_spd = rand_range(-100, 100)
+			world.get_child(1).add_child(spawn)
+				
 		var enemy_kill = get_tree().get_nodes_in_group('enemies')
 		for i in enemy_kill:
 			if i.name == "swoop_clone":
@@ -502,6 +521,7 @@ func play_anim(anim):
 	$anim_body.play(anim)
 
 func do_damage(body):
+	var add_count = false
 	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
 		world.enemy_dmg(id, body.id)
 		if world.damage != 0 and !body.reflect:
@@ -521,6 +541,9 @@ func do_damage(body):
 						body.velocity = Vector2(0, 0)
 			if flash == 0:
 				world.boss_hp -= world.damage
+			if !add_count:
+				world.hit_num += 1
+				add_count = true
 			flash = 20
 			hit = true
 			if world.boss_hp > 0:
