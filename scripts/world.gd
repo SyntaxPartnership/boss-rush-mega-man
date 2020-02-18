@@ -85,7 +85,10 @@ var shake_y = 0
 
 var cutsc_mode = 0
 var scene = 0
-var scene_txt = ""
+var sub_scene = 0
+var scene_txt = {
+	0 : ["MEGAMAN:", "WHAT IS GOING ON? WAS THAT WILY INSIDE THE CAGE? WHO WAS THAT ROBOT?"]
+}
 
 #Item Drops
 var item = []
@@ -168,7 +171,6 @@ var max_bolts = 0
 var accuracy = 0.0
 
 func _ready():
-	print(global.start_time)
 	
 	res = get_viewport_rect().size
 	
@@ -518,7 +520,7 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
-	print($player.cutscene,', ',$player.no_input)
+	print($player.global_position.x)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -1061,8 +1063,7 @@ func _on_fade_fadein():
 		$player.show()
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-		if !$player.cutscene:
-			$player.no_input(false)
+		$player.no_input(false)
 	
 	if $fade/fade.state == 7:
 		$pause/pause_menu.start = true
@@ -1589,6 +1590,9 @@ func reset_bolt_calc(all):
 		tanks = false
 
 func cutscene():
+#	if $player.cutscene and !$player.no_input:
+#		$player.no_input(true)
+	
 	if cutsc_mode == 1:
 		if $player/camera.limit_top < og_limits[0] + 64:
 			$scene_txt.offset.y -= 4
@@ -1604,6 +1608,9 @@ func cutscene():
 		if $player/camera.limit_top == og_limits[0]:
 			cutsc_mode = 0
 	
-	if cutsc_mode == 1:
-		if scene == 1:
-			pass
+#	if scene == 1:
+#		if $player.global_position.x < 2816:
+#			$player.x_dir == 1
+#		else:
+#			$player.x_dir == -1
+#		scene = 2
