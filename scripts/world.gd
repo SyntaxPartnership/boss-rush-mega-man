@@ -494,9 +494,13 @@ func _rooms():
 	
 	if scene == 1:
 		if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
-			cutsc_mode = true
+			cutsc_mode = 1
 	
 	if cutsc_mode == 1:
+		if !$scene_txt/on_off.is_visible_in_tree():
+			$scene_txt.offset.y = -64
+			$scene_txt/on_off.show()
+		$player.cutscene(true)
 		$player/camera.limit_top = og_limits[0] + 64
 		$player/camera.limit_bottom = og_limits[1] + 64
 
@@ -514,6 +518,7 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
+	print($player.cutscene,', ',$player.no_input)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -721,11 +726,9 @@ func _process(delta):
 		if show_boss != 0:
 			show_boss = 0
 			
-			
 	
 	if spawn_pt != -1 and $player.is_on_floor():
 		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input and Input.is_action_just_pressed("up"):
-#			cutsc_mode = true
 			$player.no_input(true)
 			$player.anim_state(2)
 			$player.slide = false
@@ -1058,7 +1061,8 @@ func _on_fade_fadein():
 		$player.show()
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-		$player.no_input(false)
+		if !$player.cutscene:
+			$player.no_input(false)
 	
 	if $fade/fade.state == 7:
 		$pause/pause_menu.start = true

@@ -338,7 +338,6 @@ __meta__ = {
 }
 
 [node name="name" type="Label" parent="scene_txt/on_off"]
-visible = false
 margin_left = 8.0
 margin_top = 248.0
 margin_right = 80.0
@@ -350,7 +349,6 @@ __meta__ = {
 }
 
 [node name="text" type="Label" parent="scene_txt/on_off"]
-visible = false
 margin_left = 8.0
 margin_top = 264.0
 margin_right = 248.0
@@ -699,7 +697,7 @@ stream = ExtResource( 63 )
 [connection signal="tween_completed" from="fake_fade/fade" to="." method="_on_fade_tween_completed"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
 [connection signal="tween_completed" from="wpn_get/wpn_fade" to="." method="_on_wpn_fade_tween_completed"]
-[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
 [connection signal="finished" from="audio/music/clear" to="." method="_on_clear_finished"]
