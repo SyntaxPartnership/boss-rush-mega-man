@@ -557,7 +557,7 @@ func _process(delta):
 		wpn_en -= 10
 	
 	#Boss Meters.
-	if $hud/hud/boss.value < boss_hp and heal_delay == 1:
+	if $hud/hud/boss.value < boss_hp and heal_delay == 1 and boss and fill_b_meter:
 		$audio/se/meter.play()
 		$hud/hud/boss.value += 10
 	
@@ -1499,6 +1499,7 @@ func _on_wpn_fade_tween_completed(object, _key):
 			end_delay = 360
 			boss_dead = false
 			boss = false
+			max_bolts = 0
 			ready_boss = false
 			boss_delay = 60
 			fill_b_meter = false
