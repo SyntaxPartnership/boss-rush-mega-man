@@ -1536,15 +1536,15 @@ func bolt_calc():
 	var total_time = time
 	
 	#Add bolts for time
-	if total_time <= 45000:
+	if total_time <= 30000:
 		max_bolts += 10
-	elif total_time >= 45001 and total_time <= 60000:
+	elif total_time >= 30001 and total_time <= 45000:
 		max_bolts += 8
-	elif total_time >= 60001 and total_time <= 75000:
+	elif total_time >= 45001 and total_time <= 60000:
 		max_bolts += 6
-	elif total_time >= 75001 and total_time <= 90000:
+	elif total_time >= 60001 and total_time <= 75000:
 		max_bolts += 4
-	elif total_time >= 90001 and total_time <= 105000:
+	elif total_time >= 75001 and total_time <= 90000:
 		max_bolts += 2
 		
 	var hits_dict = {
@@ -1564,6 +1564,8 @@ func bolt_calc():
 	
 	if tanks:
 		max_bolts = round(max_bolts / 2)
+	
+	print(max_bolts)
 
 func reset_bolt_calc(all):
 	shot_num = 0.0
