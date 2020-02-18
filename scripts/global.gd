@@ -86,6 +86,8 @@ var weapon4 = [false, 280, 280]
 var end_pos = Vector2()
 var end_frame = 0
 
+var start_time = 0
+
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.
 
 #Colors to be replaced using the shader.

@@ -2,8 +2,6 @@ extends Node2D
 
 var allow_ctrl = false
 
-
-
 const INPUT_ACTIONS = ['up', 'down', 'left', 'right', 'jump', 'fire', 'dash', 'prev', 'next', 'select', 'start']
 const CONFIG_FILE = 'user://options.cfg'
 
@@ -13,6 +11,8 @@ func _ready():
 	$sprite/anim.play("run")
 	global._screen_resized()
 	load_config()
+	
+	global.start_time = OS.get_ticks_msec()
 
 #Using the example of loading/saving from the Input Mapping tutorial.
 func load_config():

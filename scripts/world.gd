@@ -7,8 +7,6 @@ onready var objects = $graphic/spawn_tiles/objects
 onready var items = $graphic/spawn_tiles/items
 onready var enemies = $graphic/spawn_tiles/enemy_map
 
-onready var start_time = OS.get_ticks_msec()
-
 #Object constants
 const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
 
@@ -85,6 +83,10 @@ var shake_delay = 2
 var shake_x = 0
 var shake_y = 0
 
+var cutsc_mode = 0
+var scene = 0
+var scene_txt = ""
+
 #Item Drops
 var item = []
 
@@ -158,6 +160,7 @@ var bbl_count = 0
 var shot_num = 0.0
 var hit_num = 0.0
 var hits = 0
+var start_time = 0
 var time = 0
 var deaths = false
 var tanks = false
@@ -165,6 +168,8 @@ var max_bolts = 0
 var accuracy = 0.0
 
 func _ready():
+	print(global.start_time)
+	
 	res = get_viewport_rect().size
 	
 	#Generate a new random seed.
@@ -485,17 +490,26 @@ func _rooms():
 		for s in see_item:
 			s.get_child(0).show()
 		
-		og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
+	og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
+		
+	if cutsc_mode:
+		$player/camera.limit_top = og_limits[0] + 64
+		$player/camera.limit_bottom = og_limits[1] + 64
 
 #warning-ignore:unused_argument
 func _process(delta):
 	_camera()
+	cutscene()
 	
 	#Calculate time during a boss fight.
 	if boss:
-		time = OS.get_ticks_msec() - start_time
+		if start_time == 0:
+			start_time = OS.get_ticks_msec()
+		
+		if start_time != 0 and !get_tree().paused and boss_hp > 0:
+			time = OS.get_ticks_msec() - start_time
+		
 	#Print Shit
-#	print(hit_num,', ',shot_num)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -707,6 +721,7 @@ func _process(delta):
 	
 	if spawn_pt != -1 and $player.is_on_floor():
 		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input and Input.is_action_just_pressed("up"):
+#			cutsc_mode = true
 			$player.no_input(true)
 			$player.anim_state(2)
 			$player.slide = false
@@ -715,7 +730,7 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and opening >= 7 and tele_timer > -1 and !boss and end_delay > 0:
+	if $player.no_input and opening >= 7 and tele_timer > -1 and !cutsc_mode and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
@@ -1554,7 +1569,24 @@ func reset_bolt_calc(all):
 	shot_num = 0.0
 	hit_num = 0.0
 	hits = 0
+	start_time = 0
 	time = 0
 	if all:
 		deaths = false
 		tanks = false
+
+func cutscene():
+	if cutsc_mode == 1:
+		if $player/camera.limit_top < og_limits[0] + 64:
+			$scene_txt.offset.y -= 4
+			$player/camera.limit_top += 4
+			$player/camera.limit_bottom += 4
+		if $player/camera.limit_top == og_limits[0] + 64:
+			cutsc_mode = 2
+	elif cutsc_mode == 3:
+		if $player/camera.limit_top > og_limits[0]:
+			$scene_txt.offset.y += 4
+			$player/camera.limit_top -= 4
+			$player/camera.limit_bottom -= 4
+		if $player/camera.limit_top == og_limits[0]:
+			cutsc_mode = 0
