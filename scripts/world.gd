@@ -491,8 +491,12 @@ func _rooms():
 			s.get_child(0).show()
 		
 	og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
-		
-	if cutsc_mode:
+	
+	if scene == 1:
+		if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
+			cutsc_mode = true
+	
+	if cutsc_mode == 1:
 		$player/camera.limit_top = og_limits[0] + 64
 		$player/camera.limit_bottom = og_limits[1] + 64
 
@@ -730,7 +734,7 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and opening >= 7 and tele_timer > -1 and !cutsc_mode and !boss and end_delay > 0:
+	if $player.no_input and opening >= 7 and tele_timer > -1 and cutsc_mode == 0 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
@@ -1526,6 +1530,9 @@ func _on_wpn_fade_tween_completed(object, _key):
 			end_state = 0
 			play_music('main')
 			$player.cutscene(false)
+			#Set appropriate cutscene, if any.
+			if int(global.weapon1[0]) + int(global.weapon2[0]) + int(global.weapon3[0]) + int(global.weapon4[0]) == 1 and scene == 0:
+				scene = 1
 
 func bolt_calc():
 	
@@ -1592,3 +1599,7 @@ func cutscene():
 			$player/camera.limit_bottom -= 4
 		if $player/camera.limit_top == og_limits[0]:
 			cutsc_mode = 0
+	
+	if cutsc_mode == 1:
+		if scene == 1:
+			pass
