@@ -87,7 +87,9 @@ var cutsc_mode = 0
 var scene = 0
 var sub_scene = 0
 var scene_txt = {
-	0 : ["MEGAMAN:", "WHAT IS GOING ON? WAS THAT WILY INSIDE THE CAGE? WHO WAS THAT ROBOT?"]
+	0 : ["MEGAMAN:", "WHAT IS GOING ON? WAS THAT WILY INSIDE THE CAGE? WHO WAS THAT ROBOT?"],
+	1 : ["??????:", "Y-Y-YIKES!"],
+	2 : ["", ""]
 }
 
 #Item Drops
@@ -140,7 +142,7 @@ var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
 				1 : [10, 20, 30, 20, 40, 40, 10],	#Standard enemy. All Weapons hurt it.
 				2 : [10, 20, 30, 10, 40, 10, 0],	#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40],	#Roto Man
+				3 : [280, 280, 280, 10, 10, 20, 40],	#Roto Man
 				4 : [10, 20, 30, 40, 0, 20, 10],	#Scuttle Woman
 				5 : [10, 20, 30, 10, 10, 40, 20],	#Defend Woman
 				}
@@ -494,7 +496,7 @@ func _rooms():
 		
 	og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
 	
-	if scene == 1:
+	if scene == 1 and cutsc_mode == 0:
 		if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
 			cutsc_mode = 1
 	
@@ -505,6 +507,7 @@ func _rooms():
 		$player.cutscene(true)
 		$player/camera.limit_top = og_limits[0] + 64
 		$player/camera.limit_bottom = og_limits[1] + 64
+		cutsc_mode = 2
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -1590,8 +1593,12 @@ func reset_bolt_calc(all):
 		tanks = false
 
 func cutscene():
-#	if $player.cutscene and !$player.no_input:
-#		$player.no_input(true)
+	
+	if $player.cutscene:
+		$hud/hud.hide()
+		show_text()
+	else:
+		$hud/hud.show()
 	
 	if cutsc_mode == 1:
 		if $player/camera.limit_top < og_limits[0] + 64:
@@ -1608,9 +1615,33 @@ func cutscene():
 		if $player/camera.limit_top == og_limits[0]:
 			cutsc_mode = 0
 	
-#	if scene == 1:
-#		if $player.global_position.x < 2816:
-#			$player.x_dir == 1
-#		else:
-#			$player.x_dir == -1
-#		scene = 2
+	if $player.cutscene and cutsc_mode > 0 and cutsc_mode < 3:
+		if scene == 1:
+			
+			if $player.global_position.x < 2816 and $player.x_dir == 0:
+				$player.x_dir = 1
+			elif $player.global_position.x > 2816 and $player.x_dir == 0:
+				$player.x_dir = -1
+			
+			if $player.global_position.x >= 2816 - 1 and $player.global_position.x <= 2816 + 1:
+				if $player.x_dir != 0:
+					$player.x_dir = 0
+					scene = 2
+
+func show_text():
+	var allow = false
+	if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
+		$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
+	
+	if scene_txt.get(sub_scene)[0] != "":
+		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+			if !allow:
+				allow = true
+	
+	if allow and Input.is_action_just_pressed("jump"):
+		$scene_txt/on_off/text.set_visible_characters(0)
+		sub_scene += 1
+		
+	if scene == 2:
+		$scene_txt/on_off/name.set_text(scene_txt.get(sub_scene)[0])
+		$scene_txt/on_off/text.set_text(scene_txt.get(sub_scene)[1])

@@ -859,7 +859,7 @@ func damage():
 
 func _on_item_entered(body):
 	if body.is_in_group('items'):
-		
+		print(body.type,', ',body.name)
 		#Bolts
 		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
@@ -1415,6 +1415,7 @@ func _on_whistle_finished():
 func no_input(state):
 	if state:
 		x_dir = 0
+		y_dir = 0
 		left_tap = false
 		right_tap = false
 		jump = false
