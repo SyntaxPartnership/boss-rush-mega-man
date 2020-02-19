@@ -1415,6 +1415,7 @@ func _on_whistle_finished():
 func no_input(state):
 	if state:
 		x_dir = 0
+		y_dir = 0
 		left_tap = false
 		right_tap = false
 		jump = false
