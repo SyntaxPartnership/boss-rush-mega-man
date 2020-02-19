@@ -814,9 +814,9 @@ func weapons():
 func _on_anim_finished(anim_name):
 	if anim_name == 'appear1' or anim_name == 'appear2':
 		if world.leave_delay > 0:
-			if no_input:
+			if no_input and !cutscene:
 				emit_signal('teleport')
-			elif !no_input:
+			elif !no_input or cutscene:
 				anim_state(IDLE)
 				can_move = true
 		else:
