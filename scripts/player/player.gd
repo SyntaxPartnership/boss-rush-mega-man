@@ -859,7 +859,7 @@ func damage():
 
 func _on_item_entered(body):
 	if body.is_in_group('items'):
-		
+		print(body.type,', ',body.name)
 		#Bolts
 		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
