@@ -520,7 +520,6 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
-	print($player.global_position.x)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -1058,12 +1057,13 @@ func _process(delta):
 #These functions handle the states of the fade in node.
 func _on_fade_fadein():
 	
-	if $fade/fade.state == 3 and $player.no_input:
+	if $fade/fade.state == 3:
 		$player/anim.stop(true)
 		$player.show()
 		$audio/se/appear.play()
 		$player/anim.play('appear1')
-		$player.no_input(false)
+		if !$player.cutscene:
+			$player.no_input(false)
 	
 	if $fade/fade.state == 7:
 		$pause/pause_menu.start = true
