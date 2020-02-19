@@ -87,7 +87,9 @@ var cutsc_mode = 0
 var scene = 0
 var sub_scene = 0
 var scene_txt = {
-	0 : ["MEGAMAN:", "WHAT IS GOING ON? WAS THAT WILY INSIDE THE CAGE? WHO WAS THAT ROBOT?"]
+	0 : ["MEGAMAN:", "WHAT IS GOING ON? WAS THAT WILY INSIDE THE CAGE? WHO WAS THAT ROBOT?"],
+	1 : ["??????:", "Y-Y-YIKES!"],
+	2 : ["", ""]
 }
 
 #Item Drops
@@ -1627,9 +1629,19 @@ func cutscene():
 					scene = 2
 
 func show_text():
+	var allow = false
 	if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
 		$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 	
+	if scene_txt.get(sub_scene)[0] != "":
+		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+			if !allow:
+				allow = true
+	
+	if allow and Input.is_action_just_pressed("jump"):
+		$scene_txt/on_off/text.set_visible_characters(0)
+		sub_scene += 1
+		
 	if scene == 2:
 		$scene_txt/on_off/name.set_text(scene_txt.get(sub_scene)[0])
 		$scene_txt/on_off/text.set_text(scene_txt.get(sub_scene)[1])
