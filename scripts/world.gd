@@ -142,7 +142,7 @@ var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
 				1 : [10, 20, 30, 20, 40, 40, 10],	#Standard enemy. All Weapons hurt it.
 				2 : [10, 20, 30, 10, 40, 10, 0],	#Swoop Woman
-				3 : [280, 280, 280, 10, 10, 20, 40],	#Roto Man
+				3 : [10, 20, 30, 10, 10, 20, 40],	#Roto Man
 				4 : [10, 20, 30, 40, 0, 20, 10],	#Scuttle Woman
 				5 : [10, 20, 30, 10, 10, 40, 20],	#Defend Woman
 				}
