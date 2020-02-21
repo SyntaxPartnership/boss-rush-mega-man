@@ -142,7 +142,7 @@ var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
 				1 : [10, 20, 30, 20, 40, 40, 10],	#Standard enemy. All Weapons hurt it.
 				2 : [10, 20, 30, 10, 40, 10, 0],	#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40],	#Roto Man
+				3 : [280, 280, 280, 10, 10, 20, 40],	#Roto Man
 				4 : [10, 20, 30, 40, 0, 20, 10],	#Scuttle Woman
 				5 : [10, 20, 30, 10, 10, 40, 20],	#Defend Woman
 				}
@@ -1629,19 +1629,36 @@ func cutscene():
 					scene = 2
 
 func show_text():
+	print(scene,' ',sub_scene)
+	
 	var allow = false
-	if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
-		$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
+	if scene != 0:
+		if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
+			$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 	
 	if scene_txt.get(sub_scene)[0] != "":
 		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
 			if !allow:
 				allow = true
+	else:
+		match scene:
+			2:
+				if sub_scene == 2:
+					scene = 3
 	
-	if allow and Input.is_action_just_pressed("jump"):
+	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
 		$scene_txt/on_off/text.set_visible_characters(0)
 		sub_scene += 1
 		
 	if scene == 2:
 		$scene_txt/on_off/name.set_text(scene_txt.get(sub_scene)[0])
 		$scene_txt/on_off/text.set_text(scene_txt.get(sub_scene)[1])
+	
+	if scene == 3:
+		var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
+		scene_auto.global_position.x = $graphic/spawn_tiles/auto.global_position.x
+		scene_auto.global_position.y = $player/camera.limit_top - 32
+		$graphic/spawn_tiles.add_child(scene_auto)
+		$player/sprite.flip_h = true
+		$player.anim_state($player.LOOKUP)
+		scene = 4
