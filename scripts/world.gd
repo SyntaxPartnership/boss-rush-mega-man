@@ -87,9 +87,22 @@ var cutsc_mode = 0
 var scene = 0
 var sub_scene = 0
 var scene_txt = {
-	0 : ["MEGAMAN:", "WHAT IS GOING ON? WAS THAT WILY INSIDE THE CAGE? WHO WAS THAT ROBOT?"],
-	1 : ["??????:", "Y-Y-YIKES!"],
-	2 : ["", ""]
+	0 : ["MEGAMAN:", "WHAT IS GOING ON HERE? WAS\n\nTHAT WILY IN THAT CAGE?"],
+	1 : ["MEGAMAN:", "WHO WAS THAT ROBOT?"],
+	2 : ["??????:", "Y-Y-YIKES!"],
+	3 : ["", ""],
+	4 : ["AUTO:", "YO! MAN OF MEGA!"],
+	5 : ["MEGAMAN:", "AUTO? WHY ARE YOU HERE?"],
+	6 : ["AUTO:", "DR. LIGHT WAS WORRIED SO I\n\nFOLLOWED YOU WITH SOME"],
+	7 : ["AUTO:", "SUPPLIES. THEN I CAME ACROSS\n\nA VERY UNSAFE HOLE!"],
+	8 : ["AUTO:", "DO YOU THINK THIS IS AN\n\nILLEGAL DUMP?"],
+	9 : ["MEGAMAN:", "..."],
+	10 : ["MEGAMAN:", "WELL, SOMETHING ISN'T RIGHT\n\nWITH THIS PLACE. YOU HAD"],
+	11 : ["MEGAMAN:", "BETTER STAY HERE WHILE I LOOK\n\nAROUND."],
+	12 : ["AUTO:", "WAIT. BEFORE YOU GO, I CAN\n\nMAKE SOME ITEMS OUT OF THE"],
+	13 : ["AUTO:", "JUNK LYING AROUND. BRING ME\n\nSCREWS AND I'LL WHIP THEM"],
+	14 : ["AUTO:", "TOGETHER! GO AHEAD! LOOK AT\n\nMY WARES!"],
+	15 : ["", ""]
 }
 
 #Item Drops
@@ -217,7 +230,7 @@ func _ready():
 # warning-ignore:unused_argument
 func _input(event):
 	#Weapon Swapping.
-	if $player.can_move:
+	if $player.can_move or !$player.cutscene:
 		#L and R Button.
 		if Input.is_action_just_pressed("prev"):
 			global.player_weap[int($player.swap)] -= 1
@@ -504,6 +517,7 @@ func _rooms():
 		if !$scene_txt/on_off.is_visible_in_tree():
 			$scene_txt.offset.y = -64
 			$scene_txt/on_off.show()
+		kill_music()
 		$player.cutscene(true)
 		$player/camera.limit_top = og_limits[0] + 64
 		$player/camera.limit_bottom = og_limits[1] + 64
@@ -1608,11 +1622,13 @@ func cutscene():
 		if $player/camera.limit_top == og_limits[0] + 64:
 			cutsc_mode = 2
 	elif cutsc_mode == 3:
-		if $player/camera.limit_top > og_limits[0]:
+		print(og_limits[0])
+		if $player/camera.limit_top > og_limits[0] - 64:
 			$scene_txt.offset.y += 4
 			$player/camera.limit_top -= 4
 			$player/camera.limit_bottom -= 4
-		if $player/camera.limit_top == og_limits[0]:
+		if $player/camera.limit_top == og_limits[0] - 64:
+			$player.cutscene(false)
 			cutsc_mode = 0
 	
 	if $player.cutscene and cutsc_mode > 0 and cutsc_mode < 3:
@@ -1643,22 +1659,35 @@ func show_text():
 	else:
 		match scene:
 			2:
-				if sub_scene == 2:
+				if sub_scene == 3:
 					scene = 3
+			5:
+				if sub_scene == 15:
+					cutsc_mode = 3
+					play_music("main")
 	
 	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
 		$scene_txt/on_off/text.set_visible_characters(0)
 		sub_scene += 1
 		
-	if scene == 2:
+	if scene == 2 or scene == 5:
 		$scene_txt/on_off/name.set_text(scene_txt.get(sub_scene)[0])
 		$scene_txt/on_off/text.set_text(scene_txt.get(sub_scene)[1])
 	
 	if scene == 3:
+		sound("fall")
 		var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
-		scene_auto.global_position.x = $graphic/spawn_tiles/auto.global_position.x
-		scene_auto.global_position.y = $player/camera.limit_top - 32
+		scene_auto.position.x = $graphic/spawn_tiles/auto.global_position.x
+		scene_auto.position.y = $player/camera.limit_top - 50
 		$graphic/spawn_tiles.add_child(scene_auto)
 		$player/sprite.flip_h = true
 		$player.anim_state($player.LOOKUP)
 		scene = 4
+
+func _on_intro_finished():
+	$player.anim_state($player.LOOKUP)
+	sound("fall")
+	var scene_eddie = load("res://scenes/cutscene/scene_eddie.tscn").instance()
+	scene_eddie.position.x = $graphic/spawn_tiles/auto.global_position.x - 4
+	scene_eddie.position.y = $player/camera.limit_top - 28
+	$graphic/spawn_tiles.add_child(scene_eddie)
