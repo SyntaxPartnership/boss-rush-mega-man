@@ -856,12 +856,10 @@ func damage():
 			anim_state(HURT)
 			hurt_timer = 16
 
-
 func _on_item_entered(body):
 	if body.is_in_group('items'):
-		print(body.type,', ',body.name)
 		#Bolts
-		if global.bolts < 999:
+		if global.bolts < 9999:
 			if body.type == 0 or body.type == 1:
 				$audio/bolt.play()
 				if body.type == 0:
@@ -869,100 +867,112 @@ func _on_item_entered(body):
 				if body.type == 1:
 					global.bolts += 20
 			#Keep the bolts counter lower than 1000
-			if global.bolts > 999:
-				global.bolts = 999
+			if global.bolts > 9999:
+				global.bolts = 9999
 		
+		if body.type == 2:
+			world.life_en = 20
+		if body.type == 3:
+			world.life_en = 80
+		if body.type == 4:
+			world.wpn_en = 20
+		if body.type == 5:
+			world.wpn_en = 80
+
+###NOTE#### Glitched version of energy pickups. Edit for MMC.
 		#Energy Pellet/Capsule
-		if global.player_life[int(swap)] < 280:
-			if body.type == 2:
-				var diff = 280 - global.player_life[int(swap)]
-				max_en = 20
-				if diff < max_en:
-					world.life_en = max_en + (global.player_life[int(swap)] - 280)
-				else:
-					world.life_en = max_en
-			
-			if body.type == 3:
-				var diff = 280 - global.player_life[int(swap)]
-				max_en = 80
-				if diff < max_en:
-					world.life_en = max_en + (global.player_life[int(swap)] - 280)
-				else:
-					world.life_en = max_en
-		
-		#Weapon Pellete/Capsule
-		if body.type == 4 or body.type == 5:
-			
-			if body.type == 4:
-				max_en = 20
-			else:
-				max_en = 80
-			
-			wpn_lvl = {
-				0 : [true, 280, 280], #Set higher than the max meter values so it doesn't get picked.
-				1 : global.weapon1,
-				2 : global.weapon2,
-				3 : global.weapon3,
-				4 : global.weapon4,
-				}
-			
-			#Get the weapon's ID
-			if global.player_weap[int(swap)] == 0:
-				wpn_id = 0
-			elif global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
-				wpn_id = global.player_weap[int(swap)]
-			else:
-				wpn_id = global.player_weap[int(swap)] + global.player
-			
-			#Refill energy if theh player has no energy balancer
-			if !global.perma_items['ebalancer'] and wpn_id != 0 and wpn_lvl[wpn_id][int(swap) + 1] < 280 or global.perma_items['ebalancer'] and wpn_id != 0 and wpn_lvl[wpn_id][int(swap) + 1] < 280:
-				#Set ID for the world script.
-				world.id = wpn_id
-				#Set the value of the energy recovery
-				var diff = 280 - wpn_lvl[wpn_id][int(swap) + 1]
-				if diff < max_en:
-					world.wpn_en = max_en + (wpn_lvl[wpn_id][int(swap) + 1] - 280)
-				else:
-					world.wpn_en = max_en
-			elif !global.perma_items['ebalancer'] and wpn_id == 0:
-				#Skip this function if the player doesn't have the energy balancer and no special weapon equipped.
-				pass
-			else:
-				#Clear the array so new info can be added
-				get_lvl.clear()
-				for g in range(wpn_lvl.size()):
-					get_lvl.append(wpn_lvl[g][int(swap) + 1])
-
-				var w_id
-
-				if global.player_weap[int(swap)] == 0:
-					w_id = 0
-				elif global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
-					w_id = global.player_weap[int(swap)]
-				else:
-					w_id = global.player_weap[int(swap)] + global.player
-
-				#Get the weapon ID if the levels are below max.
-				if w_id == 0 and get_lvl.min() < 280 or w_id != 0 and wpn_lvl[w_id][int(swap) + 1] == 280 and get_lvl.min() < 280:
-					for l in range(get_lvl.size()):
-						if wpn_lvl[l][int(swap) + 1] == get_lvl.min():
-							wpn_id = l
-							
-							if global.player == 0 and wpn_id > 11:
-								wpn_id = 11
-							if global.player == 1 and wpn_id > 12:
-								wpn_id = 12
-					
-					#Set the weapon's ID in the world script.
-					world.id = wpn_id
-					#Set the value of the energy recovery
-					var diff = 280 - wpn_lvl[wpn_id][int(swap) + 1]
-					if diff < max_en:
-						world.wpn_en = max_en + (wpn_lvl[wpn_id][int(swap) + 1] - 280)
-					else:
-						world.wpn_en = max_en
-				else:
-					max_en = 0
+#		if global.player_life[int(swap)] < 280:
+#			if body.type == 2:
+#				var diff = 280 - global.player_life[int(swap)]
+#				max_en = 20
+#				if diff < max_en:
+#					world.life_en = max_en + (global.player_life[int(swap)] - 280)
+#				else:
+#					world.life_en = max_en
+#
+#			if body.type == 3:
+#				var diff = 280 - global.player_life[int(swap)]
+#				max_en = 80
+#				if diff < max_en:
+#					world.life_en = max_en + (global.player_life[int(swap)] - 280)
+#				else:
+#					world.life_en = max_en
+#				print(world.life_en,' ',max_en)
+#
+#		#Weapon Pellete/Capsule
+#		if body.type == 4 or body.type == 5:
+#
+#			if body.type == 4:
+#				max_en = 20
+#			else:
+#				max_en = 80
+#
+#			wpn_lvl = {
+#				0 : [true, 280, 280], #Set higher than the max meter values so it doesn't get picked.
+#				1 : global.weapon1,
+#				2 : global.weapon2,
+#				3 : global.weapon3,
+#				4 : global.weapon4,
+#				}
+#
+#			#Get the weapon's ID
+#			if global.player_weap[int(swap)] == 0:
+#				wpn_id = 0
+#			elif global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
+#				wpn_id = global.player_weap[int(swap)]
+#			else:
+#				wpn_id = global.player_weap[int(swap)] + global.player
+#
+#			#Refill energy if theh player has no energy balancer
+#			if !global.perma_items['ebalancer'] and wpn_id != 0 and wpn_lvl[wpn_id][int(swap) + 1] < 280 or global.perma_items['ebalancer'] and wpn_id != 0 and wpn_lvl[wpn_id][int(swap) + 1] < 280:
+#				#Set ID for the world script.
+#				world.id = wpn_id
+#				#Set the value of the energy recovery
+#				var diff = 280 - wpn_lvl[wpn_id][int(swap) + 1]
+#				if diff < max_en:
+#					world.wpn_en = max_en + (wpn_lvl[wpn_id][int(swap) + 1] - 280)
+#				else:
+#					world.wpn_en = max_en
+#				print(world.wpn_en,' ',max_en)
+#			elif !global.perma_items['ebalancer'] and wpn_id == 0:
+#				#Skip this function if the player doesn't have the energy balancer and no special weapon equipped.
+#				pass
+#			else:
+#				#Clear the array so new info can be added
+#				get_lvl.clear()
+#				for g in range(wpn_lvl.size()):
+#					get_lvl.append(wpn_lvl[g][int(swap) + 1])
+#
+#				var w_id
+#
+#				if global.player_weap[int(swap)] == 0:
+#					w_id = 0
+#				elif global.player_weap[int(swap)] > 0 and global.player_weap[int(swap)] < 11:
+#					w_id = global.player_weap[int(swap)]
+#				else:
+#					w_id = global.player_weap[int(swap)] + global.player
+#
+#				#Get the weapon ID if the levels are below max.
+#				if w_id == 0 and get_lvl.min() < 280 or w_id != 0 and wpn_lvl[w_id][int(swap) + 1] == 280 and get_lvl.min() < 280:
+#					for l in range(get_lvl.size()):
+#						if wpn_lvl[l][int(swap) + 1] == get_lvl.min():
+#							wpn_id = l
+#
+#							if global.player == 0 and wpn_id > 11:
+#								wpn_id = 11
+#							if global.player == 1 and wpn_id > 12:
+#								wpn_id = 12
+#
+#					#Set the weapon's ID in the world script.
+#					world.id = wpn_id
+#					#Set the value of the energy recovery
+#					var diff = 280 - wpn_lvl[wpn_id][int(swap) + 1]
+#					if diff < max_en:
+#						world.wpn_en = max_en + (wpn_lvl[wpn_id][int(swap) + 1] - 280)
+#					else:
+#						world.wpn_en = max_en
+#				else:
+#					max_en = 0
 			
 		#E-Tanks
 		if global.etanks < 4:
@@ -976,17 +986,17 @@ func _on_item_entered(body):
 				global.mtanks += 1
 			
 		#Extra Lives
-		if global.lives < 9:
-			if body.type == 8:
-				$audio/oneup.play()
-				global.lives += 1
+#		if global.lives < 9:
+#			if body.type == 8:
+#				$audio/oneup.play()
+#				global.lives += 1
 				
 		#Set the entry to true if the item has been collected. This will prevent items from respawning when the stage resets.
 		#Check to see if the item has an ID.
-		if body.id != 0:
-			if global.temp_items.has(body.id):
-				global.temp_items.erase(body.id)
-				global.temp_items[body.id] = true
+#		if body.id != 0:
+#			if global.temp_items.has(body.id):
+#				global.temp_items.erase(body.id)
+#				global.temp_items[body.id] = true
 		
 		body.pickup()
 

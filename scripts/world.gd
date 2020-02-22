@@ -230,7 +230,7 @@ func _ready():
 # warning-ignore:unused_argument
 func _input(event):
 	#Weapon Swapping.
-	if $player.can_move or !$player.cutscene:
+	if $player.can_move:
 		#L and R Button.
 		if Input.is_action_just_pressed("prev"):
 			global.player_weap[int($player.swap)] -= 1
@@ -574,6 +574,30 @@ func _process(delta):
 		#Load the boss scene(s).
 		var boss = load(boss_rooms.get(str(player_room))).instance()
 		$graphic.add_child(boss)
+
+	#Check player health. If maxed, set life_en to 0.
+	if life_en > 0:
+		if global.player_life[0] == 280:
+			life_en = 0
+	
+	#Check player's equipped weapon.
+	if wpn_en > 0:
+		if global.player_weap[0] != 0:
+			match global.player_weap[0]:
+				1:
+					if global.weapon1[1] == 280:
+						wpn_en = 0
+				2:
+					if global.weapon2[1] == 280:
+						wpn_en = 0
+				3:
+					if global.weapon3[1] == 280:
+						wpn_en = 0
+				4:
+					if global.weapon4[1] == 280:
+						wpn_en = 0
+		else:
+			wpn_en = 0
 	
 	#Pause the game if life_en or wpn_en is greater than 0.
 	if wpn_en != 0 and !get_tree().paused and !p_menu or life_en != 0 and !get_tree().paused and !p_menu:
@@ -592,12 +616,21 @@ func _process(delta):
 		$audio/se/meter.play()
 		global.player_life[int($player.swap)] += 10
 		life_en -= 10
-	
+
 	#Refill weapons
-	if wpn_en > 0 and heal_delay == 1:
-		$audio/se/meter.play()
-		$player.wpn_lvl[id][int($player.swap) + 1] += 10
-		wpn_en -= 10
+	if global.player_life[0] != 0:
+		if wpn_en > 0 and heal_delay == 1:
+			$audio/se/meter.play()
+			match global.player_weap[0]:
+				1:
+					global.weapon1[1] += 10
+				2:
+					global.weapon2[1] += 10
+				3:
+					global.weapon3[1] += 10
+				4:
+					global.weapon4[1] += 10
+			wpn_en -= 10
 	
 	#Boss Meters.
 	if $hud/hud/boss.value < boss_hp and heal_delay == 1 and boss and fill_b_meter:
@@ -606,6 +639,7 @@ func _process(delta):
 	
 	#Allow the player to move again.
 	if life_en == 0 and wpn_en == 0 and get_tree().paused and !p_menu and !hurt_swap and !dead:
+		heal_delay = 0
 		get_tree().paused = false
 	
 	if boss and fill_b_meter and $hud/hud/boss.value == boss_hp:
@@ -1614,7 +1648,8 @@ func cutscene():
 		$hud/hud.hide()
 		show_text()
 	else:
-		$hud/hud.show()
+		if !get_tree().paused:
+			$hud/hud.show()
 	
 	if cutsc_mode == 1:
 		if $player/camera.limit_top < og_limits[0] + 64:

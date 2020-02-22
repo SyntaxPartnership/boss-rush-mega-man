@@ -231,7 +231,6 @@ func _input(_event):
 							select(true)
 						else: #No S_Puck. Go to M_Arm
 							menu_pos.x -= 2
-							menu_pos.y -= 1
 							select(true)
 			elif menu_pos.y == 1: #W_Tanks
 				#Check for A_Shield.
@@ -310,17 +309,21 @@ func _input(_event):
 				#Check for S_Puck.
 				if global.weapon3[0]:
 					menu_pos.x += 1
+					select(true)
 				else: #No S_Puck. Check for A_Shield.
 					if global.weapon4[0]:
 						menu_pos.x += 1
 						menu_pos.y -= 1
+						select(true)
 					else: #No A_Shield. Check for S_Adaptor.
 						if global.perma_items.get("super_adaptor"):
 							menu_pos.x += 1
 							menu_pos.y -= 2
+							select(true)
 						else: #NO S_adaptor. Go to W_Tanks.
 							menu_pos.x += 2
-							menu_pos.y -= 1	
+							menu_pos.y -= 1
+							select(true)
 	
 	if Input.is_action_just_pressed("jump"):
 		
