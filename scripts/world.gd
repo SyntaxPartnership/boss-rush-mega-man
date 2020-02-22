@@ -147,6 +147,13 @@ var boss_rooms = {
 				"(8, 10)" : "res://scenes/bosses/roto.tscn"
 				}
 
+var cont_rooms = {
+				Vector2(10, 4) : 1,
+				Vector2(11, 4) : 1,
+				Vector2(7, 6) : 2,
+				Vector2(7, 10) : 3,
+				}
+
 # warning-ignore:unused_class_variable
 var got_items = {
 				}
@@ -186,6 +193,12 @@ var max_bolts = 0
 var accuracy = 0.0
 
 func _ready():
+	
+	if global.opening >= 7:
+		$overlap.show()
+		$graphic/stage_overlap/dark.hide()
+		for m in $graphic/stage_gfx/mugshots.get_children():
+			m.show()
 	
 	res = get_viewport_rect().size
 	
@@ -452,6 +465,9 @@ func _rooms():
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
 	
+	if cont_rooms.has(player_room):
+		global.cont_id = cont_rooms.get(player_room)
+	
 	#Prevent the player from re-entering a boss room until they've visted the main hub.
 	if hub_rooms.has(player_room):
 		match which_wpn:
@@ -509,7 +525,7 @@ func _rooms():
 		
 	og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
 	
-	if scene == 1 and cutsc_mode == 0:
+	if global.scene == 1 and cutsc_mode == 0:
 		if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
 			cutsc_mode = 1
 	
@@ -760,19 +776,19 @@ func _process(delta):
 		$graphic/stage_overlap/arrow.show()
 	else:
 		$graphic/stage_overlap/arrow.hide()
-			
+	
 	if spawn_pt != -1:
-		if spawn_pt >= 49 and spawn_pt <= 68:
+		if spawn_pt >= 8 and spawn_pt <= 27:
 			match spawn_pt:
-				49:
+				8:
 					$graphic/stage_overlap/arrow.global_position = Vector2(2608, 1128)
 					show_boss = 1
-				50:
+				9:
 					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 1528)
-				51:
+				10:
 					$graphic/stage_overlap/arrow.global_position = Vector2(2656, 1128)
 					show_boss = 2
-				52:
+				11:
 					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
 	else:
 		if $graphic/stage_overlap/arrow.global_position != Vector2(2500, 1100):
@@ -782,7 +798,7 @@ func _process(delta):
 			
 	
 	if spawn_pt != -1 and $player.is_on_floor():
-		if spawn_pt >= 49 and spawn_pt <= 68 and !$player.no_input and Input.is_action_just_pressed("up"):
+		if spawn_pt >= 8 and spawn_pt <= 27 and !$player.no_input and Input.is_action_just_pressed("up"):
 			$player.no_input(true)
 			$player.anim_state(2)
 			$player.slide = false
@@ -791,7 +807,7 @@ func _process(delta):
 			tele_timer = 60
 			tele_dest = spawn_pt + 20
 	
-	if $player.no_input and opening >= 7 and tele_timer > -1 and cutsc_mode == 0 and !boss and end_delay > 0:
+	if $player.no_input and global.opening >= 7 and tele_timer > -1 and cutsc_mode == 0 and !boss and end_delay > 0:
 		tele_timer -= 1
 	
 	if tele_timer == 0:
@@ -909,15 +925,15 @@ func _process(delta):
 			$audio/music/wpn_get.set_volume_db(0)
 			end_state = 12
 	
-	if opening == 0:
+	if global.opening == 0:
 		if $player.global_position.x >= $player/camera.limit_left + 96 and $player.global_position.x <= $player/camera.limit_right -96 and $player.is_on_floor():
 			$player.can_move = false
 			$player.cutscene(true)
 			$player/anim.stop()
 			$hud/hud.hide()
-			opening = 1
+			global.opening = 1
 	
-	if opening == 1:
+	if global.opening == 1:
 		if boom_delay > 0:
 			boom_delay -= 1
 		
@@ -940,9 +956,9 @@ func _process(delta):
 			$graphic/stage_gfx/world.set_cellv(Vector2(164, 13), 445)
 			$graphic/stage_gfx/world.set_cellv(Vector2(171, 13), 446)
 			$player.can_move = true
-			opening = 2
+			global.opening = 2
 	
-	if opening == 2 and $player.is_on_floor():
+	if global.opening == 2 and $player.is_on_floor():
 		opn_lk_delay -= 1
 		
 		if opn_lk_delay == 0:
@@ -957,9 +973,9 @@ func _process(delta):
 		
 		if opn_look_cnt == 4:
 			$player.anim_state($player.LOOKUP)
-			opening = 3
+			global.opening = 3
 	
-	if opening == 3:
+	if global.opening == 3:
 		blink_delay -= 1
 		
 		if blink_delay == 0:
@@ -980,11 +996,11 @@ func _process(delta):
 				for m in $graphic/stage_gfx/mugshots.get_children():
 					m.show()
 				$graphic/stage_overlap/dark.queue_free()
-				opening = 4
+				global.opening = 4
 			
 			blink_cnt += 1
 	
-	if opening == 4:
+	if global.opening == 4:
 		
 		if mntr_rand == 0:
 			if mntr_frame < 3:
@@ -994,9 +1010,9 @@ func _process(delta):
 					m.frame = mntr_frame
 			
 			if mntr_frame >= 3:
-				opening = 5
+				global.opening = 5
 
-	if opening >= 4:
+	if global.opening >= 4:
 		mntr_rand -= 1
 		
 		if show_boss == 0:
@@ -1050,16 +1066,16 @@ func _process(delta):
 						
 						mntr_rand = 3
 	
-	if opening == 5:
+	if global.opening == 5:
 		j_delay -= 1
 		
 		if j_delay == 0:
 			$player.jump_tap = true
 			$player.jump = true
 			j_release = 8
-			opening = 6
+			global.opening = 6
 	
-	if opening == 6:
+	if global.opening == 6:
 		j_release -= 1
 		
 		if j_release == 0:
@@ -1071,7 +1087,7 @@ func _process(delta):
 				$player/sprite.flip_h = false
 				$hud/hud.show()
 				$player.cutscene(false)
-				opening = 7
+				global.opening = 7
 				play_music("main")
 				
 		
@@ -1589,8 +1605,8 @@ func _on_wpn_fade_tween_completed(object, _key):
 			play_music('main')
 			$player.cutscene(false)
 			#Set appropriate cutscene, if any.
-			if int(global.weapon1[0]) + int(global.weapon2[0]) + int(global.weapon3[0]) + int(global.weapon4[0]) == 1 and scene == 0:
-				scene = 1
+			if int(global.weapon1[0]) + int(global.weapon2[0]) + int(global.weapon3[0]) + int(global.weapon4[0]) == 1 and global.scene == 0:
+				global.scene = 1
 
 func bolt_calc():
 	
@@ -1668,7 +1684,7 @@ func cutscene():
 			cutsc_mode = 0
 	
 	if $player.cutscene and cutsc_mode > 0 and cutsc_mode < 3:
-		if scene == 1:
+		if global.scene == 1:
 			
 			if $player.global_position.x < 2816 and $player.x_dir == 0:
 				$player.x_dir = 1
@@ -1678,40 +1694,40 @@ func cutscene():
 			if $player.global_position.x >= 2816 - 1 and $player.global_position.x <= 2816 + 1:
 				if $player.x_dir != 0:
 					$player.x_dir = 0
-					scene = 2
+					global.scene = 2
 
 func show_text():
 #	print(scene,' ',sub_scene)
 	
 	var allow = false
-	if scene != 0:
+	if global.scene != 0:
 		if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
 			$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 	
-	if scene_txt.get(sub_scene)[0] != "":
+	if scene_txt.get(global.sub_scene)[0] != "":
 		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
 			if !allow:
 				allow = true
 	else:
-		match scene:
+		match global.scene:
 			2:
-				if sub_scene == 3:
-					scene = 3
+				if global.sub_scene == 3:
+					global.scene = 3
 			5:
-				if sub_scene == 15:
+				if global.sub_scene == 15:
 					cutsc_mode = 3
 					play_music("main")
-					scene = 6
+					global.scene = 6
 	
 	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
 		$scene_txt/on_off/text.set_visible_characters(0)
-		sub_scene += 1
+		global.sub_scene += 1
 		
-	if scene == 2 or scene == 5:
-		$scene_txt/on_off/name.set_text(scene_txt.get(sub_scene)[0])
-		$scene_txt/on_off/text.set_text(scene_txt.get(sub_scene)[1])
+	if global.scene == 2 or global.scene == 5:
+		$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
+		$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
 	
-	if scene == 3:
+	if global.scene == 3:
 		sound("fall")
 		var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
 		scene_auto.position.x = $graphic/spawn_tiles/auto.global_position.x
@@ -1719,7 +1735,7 @@ func show_text():
 		$graphic/spawn_tiles.add_child(scene_auto)
 		$player/sprite.flip_h = true
 		$player.anim_state($player.LOOKUP)
-		scene = 4
+		global.scene = 4
 
 func _on_intro_finished():
 	$player.anim_state($player.LOOKUP)

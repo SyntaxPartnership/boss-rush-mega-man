@@ -62,11 +62,11 @@ func _physics_process(delta):
 				$anim.play("intro")
 				state = 3
 
-	if world.scene >= 5:
-		if world.scene_txt.get(world.sub_scene)[0] == "AUTO:" and $anim.get_current_animation() != "talk":
+	if global.scene >= 5:
+		if world.scene_txt.get(global.sub_scene)[0] == "AUTO:" and $anim.get_current_animation() != "talk":
 			$anim.play("talk")
 		
-		if world.scene_txt.get(world.sub_scene)[0] != "AUTO:" and $anim.get_current_animation() != "idle":
+		if world.scene_txt.get(global.sub_scene)[0] != "AUTO:" and $anim.get_current_animation() != "idle":
 			$anim.play("idle")
 
 func _on_anim_finished(anim_name):

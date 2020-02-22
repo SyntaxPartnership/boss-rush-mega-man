@@ -39,8 +39,8 @@ func _physics_process(delta):
 			
 			if next == 0:
 				player.get_child(3).flip_h = true
-				world.scene = 5
-				world.sub_scene = 4
+				global.scene = 5
+				global.sub_scene = 4
 			
 			if velocity.x != 0:
 				print(global_position.x)

@@ -86,6 +86,9 @@ script = ExtResource( 1 )
 [node name="coll_mask" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="background" type="TileMap" parent="coll_mask"]
 tile_set = ExtResource( 2 )
@@ -151,19 +154,19 @@ collision_mask = 2
 format = 1
 
 [node name="spawn_pts" type="TileMap" parent="coll_mask"]
-position = Vector2( 4, 0 )
-tile_set = ExtResource( 11 )
-cell_size = Vector2( 8, 8 )
-format = 1
-tile_data = PoolIntArray( 1573189, 0, 0, 9437509, 49, 0, 9437515, 51, 0, 12714213, 50, 0, 20578533, 52, 0 )
-
-[node name="receive_pts" type="TileMap" parent="coll_mask"]
 visible = false
 position = Vector2( 4, 0 )
 tile_set = ExtResource( 11 )
 cell_size = Vector2( 8, 8 )
 format = 1
-tile_data = PoolIntArray( 1573189, 0, 0, 9437509, 70, 0, 9437515, 72, 0, 12714213, 69, 0, 20578533, 71, 0 )
+tile_data = PoolIntArray( 1573189, 0, 0, 9437509, 8, 0, 9437515, 10, 0, 9437535, 1, 0, 12714213, 9, 0, 12976367, 2, 0, 20578533, 11, 0, 20840687, 3, 0 )
+
+[node name="receive_pts" type="TileMap" parent="coll_mask"]
+position = Vector2( 4, 0 )
+tile_set = ExtResource( 11 )
+cell_size = Vector2( 8, 8 )
+format = 1
+tile_data = PoolIntArray( 1573189, 0, 0, 9437509, 29, 0, 9437515, 31, 0, 12714213, 28, 0, 20578533, 30, 0 )
 
 [node name="graphic" type="Control" parent="."]
 margin_right = 40.0

@@ -14,6 +14,9 @@ var etanks = 0
 var wtanks = 0
 var tokens = 0
 var game_over = false
+var opening = 0
+var scene = 0
+var sub_scene = 0
 
 #Global Level Flags
 var icey = false
