@@ -1666,6 +1666,7 @@ func show_text():
 				if sub_scene == 15:
 					cutsc_mode = 3
 					play_music("main")
+					scene = 6
 	
 	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
 		$scene_txt/on_off/text.set_visible_characters(0)
