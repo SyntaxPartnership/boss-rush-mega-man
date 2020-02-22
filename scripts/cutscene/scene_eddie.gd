@@ -43,6 +43,7 @@ func _physics_process(delta):
 				world.sub_scene = 4
 			
 			if velocity.x != 0:
+				print(global_position.x)
 				player.anim_state(player.IDLE)
 				velocity.x = 0
 				$anim.play("land")

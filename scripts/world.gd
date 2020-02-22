@@ -95,9 +95,9 @@ var scene_txt = {
 	5 : ["MEGAMAN:", "AUTO? WHY ARE YOU HERE?"],
 	6 : ["AUTO:", "DR. LIGHT WAS WORRIED SO I\n\nFOLLOWED YOU WITH SOME"],
 	7 : ["AUTO:", "SUPPLIES. THEN I CAME ACROSS\n\nA VERY UNSAFE HOLE!"],
-	8 : ["AUTO:", "DO YOU THINK THIS IS AN\n\nILLEGAL DUMP?"],
+	8 : ["AUTO:", "THIS PLACE SURE IS A WRECK..."],
 	9 : ["MEGAMAN:", "..."],
-	10 : ["MEGAMAN:", "WELL, SOMETHING ISN'T RIGHT\n\nWITH THIS PLACE. YOU HAD"],
+	10 : ["MEGAMAN:", "SOMETHING ISN'T RIGHT WITH\n\nTHIS PLACE. YOU HAD"],
 	11 : ["MEGAMAN:", "BETTER STAY HERE WHILE I LOOK\n\nAROUND."],
 	12 : ["AUTO:", "WAIT. BEFORE YOU GO, I CAN\n\nMAKE SOME ITEMS OUT OF THE"],
 	13 : ["AUTO:", "JUNK LYING AROUND. BRING ME\n\nSCREWS AND I'LL WHIP THEM"],
@@ -1624,7 +1624,6 @@ func cutscene():
 		if $player/camera.limit_top == og_limits[0] + 64:
 			cutsc_mode = 2
 	elif cutsc_mode == 3:
-		print(og_limits[0])
 		if $player/camera.limit_top > og_limits[0] - 64:
 			$scene_txt.offset.y += 4
 			$player/camera.limit_top -= 4
@@ -1647,7 +1646,7 @@ func cutscene():
 					scene = 2
 
 func show_text():
-	print(scene,' ',sub_scene)
+#	print(scene,' ',sub_scene)
 	
 	var allow = false
 	if scene != 0:
