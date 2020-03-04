@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/sprites/enemies/d_telly.png" type="Texture" id=1]
+[ext_resource path="res://scripts/enemies/d_telly.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+resource_name = "idle"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "move"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4, 0.5 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 4, 5, 6 ]
+}
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 6, 6 )
+
+[node name="d_telly" type="Node2D" groups=[
+"enemies",
+]]
+script = ExtResource( 2 )
+
+[node name="sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 7
+frame = 1
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/idle = SubResource( 1 )
+anims/move = SubResource( 2 )
+
+[node name="detect" type="Area2D" parent="."]
+collision_layer = 33
+collision_mask = 4
+
+[node name="box" type="CollisionShape2D" parent="detect"]
+shape = SubResource( 3 )

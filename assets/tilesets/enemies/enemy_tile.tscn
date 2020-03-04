@@ -9,3 +9,17 @@ position = Vector2( 8, 8 )
 texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
+
+[node name="telly" type="Sprite" parent="."]
+position = Vector2( 24, 8 )
+texture = ExtResource( 1 )
+vframes = 20
+hframes = 20
+frame = 1
+
+[node name="d_telly" type="Sprite" parent="."]
+position = Vector2( 40, 8 )
+texture = ExtResource( 1 )
+vframes = 20
+hframes = 20
+frame = 2

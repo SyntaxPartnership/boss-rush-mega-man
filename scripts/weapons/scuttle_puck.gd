@@ -46,7 +46,7 @@ func _on_hit_box_body_entered(body):
 		player.rush_coil = true
 		player.velocity.y = player.JUMP_SPEED * 1.6
 
-func _on_boing_finished(anim_name):
+func _on_boing_finished(_anim_name):
 	var boom = load("res://scenes/effects/s_explode.tscn").instance()
 	boom.global_position = global_position
 	world.get_child(3).add_child(boom)

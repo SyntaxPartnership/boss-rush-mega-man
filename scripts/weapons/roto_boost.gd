@@ -21,5 +21,5 @@ func _ready():
 		player.slide = false
 		player.r_boost = true
 
-func _on_boom_finished(anim_name):
+func _on_boom_finished(_anim_name):
 	queue_free()
