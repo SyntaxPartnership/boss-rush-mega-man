@@ -552,6 +552,7 @@ func _physics_process(delta):
 					global.player_life[1] = 0
 					world.dead = true
 					can_move = false
+					print('Can Move is ',can_move)
 					get_tree().paused = true
 			
 
@@ -1446,3 +1447,4 @@ func cutscene(state):
 	else:
 		no_input(false)
 		cutscene = false
+	print('Can Move is ',can_move)

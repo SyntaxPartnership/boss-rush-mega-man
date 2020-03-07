@@ -138,6 +138,8 @@ var room_data = {
 				"(8, 6)" : [0, 0, 0, 0, 1, 1, 0], #Swoop Boss Room
 				"(7, 10)" : [0, 0, 1, 1, 1, 1, 1], #Roto Hub
 				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
+				"(6, 10)" : [0, 1, 1, 1, 1, 1, 1], #Roto Challenge Room
+				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
 				}
 
 var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
@@ -751,6 +753,7 @@ func _process(delta):
 				$overlap.add_child(boom)
 		else:
 			$audio/se/death.play()
+		$player.can_move = false
 		get_tree().paused = false
 			
 	if dead and dead_delay < 0 and restart > -1:

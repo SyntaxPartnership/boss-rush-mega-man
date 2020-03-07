@@ -17,7 +17,7 @@ func _ready():
 		player.anim_state(player.RBOOST)
 		if player.jumps != 0:
 			player.jumps -= 1
-		player.velocity.y = player.JUMP_SPEED * player.jump_mod
+		player.velocity.y = (player.JUMP_SPEED * 0.855) * player.jump_mod
 		player.slide = false
 		player.r_boost = true
 
