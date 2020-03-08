@@ -240,6 +240,9 @@ func _ready():
 	prev_room = player_room
 	
 	_rooms()
+	
+	if global.opening == 7:
+		play_music("main")
 
 
 # warning-ignore:unused_argument

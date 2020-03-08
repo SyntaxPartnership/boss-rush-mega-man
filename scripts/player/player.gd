@@ -552,7 +552,7 @@ func _physics_process(delta):
 					global.player_life[1] = 0
 					world.dead = true
 					can_move = false
-					print('Can Move is ',can_move)
+					world.kill_music()
 					get_tree().paused = true
 			
 
