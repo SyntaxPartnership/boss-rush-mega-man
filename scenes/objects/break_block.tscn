@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/sprites/objects/breakblock.png" type="Texture" id=1]
+[ext_resource path="res://scripts/objects/break_block.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 8, 8 )
+
+[node name="break_block" type="Sprite"]
+texture = ExtResource( 1 )
+script = ExtResource( 2 )
+
+[node name="plyr_box" type="StaticBody2D" parent="."]
+collision_mask = 66
+
+[node name="box" type="CollisionShape2D" parent="plyr_box"]
+shape = SubResource( 1 )
+
+[node name="wpn_check" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="wpn_check"]
+shape = SubResource( 2 )
+[connection signal="body_entered" from="wpn_check" to="." method="_on_wpn_check_body_entered"]

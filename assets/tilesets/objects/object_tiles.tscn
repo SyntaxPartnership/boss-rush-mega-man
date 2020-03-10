@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://assets/sprites/objects/vert_gate.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/objects/horiz_gate.png" type="Texture" id=2]
 [ext_resource path="res://assets/tilesets/test/testtiles.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/objects/breakblock.png" type="Texture" id=4]
 
 [node name="object_tiles" type="Node2D"]
 
@@ -23,3 +24,7 @@ texture = ExtResource( 3 )
 vframes = 3
 hframes = 6
 frame = 13
+
+[node name="break_block" type="Sprite" parent="."]
+position = Vector2( 136, 8 )
+texture = ExtResource( 4 )

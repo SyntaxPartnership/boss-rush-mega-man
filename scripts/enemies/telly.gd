@@ -15,10 +15,18 @@ func _physics_process(delta):
 	var detect = $detect.get_overlapping_bodies()
 	if detect != []:
 		for body in detect:
+			if body.is_in_group('weapons'):
+				world.sound('hit')
+				var boom = load("res://scenes/effects/s_explode.tscn").instance()
+				boom.global_position = global_position
+				world.get_child(3).add_child(boom)
+				queue_free()
+			
 			if body.name == "player":
 				if player.r_boost:
 					if player.global_position.x > global_position.x - 11 and player.global_position.x < global_position.x + 11 and player.global_position.y < global_position.y:
 						player.velocity.y = (player.JUMP_SPEED * 0.855) / player.jump_mod
+					world.sound('hit')
 					var boom = load("res://scenes/effects/s_explode.tscn").instance()
 					boom.global_position = global_position
 					world.get_child(3).add_child(boom)

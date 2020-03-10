@@ -23,7 +23,6 @@ visible = false
 shape = SubResource( 1 )
 
 [node name="laddertop" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 32, 13.037 )
 texture = ExtResource( 1 )
 vframes = 3
@@ -41,7 +40,6 @@ shape = SubResource( 1 )
 one_way_collision = true
 
 [node name="laddertop_water" type="Sprite" parent="."]
-editor/display_folded = true
 position = Vector2( 8, 63.932 )
 texture = ExtResource( 1 )
 vframes = 3
@@ -107,3 +105,20 @@ frame = 13
 __meta__ = {
 "_edit_group_": true
 }
+
+[node name="enmy_block" type="Sprite" parent="."]
+position = Vector2( 56, 40 )
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 6
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="StaticBody2D" type="StaticBody2D" parent="enmy_block"]
+visible = false
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enmy_block/StaticBody2D"]
+shape = SubResource( 1 )

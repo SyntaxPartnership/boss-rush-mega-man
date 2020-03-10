@@ -8,7 +8,6 @@ extents = Vector2( 5, 5 )
 [node name="testtiles" type="Node2D"]
 
 [node name="death" type="Sprite" parent="."]
-position = Vector2( 16, 16 )
 texture = ExtResource( 1 )
 vframes = 3
 hframes = 6
@@ -18,6 +17,7 @@ __meta__ = {
 }
 
 [node name="StaticBody2D" type="StaticBody2D" parent="death"]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="death/StaticBody2D"]
 shape = SubResource( 1 )

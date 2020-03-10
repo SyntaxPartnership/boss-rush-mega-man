@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/tilesets/enemies/enemy_tiles.png" type="Texture" id=1]
+[ext_resource path="res://assets/tilesets/test/testtiles.png" type="Texture" id=2]
 
 [node name="enemy_tile" type="Node2D"]
 
@@ -23,3 +24,10 @@ texture = ExtResource( 1 )
 vframes = 20
 hframes = 20
 frame = 2
+
+[node name="move_spike" type="Sprite" parent="."]
+position = Vector2( 56, 8 )
+texture = ExtResource( 2 )
+vframes = 3
+hframes = 6
+frame = 5

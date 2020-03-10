@@ -1,0 +1,53 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/tilesets/test/testtiles.png" type="Texture" id=1]
+[ext_resource path="res://scripts/enemies/move_spike.gd" type="Script" id=2]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7, 0.5 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 7, 0.5 )
+
+[sub_resource type="RectangleShape2D" id=4]
+extents = Vector2( 5, 5 )
+
+[node name="move_spike" type="KinematicBody2D" groups=[
+"enemies",
+]]
+pause_mode = 1
+collision_layer = 578
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+vframes = 3
+hframes = 6
+frame = 5
+
+[node name="top_check" type="Area2D" parent="."]
+collision_layer = 514
+collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="top_check"]
+position = Vector2( 0, -8.5 )
+shape = SubResource( 2 )
+
+[node name="bottom_check" type="Area2D" parent="."]
+collision_layer = 514
+collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="bottom_check"]
+position = Vector2( 0, 8.5 )
+shape = SubResource( 3 )
+
+[node name="plyr_check" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="plyr_check"]
+shape = SubResource( 4 )
+[connection signal="body_entered" from="top_check" to="." method="_on_top_check_body_entered"]
+[connection signal="area_shape_entered" from="bottom_check" to="." method="_on_bottom_check_area_shape_entered"]
+[connection signal="body_entered" from="bottom_check" to="." method="_on_bottom_check_body_entered"]
+[connection signal="body_entered" from="plyr_check" to="." method="_on_plyr_check_body_entered"]

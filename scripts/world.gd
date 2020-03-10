@@ -1357,7 +1357,7 @@ func spawn_objects():
 		var id = objects.get_cellv(cell)
 		var type = objects.tile_set.tile_get_name(id)
 		#Get object ID and load into the level.
-		if type in ['vert_gate', 'horiz_gate']:
+		if type in ['vert_gate', 'horiz_gate', 'break_block']:
 			var c = load('res://scenes/objects/'+type+'.tscn').instance()
 			var pos = objects.map_to_world(cell)
 			c.position = pos + (objects.cell_size / 2)
