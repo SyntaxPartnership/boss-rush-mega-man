@@ -134,19 +134,22 @@ var enemy_count = 0
 var room_data = {
 				"(10, 4)" : [0, 0, 0, 0, 2, 1, 0],
 				"(11, 4)" : [0, 0, 0, 0, 2, -1, 0], #Main Hub
-				"(7, 6)" : [0, 0, 1, 1, 1, 1, 0], #Swoop Hub
+				"(7, 6)" : [0, 0, 0, 1, 1, 1, 0], #Swoop Hub
 				"(8, 6)" : [0, 0, 0, 0, 1, 1, 0], #Swoop Boss Room
-				"(7, 10)" : [0, 0, 1, 1, 1, 1, 1], #Roto Hub
+				"(7, 10)" : [0, 0, 0, 1, 1, 1, 1], #Roto Hub
 				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
 				"(6, 10)" : [0, 1, 1, 1, 1, 1, 1], #Roto Challenge Room
 				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
+				"(14, 6)" : [0, 0, 1, 0, 1, 1, 3], #Scuttle Hub
+				"(13, 6)" : [0, 0, 0, 0, 1, 1, 3], #Scuttle Boss Room
 				}
 
 var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
 
 var boss_rooms = {
 				"(8, 6)" : "",
-				"(8, 10)" : "res://scenes/bosses/roto.tscn"
+				"(8, 10)" : "res://scenes/bosses/roto.tscn",
+				"(13, 6)" : "",
 				}
 
 var cont_rooms = {
@@ -487,9 +490,20 @@ func _rooms():
 		#Kill music and display the boss meter.
 		kill_music()
 		
-		if which_wpn != 0:
+		if which_wpn != 0 or which_wpn != 3:
 			ready_boss = true
 			$player.no_input(true)
+		
+		if which_wpn == 3:
+			$player.no_input(true)
+			var e_wall_l = load('res://scenes/bosses/elec_wall.tscn').instance()
+			$graphic/spawn_tiles.add_child(e_wall_l)
+			e_wall_l.global_position.x = $player/camera.limit_left + 24
+			e_wall_l.global_position.y = $player/camera.limit_top + 120
+			var e_wall_r = load('res://scenes/bosses/elec_wall.tscn').instance()
+			$graphic/spawn_tiles.add_child(e_wall_r)
+			e_wall_r.global_position.y = $player/camera.limit_top + 120
+			e_wall_r.global_position.x = $player/camera.limit_bottom - 24
 
 		#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
@@ -560,6 +574,7 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
+	print(ready_boss)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -795,6 +810,16 @@ func _process(delta):
 					$graphic/stage_overlap/arrow.global_position = Vector2(2656, 1128)
 					show_boss = 2
 				11:
+					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
+				12:
+					$graphic/stage_overlap/arrow.global_position = Vector2(2976, 1128)
+					show_boss = 3
+				13:
+					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
+				14:
+					$graphic/stage_overlap/arrow.global_position = Vector2(3024, 1128)
+					show_boss = 4
+				15:
 					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
 	else:
 		if $graphic/stage_overlap/arrow.global_position != Vector2(2500, 1100):
