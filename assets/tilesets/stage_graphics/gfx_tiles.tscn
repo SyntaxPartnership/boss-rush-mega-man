@@ -3215,3 +3215,45 @@ texture = ExtResource( 1 )
 vframes = 32
 hframes = 16
 frame = 458
+
+[node name="460" type="Sprite" parent="."]
+position = Vector2( 168, 456 )
+texture = ExtResource( 1 )
+vframes = 32
+hframes = 16
+frame = 460
+
+[node name="461" type="Sprite" parent="."]
+position = Vector2( 184, 456 )
+texture = ExtResource( 1 )
+vframes = 32
+hframes = 16
+frame = 461
+
+[node name="462" type="Sprite" parent="."]
+position = Vector2( 200, 456 )
+texture = ExtResource( 1 )
+vframes = 32
+hframes = 16
+frame = 462
+
+[node name="463" type="Sprite" parent="."]
+position = Vector2( 216, 456 )
+texture = ExtResource( 1 )
+vframes = 32
+hframes = 16
+frame = 463
+
+[node name="464" type="Sprite" parent="."]
+position = Vector2( 232, 456 )
+texture = ExtResource( 1 )
+vframes = 32
+hframes = 16
+frame = 464
+
+[node name="465" type="Sprite" parent="."]
+position = Vector2( 248, 456 )
+texture = ExtResource( 1 )
+vframes = 32
+hframes = 16
+frame = 465

@@ -49,6 +49,8 @@ var fill_b_meter = false
 var boss_hp = 280
 var boss_delay = 60
 var ready_boss = false
+var wall_delay = 60
+var elec_wall = false
 
 var boss_dead = false
 var end_delay = 360
@@ -136,7 +138,7 @@ var room_data = {
 				"(11, 4)" : [0, 0, 0, 0, 2, -1, 0], #Main Hub
 				"(7, 6)" : [0, 0, 0, 1, 1, 1, 0], #Swoop Hub
 				"(8, 6)" : [0, 0, 0, 0, 1, 1, 0], #Swoop Boss Room
-				"(7, 10)" : [0, 0, 0, 1, 1, 1, 1], #Roto Hub
+				"(7, 10)" : [0, 0, 1, 1, 1, 1, 1], #Roto Hub
 				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
 				"(6, 10)" : [0, 1, 1, 1, 1, 1, 1], #Roto Challenge Room
 				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
@@ -149,7 +151,7 @@ var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
 var boss_rooms = {
 				"(8, 6)" : "",
 				"(8, 10)" : "res://scenes/bosses/roto.tscn",
-				"(13, 6)" : "",
+				"(13, 6)" : "res://scenes/bosses/scuttle.tscn",
 				}
 
 var cont_rooms = {
@@ -490,20 +492,13 @@ func _rooms():
 		#Kill music and display the boss meter.
 		kill_music()
 		
-		if which_wpn != 0 or which_wpn != 3:
+		if which_wpn != 0 and which_wpn != 3:
 			ready_boss = true
 			$player.no_input(true)
 		
 		if which_wpn == 3:
+			elec_wall = true
 			$player.no_input(true)
-			var e_wall_l = load('res://scenes/bosses/elec_wall.tscn').instance()
-			$graphic/spawn_tiles.add_child(e_wall_l)
-			e_wall_l.global_position.x = $player/camera.limit_left + 24
-			e_wall_l.global_position.y = $player/camera.limit_top + 120
-			var e_wall_r = load('res://scenes/bosses/elec_wall.tscn').instance()
-			$graphic/spawn_tiles.add_child(e_wall_r)
-			e_wall_r.global_position.y = $player/camera.limit_top + 120
-			e_wall_r.global_position.x = $player/camera.limit_bottom - 24
 
 		#Check tilemap for enemies. If so, place them.
 	if enemy_count == 0:
@@ -574,7 +569,6 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
-	print(ready_boss)
 	
 	#Camera shake?
 #	if shake_delay > 0:
@@ -601,6 +595,7 @@ func _process(delta):
 	spawn_pt = $coll_mask/spawn_pts.get_cellv($coll_mask/spawn_pts.world_to_map(Vector2(pos.x - 4, pos.y)))
 	
 	#Get ready to load the boss.
+	
 	if ready_boss and boss_delay > -1:
 		boss_delay -= 1
 	
@@ -610,6 +605,26 @@ func _process(delta):
 		#Load the boss scene(s).
 		var boss = load(boss_rooms.get(str(player_room))).instance()
 		$graphic.add_child(boss)
+	
+	if elec_wall and wall_delay > -1:
+		if $player.global_position.x > $player/camera.limit_right - 40:
+			$player.x_dir = -1
+		else:
+			$player.x_dir = 0
+		
+		wall_delay -= 1
+	
+	if wall_delay == 0:
+		sound('elec')
+		var e_wall_l = load('res://scenes/bosses/elec_wall.tscn').instance()
+		$graphic/spawn_tiles.add_child(e_wall_l)
+		e_wall_l.global_position.x = $player/camera.limit_left + 24
+		e_wall_l.global_position.y = $player/camera.limit_top + 112
+		var e_wall_r = load('res://scenes/bosses/elec_wall.tscn').instance()
+		$graphic/spawn_tiles.add_child(e_wall_r)
+		e_wall_r.global_position.y = $player/camera.limit_top + 112
+		e_wall_r.global_position.x = $player/camera.limit_right - 24
+		ready_boss = true
 
 	#Check player health. If maxed, set life_en to 0.
 	if life_en > 0:
