@@ -703,6 +703,8 @@ func _process(delta):
 					b.play_anim("idle")
 				1:
 					b.play_anim("spin-norm")
+				3:
+					b.play_anim("idle")
 			$player.no_input(false)
 	
 	#Check to see if the player's weapons or adaptors have gone beyond the screen.

@@ -3,8 +3,10 @@
 [ext_resource path="res://assets/sprites/bosses/gabyoall/scuttle.png" type="Texture" id=1]
 [ext_resource path="res://scripts/bosses/scuttle.gd" type="Script" id=2]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "fall"
+length = 0.1
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -18,7 +20,7 @@ tracks/0/keys = {
 "values": [ 7 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "idle"
 length = 0.1
 loop = true
@@ -35,8 +37,7 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
-[sub_resource type="Animation" id=1]
-resource_name = "intro"
+[sub_resource type="Animation" id=3]
 length = 1.5
 step = 0.05
 tracks/0/type = "value"
@@ -55,6 +56,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id=4]
 resource_name = "jump"
 length = 0.1
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -62,7 +64,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0.4 ),
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ 6 ]
@@ -70,6 +72,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=5]
 resource_name = "land"
+length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -102,8 +105,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=7]
 resource_name = "shrink"
-length = 0.1
-step = 0.05
+length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -111,7 +113,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.05 ),
+"times": PoolRealArray( 0, 0.1 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
 "values": [ 13, 14 ]
@@ -157,7 +159,9 @@ extents = Vector2( 11, 16 )
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 11, 10 )
 
-[node name="scuttle" type="KinematicBody2D"]
+[node name="scuttle" type="KinematicBody2D" groups=[
+"boss",
+]]
 collision_layer = 66
 collision_mask = 0
 script = ExtResource( 2 )
@@ -169,9 +173,9 @@ hframes = 15
 frame = 15
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/fall = SubResource( 2 )
-anims/idle = SubResource( 3 )
-anims/intro = SubResource( 1 )
+anims/fall = SubResource( 1 )
+anims/idle = SubResource( 2 )
+anims/intro = SubResource( 3 )
 anims/jump = SubResource( 4 )
 anims/land = SubResource( 5 )
 anims/pull = SubResource( 6 )
@@ -186,3 +190,4 @@ shape = SubResource( 10 )
 [node name="squat_box" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 10 )
 shape = SubResource( 11 )
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
