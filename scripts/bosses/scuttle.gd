@@ -11,13 +11,19 @@ var intro = true
 var intro_bnce = 0
 var p_intro = false
 var intro_delay = 40
-var fill_bar = false
+var fill_bar = true
 var spin_spawn = false
 var spinner
 
 var velocity = Vector2()
 var left_bar = 0
 var right_bar = 0
+
+var state = 0
+var st_count = 0
+var jumps = 0
+var jump = false
+var act_delay = -1
 
 func _ready():
 	$anim.play("spin")
@@ -39,27 +45,52 @@ func _physics_process(delta):
 		if intro_delay == 0:
 			$anim.play("intro")
 	
+	if act_delay > -1 and !fill_bar and is_on_floor():
+		act_delay -= 1
+	
 	velocity.y += GRAVITY * delta
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
-	if !is_on_floor() and intro_bnce == 1:
-		if velocity.y < 0:
-			$anim.play("jump")
-		else:
-			$anim.play("fall")
-	
-	if intro and is_on_floor():
-		velocity.x = 0
-		match intro_bnce:
-			0:
-				velocity.y = -200
-				$sprite.flip_h = true
-				intro_bnce += 1
+	if intro:
+		if !is_on_floor() and intro_bnce == 1:
+			if velocity.y < 0:
+				$anim.play("jump")
+			else:
+				$anim.play("fall")
 		
-		if $anim.get_current_animation() == "fall" and intro_bnce == 1:
-			$anim.play("land")
-			intro_bnce += 1
+		if is_on_floor():
+			velocity.x = 0
+			match intro_bnce:
+				0:
+					velocity.y = -200
+					$sprite.flip_h = true
+					intro_bnce += 1
+			
+			if $anim.get_current_animation() == "fall" and intro_bnce == 1:
+				$anim.play("land")
+				intro_bnce += 1
+	
+	if !fill_bar:
+		if jumps == 0 and state < 4:
+			jumps = floor(rand_range(2, 4))
+		match state:
+			0:
+				state += 1
+				act_delay = 10
+			1:
+				if is_on_floor():
+					if jumps > 0 and act_delay == 0 and !jump:
+							$anim.play("land")
+							jump = true
+					if jumps == 0:
+						state = 4
+			2:
+				if is_on_floor():
+					$anim.play("land")
+					state += 1
+					act_delay = 10
+		
 		
 	
 	#Animations.
@@ -99,5 +130,13 @@ func _on_anim_finished(anim_name):
 			if intro:
 				$anim.play("idle")
 				p_intro = true
-	
+				intro = false
+			
+			match state:
+				1:
+					velocity.y = JUMP_STR
+					$anim.play("jump")
+					state += 1
+				3:
+					$anim.play("idle")
 	
