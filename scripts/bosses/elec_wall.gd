@@ -7,8 +7,3 @@ onready var camera = player.get_child(9)
 func _ready():
 	$anim_a.play("idle")
 	$anim_b.play("idle")
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
