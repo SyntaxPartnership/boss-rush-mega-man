@@ -44,8 +44,6 @@ func _ready():
 
 func _physics_process(delta):
 	
-	print(jumps)
-	
 	if p_intro:
 		intro_delay -= 1
 		
@@ -127,7 +125,8 @@ func _physics_process(delta):
 						tosses = 3
 			7:
 				if $sprite.frame == 10:
-					pull = floor(rand_range(1, 3))
+					pull = round(rand_range(1, 3))
+					print(pull)
 					var gaby = load("res://scenes/bosses/gabyaoll.tscn").instance()
 					gaby.position.y = global_position.y + -6
 					if global_position.x > camera.limit_left + 128:
