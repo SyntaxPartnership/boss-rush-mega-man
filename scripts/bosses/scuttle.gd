@@ -24,7 +24,7 @@ var prev_st = 0
 var st_count = 0
 var jumps = 0
 var jump = false
-var act_delay = 5
+var act_delay = -1
 var x_spd = 0
 var pull = 0
 var tosses = 3
@@ -99,7 +99,7 @@ func _physics_process(delta):
 	if !fill_bar:
 		match state:
 			0:
-				act_delay = 5
+				act_delay = 7
 				jumps = floor(rand_range(2, 4))
 				state += 1
 			1:
@@ -137,7 +137,7 @@ func _physics_process(delta):
 						gaby.dir = 1
 					gaby.type = pull
 					world.get_child(3).add_child(gaby)
-					act_delay = 5
+					act_delay = 7
 					state += 1
 					tosses -= 1
 			8:
@@ -149,7 +149,7 @@ func _physics_process(delta):
 							i.move = true
 					
 					$anim.play("toss")
-					act_delay = 5
+					act_delay = 7
 					pull_delay = 90
 					state += 1
 			9:
@@ -225,9 +225,9 @@ func _on_anim_finished(anim_name):
 					jumps -= 1
 				5:
 					$anim.play("idle")
-					act_delay = 5
+					act_delay = 7
 					if jumps > -1:
 						state = 1
 					else:
 						state += 1
-						act_delay = 5
+						act_delay = 7
