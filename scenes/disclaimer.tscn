@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://scripts/disclaimer.gd" type="Script" id=1]
-[ext_resource path="res://assets/font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=3]
-[ext_resource path="res://assets/sprites/effects/as_icon.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/effects/as_icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "run"
@@ -27,7 +27,7 @@ script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
 position = Vector2( 128, 128 )
-texture = ExtResource( 4 )
+texture = ExtResource( 2 )
 hframes = 3
 frame = 2
 
@@ -39,7 +39,7 @@ margin_left = 8.0
 margin_top = 8.0
 margin_right = 248.0
 margin_bottom = 232.0
-custom_fonts/font = ExtResource( 2 )
+custom_fonts/font = ExtResource( 3 )
 text = "
 
 
@@ -58,7 +58,7 @@ __meta__ = {
 
 [node name="timer" type="Timer" parent="."]
 
-[node name="fade" parent="." instance=ExtResource( 3 )]
+[node name="fade" parent="." instance=ExtResource( 4 )]
 position = Vector2( 128, 118.947 )
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]

@@ -126,7 +126,6 @@ func _physics_process(delta):
 			7:
 				if $sprite.frame == 10:
 					pull = round(rand_range(1, 3))
-					print(pull)
 					var gaby = load("res://scenes/bosses/gabyaoll.tscn").instance()
 					gaby.position.y = global_position.y + -6
 					if global_position.x > camera.limit_left + 128:
