@@ -70,7 +70,7 @@ func _physics_process(delta):
 				if !fire and missiles < 1:
 					$anim_a.play("fire-2")
 					var missile = load("res://scenes/bosses/missile.tscn").instance()
-					missile.position = player.global_position + Vector2(0, -16)
+					missile.position = global_position + Vector2(0, -8)
 					world.get_child(3).add_child(missile)
 					fire = true
 					missiles += 1
