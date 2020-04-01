@@ -4,11 +4,15 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var camera = player.get_child(9)
 
-const SPEED = 120
+const SPEED = 200
+const SFORCE = 200
 
-var velocity = Vector2(0, -1)
+var velocity = Vector2.ZERO
+var acceleration = Vector2.ZERO
+var angle = 0
+var final_vel = Vector2.ZERO
 
-var time = 24
+var time = 12
 
 var sprt_del = 2
 var f_offset = 1
@@ -24,11 +28,28 @@ var frame = {
 	Vector2(1, -1) : 7
 }
 
-func _ready():
-	pass # Replace with function body.
+func seek():
+	var steer = Vector2.ZERO
+	var desired = (player.position - position).normalized() * SPEED
+	steer = (desired - velocity).normalized() * SFORCE
+	return steer
 
 func _physics_process(delta):
-	time -= 1
+	
+	if time > 0:
+		acceleration = Vector2(0, -1) * SPEED
+		time -= 1
+	else:
+		acceleration += seek()
+		
+	velocity += acceleration * delta
+	velocity = velocity.clamped(SPEED)
+	
+	var get_angle = velocity.angle()
+	angle = stepify(get_angle, PI / 4)
+	
+	final_vel = Vector2(cos(angle), sin(angle))
+	
 	sprt_del -= 1
 	
 	if sprt_del == 0:
@@ -37,32 +58,8 @@ func _physics_process(delta):
 		else:
 			f_offset = 0
 		
-		$sprite.frame = frame.get(velocity) + f_offset
-		
 		sprt_del = 2
-
-	if time == 0:
-		var get_angle = get_angle_to(player.position)
-		var get_vect = Vector2(round(cos(get_angle)), round(sin(get_angle)))
-
-		if velocity.x < get_vect.x:
-			velocity.x += 1
-		elif velocity.x > get_vect.x:
-			velocity.x -= 1
-		if velocity.y < get_vect.y:
-			velocity.y += 1
-		elif velocity.y > get_vect.y:
-			velocity.y -= 1
-		
-		$sprite.frame = frame.get(velocity) + f_offset
-		
-		time = 8
-
-	position += velocity * (SPEED * delta)
-#func lerp_angle(from, to, weight):
-#    return from + short_angle_dist(from, to) * weight
-#
-#func short_angle_dist(from, to):
-#    var max_angle = PI * 2
-#    var difference = fmod(to - from, max_angle)
-#    return fmod(2 * difference, max_angle) - difference
+	
+	$sprite.frame = frame.get(Vector2(round(final_vel.x), round(final_vel.y))) + f_offset
+	
+	position += final_vel * (SPEED * delta)

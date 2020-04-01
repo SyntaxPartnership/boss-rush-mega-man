@@ -67,14 +67,14 @@ func _physics_process(delta):
 						time = 60
 		elif type == 3:
 			if time == 0:
-				if !fire and missiles < 1:
+				if !fire and missiles < 2:
 					$anim_a.play("fire-2")
 					var missile = load("res://scenes/bosses/missile.tscn").instance()
 					missile.position = global_position + Vector2(0, -8)
 					world.get_child(3).add_child(missile)
 					fire = true
 					missiles += 1
-					time = 60
+					time = 90
 		
 		if global_position.x < camera.limit_left + 32 or global_position.x > camera.limit_right - 32:
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()

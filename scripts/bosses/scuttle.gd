@@ -14,6 +14,10 @@ var intro_delay = 40
 var fill_bar = true
 var spin_spawn = false
 var spinner
+var sic_em = 0
+var dist = 0
+var spr_delay = 5
+var desp = false
 
 var velocity = Vector2()
 var left_bar = 0
@@ -43,6 +47,11 @@ func _ready():
 	velocity.x = -95
 
 func _physics_process(delta):
+	
+	sic_em = floor(global_position.y - player.global_position.y)
+	dist = global_position.distance_to(player.global_position)
+	
+	print(dist)
 	
 	if p_intro:
 		intro_delay -= 1
@@ -121,7 +130,8 @@ func _physics_process(delta):
 						$anim.play("pull")
 						state += 1
 					else:
-						state = 0
+						#Add function for desperation attack.
+						state = 11
 						tosses = 3
 			7:
 				if $sprite.frame == 10:
@@ -159,7 +169,35 @@ func _physics_process(delta):
 				if pull_delay == 0:
 					act_delay = 1
 					state = 6
-		
+			11:
+				$anim.play("shrink")
+				state += 1
+			12:
+				if $sprite.flip_h:
+					if !player.is_on_floor():
+						$anim.playback_speed = 1
+						velocity.x = 60
+					else:
+						$anim.playback_speed = 2
+						velocity.x = 60 * 2
+				else:
+					if !player.is_on_floor():
+						$anim.playback_speed = 1
+						velocity.x = -60
+					else:
+						$anim.playback_speed = 2
+						velocity.x = -60 * 2
+				if dist <= 40:
+					velocity.x = 0
+					state += 1
+			13:
+				spr_delay -= 1
+				
+				if spr_delay == 0:
+					$anim.playback_speed = 1
+					$anim.play("spring")
+					spr_delay = 5
+					state += 1
 		
 	
 	#Animations.
@@ -230,3 +268,7 @@ func _on_anim_finished(anim_name):
 					else:
 						state += 1
 						act_delay = 8
+		"shrink":
+			match state:
+				12:
+					$anim.play("spin")
