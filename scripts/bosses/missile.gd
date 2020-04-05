@@ -14,6 +14,10 @@ var final_vel = Vector2.ZERO
 
 var time = 12
 
+var move = false
+
+var damage = 60
+
 var sprt_del = 2
 var f_offset = 1
 var frame = {
@@ -63,3 +67,22 @@ func _physics_process(delta):
 	$sprite.frame = frame.get(Vector2(round(final_vel.x), round(final_vel.y))) + f_offset
 	
 	position += final_vel * (SPEED * delta)
+
+func _on_hitbox_body_entered(body):
+	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+		var boom = load("res://scenes/effects/l_explode.tscn").instance()
+		boom.global_position = global_position
+		world.get_child(3).add_child(boom)
+		queue_free()
+	
+	if body.name == "player":		
+		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+			if player.r_boost:
+				player.r_boost = false
+			global.player_life[int(player.swap)] -= damage
+			player.damage()
+		
+		var boom = load("res://scenes/effects/l_explode.tscn").instance()
+		boom.global_position = global_position
+		world.get_child(3).add_child(boom)
+		queue_free()

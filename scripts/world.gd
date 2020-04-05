@@ -126,7 +126,7 @@ var prev_room = Vector2(0, 0)
 var endless = false
 var endless_rms = []
 var screens = 0
-var shake = 0
+var shake = -1
 var enemy_count = 0
 
 #Reference. The following dictionary contains data for the rooms loaded into the game. The key is the room coordinates. The first four numbers hold values for cam_allow.
@@ -142,8 +142,8 @@ var room_data = {
 				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
 				"(6, 10)" : [0, 1, 1, 1, 1, 1, 1], #Roto Challenge Room
 				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
-				"(14, 6)" : [0, 0, 1, 0, 1, 1, 3], #Scuttle Hub
-				"(13, 6)" : [0, 0, 0, 0, 1, 1, 3], #Scuttle Boss Room
+				"(14, 6)" : [0, 0, 1, 0, 1, 1, 2], #Scuttle Hub
+				"(13, 6)" : [0, 0, 0, 0, 1, 1, 2], #Scuttle Boss Room
 				}
 
 var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
@@ -492,11 +492,11 @@ func _rooms():
 		#Kill music and display the boss meter.
 		kill_music()
 		
-		if which_wpn != 0 and which_wpn != 3:
+		if which_wpn != 0 and which_wpn != 2:
 			ready_boss = true
 			$player.no_input(true)
 		
-		if which_wpn == 3:
+		if which_wpn == 2:
 			elec_wall = true
 			$player.no_input(true)
 
@@ -571,19 +571,27 @@ func _process(delta):
 	#Print Shit
 	
 	#Camera shake?
-#	if shake_delay > 0:
-#		shake_delay -= 1
-#
-#		if shake_delay == 0:
-#			shake_x = floor(rand_range(-2, 2))
-#			shake_y = floor(rand_range(-2, 2))
-#
-#			$player/camera.limit_top = og_limits[0] + shake_y
-#			$player/camera.limit_bottom = og_limits[1] + shake_y
-#			$player/camera.limit_left = og_limits[2] + shake_x
-#			$player/camera.limit_right = og_limits[3] + shake_x
-#
-#			shake_delay = 2
+	if shake == -1:
+		$player/camera.limit_top = og_limits[0]
+		$player/camera.limit_bottom = og_limits[1]
+		$player/camera.limit_left = og_limits[2]
+		$player/camera.limit_right = og_limits[3]
+		shake -= 1
+		
+	if shake > -1:
+		if shake_delay > 0:
+			shake_delay -= 1
+	
+			if shake_delay == 0:
+				shake_x = floor(rand_range(-2, 2))
+				shake_y = floor(rand_range(-2, 2))
+	
+				$player/camera.limit_top = og_limits[0] + shake_y
+				$player/camera.limit_bottom = og_limits[1] + shake_y
+				$player/camera.limit_left = og_limits[2] + shake_x
+				$player/camera.limit_right = og_limits[3] + shake_x
+				shake -= 1
+				shake_delay = 2
 	
 	#Get other player information.
 	player_tilepos = $coll_mask/tiles.world_to_map(pos)

@@ -20,8 +20,18 @@ var sic_em = 0
 
 var velocity = Vector2()
 
+var damage = 30
+var beam_dmg = 60
+
+var overlap = []
+
+var kill_weap = []
+
 func _ready():
 	$anim_b.play("elec")
+	
+	if type == 1:
+		time = round(rand_range(10, 60))
 
 func _physics_process(delta):
 	
@@ -54,10 +64,12 @@ func _physics_process(delta):
 				match elec_st:
 					2:
 						$sprite/elec.hide()
+						$beam_box/beam.set_deferred('disabled', true)
 						elec_st = 0
 						time = 60
 					1:
 						$sprite/elec.show()
+						$beam_box/beam.set_deferred('disabled', false)
 						$anim_a.play("idle-1")
 						time = 60
 						elec_st += 1
@@ -76,6 +88,33 @@ func _physics_process(delta):
 					missiles += 1
 					time = 90
 		
+		overlap = $hitbox.get_overlapping_bodies()
+		
+		if overlap != []:
+			for body in overlap:
+				do_damage(body)
+		
+		kill_weap = $beam_box.get_overlapping_bodies()
+		
+		if kill_weap != []:
+			for body in kill_weap:
+				if body.is_in_group('weapons'):
+					if body.name != 'roto_boost' or body.name != 'mega_arm':
+						var boom = load("res://scenes/effects/s_explode.tscn").instance()
+						boom.global_position = body.global_position
+						world.get_child(3).add_child(boom)
+						body.queue_free()
+					if body.name == 'mega_arm':
+						if !body.ret:
+							body.ret()
+				
+				if body.name == 'player':
+					if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+						if player.r_boost:
+							player.r_boost = false
+						global.player_life[int(player.swap)] -= beam_dmg
+						player.damage()
+		
 		if global_position.x < camera.limit_left + 32 or global_position.x > camera.limit_right - 32:
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
 			boom.global_position = global_position
@@ -85,3 +124,12 @@ func _physics_process(delta):
 func _on_anim_a_finished(anim_name):
 	if anim_name == "fire-2":
 		fire = false
+
+func do_damage(body):
+	match body.name:
+		'player':
+			if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+				if player.r_boost:
+					player.r_boost = false
+				global.player_life[int(player.swap)] -= damage
+				player.damage()

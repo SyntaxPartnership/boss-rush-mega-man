@@ -4,6 +4,9 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var camera = player.get_child(9)
 
+var id = 4
+const CHOKE = 3
+
 const GRAVITY = 900
 const JUMP_STR = -400
 
@@ -17,7 +20,14 @@ var spinner
 var sic_em = 0
 var dist = 0
 var spr_delay = 5
+var force_spin = 0
 var desp = false
+var desp_dir = 0
+var desp_spd = 1
+var spark = false
+var spk_delay = 0
+var spit_spk = 0
+var desp_bounce = 0
 
 var velocity = Vector2()
 var left_bar = 0
@@ -33,6 +43,15 @@ var x_spd = 0
 var pull = 0
 var tosses = 3
 var pull_delay = -1
+
+var flash = 0
+var flash_delay = 0
+var hit = false
+var touch = false
+
+var damage = 40
+
+var overlap = []
 
 func _ready():
 	$anim.play("spin")
@@ -51,7 +70,31 @@ func _physics_process(delta):
 	sic_em = floor(global_position.y - player.global_position.y)
 	dist = global_position.distance_to(player.global_position)
 	
-	print(dist)
+	$flash_b.frame = $sprite.frame
+	$flash_b.flip_h = $sprite.flip_h
+	
+	if spark:
+		if !$sprk_anim.is_playing():
+			$spark.show()
+			$sprk_anim.play("spark")
+		
+		spk_delay += 1
+		spit_spk += 1
+		
+		if spk_delay > 1:
+			match $flash_b.is_visible():
+				true:
+					$flash_b.hide()
+				false:
+					$flash_b.show()
+			spk_delay = 0
+		
+		if spit_spk == 20:
+			var spark = load("res://scenes/bosses/sm_spark.tscn").instance()
+			spark.position = global_position
+			spark.velocity.x = rand_range(-50, 50)
+			world.get_child(3).add_child(spark)
+			spit_spk = 0
 	
 	if p_intro:
 		intro_delay -= 1
@@ -60,7 +103,7 @@ func _physics_process(delta):
 			$anim.play("intro")
 	
 	if act_delay > -1 and is_on_floor():
-		if state == 1 or state == 6 or state == 8 or state == 9:
+		if state == 1 or state == 6 or state == 8 or state == 9 or state == 14 or state == 15:
 			act_delay -= 1
 	
 	if pull_delay > -1 and state == 10:
@@ -81,6 +124,29 @@ func _physics_process(delta):
 				$sprite.flip_h = true
 			
 			prev_st = state
+			
+		
+	if flash > 0:
+		flash_delay += 1
+		flash -= 1
+		
+		if flash_delay > 3:
+			flash_delay = 0
+		
+		if flash_delay == 1:
+			$sprite.hide()
+			$flash.show()
+		
+		if flash_delay == 3:
+			$sprite.show()
+			$flash.hide()
+	
+	if flash == 0 and hit:
+		hit = false
+		$sprite.show()
+		$flash.hide()
+		flash_delay = 0
+	
 	
 	velocity.y += GRAVITY * delta
 	
@@ -104,10 +170,20 @@ func _physics_process(delta):
 			if $anim.get_current_animation() == "fall" and intro_bnce == 1:
 				$anim.play("land")
 				intro_bnce += 1
+				
+	#Desperation
+	if world.boss_hp <= 140 and !desp:
+		if state == 1 or state == 10:
+			act_delay = 10
+			state = 15
+			desp = true
 	
 	if !fill_bar:
 		match state:
 			0:
+				$hitbox/stand.set_deferred('disabled', false)
+				$hitbox/squat.set_deferred('disabled', true)
+				$hitbox/boing.set_deferred('disabled', true)
 				act_delay = 8
 				jumps = floor(rand_range(2, 4))
 				state += 1
@@ -170,6 +246,11 @@ func _physics_process(delta):
 					act_delay = 1
 					state = 6
 			11:
+				id = 0
+				force_spin = 0
+				$hitbox/stand.set_deferred('disabled', true)
+				$hitbox/squat.set_deferred('disabled', false)
+				$hitbox/boing.set_deferred('disabled', true)
 				$anim.play("shrink")
 				state += 1
 			12:
@@ -191,14 +272,108 @@ func _physics_process(delta):
 					velocity.x = 0
 					state += 1
 			13:
+				id = 4
 				spr_delay -= 1
 				
 				if spr_delay == 0:
+					$hitbox/stand.set_deferred('disabled', true)
+					$hitbox/squat.set_deferred('disabled', true)
+					$hitbox/boing.set_deferred('disabled', false)
 					$anim.playback_speed = 1
 					$anim.play("spring")
 					spr_delay = 5
+					act_delay = 40
 					state += 1
+			14:
+				if act_delay == 0:
+					state = 0
+			15:
+				if act_delay == 0:
+					$anim.play("land")
+					state += 1
+			17:
+				if velocity.y > 0:
+					$anim.play("fall")
+					state += 1
+			18:
+				if is_on_floor():
+					velocity.x = 0
+					$anim.play("shrink")
+					state += 1
+			19:
+				velocity.x = (80 * desp_dir) * desp_spd
+				
+				if desp_dir == 1 and global_position.x > camera.limit_right - 32:
+					$sprite.flip_h = false
+					world.shake = 8
+					desp_dir = -1
+					desp_bounce += 1
+					if desp_spd < 3:
+						desp_spd += 0.5
+						$anim.playback_speed += 0.25
+					if !spark:
+						spark = true
+				elif desp_dir == -1 and global_position.x < camera.limit_left + 32:
+					$sprite.flip_h = true
+					world.shake = 8
+					desp_dir = 1
+					desp_bounce += 1
+					if desp_spd < 3:
+						desp_spd += 0.5
+						$anim.playback_speed += 0.25
+					if !spark:
+						spark = true
+				
+				if desp_bounce == 12:
+					state += 1
+					desp_bounce = 0
+					desp_dir = 0
+					desp_spd = 1
+			20:
+				if velocity.x > 0:
+					velocity.x -= 10
+				elif velocity.x < 0:
+					velocity.x += 10
+				
+				if $anim.playback_speed > 1:
+					$anim.playback_speed -= 0.25
+					
+				
+	
+	#Kill boss.
+	if world.boss_hp <= 0:
+		world.kill_music()
+		world.sound("death")
+		world.bolt_calc()
 		
+		for _b in range(world.max_bolts):
+			var which = rand_range(0, 100)
+			var spawn
+			if which <= world.accuracy:
+				spawn = load("res://scenes/objects/bolt_l.tscn").instance()
+				spawn.type = 1
+			else:
+				spawn = load("res://scenes/objects/bolt_s.tscn").instance()
+				spawn.type = 0
+			spawn.global_position = global_position
+			spawn.time = 420
+			spawn.velocity.y = rand_range(0, spawn.JUMP_SPEED * 1.2)
+			spawn.x_spd = rand_range(-100, 100)
+			world.get_child(1).add_child(spawn)
+				
+		var enemy_kill = get_tree().get_nodes_in_group('gabyoall')
+		for i in enemy_kill:
+			var boom = load("res://scenes/effects/l_explode.tscn").instance()
+			boom.global_position = i.global_position
+			world.get_child(3).add_child(boom)
+			i.queue_free()
+		world.enemy_count = 0
+		for n in range(16):
+			var boom = world.DEATH_BOOM.instance()
+			boom.global_position = global_position
+			boom.id = n
+			world.get_child(3).add_child(boom)
+		queue_free()
 	
 	#Animations.
 	if $anim.get_current_animation() == "intro":
@@ -222,6 +397,14 @@ func _physics_process(delta):
 			spinner.kill()
 			spinner = null
 			world.fill_b_meter = true
+	
+	#Object overlap detection
+	overlap = $hitbox.get_overlapping_bodies()
+	
+	if overlap != []:
+		for body in overlap:
+			do_damage(body)
+		
 
 func play_anim(anim):
 	$anim.play(anim)
@@ -268,7 +451,99 @@ func _on_anim_finished(anim_name):
 					else:
 						state += 1
 						act_delay = 8
+				16:
+					$anim.play("jump")
+					velocity.y = JUMP_STR * 0.75
+					state += 1
+				19:
+					id = 0
+					$anim.play("shrink")
+					state += 1
 		"shrink":
 			match state:
 				12:
 					$anim.play("spin")
+				19:
+					id = 0
+					$hitbox/stand.set_deferred('disabled', true)
+					$hitbox/squat.set_deferred('disabled', false)
+					$hitbox/boing.set_deferred('disabled', true)
+					if global_position.x >= camera.limit_left + 128:
+						desp_dir = 1
+					else:
+						$sprite.flip_h = true
+						desp_dir = -1
+					$anim.play("spin")
+
+func do_damage(body):
+	var add_count = false
+	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+		world.enemy_dmg(id, body.id)
+		if world.damage != 0 and !body.reflect:
+			#Scuttle Only.
+			if state == 14:
+				state = 0
+				
+			if state == 10:
+				force_spin += 1
+				
+			if force_spin > 1:
+				state = 11
+			#Weapon behaviors.
+			match body.property:
+				0:
+					body._on_screen_exited()
+				2:
+					if world.damage < world.boss_hp:
+						body._on_screen_exited()
+				3:
+					if world.damage < world.boss_hp:
+						if flash == 0:
+							body.choke_check()
+							body.choke_max = CHOKE
+							body.choke_delay = 6
+						body.velocity = Vector2(0, 0)
+			if flash == 0:
+				world.boss_hp -= world.damage
+				flash = 20
+			if !add_count:
+				world.hit_num += 1
+				add_count = true
+			hit = true
+			if world.boss_hp > 0:
+				world.sound("hit")
+			else:
+				if body.property == 3:
+					if !body.ret:
+						body.ret()
+		else:
+			if body.property != 3:
+				body.reflect = true
+			else:
+				if !body.ret:
+					body.ret()
+			
+	if body.name == "mega_arm" and body.choke:
+		body.global_position = global_position
+		if flash == 0 and body.choke_delay == 0:
+			if body.choke_max > 0:
+				world.boss_hp -= 10
+				body.choke_max -= 1
+				body.choke_delay = 6
+				flash = 20
+				hit = true
+				world.sound("hit")
+				#Make the Mega Arm return to the player if boss dies.
+				if world.boss_hp <= 0:
+					body.choke = false
+					body.choke_delay = 0
+		elif body.choke_max == 0 or id == 0:
+			body.choke = false
+			body.choke_delay = 0
+	
+	if body.name == "player":		
+		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+			if player.r_boost:
+				player.r_boost = false
+			global.player_life[int(player.swap)] -= damage
+			player.damage()

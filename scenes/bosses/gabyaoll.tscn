@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scripts/bosses/gabyaoll.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/gabyoall/gabyoall.png" type="Texture" id=2]
@@ -8,8 +8,13 @@
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 7, 4 )
 
-[sub_resource type="Animation" id=2]
-resource_name = "fire-2"
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7, 3.5 )
+
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 4, 91 )
+
+[sub_resource type="Animation" id=4]
 length = 0.2
 step = 0.05
 tracks/0/type = "value"
@@ -25,8 +30,7 @@ tracks/0/keys = {
 "values": [ 6, 7, 8, 9 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "idle-0"
+[sub_resource type="Animation" id=5]
 length = 0.3
 loop = true
 step = 0.15
@@ -43,8 +47,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "idle-1"
+[sub_resource type="Animation" id=6]
 length = 0.16
 loop = true
 step = 0.08
@@ -61,8 +64,7 @@ tracks/0/keys = {
 "values": [ 2, 3 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "idle-2"
+[sub_resource type="Animation" id=7]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -78,8 +80,7 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "warning-1"
+[sub_resource type="Animation" id=8]
 length = 0.32
 loop = true
 step = 0.04
@@ -96,8 +97,7 @@ tracks/0/keys = {
 "values": [ 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "elec"
+[sub_resource type="Animation" id=9]
 length = 0.2
 loop = true
 step = 0.05
@@ -142,6 +142,7 @@ tracks/2/keys = {
 "enemies",
 "gabyoall",
 ]]
+pause_mode = 1
 collision_layer = 66
 collision_mask = 0
 script = ExtResource( 1 )
@@ -170,16 +171,33 @@ texture = ExtResource( 4 )
 hframes = 2
 
 [node name="coll_box" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, 4 )
 shape = SubResource( 1 )
 
+[node name="hitbox" type="Area2D" parent="."]
+collision_mask = 4
+
+[node name="box" type="CollisionShape2D" parent="hitbox"]
+position = Vector2( 0, 3.5 )
+shape = SubResource( 2 )
+
+[node name="beam_box" type="Area2D" parent="."]
+collision_layer = 33
+collision_mask = 4
+
+[node name="beam" type="CollisionShape2D" parent="beam_box"]
+position = Vector2( 0, -92 )
+shape = SubResource( 3 )
+disabled = true
+
 [node name="anim_a" type="AnimationPlayer" parent="."]
-anims/fire-2 = SubResource( 2 )
-anims/idle-0 = SubResource( 3 )
-anims/idle-1 = SubResource( 4 )
-anims/idle-2 = SubResource( 5 )
-anims/warning-1 = SubResource( 6 )
+anims/fire-2 = SubResource( 4 )
+anims/idle-0 = SubResource( 5 )
+anims/idle-1 = SubResource( 6 )
+anims/idle-2 = SubResource( 7 )
+anims/warning-1 = SubResource( 8 )
 
 [node name="anim_b" type="AnimationPlayer" parent="."]
-anims/elec = SubResource( 7 )
+anims/elec = SubResource( 9 )
 [connection signal="animation_finished" from="anim_a" to="." method="_on_anim_a_finished"]
