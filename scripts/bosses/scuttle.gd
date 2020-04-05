@@ -178,6 +178,7 @@ func _physics_process(delta):
 		if state == 1 or state == 10:
 			act_delay = 10
 			state = 15
+			force_spin = 0
 			desp = true
 	
 	if !fill_bar:
@@ -271,7 +272,8 @@ func _physics_process(delta):
 					else:
 						$anim.playback_speed = 2
 						velocity.x = -60 * 2
-				if dist <= 40:
+				if global_position.x <= player.global_position.x + 16 and global_position.x >= player.global_position.x - 16:
+					world.sound('boing')
 					velocity.x = 0
 					state += 1
 			13:
@@ -392,6 +394,7 @@ func _physics_process(delta):
 		var kill_wall = get_tree().get_nodes_in_group('wall')
 		for w in kill_wall:
 			w.queue_free()
+			w.queue_free()
 		for n in range(16):
 			var boom = world.DEATH_BOOM.instance()
 			boom.global_position = global_position
@@ -489,7 +492,7 @@ func _on_anim_finished(anim_name):
 					id = 4
 					world.sound('boing')
 					$anim.play("jump")
-					velocity.y = JUMP_STR * 0.75
+					velocity.y = JUMP_STR * 0.25
 					state += 1
 				25:
 					state = 0
