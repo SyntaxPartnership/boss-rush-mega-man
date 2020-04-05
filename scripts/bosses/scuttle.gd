@@ -89,7 +89,8 @@ func _physics_process(delta):
 					$flash_b.show()
 			spk_delay = 0
 		
-		if spit_spk == 20:
+		if spit_spk == 30:
+			world.sound('spark')
 			var spark = load("res://scenes/bosses/sm_spark.tscn").instance()
 			spark.position = global_position
 			spark.velocity.x = rand_range(-50, 50)
@@ -155,6 +156,7 @@ func _physics_process(delta):
 	if intro:
 		if !is_on_floor() and intro_bnce == 1:
 			if velocity.y < 0:
+				world.sound('boing')
 				$anim.play("jump")
 			else:
 				$anim.play("fall")
@@ -203,6 +205,7 @@ func _physics_process(delta):
 			6:
 				if act_delay == 0:
 					if tosses > 0:
+						world.sound('pull')
 						$anim.play("pull")
 						state += 1
 					else:
@@ -300,10 +303,9 @@ func _physics_process(delta):
 					velocity.x = 0
 					$anim.play("shrink")
 					state += 1
-			19:
-				velocity.x = (80 * desp_dir) * desp_spd
-				
+			19:				
 				if desp_dir == 1 and global_position.x > camera.limit_right - 32:
+					world.sound('wall_hit')
 					$sprite.flip_h = false
 					world.shake = 8
 					desp_dir = -1
@@ -314,6 +316,7 @@ func _physics_process(delta):
 					if !spark:
 						spark = true
 				elif desp_dir == -1 and global_position.x < camera.limit_left + 32:
+					world.sound('wall_hit')
 					$sprite.flip_h = true
 					world.shake = 8
 					desp_dir = 1
@@ -324,20 +327,38 @@ func _physics_process(delta):
 					if !spark:
 						spark = true
 				
-				if desp_bounce == 12:
+				if desp_bounce == 8:
 					state += 1
+					spark = false
+					spk_delay = 0
+					spit_spk = 0
+					$sprk_anim.stop()
+					$spark.hide()
 					desp_bounce = 0
-					desp_dir = 0
 					desp_spd = 1
+				
+				velocity.x = (80 * desp_dir) * desp_spd
+			
 			20:
 				if velocity.x > 0:
-					velocity.x -= 10
+					velocity.x -= 5
 				elif velocity.x < 0:
-					velocity.x += 10
+					velocity.x += 5
 				
 				if $anim.playback_speed > 1:
-					$anim.playback_speed -= 0.25
-					
+					$anim.playback_speed -= 0.125
+				
+				if velocity.x == 0:
+					$anim.play_backwards("shrink")
+					state += 1
+			23:
+				if velocity.y > 0:
+					$anim.play("fall")
+					state += 1
+			24:
+				if is_on_floor():
+					$anim.play("land")
+					state += 1
 				
 	
 	#Kill boss.
@@ -368,6 +389,9 @@ func _physics_process(delta):
 			world.get_child(3).add_child(boom)
 			i.queue_free()
 		world.enemy_count = 0
+		var kill_wall = get_tree().get_nodes_in_group('wall')
+		for w in kill_wall:
+			w.queue_free()
 		for n in range(16):
 			var boom = world.DEATH_BOOM.instance()
 			boom.global_position = global_position
@@ -424,6 +448,7 @@ func _on_anim_finished(anim_name):
 			
 			match state:
 				2:
+					world.sound('boing')
 					$anim.play("jump")
 					if jumps > 0:
 						velocity.y = JUMP_STR
@@ -452,6 +477,7 @@ func _on_anim_finished(anim_name):
 						state += 1
 						act_delay = 8
 				16:
+					world.sound('boing')
 					$anim.play("jump")
 					velocity.y = JUMP_STR * 0.75
 					state += 1
@@ -459,6 +485,14 @@ func _on_anim_finished(anim_name):
 					id = 0
 					$anim.play("shrink")
 					state += 1
+				22:
+					id = 4
+					world.sound('boing')
+					$anim.play("jump")
+					velocity.y = JUMP_STR * 0.75
+					state += 1
+				25:
+					state = 0
 		"shrink":
 			match state:
 				12:
@@ -474,6 +508,9 @@ func _on_anim_finished(anim_name):
 						$sprite.flip_h = true
 						desp_dir = -1
 					$anim.play("spin")
+				21:
+					$anim.play("land")
+					state += 1
 
 func do_damage(body):
 	var add_count = false
@@ -506,16 +543,17 @@ func do_damage(body):
 			if flash == 0:
 				world.boss_hp -= world.damage
 				flash = 20
+				if world.boss_hp > 0:
+					world.sound("hit")
+				else:
+					if body.property == 3:
+						if !body.ret:
+							body.ret()
 			if !add_count:
 				world.hit_num += 1
 				add_count = true
 			hit = true
-			if world.boss_hp > 0:
-				world.sound("hit")
-			else:
-				if body.property == 3:
-					if !body.ret:
-						body.ret()
+			
 		else:
 			if body.property != 3:
 				body.reflect = true

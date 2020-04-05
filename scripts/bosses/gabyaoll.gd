@@ -69,6 +69,7 @@ func _physics_process(delta):
 						time = 60
 					1:
 						$sprite/elec.show()
+						world.sound('elec')
 						$beam_box/beam.set_deferred('disabled', false)
 						$anim_a.play("idle-1")
 						time = 60

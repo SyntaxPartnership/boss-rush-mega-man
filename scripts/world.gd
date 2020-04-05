@@ -1640,6 +1640,7 @@ func _on_wpn_fade_tween_completed(object, _key):
 				
 			$pause/pause_menu.hide_icons()
 			cam_allow[2] = 1
+			cam_allow[3] = 1
 			$wpn_get/mod_ctrl/txt.set_visible_characters(0)
 			$wpn_get/mod_ctrl/top.set_position(Vector2(0, 0))
 			$wpn_get/mod_ctrl/bottom.set_position(Vector2(0, 0))

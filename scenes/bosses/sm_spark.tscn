@@ -44,6 +44,7 @@ anims/spark = SubResource( 1 )
 shape = SubResource( 2 )
 
 [node name="hit_box" type="Area2D" parent="."]
+collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="hit_box"]
 shape = SubResource( 3 )
