@@ -138,7 +138,7 @@ var room_data = {
 				"(11, 4)" : [0, 0, 0, 0, 2, -1, 0], #Main Hub
 				"(7, 6)" : [0, 0, 0, 1, 1, 1, 0], #Swoop Hub
 				"(8, 6)" : [0, 0, 0, 0, 1, 1, 0], #Swoop Boss Room
-				"(7, 10)" : [0, 0, 1, 1, 1, 1, 1], #Roto Hub
+				"(7, 10)" : [0, 0, 0, 1, 1, 1, 1], #Roto Hub
 				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
 				"(6, 10)" : [0, 1, 1, 1, 1, 1, 1], #Roto Challenge Room
 				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
@@ -463,6 +463,7 @@ func _rooms():
 		cam_allow[3] = room_data.get(str(player_room))[3]
 		which_wpn = room_data.get(str(player_room))[6]
 		$wpn_get/mod_ctrl/txt.set_text(get_scrn_txt.get(which_wpn))
+		
 		#Set scrolling.
 		if room_data.get(str(player_room))[4] != 0:
 			#Is it a single room area?
@@ -474,6 +475,9 @@ func _rooms():
 			else:
 				$player/camera.limit_right = (player_room.x * res.x) + res.x
 				$player/camera.limit_left = player_room.x * res.x
+	
+	#Set the appropriate sprite for the weapon get screen.
+	$wpn_get/mod_ctrl/wpn_get2.frame = which_wpn
 	
 	if cont_rooms.has(player_room):
 		global.cont_id = cont_rooms.get(player_room)
@@ -487,6 +491,9 @@ func _rooms():
 			1:
 				if global.weapon2[0] and !global.boss2_clear:
 					cam_allow[3] = 0
+			2:
+				if global.weapon3[0] and !global.boss3_clear:
+					cam_allow[2] = 0
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
@@ -938,7 +945,6 @@ func _process(delta):
 		$fake_fade/fade.interpolate_property($fake_fade/rect, 'color', Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		$fake_fade/fade.start()
 		$wpn_get/wpn_get1.frame = $player/sprite.get_frame()
-		$wpn_get/wpn_get1.flip_h = $player/sprite.flip_h
 		$wpn_get/wpn_get1.position = Vector2(($player.global_position.x - $player/camera.limit_left), ($player.global_position.y - $player/camera.limit_top))
 		$wpn_get/wpn_get1.show()
 		end_state =7

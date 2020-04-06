@@ -180,7 +180,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 10, 25, 26, 10 ]
+"values": [ 27, 25, 26, 27 ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -342,7 +342,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ 29, 30, 31, 32 ]
+"values": [ 30, 31, 32, 33 ]
 }
 
 [sub_resource type="Animation" id=24]
@@ -375,7 +375,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 27 ]
+"values": [ 28 ]
 }
 
 [sub_resource type="Animation" id=26]
@@ -391,7 +391,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
-"values": [ 28 ]
+"values": [ 29 ]
 }
 
 [sub_resource type="Animation" id=27]
@@ -491,6 +491,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
+frame = 28
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false

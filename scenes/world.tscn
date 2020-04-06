@@ -576,8 +576,9 @@ position = Vector2( 232, 48 )
 texture = ExtResource( 59 )
 
 [node name="wpn_get2" type="Sprite" parent="wpn_get/mod_ctrl"]
-position = Vector2( 72, 120 )
+position = Vector2( 64, 120 )
 texture = ExtResource( 56 )
+hframes = 4
 
 [node name="wpn_get1" type="Sprite" parent="wpn_get"]
 visible = false
