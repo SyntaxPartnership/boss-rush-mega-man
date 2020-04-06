@@ -324,6 +324,7 @@ func _physics_process(delta):
 	
 	if is_on_floor() and state == 5:
 		velocity.y = 0
+		world.shake = 8
 		world.sound("swoop_c")
 		$anim_body.play("drill_d")
 		for b in range(1, 5):

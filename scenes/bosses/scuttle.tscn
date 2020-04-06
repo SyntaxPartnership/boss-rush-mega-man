@@ -229,7 +229,7 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 15
-frame = 25
+frame = 15
 
 [node name="flash" type="Sprite" parent="."]
 visible = false

@@ -302,7 +302,7 @@ func _input(event):
 			palette_swap()
 	
 		#Pause menu
-		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0:
+		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0 and !$player.cutscene:
 			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
 			sound("menu")
 			kill_se("charge")
