@@ -609,6 +609,7 @@ func anim_state(new_anim_state):
 		FALL:
 			change_anim('fall')
 		GET_WPN:
+			$sprite.flip_h = false
 			change_anim('get_wpn')
 		RBOOST:
 			change_anim('rboost')
