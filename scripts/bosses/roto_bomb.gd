@@ -26,7 +26,7 @@ func _physics_process(delta):
 
 func boom():
 	world.sound("roto_b")
-	world.shake = 8
+	world.shake = 4
 	if roto[0].bomb_side:
 		for i in range(0, 2):
 			var side = load('res://scenes/bosses/roto_side.tscn').instance()
