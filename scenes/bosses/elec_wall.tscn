@@ -82,6 +82,7 @@ extents = Vector2( 4, 96 )
 [node name="elec_wall" type="Node2D" groups=[
 "wall",
 ]]
+pause_mode = 1
 script = ExtResource( 3 )
 
 [node name="sprite" type="Sprite" parent="."]

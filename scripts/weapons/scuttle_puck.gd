@@ -9,10 +9,13 @@ const X_SPD = 150
 var velocity = Vector2()
 var bounce = 1
 var boing = false
+var kill = 0
 
 func _ready():
 	$anim.play("idle")
 	world.sound("shoot_a")
+	
+	velocity.y = -100
 	
 	if player.get_child(3).flip_h:
 		bounce = 1
@@ -35,19 +38,27 @@ func _physics_process(delta):
 			bounce = 1
 		else:
 			bounce = 0
+		kill += 1
+
+	if kill == 2:
+		_on_boing_finished("boing")
 
 func _on_hit_box_body_entered(body):
-	velocity.x = 0
-	boing = true
-	$anim.play("boing")
-	world.sound("boing")
-	
-	if body.name == "player":
-		player.rush_coil = true
-		player.velocity.y = player.JUMP_SPEED * 1.6
+	if is_on_floor():
+		velocity.x = 0
+		boing = true
+		$anim.play("boing")
+		world.sound("boing")
+		
+		if body.name == "player":
+			player.rush_coil = true
+			player.velocity.y = player.JUMP_SPEED * 1.6
 
 func _on_boing_finished(_anim_name):
 	var boom = load("res://scenes/effects/s_explode.tscn").instance()
 	boom.global_position = global_position
 	world.get_child(3).add_child(boom)
 	queue_free()
+
+func _on_screen_exited():
+	pass

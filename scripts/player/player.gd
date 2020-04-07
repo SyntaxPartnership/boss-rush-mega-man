@@ -211,9 +211,9 @@ var wpn_data = {
 	'1-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
 	'2-2-0-31' : [global.weapon2, 1, 1, 0, 20, NORMAL, '', load('res://scenes/player/weapons/roto_boost.tscn'), 0, 3],
 #	#Master Weapon 3
-	'0-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 0],
-	'1-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 0],
-	'2-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 0],
+	'0-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 4],
+	'1-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 4],
+	'2-3-0-31' : [global.weapon3, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 4],
 #	#Master Weapon 4
 	}
 

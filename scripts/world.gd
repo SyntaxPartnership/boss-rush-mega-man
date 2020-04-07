@@ -576,6 +576,7 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
+	print(global.opening)
 	
 	#Camera shake?
 	if shake == -1:
@@ -1517,6 +1518,9 @@ func kill_weapons():
 		$player.shot_state($player.NORMAL)
 	if $player.cooldown:
 		$player.cooldown = false
+	$player.charge = 0
+	$player.chrg_lvl = 0
+	kill_se("charge")
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:
 		i.queue_free()
