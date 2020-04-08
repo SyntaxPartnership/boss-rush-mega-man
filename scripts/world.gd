@@ -993,7 +993,7 @@ func _process(delta):
 			$player.cutscene(true)
 			$player/anim.stop()
 			$hud/hud.hide()
-			shake = 12
+			shake = 20
 			global.opening = 1
 	
 	if global.opening == 1:
@@ -1004,7 +1004,7 @@ func _process(delta):
 			sound("big_explode")
 			var l_boom = $coll_mask/tiles.map_to_world(Vector2(165, 13))
 			var r_boom = $coll_mask/tiles.map_to_world(Vector2(170, 13))
-			for _b in range(4):
+			for _b in range(2):
 				var boom = load("res://scenes/effects/s_explode.tscn").instance()
 				boom.position.x = floor(rand_range(l_boom.x, r_boom.x + 16))
 				boom.position.y = floor(rand_range(l_boom.y, l_boom.y + 16))

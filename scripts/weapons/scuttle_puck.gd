@@ -48,7 +48,7 @@ func _physics_process(delta):
 		_on_boing_finished("boing")
 
 func _on_hit_box_body_entered(body):
-	if can_boing:
+	if can_boing and !boing:
 		velocity.x = 0
 		boing = true
 		$anim.play("boing")
