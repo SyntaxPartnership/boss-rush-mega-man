@@ -99,8 +99,8 @@ func _physics_process(delta):
 		
 		if kill_weap != []:
 			for body in kill_weap:
-				if body.is_in_group('weapons'):
-					if body.name != 'roto_boost' or body.name != 'mega_arm':
+				if body.is_in_group('weapons') and body.is_in_group("adaptor_dmg"):
+					if body.name != 'roto_boost' and body.name != 'mega_arm':
 						var boom = load("res://scenes/effects/s_explode.tscn").instance()
 						boom.global_position = body.global_position
 						world.get_child(3).add_child(boom)

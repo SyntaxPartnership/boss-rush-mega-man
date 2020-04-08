@@ -351,7 +351,7 @@ func _physics_process(delta):
 					$anim.playback_speed -= 0.125
 				
 				if velocity.x == 0:
-					$anim.play_backwards("shrink")
+					$anim.play("shrink")
 					state += 1
 			23:
 				if velocity.y > 0:

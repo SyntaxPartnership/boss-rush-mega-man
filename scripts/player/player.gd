@@ -1446,6 +1446,6 @@ func cutscene(state):
 		fire = false
 		cutscene = true
 	else:
+		shot_pos()
 		no_input(false)
 		cutscene = false
-	print('Can Move is ',can_move)

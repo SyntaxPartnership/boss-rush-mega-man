@@ -70,10 +70,16 @@ func _physics_process(delta):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
-		var boom = load("res://scenes/effects/l_explode.tscn").instance()
-		boom.global_position = global_position
-		world.get_child(3).add_child(boom)
-		queue_free()
+		if !body.reflect:
+			if body.property == 0:
+				body.queue_free()
+			elif body.property == 3:
+				if body.level == 0:
+					body.dist = 1
+			var boom = load("res://scenes/effects/l_explode.tscn").instance()
+			boom.position = global_position
+			world.get_child(3).add_child(boom)
+			queue_free()
 	
 	if body.name == "player":		
 		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
@@ -83,6 +89,6 @@ func _on_hitbox_body_entered(body):
 			player.damage()
 		
 		var boom = load("res://scenes/effects/l_explode.tscn").instance()
-		boom.global_position = global_position
+		boom.position = global_position
 		world.get_child(3).add_child(boom)
 		queue_free()

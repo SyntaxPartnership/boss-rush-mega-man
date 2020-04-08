@@ -116,22 +116,22 @@ func _physics_process(delta):
 			choke_delay -= 1
 	
 	#If the player has acquire the magnet hand...
-	if global.perma_items.get('magnet_hand'):
-		overlap = $player_detect.get_overlapping_bodies()
-		
-		if overlap != []:
-			for body in overlap:
+	
+	overlap = $player_detect.get_overlapping_bodies()
+	
+	if overlap != []:
+		for body in overlap:
+			if global.perma_items.get('magnet_hand'):
 				if body.is_in_group('items') and body.grab == 0:
 					body.global_position = global_position
-	
-func _on_player_detect_body_entered(body):
-	if body.name == "player":
-		if ret:
-			world.sound("connect")
-			player.shot_state(player.NORMAL)
-			world.shots = 0
-			player.cooldown = false
-			queue_free()
+			
+			if body.name == 'player':
+				if ret:
+					world.sound("connect")
+					player.shot_state(player.NORMAL)
+					world.shots = 0
+					player.cooldown = false
+					queue_free()
 
 func choke_check():
 	if global.perma_items.get('choke_hand'):

@@ -138,7 +138,7 @@ var room_data = {
 				"(11, 4)" : [0, 0, 0, 0, 2, -1, 0], #Main Hub
 				"(7, 6)" : [0, 0, 0, 1, 1, 1, 0], #Swoop Hub
 				"(8, 6)" : [0, 0, 0, 0, 1, 1, 0], #Swoop Boss Room
-				"(7, 10)" : [0, 0, 0, 1, 1, 1, 1], #Roto Hub
+				"(7, 10)" : [0, 0, 1, 1, 1, 1, 1], #Roto Hub
 				"(8, 10)" : [0, 0, 0, 0, 1, 1, 1], #Roto Boss Room
 				"(6, 10)" : [0, 1, 1, 1, 1, 1, 1], #Roto Challenge Room
 				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
@@ -576,7 +576,6 @@ func _process(delta):
 			time = OS.get_ticks_msec() - start_time
 		
 	#Print Shit
-	print(global.opening)
 	
 	#Camera shake?
 	if shake == -1:
@@ -994,6 +993,7 @@ func _process(delta):
 			$player.cutscene(true)
 			$player/anim.stop()
 			$hud/hud.hide()
+			shake = 12
 			global.opening = 1
 	
 	if global.opening == 1:
@@ -1076,6 +1076,7 @@ func _process(delta):
 				global.opening = 5
 
 	if global.opening >= 4:
+			
 		mntr_rand -= 1
 		
 		if show_boss == 0:
@@ -1085,6 +1086,18 @@ func _process(delta):
 				for m in $graphic/stage_gfx/mugshots.get_children():
 					m.frame = mntr_frame
 		else:
+			for m in $graphic/stage_gfx/mugshots.get_children():
+				if m.get_frame() > 12:
+					if mntr_rand == 0:
+						if m.get_frame() == 14:
+							$graphic/stage_gfx/mugshots/left.frame = 13
+							$graphic/stage_gfx/mugshots/right.frame = 13
+						elif m.get_frame() == 13:
+							$graphic/stage_gfx/mugshots/left.frame = 14
+							$graphic/stage_gfx/mugshots/right.frame = 14
+						
+						mntr_rand = 3
+						
 			match show_boss:
 				1:
 					for m in $graphic/stage_gfx/mugshots.get_children():
@@ -1118,16 +1131,6 @@ func _process(delta):
 							if m.get_frame() < 13:
 								m.frame = 13
 								mntr_rand = 3
-			
-			for m in $graphic/stage_gfx/mugshots.get_children():
-				if m.get_frame() > 12:
-					if mntr_rand == 0:
-						if m.get_frame() == 14:
-							m.frame = 13
-						elif m.get_frame() == 13:
-							m.frame = 14
-						
-						mntr_rand = 3
 	
 	if global.opening == 5:
 		j_delay -= 1
@@ -1148,11 +1151,14 @@ func _process(delta):
 				$player.jump = false
 			else:
 				$player/sprite.flip_h = false
+				$player.shot_dir = 1
 				$hud/hud.show()
 				$player.cutscene(false)
 				global.opening = 7
 				play_music("main")
-				
+		
+	if global.opening == 7 and mntr_frame < 3:
+		mntr_frame = 3
 		
 # SAVE THESE FOR MMC
 #	if end_state == 6:
@@ -1520,6 +1526,7 @@ func kill_weapons():
 		$player.cooldown = false
 	$player.charge = 0
 	$player.chrg_lvl = 0
+	palette_swap()
 	kill_se("charge")
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:

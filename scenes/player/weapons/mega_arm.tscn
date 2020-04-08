@@ -104,4 +104,3 @@ collision_mask = 128
 
 [node name="box" type="CollisionShape2D" parent="player_detect"]
 shape = SubResource( 6 )
-[connection signal="body_entered" from="player_detect" to="." method="_on_player_detect_body_entered"]

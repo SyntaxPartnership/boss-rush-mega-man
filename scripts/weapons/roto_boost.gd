@@ -23,3 +23,6 @@ func _ready():
 
 func _on_boom_finished(_anim_name):
 	queue_free()
+
+func _on_screen_exited():
+	_on_boom_finished("boom")

@@ -8,6 +8,7 @@ extents = Vector2( 4, 4 )
 
 [node name="roto_bomb" type="KinematicBody2D" groups=[
 "bomb",
+"enemies",
 ]]
 pause_mode = 1
 collision_layer = 66

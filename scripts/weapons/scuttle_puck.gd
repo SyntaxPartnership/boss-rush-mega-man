@@ -9,6 +9,7 @@ const X_SPD = 150
 var velocity = Vector2()
 var bounce = 1
 var boing = false
+var can_boing = false
 var kill = 0
 
 func _ready():
@@ -31,6 +32,9 @@ func _physics_process(delta):
 	
 	velocity.y += GRAVITY * delta
 	
+	if velocity.y > 0:
+		can_boing = true
+	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
 	if is_on_wall():
@@ -44,7 +48,7 @@ func _physics_process(delta):
 		_on_boing_finished("boing")
 
 func _on_hit_box_body_entered(body):
-	if is_on_floor():
+	if can_boing:
 		velocity.x = 0
 		boing = true
 		$anim.play("boing")
