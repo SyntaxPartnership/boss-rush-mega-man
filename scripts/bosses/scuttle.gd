@@ -12,6 +12,7 @@ const JUMP_STR = -400
 
 var intro = true
 var intro_bnce = 0
+var bounce = 0
 var p_intro = false
 var intro_delay = 40
 var fill_bar = true
@@ -305,7 +306,14 @@ func _physics_process(delta):
 					velocity.x = 0
 					$anim.play("shrink")
 					state += 1
-			19:				
+			19:
+				var get_gaby = get_tree().get_nodes_in_group('gabyoall')
+				
+				for d in get_gaby:
+					var g_dist = d.global_position.x - global_position.x
+					if g_dist < 8 and g_dist > -8:
+						d.kill_gaby()
+				
 				if desp_dir == 1 and global_position.x > camera.limit_right - 32:
 					world.sound('wall_hit')
 					$sprite.flip_h = false
@@ -331,6 +339,7 @@ func _physics_process(delta):
 				
 				if desp_bounce == 8:
 					state += 1
+					velocity.y = -200
 					spark = false
 					spk_delay = 0
 					spit_spk = 0
@@ -338,26 +347,26 @@ func _physics_process(delta):
 					$spark.hide()
 					desp_bounce = 0
 					desp_spd = 1
+
 				
 				velocity.x = (80 * desp_dir) * desp_spd
 			
 			20:
-				if velocity.x > 0:
-					velocity.x -= 5
-				elif velocity.x < 0:
-					velocity.x += 5
-				
-				if $anim.playback_speed > 1:
-					$anim.playback_speed -= 0.125
-				
-				if velocity.x == 0:
-					$anim.play("shrink")
-					state += 1
-			23:
+				if is_on_floor():
+					if bounce == 0:
+						velocity.x = 0
+						velocity.y = 100
+						bounce += 1
+					elif bounce == 1:
+						velocity.y = -200
+						world.sound('boing')
+						$anim.play("jump")
+						state += 1
+			21:
 				if velocity.y > 0:
 					$anim.play("fall")
 					state += 1
-			24:
+			22:
 				if is_on_floor():
 					$anim.play("land")
 					state += 1
@@ -488,14 +497,10 @@ func _on_anim_finished(anim_name):
 					id = 0
 					$anim.play("shrink")
 					state += 1
-				22:
+				23:
 					id = 4
-					world.sound('boing')
-					$anim.play("jump")
-					velocity.y = JUMP_STR * 0.25
-					state += 1
-				25:
 					state = 0
+					$anim.play("idle")
 		"shrink":
 			match state:
 				12:
@@ -511,9 +516,6 @@ func _on_anim_finished(anim_name):
 						$sprite.flip_h = true
 						desp_dir = -1
 					$anim.play("spin")
-				21:
-					$anim.play("land")
-					state += 1
 
 func do_damage(body):
 	var add_count = false

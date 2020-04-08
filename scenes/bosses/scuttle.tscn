@@ -222,7 +222,7 @@ extents = Vector2( 16, 18 )
 ]]
 pause_mode = 1
 collision_layer = 66
-collision_mask = 0
+collision_mask = 1024
 script = ExtResource( 2 )
 
 [node name="sprite" type="Sprite" parent="."]
@@ -277,7 +277,7 @@ shape = SubResource( 13 )
 disabled = true
 
 [node name="hitbox" type="Area2D" parent="."]
-collision_layer = 33
+collision_layer = 37
 collision_mask = 4
 
 [node name="stand" type="CollisionShape2D" parent="hitbox"]

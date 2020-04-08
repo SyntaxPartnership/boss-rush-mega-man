@@ -206,6 +206,7 @@ toggle={
 2d_physics/layer_8="m_arm"
 2d_physics/layer_9="other"
 2d_physics/layer_10="enmy_block"
+2d_physics/layer_11="boss"
 
 [logging]
 

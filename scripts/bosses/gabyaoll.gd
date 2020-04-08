@@ -117,10 +117,13 @@ func _physics_process(delta):
 						player.damage()
 		
 		if global_position.x < camera.limit_left + 32 or global_position.x > camera.limit_right - 32:
-			var boom = load("res://scenes/effects/l_explode.tscn").instance()
-			boom.global_position = global_position
-			world.get_child(3).add_child(boom)
-			queue_free()
+			kill_gaby()
+
+func kill_gaby():
+	var boom = load("res://scenes/effects/l_explode.tscn").instance()
+	boom.global_position = global_position
+	world.get_child(3).add_child(boom)
+	queue_free()
 
 func _on_anim_a_finished(anim_name):
 	if anim_name == "fire-2":
