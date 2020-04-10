@@ -51,6 +51,8 @@ var boss_delay = 60
 var ready_boss = false
 var wall_delay = 60
 var elec_wall = false
+var d_delay = 60
+var d_appear = false
 
 var boss_dead = false
 var end_delay = 360
@@ -144,6 +146,8 @@ var room_data = {
 				"(5, 11)" : [0, 0, 1, 1, 1, 1, 1],
 				"(14, 6)" : [0, 0, 1, 0, 1, 1, 2], #Scuttle Hub
 				"(13, 6)" : [0, 0, 0, 0, 1, 1, 2], #Scuttle Boss Room
+				"(14, 10)" : [0, 0, 1, 0, 1, 1, 3], #Defend Hub
+				"(13, 10)" : [0, 0, 0, 0, 1, 1, 3], #Defend Boss Room
 				}
 
 var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
@@ -152,6 +156,7 @@ var boss_rooms = {
 				"(8, 6)" : "",
 				"(8, 10)" : "res://scenes/bosses/roto.tscn",
 				"(13, 6)" : "res://scenes/bosses/scuttle.tscn",
+				"(13, 10)" : "res://scenes/bosses/defend.tscn",
 				}
 
 var cont_rooms = {
@@ -494,17 +499,24 @@ func _rooms():
 			2:
 				if global.weapon3[0] and !global.boss3_clear:
 					cam_allow[2] = 0
+			3:
+				if global.weapon3[0] and !global.boss3_clear:
+					cam_allow[2] = 0
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
 		kill_music()
 		
-		if which_wpn != 0 and which_wpn != 2:
+		if which_wpn != 0 and which_wpn != 2 and which_wpn != 3:
 			ready_boss = true
 			$player.no_input(true)
 		
 		if which_wpn == 2:
 			elec_wall = true
+			$player.no_input(true)
+		
+		if which_wpn == 3:
+			d_appear = true
 			$player.no_input(true)
 
 		#Check tilemap for enemies. If so, place them.
@@ -640,6 +652,15 @@ func _process(delta):
 		e_wall_r.global_position.y = $player/camera.limit_top + 112
 		e_wall_r.global_position.x = $player/camera.limit_right - 24
 		ready_boss = true
+	
+	if d_appear and d_delay > -1:
+		d_delay -= 1
+	
+	if d_delay == 0:
+		var defend = load('res://scenes/bosses/defend.tscn').instance()
+		defend.position.x = $player/camera.limit_left + 128
+		defend.position.y = $player/camera.limit_top + 120
+		$graphic/spawn_tiles.add_child(defend)
 
 	#Check player health. If maxed, set life_en to 0.
 	if life_en > 0:
