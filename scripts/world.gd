@@ -993,7 +993,6 @@ func _process(delta):
 			$player.cutscene(true)
 			$player/anim.stop()
 			$hud/hud.hide()
-			shake = 20
 			global.opening = 1
 	
 	if global.opening == 1:
