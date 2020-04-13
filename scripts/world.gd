@@ -660,7 +660,7 @@ func _process(delta):
 		var defend = load('res://scenes/bosses/defend.tscn').instance()
 		defend.position.x = $player/camera.limit_left + 128
 		defend.position.y = $player/camera.limit_top + 120
-		$graphic/spawn_tiles.add_child(defend)
+		$graphic.add_child(defend)
 
 	#Check player health. If maxed, set life_en to 0.
 	if life_en > 0:
