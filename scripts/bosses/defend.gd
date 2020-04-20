@@ -10,6 +10,9 @@ const CHOKE = 3
 const GRAVITY = 900
 const JUMP_STR = -400
 
+var intro = true
+var fill_bar = true
+
 var state = 0
 var spr_offset = Vector2()
 var spr_shake = 0
@@ -29,7 +32,8 @@ var thrst_pos = {
 
 var thrst_data = {
 	5 : [0, 0, Vector2(0, 22)],
-	9 : [1, 0, Vector2(1, 22)]
+	9 : [1, 0, Vector2(1, 22)],
+	10 : [2, 4, Vector2(-19, 2)],
 }
 
 func _ready():
@@ -60,6 +64,7 @@ func _physics_process(delta):
 	if thrst_data.has($sprite.frame) and thrusters:
 		#If frame is in dict, pull data and set frames.
 		if thr_state != thrst_data.get($sprite.frame)[0]:
+			print($sprite.frame)
 			if thr_strt != thrst_data.get($sprite.frame)[1]:
 				thr_strt = thrst_data.get($sprite.frame)[1]
 				$thrusters/sprite.frame = thr_strt
@@ -70,6 +75,7 @@ func _physics_process(delta):
 			else:
 				$thrusters/sprite.position.x = thrst_data.get($sprite.frame)[2].x
 			$thrusters/sprite.position.y = thrst_data.get($sprite.frame)[2].y
+			$thrusters/sprite.flip_h = $sprite.flip_h
 			$thrusters.show()
 			thr_state = thrst_data.get($sprite.frame)[0]
 	
@@ -86,6 +92,9 @@ func _physics_process(delta):
 		$thrusters/sprite.frame = thr_strt + thr_frame
 		thr_delay = 0
 
+func play_anim(anim):
+	$anim.play(anim)
+
 func _on_anim_finished(anim_name):
 	match anim_name:
 		"fade_in":
@@ -98,6 +107,11 @@ func _on_anim_finished(anim_name):
 		
 		"intro":
 			world.fill_b_meter = true
+		
+		"close":
+			if state == 0:
+				$anim.play("fly")
+				state = 1
 
 func _on_tween_completed(object, key):
 	$anim.play("intro")

@@ -1,11 +1,26 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/bosses/defend.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/shield_attacker/defend.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/bosses/shield_attacker/thruster.png" type="Texture" id=3]
 
 [sub_resource type="Animation" id=1]
-resource_name = "fade_in"
+resource_name = "close"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 8, 9 ]
+}
+
+[sub_resource type="Animation" id=2]
 length = 2.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -20,8 +35,24 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 0, 1, 2, 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "intro"
+[sub_resource type="Animation" id=5]
+resource_name = "fly"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+
+[sub_resource type="Animation" id=3]
 length = 1.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -36,8 +67,7 @@ tracks/0/keys = {
 "values": [ 9, 7, 6, 8, 9, 7, 6, 8, 9, 7, 6, 8, 9, 7, 6 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "move_to"
+[sub_resource type="Animation" id=4]
 length = 0.75
 step = 0.375
 tracks/0/type = "value"
@@ -53,7 +83,25 @@ tracks/0/keys = {
 "values": [ 5, 9 ]
 }
 
-[node name="defend" type="KinematicBody2D"]
+[sub_resource type="Animation" id=6]
+resource_name = "turn"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 11 ]
+}
+
+[node name="defend" type="KinematicBody2D" groups=[
+"boss",
+]]
 pause_mode = 1
 script = ExtResource( 1 )
 
@@ -61,6 +109,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 15
+frame = 10
 
 [node name="thrusters" type="Control" parent="."]
 visible = false
@@ -73,12 +122,15 @@ __meta__ = {
 [node name="sprite" type="Sprite" parent="thrusters"]
 texture = ExtResource( 3 )
 hframes = 6
-frame = 1
+frame = 4
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/fade_in = SubResource( 1 )
-anims/intro = SubResource( 2 )
-anims/move_to = SubResource( 3 )
+anims/close = SubResource( 1 )
+anims/fade_in = SubResource( 2 )
+anims/fly = SubResource( 5 )
+anims/intro = SubResource( 3 )
+anims/move_to = SubResource( 4 )
+anims/turn = SubResource( 6 )
 
 [node name="tween" type="Tween" parent="."]
 playback_process_mode = 0
