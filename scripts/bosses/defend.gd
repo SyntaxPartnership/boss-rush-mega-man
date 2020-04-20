@@ -13,14 +13,23 @@ const JUMP_STR = -400
 var state = 0
 var spr_offset = Vector2()
 var spr_shake = 0
+var thrusters = false
+var thr_strt = -1
+var thr_frame = 0
+var thr_delay = 0
+var thr_state = -1
 
 var thrst_pos = {
 	0 : Vector2(-1, 22),
 	1 : Vector2(1, 22),
 	2 : Vector2(0, 22),
-	3 : Vector2(1, 22),
 	4 : Vector2(19, 2),
 	5 : Vector2(-19, 2),
+}
+
+var thrst_data = {
+	5 : [0, 0, Vector2(0, 22)],
+	9 : [1, 0, Vector2(1, 22)]
 }
 
 func _ready():
@@ -45,10 +54,42 @@ func _physics_process(delta):
 	
 	if $sprite.frame == 8 and spr_shake == 0:
 		spr_shake = 8
+	
+	#Display the thruster sprites appropriately.
+	#Check sprite frame.
+	if thrst_data.has($sprite.frame) and thrusters:
+		#If frame is in dict, pull data and set frames.
+		if thr_state != thrst_data.get($sprite.frame)[0]:
+			if thr_strt != thrst_data.get($sprite.frame)[1]:
+				thr_strt = thrst_data.get($sprite.frame)[1]
+				$thrusters/sprite.frame = thr_strt
+				thr_delay = 0
+				thr_frame = 0
+			if !$sprite.flip_h:
+				$thrusters/sprite.position.x = -thrst_data.get($sprite.frame)[2].x
+			else:
+				$thrusters/sprite.position.x = thrst_data.get($sprite.frame)[2].x
+			$thrusters/sprite.position.y = thrst_data.get($sprite.frame)[2].y
+			$thrusters.show()
+			thr_state = thrst_data.get($sprite.frame)[0]
+	
+	#Animate the thrusters.
+	if thrusters:
+		thr_delay += 1
+	
+	if thr_delay > 3:
+		thr_frame += 1
+		
+		if thr_frame > 1:
+			thr_frame = 0
+	
+		$thrusters/sprite.frame = thr_strt + thr_frame
+		thr_delay = 0
 
 func _on_anim_finished(anim_name):
 	match anim_name:
 		"fade_in":
+			thrusters = true
 			world.boss = true
 			world.play_music("boss")
 			$anim.play("move_to")
