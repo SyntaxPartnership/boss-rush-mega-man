@@ -35,7 +35,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 0, 1, 2, 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=3]
 resource_name = "fall"
 length = 0.24
 step = 0.06
@@ -52,8 +52,7 @@ tracks/0/keys = {
 "values": [ 13, 10, 14, 15 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "fly"
+[sub_resource type="Animation" id=4]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -69,8 +68,7 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 
-[sub_resource type="Animation" id=4]
-resource_name = "hover_1"
+[sub_resource type="Animation" id=5]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -86,8 +84,7 @@ tracks/0/keys = {
 "values": [ 9 ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "hover_2"
+[sub_resource type="Animation" id=6]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -103,7 +100,7 @@ tracks/0/keys = {
 "values": [ 6 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 1.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -118,7 +115,7 @@ tracks/0/keys = {
 "values": [ 9, 7, 6, 8, 9, 7, 6, 8, 9, 7, 6, 8, 9, 7, 6 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.75
 step = 0.375
 tracks/0/type = "value"
@@ -134,7 +131,7 @@ tracks/0/keys = {
 "values": [ 5, 9 ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=9]
 resource_name = "open"
 length = 0.3
 tracks/0/type = "value"
@@ -150,7 +147,7 @@ tracks/0/keys = {
 "values": [ 7, 6 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=10]
 resource_name = "rise"
 length = 0.1
 loop = true
@@ -167,8 +164,7 @@ tracks/0/keys = {
 "values": [ 12 ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "turn_1"
+[sub_resource type="Animation" id=11]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -183,8 +179,7 @@ tracks/0/keys = {
 "values": [ 11 ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "turn_2"
+[sub_resource type="Animation" id=12]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -199,7 +194,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="RectangleShape2D" id=10]
+[sub_resource type="RectangleShape2D" id=13]
 extents = Vector2( 8, 16 )
 
 [node name="defend" type="KinematicBody2D" groups=[
@@ -231,22 +226,22 @@ frame = 2
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/close = SubResource( 1 )
 anims/fade_in = SubResource( 2 )
-anims/fall = SubResource( 11 )
-anims/fly = SubResource( 3 )
-anims/hover_1 = SubResource( 4 )
-anims/hover_2 = SubResource( 5 )
-anims/intro = SubResource( 6 )
-anims/move_to = SubResource( 7 )
-anims/open = SubResource( 12 )
-anims/rise = SubResource( 13 )
-anims/turn_1 = SubResource( 8 )
-anims/turn_2 = SubResource( 9 )
+anims/fall = SubResource( 3 )
+anims/fly = SubResource( 4 )
+anims/hover_1 = SubResource( 5 )
+anims/hover_2 = SubResource( 6 )
+anims/intro = SubResource( 7 )
+anims/move_to = SubResource( 8 )
+anims/open = SubResource( 9 )
+anims/rise = SubResource( 10 )
+anims/turn_1 = SubResource( 11 )
+anims/turn_2 = SubResource( 12 )
 
 [node name="tween" type="Tween" parent="."]
 playback_process_mode = 0
 
 [node name="coll_box" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4 )
-shape = SubResource( 10 )
+shape = SubResource( 13 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="tween_completed" from="tween" to="." method="_on_tween_completed"]

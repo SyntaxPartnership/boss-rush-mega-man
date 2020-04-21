@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/boostmini.wav-38b67b4d781d7662903e303114505b54.sample"
+path="res://.import/clang.wav-b48da608430c9ce41c30fb8d227b8c68.sample"
 
 [deps]
 
-source_file="res://assets/audio/se/7FC/boostmini.wav"
-dest_files=[ "res://.import/boostmini.wav-38b67b4d781d7662903e303114505b54.sample" ]
+source_file="res://assets/audio/se/clang.wav"
+dest_files=[ "res://.import/clang.wav-b48da608430c9ce41c30fb8d227b8c68.sample" ]
 
 [params]
 

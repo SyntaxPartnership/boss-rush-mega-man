@@ -120,6 +120,7 @@ func _physics_process(delta):
 			
 			if is_on_floor() and velocity.x != 0:
 				world.shake = 12
+				world.sound("wall_hit")
 				velocity.x = 0
 				state = 8
 				
@@ -138,6 +139,7 @@ func _physics_process(delta):
 	
 	#Add sound effect for the clang.
 	if $sprite.frame == 8 and spr_shake == 0:
+		world.sound("clang")
 		spr_shake = 8
 	
 	#Display the thruster sprites appropriately.
