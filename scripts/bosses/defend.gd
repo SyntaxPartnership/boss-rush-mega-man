@@ -124,6 +124,12 @@ func _physics_process(delta):
 				$anim.play("fall")
 			
 			if is_on_floor() and state == 8:
+				#If the player is on the floor and not displaying iframes, stun them.
+				if player.is_on_floor() and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+					player.stun = 120
+					player.anim_state(player.FALL)
+					player.cutscene(true)
+				
 				world.shake = 12
 				world.kill_se('fall')
 				world.sound("wall_hit")

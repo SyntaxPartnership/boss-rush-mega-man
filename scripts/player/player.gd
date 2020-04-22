@@ -98,6 +98,7 @@ var rush_jet = false
 var leave = false
 var r_boost = false
 var s_kick = false
+var stun = -1
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -361,7 +362,7 @@ func _physics_process(delta):
 						world.hurt_swap = false
 
 			#Charge level.
-			if !cutscene and fire and charge < 99 and !cooldown:
+			if !cutscene and fire and charge < 99 and !cooldown and stun < 0:
 				charge += 1
 			
 			#Start charge sound loop. Change attributes of more than one charging weapon is made.
