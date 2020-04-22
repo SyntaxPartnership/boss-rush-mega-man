@@ -29,6 +29,7 @@ var drop_delay = 60
 var shot_delay = 60
 var shot_step = 0
 var shots = 2
+var slap_delay = 30
 
 var velocity = Vector2()
 
@@ -128,12 +129,19 @@ func _physics_process(delta):
 				if player.is_on_floor() and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
 					player.stun = 120
 					player.anim_state(player.FALL)
-					player.cutscene(true)
+					player.no_input(true)
 				
 				world.shake = 12
 				world.kill_se('fall')
 				world.sound("wall_hit")
 				state = 9
+		
+		9:
+			slap_delay -= 1
+			
+			if slap_delay == 0:
+				$anim.play_backwards("fall")
+				state = 11
 		
 		10:
 			shot_delay -= 1
@@ -309,7 +317,11 @@ func _on_anim_finished(anim_name):
 				state = 8
 		
 		"fall":
-			velocity.x = 0
+			if state == 8:
+				velocity.x = 0
+			elif state == 11:
+				$anim.play("hover_1")
 
-func _on_tween_completed(_object, _key):
+func _on_tween_completed(object, key):
+	print(object,', ',key)
 	$anim.play("intro")

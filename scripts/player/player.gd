@@ -99,6 +99,8 @@ var leave = false
 var r_boost = false
 var s_kick = false
 var stun = -1
+var stun_bnce = 0
+var slap = 0
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -327,7 +329,6 @@ func _physics_process(delta):
 		if leave:
 			$sprite.offset.y -= 8
 	else:
-		
 
 		if !no_input:
 			x_dir = int(Input.is_action_pressed("right")) - int(Input.is_action_pressed("left"))
@@ -459,7 +460,7 @@ func _physics_process(delta):
 					anim_state(SLIDE)
 
 		#Use GRAVITY to pull the player down.
-		if act_st != CLIMBING:
+		if act_st != CLIMBING and slap == 0:
 			if !s_kick:
 				velocity.x = x_speed
 			else:
@@ -479,6 +480,10 @@ func _physics_process(delta):
 				velocity.y = 270
 			else:
 				velocity.y = 0
+		
+		#Slap mechanic
+		if slap == 1:
+			pass
 
 		#Set the maximum downward velocity.
 		if velocity.y > 500:
@@ -555,7 +560,30 @@ func _physics_process(delta):
 					can_move = false
 					world.kill_music()
 					get_tree().paused = true
+		
+		if stun > -1:
+			stun -= 1
+		
+			match stun_bnce:
+				0:
+					if is_on_floor():
+						velocity.y = JUMP_SPEED * 0.25
+						stun_bnce += 1
+				1:
+					if !is_on_floor():
+						stun_bnce += 1
+				2:
+					if is_on_floor():
+						velocity.y = JUMP_SPEED * 0.125
+						stun_bnce += 1
+				3:
+					if !is_on_floor():
+						stun_bnce += 1
 			
+			if stun == 0:
+				anim_state(IDLE)
+				stun_bnce = 0
+				no_input(false)
 
 		#This is a small fix to handle the x speed modifier.
 		if !is_on_floor():
@@ -1151,7 +1179,7 @@ func standing():
 
 	#Change the player's animation based on if they're on the floor or not.
 	if !is_on_floor() and !force_idle:
-		if !r_boost and !s_kick:
+		if !r_boost and !s_kick and stun < 0:
 			if anim_st != JUMP:
 				anim_state(JUMP)
 		elif r_boost and !s_kick:
@@ -1171,7 +1199,7 @@ func standing():
 		$audio/land.play()
 
 	#Make the player jump.
-	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top and !b_lance_pull:
+	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top and !b_lance_pull and stun < 0:
 		anim_state(JUMP)
 		jumps -= 1
 		velocity.y = JUMP_SPEED * jump_mod
@@ -1194,7 +1222,7 @@ func standing():
 		grav_mod = 1
 	
 	#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
-	if !jump and velocity.y < 0 and !rush_coil and !r_boost:
+	if !jump and velocity.y < 0 and !rush_coil and !r_boost and stun < 0:
 		velocity.y = 0
 	
 	#This is a small fix to prevent the jumping sprite from appearing during some animations.
