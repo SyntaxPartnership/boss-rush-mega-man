@@ -24,21 +24,13 @@ var thr_state = -1
 
 var turns = 0
 var x_target = 0
-var hits = 0
+var hits = 1
 var drop_delay = 60
 var shot_delay = 60
 var shot_step = 0
 var shots = 2
 
 var velocity = Vector2()
-
-var thrst_pos = {
-	0 : Vector2(-1, 22),
-	1 : Vector2(1, 22),
-	2 : Vector2(0, 22),
-	4 : Vector2(19, 2),
-	5 : Vector2(-19, 2),
-}
 
 var thrst_data = {
 	5 : [0, 0, Vector2(0, 22)],
@@ -56,7 +48,6 @@ func _ready():
 	$sprite.flip_h = true
 	
 	turns = round(rand_range(2, 5))
-	print(turns)
 	
 
 func _physics_process(delta):
@@ -122,16 +113,19 @@ func _physics_process(delta):
 			
 			if drop_delay <= 0:
 				$anim.play("open")
+				drop_delay = 60
 				state = 7
 		
 		8:
 			velocity.y += GRAVITY * delta
 			
 			if velocity.y > 0 and $anim.get_current_animation() == "rise":
+				world.sound('fall')
 				$anim.play("fall")
 			
 			if is_on_floor() and state == 8:
 				world.shake = 12
+				world.kill_se('fall')
 				world.sound("wall_hit")
 				state = 9
 		
@@ -142,6 +136,7 @@ func _physics_process(delta):
 				if shots > 0:
 					if shot_step == 0:
 						if shots > 1:
+							world.sound('def_bullet')
 							var slow = load("res://scenes/bosses/def_bullet.tscn").instance()
 							slow.type = 0
 							if $sprite.flip_h:
@@ -151,10 +146,10 @@ func _physics_process(delta):
 								slow.velocity = Vector2(-1, 0)
 								slow.position.x = global_position.x - 3
 							slow.position.y = global_position.y + 8
-							slow.speed = 125
+							slow.speed = 100
 							world.get_child(1).add_child(slow)
-							print(slow.global_position,', ',global_position)
 						else:
+							world.sound('def_bullet')
 							var fast = load("res://scenes/bosses/def_bullet.tscn").instance()
 							fast.type = 1
 							if $sprite.flip_h:
@@ -173,9 +168,17 @@ func _physics_process(delta):
 					else:
 						$anim.play("close")
 						shot_step -= 1
-						shot_delay = 30
-				
-				
+						shot_delay = 35
+			
+			var bullets = get_tree().get_nodes_in_group('def_bullet')
+			
+			if bullets == [] and shot_step == 1:
+				$anim.play("close")
+				turns = round(rand_range(2, 5))
+				shot_delay = 60
+				shot_step = 0
+				shots = 2
+				state = 0
 	
 	#Make the boss shake when her shields clang together.
 	if spr_shake > 0:
@@ -302,5 +305,5 @@ func _on_anim_finished(anim_name):
 		"fall":
 			velocity.x = 0
 
-func _on_tween_completed(object, key):
+func _on_tween_completed(_object, _key):
 	$anim.play("intro")

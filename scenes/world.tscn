@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=2]
+[gd_scene load_steps=78 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -73,6 +73,8 @@
 [ext_resource path="res://assets/audio/se/spark.wav" type="AudioStream" id=71]
 [ext_resource path="res://assets/audio/se/wall_hit.wav" type="AudioStream" id=72]
 [ext_resource path="res://assets/audio/se/clang.wav" type="AudioStream" id=73]
+[ext_resource path="res://assets/audio/se/split.wav" type="AudioStream" id=74]
+[ext_resource path="res://assets/audio/se/def_bullet.wav" type="AudioStream" id=75]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -719,6 +721,12 @@ stream = ExtResource( 71 )
 
 [node name="clang" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 73 )
+
+[node name="def_bullet" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 75 )
+
+[node name="split" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 74 )
 
 [node name="music" type="Control" parent="audio"]
 visible = false
