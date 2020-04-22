@@ -209,6 +209,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 15
+frame = 6
 
 [node name="thrusters" type="Control" parent="."]
 visible = false
