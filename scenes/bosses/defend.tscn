@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://scripts/bosses/defend.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/shield_attacker/defend.png" type="Texture" id=2]
@@ -165,7 +165,8 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=11]
-length = 0.1
+resource_name = "slap"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
 tracks/0/interp = 1
@@ -173,10 +174,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
-"values": [ 11 ]
+"values": [ 16, 17, 19 ]
 }
 
 [sub_resource type="Animation" id=12]
@@ -191,10 +192,41 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
+"values": [ 11 ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
 "values": [ 5 ]
 }
 
-[sub_resource type="RectangleShape2D" id=13]
+[sub_resource type="Animation" id=14]
+resource_name = "up_floor"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 14 ]
+}
+
+[sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 8, 16 )
 
 [node name="defend" type="KinematicBody2D" groups=[
@@ -209,7 +241,6 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 15
-frame = 6
 
 [node name="thrusters" type="Control" parent="."]
 visible = false
@@ -220,9 +251,10 @@ __meta__ = {
 }
 
 [node name="sprite" type="Sprite" parent="thrusters"]
+position = Vector2( 1, 22 )
 texture = ExtResource( 3 )
-hframes = 6
-frame = 2
+hframes = 8
+frame = 6
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/close = SubResource( 1 )
@@ -235,14 +267,17 @@ anims/intro = SubResource( 7 )
 anims/move_to = SubResource( 8 )
 anims/open = SubResource( 9 )
 anims/rise = SubResource( 10 )
-anims/turn_1 = SubResource( 11 )
-anims/turn_2 = SubResource( 12 )
+anims/slap = SubResource( 11 )
+anims/turn_1 = SubResource( 12 )
+anims/turn_2 = SubResource( 13 )
+anims/up_floor = SubResource( 14 )
 
 [node name="tween" type="Tween" parent="."]
 playback_process_mode = 0
 
 [node name="coll_box" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, 4 )
-shape = SubResource( 13 )
+shape = SubResource( 15 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="tween_completed" from="tween" to="." method="_on_tween_completed"]

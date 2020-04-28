@@ -64,6 +64,7 @@ extents = Vector2( 3, 2.5 )
 [node name="def_bullet" type="KinematicBody2D" groups=[
 "def_bullet",
 ]]
+pause_mode = 1
 collision_layer = 66
 collision_mask = 0
 script = ExtResource( 2 )

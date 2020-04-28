@@ -100,7 +100,8 @@ var r_boost = false
 var s_kick = false
 var stun = -1
 var stun_bnce = 0
-var slap = 0
+var slap = false
+var slap_vel = Vector2()
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -247,7 +248,8 @@ enum {
 	RBOOST,
 	SKICK_AIR,
 	SKICK_SLD,
-	LOOKUP
+	LOOKUP,
+	TOSSED
 	}
 
 #Set the appropriate states and values
@@ -460,7 +462,7 @@ func _physics_process(delta):
 					anim_state(SLIDE)
 
 		#Use GRAVITY to pull the player down.
-		if act_st != CLIMBING and slap == 0:
+		if act_st != CLIMBING and !slap:
 			if !s_kick:
 				velocity.x = x_speed
 			else:
@@ -480,10 +482,6 @@ func _physics_process(delta):
 				velocity.y = 270
 			else:
 				velocity.y = 0
-		
-		#Slap mechanic
-		if slap == 1:
-			pass
 
 		#Set the maximum downward velocity.
 		if velocity.y > 500:
@@ -516,12 +514,28 @@ func _physics_process(delta):
 			snap = Vector2()
 		else:
 			snap = Vector2(0, 8)
+		
+		if slap:
+			velocity = slap_vel
 
 		#Move the player
 		velocity = move_and_slide_with_snap(velocity, snap, Vector2(0, -1))
 		#Get what the player is standing on.
 		for idx in range(get_slide_count()):
 			var collision = get_slide_collision(idx)
+			
+			if slap and is_on_wall():
+				if global_position.x > camera.limit_left + 128:
+					$sprite.flip_h = false
+				else:
+					$sprite.flip_h = true
+				damage()
+				world.shake = 8
+				slap_vel = Vector2.ZERO
+				stun_bnce = 0
+				stun = -1
+				no_input(false)
+				slap = false
 			
 			if s_kick and is_on_wall() and !is_on_floor():
 				s_kick = false
@@ -561,7 +575,7 @@ func _physics_process(delta):
 					world.kill_music()
 					get_tree().paused = true
 		
-		if stun > -1:
+		if stun > -1 and !slap:
 			stun -= 1
 		
 			match stun_bnce:
@@ -644,6 +658,8 @@ func anim_state(new_anim_state):
 			change_anim('rboost')
 		LOOKUP:
 			change_anim('lookup')
+		TOSSED:
+			change_anim('tossed')
 
 
 func change_anim(new_anim):
@@ -1120,7 +1136,10 @@ func standing():
 		if anim_st == JUMP:
 			$audio/land.play() #Move to world.gd
 		if x_dir == 0:
-			anim_state(IDLE)
+			if stun < 0:
+				anim_state(IDLE)
+			else:
+				anim_state(FALL)
 		else:
 			anim_state(RUN)
 		if ice:

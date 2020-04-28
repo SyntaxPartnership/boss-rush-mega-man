@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=46 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://shaders/player.tres" type="Material" id=2]
@@ -458,10 +458,28 @@ tracks/0/keys = {
 "values": [ 23 ]
 }
 
-[sub_resource type="RectangleShape2D" id=31]
-extents = Vector2( 8, 1 )
+[sub_resource type="Animation" id=31]
+resource_name = "tossed"
+length = 0.03
+loop = true
+step = 0.03
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 17 ]
+}
 
 [sub_resource type="RectangleShape2D" id=32]
+extents = Vector2( 8, 1 )
+
+[sub_resource type="RectangleShape2D" id=33]
 extents = Vector2( 0.5, 7 )
 
 [node name="player" type="KinematicBody2D"]
@@ -491,7 +509,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 18
+frame = 17
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -530,6 +548,7 @@ anims/slide = SubResource( 27 )
 anims/stand-shot-d-down = SubResource( 28 )
 anims/stand-shot-d-up = SubResource( 29 )
 anims/stand-shot-up = SubResource( 30 )
+anims/tossed = SubResource( 31 )
 
 [node name="slide_top" type="Area2D" parent="."]
 visible = false
@@ -538,7 +557,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_top"]
-shape = SubResource( 31 )
+shape = SubResource( 32 )
 
 [node name="slide_wall" type="Area2D" parent="."]
 visible = false
@@ -547,7 +566,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_wall"]
-shape = SubResource( 32 )
+shape = SubResource( 33 )
 
 [node name="item_det" type="Area2D" parent="."]
 collision_layer = 8

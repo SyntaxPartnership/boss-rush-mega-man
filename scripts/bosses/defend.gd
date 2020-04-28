@@ -29,7 +29,9 @@ var drop_delay = 60
 var shot_delay = 60
 var shot_step = 0
 var shots = 2
-var slap_delay = 30
+var slap_delay = 40
+var slap_pos = 0
+var charge = false
 
 var velocity = Vector2()
 
@@ -41,6 +43,9 @@ var thrst_data = {
 	9 : [4, 0, Vector2(1, 22)],
 	10 : [5, 4, Vector2(-19, 2)],
 	12 : [6, 2, Vector2(1, 22)],
+	16 : [7, 0, Vector2(-2, 22)],
+	17 : [8, 6, Vector2(-1, 22)],
+	19 : [9, 6, Vector2(-1, 22)],
 }
 
 func _ready():
@@ -97,7 +102,7 @@ func _physics_process(delta):
 				if velocity.x > -200:
 					velocity.x -= 20
 			
-			if velocity.x == -200 or velocity.x == 200:
+			if velocity.x == -200 or velocity.x == 200 or !$sprite.flip_h and global_position.x <= camera.limit_left + 72 or $sprite.flip_h and global_position.x >= camera.limit_right - 72:
 				state = 1
 				
 		4:
@@ -127,6 +132,7 @@ func _physics_process(delta):
 			if is_on_floor() and state == 8:
 				#If the player is on the floor and not displaying iframes, stun them.
 				if player.is_on_floor() and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+					player.slide_timer = 0
 					player.stun = 120
 					player.anim_state(player.FALL)
 					player.no_input(true)
@@ -140,7 +146,7 @@ func _physics_process(delta):
 			slap_delay -= 1
 			
 			if slap_delay == 0:
-				$anim.play_backwards("fall")
+				$anim.play("up_floor")
 				state = 11
 		
 		10:
@@ -193,6 +199,76 @@ func _physics_process(delta):
 				shot_step = 0
 				shots = 2
 				state = 0
+		
+		12:
+			slap_delay = 15
+			if global_position.y > camera.limit_bottom - 56:
+				global_position.y -= 1
+			elif global_position.y < camera.limit_bottom - 56:
+				global_position.y = camera.limit_bottom - 56
+			else:
+				if player.global_position.x < global_position.x and $sprite.flip_h or player.global_position.x > global_position.x and !$sprite.flip_h:
+					$anim.play("turn_2")
+					state = 13
+				else:
+					state = 14
+
+		14:
+			slap_delay -= 1
+
+			if slap_delay == 0:
+				slap_pos = player.global_position.x
+				if player.stun > 0:
+					$anim.play("fly")
+					charge = true
+				else:
+					if global_position.x > camera.limit_left + 128 and $sprite.flip_h or global_position.x < camera.limit_left + 128 and !$sprite.flip_h:
+						$anim.play("turn_2")
+						state = 17
+					else:
+						turns = round(rand_range(2, 5))
+						slap_delay = 40
+						$anim.play("fly")
+						state = 3
+			
+			if charge:
+				if $sprite.flip_h:
+					if (slap_pos - global_position.x) > 32:
+						velocity.x = 200
+					else:
+						if velocity.x > 25:
+							velocity.x -= 25
+						else:
+							velocity.x = 25
+							$anim.play("slap")
+							state = 15
+				else:
+					if (slap_pos - global_position.x) < -32:
+						velocity.x = -200
+					else:
+						if velocity.x < -25:
+							velocity.x += 25
+						else:
+							velocity.x = -25
+							$anim.play("slap")
+							state = 15
+							
+		15:
+			
+			if charge and $sprite.frame == 17:
+				if player.stun > 0:
+					player.slap = true
+					player.anim_state(player.TOSSED)
+					var angle
+					if $sprite.flip_h:
+						angle = Vector2(1, 0).angle() - (PI / 8)
+					else:
+						angle = Vector2(-1, 0).angle() + (PI / 8)
+					angle = wrapf(angle, -PI, PI)
+					player.slap_vel = Vector2(cos(angle), sin(angle)) * 300
+				charge = false
+				state = 16
+
 	
 	#Make the boss shake when her shields clang together.
 	if spr_shake > 0:
@@ -226,7 +302,7 @@ func _physics_process(delta):
 			else:
 				$thrusters/sprite.position.x = thrst_data.get($sprite.frame)[2].x
 			$thrusters/sprite.position.y = thrst_data.get($sprite.frame)[2].y
-			if $sprite.frame == 10:
+			if $sprite.frame == 10 or $sprite.frame == 19:
 				$thrusters/sprite.flip_h = $sprite.flip_h
 			else:
 				$thrusters/sprite.flip_h = false
@@ -305,6 +381,24 @@ func _on_anim_finished(anim_name):
 					$sprite.flip_h = true
 				thr_state = -1
 				state = 5
+			
+			if state == 13:
+				if !$sprite.flip_h:
+					$sprite.flip_h = true
+				else:
+					$sprite.flip_h = false
+				$anim.play("hover_1")
+				state = 14
+			
+			if state == 16 or state == 17:
+				if $sprite.flip_h:
+					$sprite.flip_h = false
+				else:
+					$sprite.flip_h = true
+				turns = round(rand_range(2, 5))
+				slap_delay = 40
+				$anim.play("fly")
+				state = 3
 		
 		"open":
 			if state == 7:
@@ -319,8 +413,20 @@ func _on_anim_finished(anim_name):
 		"fall":
 			if state == 8:
 				velocity.x = 0
-			elif state == 11:
+		
+		"up_floor":
+			if state == 11:
 				$anim.play("hover_1")
+				state = 12
+		
+		"slap":
+			if global_position.x > camera.limit_left + 128 and $sprite.flip_h or global_position.x < camera.limit_left + 128 and !$sprite.flip_h:
+				$anim.play("turn_2")
+			else:
+				turns = round(rand_range(2, 5))
+				slap_delay = 40
+				$anim.play("fly")
+				state = 3
 
 func _on_tween_completed(object, key):
 	print(object,', ',key)
