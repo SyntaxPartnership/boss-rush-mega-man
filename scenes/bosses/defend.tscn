@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scripts/bosses/defend.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/shield_attacker/defend.png" type="Texture" id=2]
@@ -229,6 +229,18 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 8, 16 )
 
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 16, 14 )
+
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 8, 14 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 8, 14 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 16, 14 )
+
 [node name="defend" type="KinematicBody2D" groups=[
 "boss",
 ]]
@@ -241,6 +253,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 15
+frame = 15
 
 [node name="thrusters" type="Control" parent="."]
 visible = false
@@ -279,5 +292,30 @@ playback_process_mode = 0
 visible = false
 position = Vector2( 0, 4 )
 shape = SubResource( 15 )
+
+[node name="hit_box" type="Area2D" parent="."]
+
+[node name="box_a" type="CollisionShape2D" parent="hit_box"]
+visible = false
+position = Vector2( 0, 2 )
+shape = SubResource( 16 )
+
+[node name="box_b" type="CollisionShape2D" parent="hit_box"]
+position = Vector2( -8, 2 )
+shape = SubResource( 17 )
+
+[node name="shield_box" type="Area2D" parent="."]
+
+[node name="box" type="CollisionShape2D" parent="shield_box"]
+position = Vector2( -8, 2 )
+shape = SubResource( 18 )
+disabled = true
+
+[node name="plyr_box" type="Area2D" parent="."]
+visible = false
+
+[node name="box" type="CollisionShape2D" parent="plyr_box"]
+position = Vector2( 0, 2 )
+shape = SubResource( 19 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="tween_completed" from="tween" to="." method="_on_tween_completed"]

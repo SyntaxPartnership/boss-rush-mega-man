@@ -32,6 +32,7 @@ var shots = 2
 var slap_delay = 40
 var slap_pos = 0
 var charge = false
+var set_box = false
 
 var velocity = Vector2()
 
@@ -46,6 +47,25 @@ var thrst_data = {
 	16 : [7, 0, Vector2(-2, 22)],
 	17 : [8, 6, Vector2(-1, 22)],
 	19 : [9, 6, Vector2(-1, 22)],
+}
+
+var shld_data = {
+	5 : [false, true, true],
+	6 : [false, true, true],
+	7 : [false, true, true],
+	11 : [false, true, true],
+	12 : [false, true, true],
+	15 : [false, true, true],
+	16 : [false, true, true],
+	20 : [false, true, true],
+	8 : [true, false, false],
+	9 : [true, false, false],
+	10 : [true, false, false],
+	13 : [true, false, false],
+	14 : [true, false, false],
+	17 : [true, false, false],
+	18 : [true, false, false],
+	19 : [true, false, false],
 }
 
 func _ready():
@@ -268,6 +288,15 @@ func _physics_process(delta):
 					player.slap_vel = Vector2(cos(angle), sin(angle)) * 300
 				charge = false
 				state = 16
+		
+		16:
+			slap_delay -= 1
+			
+			if slap_delay == 0:
+				turns = round(rand_range(2, 5))
+				slap_delay = 40
+				$anim.play("close")
+				state = 17
 
 	
 	#Make the boss shake when her shields clang together.
@@ -286,6 +315,23 @@ func _physics_process(delta):
 	if $sprite.frame == 8 and spr_shake == 0:
 		world.sound("clang")
 		spr_shake = 8
+		
+		
+	#Set shield hitbox.
+	if shld_data.has($sprite.frame):
+		#Set hitbox positions.
+		if $sprite.flip_h != set_box:
+			if $sprite.flip_h:
+				$shield_box/box.position.x = 8
+				$hit_box/box_b.position.x = -8
+			else:
+				$shield_box/box.position.x = -8
+				$hit_box/box_b.position.x = 8
+			set_box[0] = $sprite.flip_h
+		
+		$hit_box/box_a.set_deferred("disabled", shld_data.get($sprite.frame)[0])
+		$hit_box/box_b.set_deferred("disabled", shld_data.get($sprite.frame)[1])
+		$shield_box/box.set_deferred("disabled", shld_data.get($sprite.frame)[2])
 	
 	#Display the thruster sprites appropriately.
 	#Check sprite frame.
@@ -347,6 +393,13 @@ func _on_anim_finished(anim_name):
 			if state == 0:
 				$anim.play("fly")
 				state = 3
+			
+			if state == 17:
+				if global_position.x > camera.limit_left + 128 and $sprite.flip_h or global_position.x < camera.limit_left + 128 and !$sprite.flip_h:
+					$anim.play("turn_2")
+				else:
+					$anim.play("fly")
+					state = 3
 		
 		"turn_1":
 			if state == 2:
@@ -390,13 +443,12 @@ func _on_anim_finished(anim_name):
 				$anim.play("hover_1")
 				state = 14
 			
-			if state == 16 or state == 17:
+			if state == 17:
+				slap_delay = 40
 				if $sprite.flip_h:
 					$sprite.flip_h = false
 				else:
 					$sprite.flip_h = true
-				turns = round(rand_range(2, 5))
-				slap_delay = 40
 				$anim.play("fly")
 				state = 3
 		
@@ -420,13 +472,9 @@ func _on_anim_finished(anim_name):
 				state = 12
 		
 		"slap":
-			if global_position.x > camera.limit_left + 128 and $sprite.flip_h or global_position.x < camera.limit_left + 128 and !$sprite.flip_h:
-				$anim.play("turn_2")
-			else:
-				turns = round(rand_range(2, 5))
-				slap_delay = 40
-				$anim.play("fly")
-				state = 3
+			slap_delay = 60
+			velocity.x = 0
+			$anim.play("open")
 
 func _on_tween_completed(object, key):
 	print(object,', ',key)
