@@ -78,7 +78,6 @@ anims/open = SubResource( 2 )
 anims/opening = SubResource( 3 )
 
 [node name="solid_left" type="StaticBody2D" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( -4, 24 )
 collision_mask = 2
@@ -88,7 +87,6 @@ shape = SubResource( 4 )
 disabled = true
 
 [node name="solid_right" type="StaticBody2D" parent="."]
-editor/display_folded = true
 visible = false
 position = Vector2( 20, 24 )
 collision_mask = 2
@@ -98,7 +96,6 @@ shape = SubResource( 4 )
 disabled = true
 
 [node name="anti-weap" type="StaticBody2D" parent="."]
-editor/display_folded = true
 position = Vector2( 8, 24 )
 collision_layer = 0
 collision_mask = 64

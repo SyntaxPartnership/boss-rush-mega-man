@@ -1692,6 +1692,10 @@ func _on_wpn_fade_tween_completed(object, _key):
 			ready_boss = false
 			boss_delay = 60
 			fill_b_meter = false
+			elec_wall = false
+			wall_delay = 60
+			d_appear = false
+			d_delay = 60
 			boss_hp = 280
 			heal_delay = 0
 			drop_back = 180

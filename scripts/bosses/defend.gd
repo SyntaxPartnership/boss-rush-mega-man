@@ -7,6 +7,12 @@ onready var camera = player.get_child(9)
 var id = 4
 const CHOKE = 3
 
+var damage = 30
+var flash = 0
+var flash_delay = 0
+var hit = false
+var touch = false
+
 const GRAVITY = 700
 const JUMP_STR = -250
 
@@ -24,7 +30,7 @@ var thr_state = -1
 
 var turns = 0
 var x_target = 0
-var hits = 1
+var hits = 0
 var drop_delay = 60
 var shot_delay = 60
 var shot_step = 0
@@ -33,6 +39,9 @@ var slap_delay = 40
 var slap_pos = 0
 var charge = false
 var set_box = false
+var hit_overlap = []
+var shld_overlap = []
+var plyr_overlap = []
 
 var velocity = Vector2()
 
@@ -96,6 +105,7 @@ func _physics_process(delta):
 					else:
 						if hits != 0:
 							state = 4
+							hits = 0
 						else:
 							state = 10
 			elif !$sprite.flip_h and global_position.x > camera.limit_left + 72:
@@ -111,6 +121,7 @@ func _physics_process(delta):
 					else:
 						if hits != 0:
 							state = 4
+							hits = 0
 						else:
 							state = 10
 		
@@ -277,6 +288,7 @@ func _physics_process(delta):
 			
 			if charge and $sprite.frame == 17:
 				if player.stun > 0:
+					world.sound("clang")
 					player.slap = true
 					player.anim_state(player.TOSSED)
 					var angle
@@ -316,7 +328,6 @@ func _physics_process(delta):
 		world.sound("clang")
 		spr_shake = 8
 		
-		
 	#Set shield hitbox.
 	if shld_data.has($sprite.frame):
 		#Set hitbox positions.
@@ -327,7 +338,7 @@ func _physics_process(delta):
 			else:
 				$shield_box/box.position.x = -8
 				$hit_box/box_b.position.x = 8
-			set_box[0] = $sprite.flip_h
+			set_box = $sprite.flip_h
 		
 		$hit_box/box_a.set_deferred("disabled", shld_data.get($sprite.frame)[0])
 		$hit_box/box_b.set_deferred("disabled", shld_data.get($sprite.frame)[1])
@@ -335,7 +346,7 @@ func _physics_process(delta):
 	
 	#Display the thruster sprites appropriately.
 	#Check sprite frame.
-	if thrst_data.has($sprite.frame) and thrusters:
+	if thrst_data.has($sprite.frame) and thrusters and $sprite.is_visible_in_tree():
 		#If frame is in dict, pull data and set frames.
 		if thr_state != thrst_data.get($sprite.frame)[0]:
 			if thr_strt != thrst_data.get($sprite.frame)[1]:
@@ -371,7 +382,73 @@ func _physics_process(delta):
 		$thrusters/sprite.frame = thr_strt + thr_frame
 		thr_delay = 0
 	
+	if flash > 0:
+		flash_delay += 1
+		flash -= 1
+		
+		if flash_delay > 3:
+			flash_delay = 0
+		
+		if flash_delay == 1:
+			$sprite.hide()
+			if $thrusters.is_visible_in_tree():
+				$thrusters.hide()
+			$flash.show()
+		
+		if flash_delay == 3:
+			$flash.hide()
+			$sprite.show()
+	
+	if flash == 0 and hit:
+		$flash.hide()
+		$sprite.show()
+		thr_state = -1
+		flash_delay = 0
+		hit = false
+	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+	
+	hit_overlap = $hit_box.get_overlapping_bodies()
+	shld_overlap = $shield_box.get_overlapping_bodies()
+	plyr_overlap = $plyr_box.get_overlapping_bodies()
+	
+	if hit_overlap != []:
+		for i in hit_overlap:
+			calc_damage(i)
+	
+	if shld_overlap != []:
+		for i in shld_overlap:
+			reflect(i)
+	
+	if plyr_overlap != []:
+		plyr_dmg()
+	
+	if world.boss_hp <= 0:
+		world.kill_music()
+		world.sound("death")
+		world.bolt_calc()
+		
+		for b in range(world.max_bolts):
+			var which = rand_range(0, 100)
+			var spawn
+			if which <= world.accuracy:
+				spawn = load("res://scenes/objects/bolt_l.tscn").instance()
+				spawn.type = 1
+			else:
+				spawn = load("res://scenes/objects/bolt_s.tscn").instance()
+				spawn.type = 0
+			spawn.global_position = global_position
+			spawn.time = 420
+			spawn.velocity.y = rand_range(0, spawn.JUMP_SPEED * 1.2)
+			spawn.x_spd = rand_range(-100, 100)
+			world.get_child(1).add_child(spawn)
+				
+		for n in range(16):
+			var boom = world.DEATH_BOOM.instance()
+			boom.global_position = global_position
+			boom.id = n
+			world.get_child(3).add_child(boom)
+		queue_free()
 
 func play_anim(anim):
 	$anim.play(anim)
@@ -476,6 +553,77 @@ func _on_anim_finished(anim_name):
 			velocity.x = 0
 			$anim.play("open")
 
-func _on_tween_completed(object, key):
-	print(object,', ',key)
+func _on_tween_completed(_object, _key):
 	$anim.play("intro")
+
+func calc_damage(body):
+	var add_count = false
+	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+		world.enemy_dmg(id, body.id)
+		if world.damage != 0 and !body.reflect:
+			#Weapon behaviors.
+			match body.property:
+				0:
+					body._on_screen_exited()
+				2:
+					if world.damage < world.boss_hp:
+						body._on_screen_exited()
+				3:
+					if world.damage < world.boss_hp:
+						if flash == 0:
+							body.choke_check()
+							body.choke_max = CHOKE
+							body.choke_delay = 6
+						body.velocity = Vector2(0, 0)
+			if flash == 0:
+				world.boss_hp -= world.damage
+				if state == 1 or state == 2 or state == 3:
+					hits += 1
+			if !add_count:
+				world.hit_num += 1
+				add_count = true
+			flash = 20
+			hit = true
+			if world.boss_hp > 0:
+				world.sound("hit")
+			else:
+				if body.property == 3:
+					if !body.ret:
+						body.ret()
+		else:
+			if body.property != 3:
+				body.reflect = true
+			else:
+				if !body.ret:
+					body.ret()
+			
+	if body.name == "mega_arm" and body.choke:
+		body.global_position = global_position
+		if flash == 0 and body.choke_delay == 0:
+			if body.choke_max > 0:
+				world.boss_hp -= 10
+				body.choke_max -= 1
+				body.choke_delay = 6
+				flash = 20
+				hit = true
+				world.sound("hit")
+				#Make the Mega Arm return to the player if boss dies.
+				if world.boss_hp <= 0:
+					body.choke = false
+					body.choke_delay = 0
+		elif body.choke_max == 0 or id == 0:
+			body.choke = false
+			body.choke_delay = 0
+
+func reflect(body):
+	if body.property != 3:
+		body.reflect = true
+	else:
+		if !body.ret and !body.choke:
+			world.sound('dink')
+			body.ret()
+
+func plyr_dmg():
+	if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost and player.stun < 0:
+		global.player_life[int(player.swap)] -= damage
+		player.damage()

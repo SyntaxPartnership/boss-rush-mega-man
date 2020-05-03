@@ -66,13 +66,12 @@ extents = Vector2( 3, 2.5 )
 ]]
 pause_mode = 1
 collision_layer = 66
-collision_mask = 0
+collision_mask = 4
 script = ExtResource( 2 )
 
 [node name="sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
 hframes = 8
-frame = 6
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/blue = SubResource( 1 )
@@ -84,6 +83,18 @@ shape = SubResource( 4 )
 disabled = true
 
 [node name="box_b" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -0.5 )
+shape = SubResource( 5 )
+disabled = true
+
+[node name="hit_box" type="Area2D" parent="."]
+collision_mask = 0
+
+[node name="box_a" type="CollisionShape2D" parent="hit_box"]
+shape = SubResource( 4 )
+disabled = true
+
+[node name="box_b" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( 0, -0.5 )
 shape = SubResource( 5 )
 disabled = true

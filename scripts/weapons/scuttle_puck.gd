@@ -55,6 +55,9 @@ func _on_hit_box_body_entered(body):
 		world.sound("boing")
 		
 		if body.name == "player":
+			player.stun = -1
+			player.slap = false
+			player.no_input(false)
 			player.rush_coil = true
 			player.velocity.y = player.JUMP_SPEED * 1.6
 
