@@ -83,9 +83,11 @@ func _physics_process(delta):
 					player.damage()
 					if type != 3:
 						queue_free()
-			if body.name != "player" and type == 3:
+			if body.name == "defend" and type == 3:
 				if !set_master and velocity.y < 0:
 					world.sound('dink')
+					body.desp_delay = 5
+					body.get_child(0).offset.y = -2
 					master_vel = (player.global_position - global_position).normalized()
 					add_speed()
 					set_master = true

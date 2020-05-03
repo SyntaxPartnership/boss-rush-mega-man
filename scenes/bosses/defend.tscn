@@ -260,19 +260,19 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 8, 16 )
 
-[sub_resource type="RectangleShape2D" id=22]
+[sub_resource type="RectangleShape2D" id=18]
 extents = Vector2( 8, 12 )
 
-[sub_resource type="RectangleShape2D" id=18]
-extents = Vector2( 16, 14 )
-
 [sub_resource type="RectangleShape2D" id=19]
-extents = Vector2( 8, 14 )
+extents = Vector2( 16, 14 )
 
 [sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 8, 14 )
 
 [sub_resource type="RectangleShape2D" id=21]
+extents = Vector2( 8, 14 )
+
+[sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 16, 14 )
 
 [node name="defend" type="KinematicBody2D" groups=[
@@ -334,7 +334,7 @@ shape = SubResource( 17 )
 
 [node name="coll_box_b" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -4 )
-shape = SubResource( 22 )
+shape = SubResource( 18 )
 disabled = true
 
 [node name="hit_box" type="Area2D" parent="."]
@@ -344,11 +344,11 @@ collision_mask = 0
 
 [node name="box_a" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( 0, 2 )
-shape = SubResource( 18 )
+shape = SubResource( 19 )
 
 [node name="box_b" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( -8, 2 )
-shape = SubResource( 19 )
+shape = SubResource( 20 )
 
 [node name="shield_box" type="Area2D" parent="."]
 visible = false
@@ -357,7 +357,7 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="shield_box"]
 position = Vector2( -8, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 disabled = true
 
 [node name="plyr_box" type="Area2D" parent="."]
@@ -366,6 +366,6 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="plyr_box"]
 position = Vector2( 0, 2 )
-shape = SubResource( 21 )
+shape = SubResource( 22 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="tween_completed" from="tween" to="." method="_on_tween_completed"]
