@@ -82,23 +82,15 @@ func _physics_process(delta):
 				elif velocity.x > 0 and $sprite.flip_h:
 					$sprite.flip_h = false
 		else:
-			if f_target != player:
-				f_target = player
-			accel = seek()
-			velocity += accel
-			velocity.clamped(RET_SPD)
-			if velocity.x < 0 and $sprite.flip_h:
-				$sprite.flip_h = false
-			elif velocity.x > 0 and !$sprite.flip_h:
-				$sprite.flip_h = true
+			var angle = (player.position - position).normalized()
+			velocity = angle * RET_SPD
 		
-#		position += velocity * delta
 		velocity = move_and_slide(velocity, Vector2(0, -1))
+		
 	
 	dist -= 1
 
 	if dist == 0 and !choke:
-		velocity = -velocity
 		$anim.play("return")
 		reflect = true
 		ret = true
@@ -174,4 +166,3 @@ func ret():
 	choke = false
 	choke_delay = 0
 	f_target = player
-	velocity = -velocity

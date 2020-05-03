@@ -13,6 +13,8 @@ var velocity = Vector2()
 var angle = 0
 var speed = 0
 var move = false
+var set_master = false
+var master_vel = Vector2()
 
 var target = 0
 var wall = false
@@ -46,23 +48,49 @@ func _ready():
 
 func _physics_process(delta):
 	
-	if !move:
+	if !move and type != 3:
 		reverse = velocity.angle() - PI
 		reverse = wrapf(reverse, -PI, PI)
 		angle = reverse
 		reverse = Vector2(cos(reverse), sin(reverse))
 		velocity = velocity * speed
 		move = true
+	
+	if type == 3:
+		velocity = master_vel * speed
 
 	velocity = move_and_slide(velocity, Vector2(0, -1))
+	
+	#Big bullet only.
+	if type == 3:
+		if is_on_wall():
+			if global_position.x > camera.limit_left + 128 and master_vel.x > 0 or global_position.x < camera.limit_left + 128 and master_vel.x < 0:
+				world.sound('dink')
+				master_vel.x = -master_vel.x
+				
+		if is_on_floor():
+			if master_vel.y > 0:
+				world.sound('dink')
+				master_vel.y = -master_vel.y
 	
 	overlap = $hit_box.get_overlapping_bodies()
 	
 	if overlap != []:
-		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
-			global.player_life[int(player.swap)] -= damage
-			player.damage()
-			queue_free()
+		for body in overlap:
+			if body.name == "player":
+				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+					global.player_life[int(player.swap)] -= damage
+					player.damage()
+					if type != 3:
+						queue_free()
+			if body.name != "player" and type == 3:
+				if !set_master and velocity.y < 0:
+					world.sound('dink')
+					master_vel = (player.global_position - global_position).normalized()
+					set_master = true
+	else:
+		if set_master:
+			set_master = false
 	
 	if type == 0:
 		if is_on_wall() and !wall:

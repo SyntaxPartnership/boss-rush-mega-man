@@ -31,6 +31,9 @@ var thr_state = -1
 var turns = 0
 var x_target = 0
 var hits = 0
+var desp = false
+var desp_delay = 30
+var big_bullet
 var drop_delay = 60
 var shot_delay = 60
 var shot_step = 0
@@ -89,6 +92,9 @@ func _physics_process(delta):
 	
 	if state == 5 or state == 6:
 		drop_delay -= 1
+	
+	if state == 18 or state == 21 or state == 22:
+		desp_delay -= 1
 	
 	match state:
 		1:
@@ -309,7 +315,54 @@ func _physics_process(delta):
 				slap_delay = 40
 				$anim.play("close")
 				state = 17
-
+		
+		18:
+			if desp_delay == 0:
+				$anim.play("close")
+				state = 19
+		
+		20:
+			if global_position.y > camera.limit_top + 80:
+				velocity.y -= GRAVITY * delta
+			else:
+				velocity = Vector2.ZERO
+				$anim.play("desp")
+				$coll_box_a.set_deferred("disabled", true)
+				$coll_box_b.set_deferred("disabled", false)
+				desp_delay = 20
+				state = 21
+		
+		21:
+			if desp_delay == 0:
+				$sprite.offset.y = -2
+				desp_delay = 5
+				world.sound('def_bullet')
+				var bullet = load("res://scenes/bosses/def_bullet.tscn").instance()
+				bullet.type = 3
+				bullet.speed = 100
+				bullet.master_vel = (player.global_position - global_position).normalized()
+				bullet.position.x = global_position.x
+				bullet.position.y = global_position.y + 8
+				world.get_child(1).add_child(bullet)
+				big_bullet = get_tree().get_nodes_in_group('def_bullet')
+				state = 22
+		
+		22:
+			if desp_delay == 0:
+				if $sprite.offset.y != 0:
+					$sprite.offset.y = 0
+				
+			if big_bullet != []:
+				global_position.x = big_bullet[0].global_position.x
+				
+	
+	#Desperation attack.
+	if !desp and world.boss_hp <= 140:
+		if state == 1 or state == 2 or state == 3:
+			velocity = Vector2.ZERO
+			state = 18
+			$anim.play("open")
+			desp = true
 	
 	#Make the boss shake when her shields clang together.
 	if spr_shake > 0:
@@ -414,7 +467,10 @@ func _physics_process(delta):
 	
 	if hit_overlap != []:
 		for i in hit_overlap:
-			calc_damage(i)
+			if !desp:
+				calc_damage(i)
+			else:
+				reflect(i)
 	
 	if shld_overlap != []:
 		for i in shld_overlap:
@@ -428,7 +484,7 @@ func _physics_process(delta):
 		world.sound("death")
 		world.bolt_calc()
 		
-		for b in range(world.max_bolts):
+		for _b in range(world.max_bolts):
 			var which = rand_range(0, 100)
 			var spawn
 			if which <= world.accuracy:
@@ -477,6 +533,13 @@ func _on_anim_finished(anim_name):
 				else:
 					$anim.play("fly")
 					state = 3
+			
+			if state == 19:
+				$anim.play("desp_move")
+				x_target = (camera.limit_left + 128 - global_position.x)
+				velocity.x = x_target
+				velocity.y = 150
+				state = 20
 		
 		"turn_1":
 			if state == 2:
@@ -532,10 +595,8 @@ func _on_anim_finished(anim_name):
 		"open":
 			if state == 7:
 				$anim.play("rise")
-				if $sprite.flip_h:
-					velocity.x = 90
-				else:
-					velocity.x = -90
+				x_target = round(player.global_position.x - global_position.x)
+				velocity.x = x_target
 				velocity.y = JUMP_STR
 				state = 8
 		
