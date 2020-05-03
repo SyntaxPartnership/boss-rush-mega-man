@@ -13,7 +13,7 @@ var velocity = Vector2()
 var angle = 0
 var speed = 0
 var move = false
-var set_master = false
+var set_master = true
 var master_vel = Vector2()
 
 var target = 0
@@ -87,6 +87,7 @@ func _physics_process(delta):
 				if !set_master and velocity.y < 0:
 					world.sound('dink')
 					master_vel = (player.global_position - global_position).normalized()
+					add_speed()
 					set_master = true
 	else:
 		if set_master:
@@ -115,3 +116,7 @@ func _physics_process(delta):
 	
 	if global_position.y < camera.limit_top or global_position.y > camera.limit_bottom or global_position.x < camera.limit_left or global_position.x > camera.limit_right:
 		queue_free()
+
+func add_speed():
+	if speed < 400:
+		speed += 25

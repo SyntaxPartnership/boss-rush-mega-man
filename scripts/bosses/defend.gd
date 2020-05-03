@@ -339,7 +339,7 @@ func _physics_process(delta):
 				world.sound('def_bullet')
 				var bullet = load("res://scenes/bosses/def_bullet.tscn").instance()
 				bullet.type = 3
-				bullet.speed = 100
+				bullet.speed = 150
 				bullet.master_vel = (player.global_position - global_position).normalized()
 				bullet.position.x = global_position.x
 				bullet.position.y = global_position.y + 8
