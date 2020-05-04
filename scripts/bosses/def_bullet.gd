@@ -15,6 +15,10 @@ var speed = 0
 var move = false
 var set_master = true
 var master_vel = Vector2()
+var boss
+var floor_bnce = 0
+var kill_bnce = 0
+var boss_hit = false
 
 var target = 0
 var wall = false
@@ -38,6 +42,9 @@ func _ready():
 			$anim.play("red")
 			$box_a.set_deferred("disabled", false)
 			$hit_box/box_a.set_deferred("disabled", false)
+			
+			var get_boss = get_tree().get_nodes_in_group('boss')
+			boss = get_boss[0]
 	
 	if type != 3:
 		damage = 20
@@ -71,6 +78,12 @@ func _physics_process(delta):
 		if is_on_floor():
 			if master_vel.y > 0:
 				world.sound('dink')
+				floor_bnce += 1
+				
+				if floor_bnce == 2 and boss.drop_down < 5:
+					boss.drop_down += 1
+					floor_bnce = 0
+					
 				master_vel.y = -master_vel.y
 	
 	overlap = $hit_box.get_overlapping_bodies()
@@ -85,12 +98,22 @@ func _physics_process(delta):
 						queue_free()
 			if body.name == "defend" and type == 3:
 				if !set_master and velocity.y < 0:
-					world.sound('dink')
-					body.desp_delay = 5
-					body.get_child(0).offset.y = -2
-					master_vel = (player.global_position - global_position).normalized()
-					add_speed()
-					set_master = true
+					kill_bnce += 1
+					if kill_bnce < 16:
+						world.sound('dink')
+						body.desp_delay = 5
+						body.get_child(0).offset.y = -2
+						var test_vel = (player.global_position - global_position).normalized()
+						if test_vel.y < 0:
+							master_vel.y = -master_vel.y
+						else:
+							master_vel = (player.global_position - global_position).normalized()
+						add_speed()
+						set_master = true
+					else:
+						speed = 0
+						velocity = Vector2.ZERO
+						$anim.play("poof")
 	else:
 		if set_master:
 			set_master = false
@@ -120,5 +143,10 @@ func _physics_process(delta):
 		queue_free()
 
 func add_speed():
-	if speed < 400:
+	if speed < 200:
 		speed += 25
+
+func _on_anim_finished(anim_name):
+	if anim_name == "poof":
+		boss.state = 23
+		queue_free()

@@ -1710,6 +1710,8 @@ func _on_wpn_fade_tween_completed(object, _key):
 
 func bolt_calc():
 	
+	print(hit_num,', ',shot_num)
+	
 	#Calculate accuracy for later.
 	accuracy = (hit_num / shot_num) * 100
 	

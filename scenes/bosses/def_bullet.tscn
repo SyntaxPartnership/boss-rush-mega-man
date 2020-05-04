@@ -88,7 +88,7 @@ shape = SubResource( 5 )
 disabled = true
 
 [node name="hit_box" type="Area2D" parent="."]
-collision_layer = 1025
+collision_layer = 1057
 collision_mask = 0
 
 [node name="box_a" type="CollisionShape2D" parent="hit_box"]
@@ -99,3 +99,4 @@ disabled = true
 position = Vector2( 0, -0.5 )
 shape = SubResource( 5 )
 disabled = true
+[connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]

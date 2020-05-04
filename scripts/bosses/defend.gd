@@ -32,8 +32,10 @@ var turns = 0
 var x_target = 0
 var hits = 0
 var desp = false
+var desp_fin = false
 var desp_delay = 30
 var big_bullet
+var drop_down = 0
 var drop_delay = 60
 var shot_delay = 60
 var shot_step = 0
@@ -93,7 +95,7 @@ func _physics_process(delta):
 	if state == 5 or state == 6:
 		drop_delay -= 1
 	
-	if state == 18 or state == 21 or state == 22:
+	if state == 18 or state == 21 or state == 22 or state == 24:
 		desp_delay -= 1
 	
 	match state:
@@ -322,9 +324,10 @@ func _physics_process(delta):
 				state = 19
 		
 		20:
-			if global_position.y > camera.limit_top + 80:
+			if global_position.y > camera.limit_top + 64:
 				velocity.y -= GRAVITY * delta
 			else:
+				global_position.y = camera.limit_top + 64
 				velocity = Vector2.ZERO
 				$anim.play("desp")
 				$coll_box_a.set_deferred("disabled", true)
@@ -355,6 +358,61 @@ func _physics_process(delta):
 			if big_bullet != []:
 				global_position.x = big_bullet[0].global_position.x
 				
+				if global_position.y < camera.limit_top + (64 + (16 * drop_down)):
+					global_position.y += 1
+		
+		23:
+			$anim.play("desp_move")
+			$sprite.offset.y = 0
+			$coll_box_a.set_deferred("disabled", false)
+			$coll_box_b.set_deferred("disabled", true)
+			desp_delay = 5
+			desp_fin = false
+			state = 24
+		
+		24:
+			if desp_delay == 0:
+				$anim.play("open")
+				state = 7
+		
+		25:
+			if $anim.is_playing():
+				$anim.stop()
+			$coll_box_a.set_deferred("disabled", true)
+			$coll_box_b.set_deferred("disabled", false)
+			
+			if thrusters:
+				$thrusters.hide()
+				thr_state = -1
+				thrusters = false
+				
+			velocity = Vector2(0, -500)
+			
+			if is_on_ceiling():
+				ceiling_dmg()
+		
+		26:
+			if global_position.y < camera.limit_top + 88:
+				velocity.y += GRAVITY * delta
+			else:
+				$anim.play("hover_1")
+				thrusters = true
+				state = 27
+			
+			$coll_box_a.set_deferred("disabled", false)
+			$coll_box_b.set_deferred("disabled", true)
+			
+		27:
+			if velocity.y > -200:
+				velocity.y -= GRAVITY * delta
+			
+			if global_position.y <= camera.limit_top + 88:
+				velocity = Vector2.ZERO
+				state = 28
+		
+		28:
+			$anim.play("open")
+			state = 7
 	
 	#Desperation attack.
 	if !desp and world.boss_hp <= 140:
@@ -362,6 +420,7 @@ func _physics_process(delta):
 			velocity = Vector2.ZERO
 			state = 18
 			$anim.play("open")
+			desp_fin = true
 			desp = true
 	
 	#Make the boss shake when her shields clang together.
@@ -467,7 +526,7 @@ func _physics_process(delta):
 	
 	if hit_overlap != []:
 		for i in hit_overlap:
-			if !desp:
+			if !desp_fin:
 				calc_damage(i)
 			else:
 				reflect(i)
@@ -618,8 +677,12 @@ func _on_tween_completed(_object, _key):
 	$anim.play("intro")
 
 func calc_damage(body):
+	
+	#Spring Puck
+	
+	#All other weapons
 	var add_count = false
-	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+	if body.is_in_group("weapons") and body.name != "scuttle_puck" or body.is_in_group("adaptor_dmg"):
 		world.enemy_dmg(id, body.id)
 		if world.damage != 0 and !body.reflect:
 			#Weapon behaviors.
@@ -675,6 +738,21 @@ func calc_damage(body):
 		elif body.choke_max == 0 or id == 0:
 			body.choke = false
 			body.choke_delay = 0
+
+func ceiling_dmg():
+	$anim.play("recoil")
+	world.shake = 12
+	var add_count = false
+	if flash == 0:
+		world.boss_hp -= 40
+	if !add_count:
+		world.hit_num += 1
+		add_count = true
+	flash = 20
+	hit = true
+	if world.boss_hp > 0:
+		world.sound("hit")
+	state = 26
 
 func reflect(body):
 	if body.property != 3:

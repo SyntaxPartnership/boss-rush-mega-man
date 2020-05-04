@@ -13,6 +13,7 @@ var can_boing = false
 var kill = 0
 
 func _ready():
+	world.shot_num += 1
 	$anim.play("idle")
 	world.sound("shoot_a")
 	
@@ -49,10 +50,18 @@ func _physics_process(delta):
 
 func _on_hit_box_body_entered(body):
 	if can_boing and !boing:
-		velocity.x = 0
-		boing = true
-		$anim.play("boing")
-		world.sound("boing")
+		if body.name == "defend":
+			if !body.desp_fin:
+				body.state = 25
+				velocity.x = 0
+				boing = true
+				$anim.play("boing")
+				world.sound("boing")
+		else:
+			velocity.x = 0
+			boing = true
+			$anim.play("boing")
+			world.sound("boing")
 		
 		if body.name == "player":
 			player.stun = -1

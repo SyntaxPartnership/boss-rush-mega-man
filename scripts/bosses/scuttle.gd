@@ -55,6 +55,7 @@ var damage = 40
 var overlap = []
 
 func _ready():
+	
 	$anim.play("spin")
 	
 	left_bar = camera.limit_left + 44

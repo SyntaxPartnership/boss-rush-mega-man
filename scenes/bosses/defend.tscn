@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://scripts/bosses/defend.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/shield_attacker/defend.png" type="Texture" id=2]
@@ -182,6 +182,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=12]
+resource_name = "recoil"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 19 ]
+}
+
+[sub_resource type="Animation" id=13]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -197,7 +214,7 @@ tracks/0/keys = {
 "values": [ 12 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=14]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -212,7 +229,7 @@ tracks/0/keys = {
 "values": [ 16, 17, 19 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=15]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -227,7 +244,7 @@ tracks/0/keys = {
 "values": [ 11 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=16]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -242,7 +259,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=17]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -257,22 +274,22 @@ tracks/0/keys = {
 "values": [ 14 ]
 }
 
-[sub_resource type="RectangleShape2D" id=17]
+[sub_resource type="RectangleShape2D" id=18]
 extents = Vector2( 8, 16 )
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 8, 12 )
 
-[sub_resource type="RectangleShape2D" id=19]
-extents = Vector2( 16, 14 )
-
 [sub_resource type="RectangleShape2D" id=20]
-extents = Vector2( 8, 14 )
+extents = Vector2( 16, 14 )
 
 [sub_resource type="RectangleShape2D" id=21]
 extents = Vector2( 8, 14 )
 
 [sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 8, 14 )
+
+[sub_resource type="RectangleShape2D" id=23]
 extents = Vector2( 16, 14 )
 
 [node name="defend" type="KinematicBody2D" groups=[
@@ -287,7 +304,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 15
-frame = 20
+frame = 9
 
 [node name="flash" type="Sprite" parent="."]
 visible = false
@@ -319,22 +336,23 @@ anims/hover_2 = SubResource( 8 )
 anims/intro = SubResource( 9 )
 anims/move_to = SubResource( 10 )
 anims/open = SubResource( 11 )
-anims/rise = SubResource( 12 )
-anims/slap = SubResource( 13 )
-anims/turn_1 = SubResource( 14 )
-anims/turn_2 = SubResource( 15 )
-anims/up_floor = SubResource( 16 )
+anims/recoil = SubResource( 12 )
+anims/rise = SubResource( 13 )
+anims/slap = SubResource( 14 )
+anims/turn_1 = SubResource( 15 )
+anims/turn_2 = SubResource( 16 )
+anims/up_floor = SubResource( 17 )
 
 [node name="tween" type="Tween" parent="."]
 playback_process_mode = 0
 
 [node name="coll_box_a" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4 )
-shape = SubResource( 17 )
+shape = SubResource( 18 )
 
 [node name="coll_box_b" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -4 )
-shape = SubResource( 18 )
+shape = SubResource( 19 )
 disabled = true
 
 [node name="hit_box" type="Area2D" parent="."]
@@ -344,11 +362,11 @@ collision_mask = 0
 
 [node name="box_a" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( 0, 2 )
-shape = SubResource( 19 )
+shape = SubResource( 20 )
 
 [node name="box_b" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( -8, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 
 [node name="shield_box" type="Area2D" parent="."]
 visible = false
@@ -357,7 +375,7 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="shield_box"]
 position = Vector2( -8, 2 )
-shape = SubResource( 21 )
+shape = SubResource( 22 )
 disabled = true
 
 [node name="plyr_box" type="Area2D" parent="."]
@@ -366,6 +384,6 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="plyr_box"]
 position = Vector2( 0, 2 )
-shape = SubResource( 22 )
+shape = SubResource( 23 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="tween_completed" from="tween" to="." method="_on_tween_completed"]
