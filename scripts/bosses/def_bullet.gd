@@ -19,6 +19,7 @@ var boss
 var floor_bnce = 0
 var kill_bnce = 0
 var boss_hit = false
+var hp = 14
 
 var target = 0
 var wall = false
@@ -54,6 +55,9 @@ func _ready():
 	$sprite.show()
 
 func _physics_process(delta):
+	
+	if hp <= 0 and $anim.get_current_animation() != "blue":
+		$anim.play("blue")
 	
 	if !move and type != 3:
 		reverse = velocity.angle() - PI
@@ -96,24 +100,47 @@ func _physics_process(delta):
 					player.damage()
 					if type != 3:
 						queue_free()
-			if body.name == "defend" and type == 3:
-				if !set_master and velocity.y < 0:
-					kill_bnce += 1
-					if kill_bnce < 16:
-						world.sound('dink')
-						body.desp_delay = 5
-						body.get_child(0).offset.y = -2
-						var test_vel = (player.global_position - global_position).normalized()
-						if test_vel.y < 0:
-							master_vel.y = -master_vel.y
+						
+			if type == 3:
+				if body.name == "buster_a":
+					world.sound('hit')
+					hp -= 1
+					var boom = load("res://scenes/effects/s_explode.tscn").instance()
+					boom.position = body.global_position
+					world.get_child(3).add_child(boom)
+					body.queue_free()
+					
+				if body.name == "mega_arm" and !body.ret:
+					world.sound('hit')
+					hp -= 3
+					body.ret()
+				
+				if body.name == "defend":
+					if !set_master and velocity.y < 0:
+						kill_bnce += 1
+						if hp > 0:
+							if kill_bnce < 16:
+								world.sound('dink')
+								body.desp_delay = 5
+								body.get_child(0).offset.y = -2
+								var test_vel = (player.global_position - global_position).normalized()
+								if test_vel.y < 0:
+									master_vel.y = -master_vel.y
+								else:
+									master_vel = (player.global_position - global_position).normalized()
+								add_speed()
+								set_master = true
+							else:
+								speed = 0
+								velocity = Vector2.ZERO
+								$anim.play("poof")
 						else:
-							master_vel = (player.global_position - global_position).normalized()
-						add_speed()
-						set_master = true
-					else:
-						speed = 0
-						velocity = Vector2.ZERO
-						$anim.play("poof")
+							body.normal_dmg()
+							var boom = load("res://scenes/effects/l_explode.tscn").instance()
+							boom.position = global_position
+							world.get_child(3).add_child(boom)
+							boss.state = 23
+							queue_free()
 	else:
 		if set_master:
 			set_master = false
@@ -143,8 +170,8 @@ func _physics_process(delta):
 		queue_free()
 
 func add_speed():
-	if speed < 200:
-		speed += 25
+	if speed < 150:
+		speed += 10
 
 func _on_anim_finished(anim_name):
 	if anim_name == "poof":

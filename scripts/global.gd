@@ -82,7 +82,7 @@ var bass = true
 var dummy = [true, 280, 280]
 var weapon1 = [false, 280, 280]
 var weapon2 = [false, 280, 280]
-var weapon3 = [false, 280, 280]
+var weapon3 = [true, 280, 280]
 var weapon4 = [false, 280, 280]
 
 var end_pos = Vector2()

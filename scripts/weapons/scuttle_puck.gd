@@ -52,12 +52,30 @@ func _on_hit_box_body_entered(body):
 	if can_boing and !boing:
 		if body.name == "defend":
 			if !body.desp_fin:
-				body.state = 25
-				velocity.x = 0
-				boing = true
-				$anim.play("boing")
-				world.sound("boing")
+				if body.bnce_states.has(body.state):
+					body.state = 25
+					velocity.x = 0
+					boing = true
+					$anim.play("boing")
+					world.sound("boing")
+				else:
+					body.normal_dmg()
+					_on_boing_finished(null)
+			else:
+				world.sound('dink')
+				if bounce == 0 and !boing:
+					velocity.x = X_SPD
+				elif bounce == 1 and !boing:
+					velocity.x = -X_SPD
 		else:
+			velocity.x = 0
+			boing = true
+			$anim.play("boing")
+			world.sound("boing")
+		
+		if body.name == "def_bullet" and body.type == 3:
+			body.master_vel = Vector2(0, -1)
+			body.speed = 300
 			velocity.x = 0
 			boing = true
 			$anim.play("boing")

@@ -89,7 +89,7 @@ disabled = true
 
 [node name="hit_box" type="Area2D" parent="."]
 collision_layer = 1057
-collision_mask = 0
+collision_mask = 2048
 
 [node name="box_a" type="CollisionShape2D" parent="hit_box"]
 shape = SubResource( 4 )

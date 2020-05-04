@@ -2,12 +2,12 @@
 
 importer="wav"
 type="AudioStreamSample"
-path="res://.import/byon.wav-a7cf9cd8b9fe4d9bd8b17009ab9450e9.sample"
+path="res://.import/byon.wav-c42f65d5c40b063d3b9781929f9177b2.sample"
 
 [deps]
 
-source_file="res://assets/audio/se/7FC/byon.wav"
-dest_files=[ "res://.import/byon.wav-a7cf9cd8b9fe4d9bd8b17009ab9450e9.sample" ]
+source_file="res://assets/audio/se/byon.wav"
+dest_files=[ "res://.import/byon.wav-c42f65d5c40b063d3b9781929f9177b2.sample" ]
 
 [params]
 

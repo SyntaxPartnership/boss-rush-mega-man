@@ -47,6 +47,7 @@ var set_box = false
 var hit_overlap = []
 var shld_overlap = []
 var plyr_overlap = []
+var bnce_states = [0, 1, 2, 3, 10]
 
 var velocity = Vector2()
 
@@ -342,7 +343,7 @@ func _physics_process(delta):
 				world.sound('def_bullet')
 				var bullet = load("res://scenes/bosses/def_bullet.tscn").instance()
 				bullet.type = 3
-				bullet.speed = 150
+				bullet.speed = 100
 				bullet.master_vel = (player.global_position - global_position).normalized()
 				bullet.position.x = global_position.x
 				bullet.position.y = global_position.y + 8
@@ -753,6 +754,18 @@ func ceiling_dmg():
 	if world.boss_hp > 0:
 		world.sound("hit")
 	state = 26
+
+func normal_dmg():
+	var add_count = false
+	if flash == 0:
+		world.boss_hp -= 40
+	if !add_count:
+		world.hit_num += 1
+		add_count = true
+	flash = 20
+	hit = true
+	if world.boss_hp > 0:
+		world.sound("hit")
 
 func reflect(body):
 	if body.property != 3:
