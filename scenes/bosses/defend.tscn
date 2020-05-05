@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://scripts/bosses/defend.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/bosses/shield_attacker/defend.png" type="Texture" id=2]
@@ -6,7 +6,24 @@
 [ext_resource path="res://assets/sprites/bosses/flash.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
-resource_name = "close"
+resource_name = "charge"
+length = 0.1
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 22, 21 ]
+}
+
+[sub_resource type="Animation" id=2]
 length = 0.3
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -21,8 +38,7 @@ tracks/0/keys = {
 "values": [ 8, 9 ]
 }
 
-[sub_resource type="Animation" id=2]
-resource_name = "desp"
+[sub_resource type="Animation" id=3]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -38,8 +54,7 @@ tracks/0/keys = {
 "values": [ 20 ]
 }
 
-[sub_resource type="Animation" id=3]
-resource_name = "desp_move"
+[sub_resource type="Animation" id=4]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -55,7 +70,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=5]
 length = 2.7
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -70,7 +85,7 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 0, 1, 2, 0, 1, 2, 3, 4, 5 ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=6]
 length = 0.24
 step = 0.06
 tracks/0/type = "value"
@@ -86,7 +101,7 @@ tracks/0/keys = {
 "values": [ 13, 10, 14, 15 ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=7]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -102,7 +117,7 @@ tracks/0/keys = {
 "values": [ 10 ]
 }
 
-[sub_resource type="Animation" id=7]
+[sub_resource type="Animation" id=8]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -118,7 +133,7 @@ tracks/0/keys = {
 "values": [ 9 ]
 }
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=9]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -134,7 +149,7 @@ tracks/0/keys = {
 "values": [ 6 ]
 }
 
-[sub_resource type="Animation" id=9]
+[sub_resource type="Animation" id=10]
 length = 1.8
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -149,7 +164,7 @@ tracks/0/keys = {
 "values": [ 9, 7, 6, 8, 9, 7, 6, 8, 9, 7, 6, 8, 9, 7, 6 ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=11]
 length = 0.75
 step = 0.375
 tracks/0/type = "value"
@@ -165,7 +180,7 @@ tracks/0/keys = {
 "values": [ 5, 9 ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=12]
 length = 0.3
 step = 0.15
 tracks/0/type = "value"
@@ -181,8 +196,7 @@ tracks/0/keys = {
 "values": [ 7, 6 ]
 }
 
-[sub_resource type="Animation" id=12]
-resource_name = "recoil"
+[sub_resource type="Animation" id=13]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -198,7 +212,7 @@ tracks/0/keys = {
 "values": [ 19 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=14]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -214,7 +228,7 @@ tracks/0/keys = {
 "values": [ 12 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=15]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -229,7 +243,7 @@ tracks/0/keys = {
 "values": [ 16, 17, 19 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=16]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -244,7 +258,7 @@ tracks/0/keys = {
 "values": [ 11 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=17]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -259,7 +273,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=18]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -274,22 +288,22 @@ tracks/0/keys = {
 "values": [ 14 ]
 }
 
-[sub_resource type="RectangleShape2D" id=18]
+[sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 8, 16 )
 
-[sub_resource type="RectangleShape2D" id=19]
+[sub_resource type="RectangleShape2D" id=20]
 extents = Vector2( 8, 12 )
 
-[sub_resource type="RectangleShape2D" id=20]
-extents = Vector2( 16, 14 )
-
 [sub_resource type="RectangleShape2D" id=21]
-extents = Vector2( 8, 14 )
+extents = Vector2( 16, 14 )
 
 [sub_resource type="RectangleShape2D" id=22]
 extents = Vector2( 8, 14 )
 
 [sub_resource type="RectangleShape2D" id=23]
+extents = Vector2( 8, 14 )
+
+[sub_resource type="RectangleShape2D" id=24]
 extents = Vector2( 16, 14 )
 
 [node name="defend" type="KinematicBody2D" groups=[
@@ -304,7 +318,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 vframes = 2
 hframes = 15
-frame = 9
+frame = 22
 
 [node name="flash" type="Sprite" parent="."]
 visible = false
@@ -325,34 +339,35 @@ hframes = 8
 frame = 6
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/close = SubResource( 1 )
-anims/desp = SubResource( 2 )
-anims/desp_move = SubResource( 3 )
-anims/fade_in = SubResource( 4 )
-anims/fall = SubResource( 5 )
-anims/fly = SubResource( 6 )
-anims/hover_1 = SubResource( 7 )
-anims/hover_2 = SubResource( 8 )
-anims/intro = SubResource( 9 )
-anims/move_to = SubResource( 10 )
-anims/open = SubResource( 11 )
-anims/recoil = SubResource( 12 )
-anims/rise = SubResource( 13 )
-anims/slap = SubResource( 14 )
-anims/turn_1 = SubResource( 15 )
-anims/turn_2 = SubResource( 16 )
-anims/up_floor = SubResource( 17 )
+anims/charge = SubResource( 1 )
+anims/close = SubResource( 2 )
+anims/desp = SubResource( 3 )
+anims/desp_move = SubResource( 4 )
+anims/fade_in = SubResource( 5 )
+anims/fall = SubResource( 6 )
+anims/fly = SubResource( 7 )
+anims/hover_1 = SubResource( 8 )
+anims/hover_2 = SubResource( 9 )
+anims/intro = SubResource( 10 )
+anims/move_to = SubResource( 11 )
+anims/open = SubResource( 12 )
+anims/recoil = SubResource( 13 )
+anims/rise = SubResource( 14 )
+anims/slap = SubResource( 15 )
+anims/turn_1 = SubResource( 16 )
+anims/turn_2 = SubResource( 17 )
+anims/up_floor = SubResource( 18 )
 
 [node name="tween" type="Tween" parent="."]
 playback_process_mode = 0
 
 [node name="coll_box_a" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 4 )
-shape = SubResource( 18 )
+shape = SubResource( 19 )
 
 [node name="coll_box_b" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -4 )
-shape = SubResource( 19 )
+shape = SubResource( 20 )
 disabled = true
 
 [node name="hit_box" type="Area2D" parent="."]
@@ -362,11 +377,11 @@ collision_mask = 0
 
 [node name="box_a" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( 0, 2 )
-shape = SubResource( 20 )
+shape = SubResource( 21 )
 
 [node name="box_b" type="CollisionShape2D" parent="hit_box"]
 position = Vector2( -8, 2 )
-shape = SubResource( 21 )
+shape = SubResource( 22 )
 
 [node name="shield_box" type="Area2D" parent="."]
 visible = false
@@ -375,7 +390,7 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="shield_box"]
 position = Vector2( -8, 2 )
-shape = SubResource( 22 )
+shape = SubResource( 23 )
 disabled = true
 
 [node name="plyr_box" type="Area2D" parent="."]
@@ -384,6 +399,6 @@ collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="plyr_box"]
 position = Vector2( 0, 2 )
-shape = SubResource( 23 )
+shape = SubResource( 24 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="tween_completed" from="tween" to="." method="_on_tween_completed"]

@@ -62,6 +62,8 @@ var thrst_data = {
 	16 : [7, 0, Vector2(-2, 22)],
 	17 : [8, 6, Vector2(-1, 22)],
 	19 : [9, 6, Vector2(-1, 22)],
+	21 : [5, 4, Vector2(-19, 2)],
+	22 : [5, 4, Vector2(-19, 2)]
 }
 
 var shld_data = {
@@ -101,49 +103,64 @@ func _physics_process(delta):
 	
 	match state:
 		1:
-			if $sprite.flip_h and global_position.x < camera.limit_right - 72:
-				velocity.x = 200
-			elif $sprite.flip_h and global_position.x >= camera.limit_right - 72:
-				if velocity.x > 0:
-					velocity.x -= 10
-				else:
-					$anim.play("turn_1")
-					turns -= 1
-					if turns > 0:
-						state = 2
+			if turns > 0:
+				if $sprite.flip_h and global_position.x < camera.limit_right - 72:
+					velocity.x = 200
+				elif $sprite.flip_h and global_position.x >= camera.limit_right - 72:
+					if velocity.x > 0:
+						velocity.x -= 10
 					else:
-						if hits != 0:
-							state = 4
-							hits = 0
-						else:
-							state = 10
-			elif !$sprite.flip_h and global_position.x > camera.limit_left + 72:
-				velocity.x = -200
-			elif !$sprite.flip_h and global_position.x <= camera.limit_left + 72:
-				if velocity.x < 0:
-					velocity.x += 10
-				else:
-					$anim.play("turn_1")
-					turns -= 1
-					if turns > 0:
+						$anim.play("turn_1")
+						turns -= 1
 						state = 2
+				elif !$sprite.flip_h and global_position.x > camera.limit_left + 72:
+					velocity.x = -200
+				elif !$sprite.flip_h and global_position.x <= camera.limit_left + 72:
+					if velocity.x < 0:
+						velocity.x += 10
 					else:
-						if hits != 0:
-							state = 4
-							hits = 0
-						else:
-							state = 10
+						$anim.play("turn_1")
+						turns -= 1
+						state = 2
+			else:
+				if $sprite.flip_h:
+					velocity.x = 300
+				else:
+					velocity.x = -300
+				
+				if is_on_wall():
+					world.sound("wall_hit")
+					world.shake = 12
+					$anim.play("recoil")
+					if $sprite.flip_h:
+						velocity.x = -50
+					else:
+						velocity.x = 50
+					velocity.y = -200
+					state = 30
 		
 		3:
 			if $sprite.flip_h:
-				if velocity.x < 200:
-					velocity.x += 20
+				if turns > 0:
+					if velocity.x < 200:
+						velocity.x += 20
+				else:
+					if velocity.x < 300:
+						velocity.x += 30
 			else:
-				if velocity.x > -200:
-					velocity.x -= 20
+				if turns > 0:
+					if velocity.x > -200:
+						velocity.x -= 20
+				else:
+					if velocity.x > -300:
+						velocity.x -= 30
 			
-			if velocity.x == -200 or velocity.x == 200 or !$sprite.flip_h and global_position.x <= camera.limit_left + 72 or $sprite.flip_h and global_position.x >= camera.limit_right - 72:
-				state = 1
+			if turns > 0:
+				if velocity.x == -200 or velocity.x == 200:
+					state = 1
+			else:
+				if velocity.x == -300 or velocity.x == 300:
+					state = 1
 				
 		4:
 			if global_position.y > camera.limit_bottom - 104:
@@ -414,6 +431,22 @@ func _physics_process(delta):
 		28:
 			$anim.play("open")
 			state = 7
+		
+		30:
+			velocity.y += GRAVITY * delta
+			
+			if is_on_floor():
+				$anim.play("hover_1")
+				velocity = Vector2.ZERO
+				state = 31
+		
+		31:
+			if global_position.y > camera.limit_bottom - 56:
+				global_position.y -= 1
+			else:
+				$anim.play("turn_1")
+				state = 32
+		
 	
 	#Desperation attack.
 	if !desp and world.boss_hp <= 140:
@@ -472,7 +505,7 @@ func _physics_process(delta):
 			else:
 				$thrusters/sprite.position.x = thrst_data.get($sprite.frame)[2].x
 			$thrusters/sprite.position.y = thrst_data.get($sprite.frame)[2].y
-			if $sprite.frame == 10 or $sprite.frame == 19:
+			if $sprite.frame == 10 or $sprite.frame == 19 or $sprite.frame == 21 or $sprite.frame == 22:
 				$thrusters/sprite.flip_h = $sprite.flip_h
 			else:
 				$thrusters/sprite.flip_h = false
@@ -603,7 +636,10 @@ func _on_anim_finished(anim_name):
 		
 		"turn_1":
 			if state == 2:
-				$anim.play("fly")
+				if turns > 0:
+					$anim.play("fly")
+				else:
+					$anim.play("charge")
 				if $sprite.flip_h:
 					$sprite.flip_h = false
 				else:
@@ -624,6 +660,22 @@ func _on_anim_finished(anim_name):
 					$sprite.flip_h = false
 				else:
 					$sprite.flip_h = true
+			elif state == 32:
+				$anim.play("hover_1")
+				if $sprite.flip_h:
+					$sprite.flip_h = false
+					if hits != 0:
+						velocity.x = -90
+				else:
+					$sprite.flip_h = true
+					if hits != 0:
+						velocity.x = 90
+				if hits != 0:
+					state = 4
+					velocity.y = 100
+					hits = 0
+				else:
+					state = 10
 			
 		"turn_2":
 			if state == 6:
@@ -683,7 +735,7 @@ func calc_damage(body):
 	
 	#All other weapons
 	var add_count = false
-	if body.is_in_group("weapons") and body.name != "scuttle_puck" or body.is_in_group("adaptor_dmg"):
+	if body.is_in_group("weapons") and body.property != 99 or body.is_in_group("adaptor_dmg"):
 		world.enemy_dmg(id, body.id)
 		if world.damage != 0 and !body.reflect:
 			#Weapon behaviors.
@@ -768,9 +820,9 @@ func normal_dmg():
 		world.sound("hit")
 
 func reflect(body):
-	if body.property != 3:
+	if body.property != 3 and body.property != 99:
 		body.reflect = true
-	else:
+	elif body.property == 3:
 		if !body.ret and !body.choke:
 			world.sound('dink')
 			body.ret()

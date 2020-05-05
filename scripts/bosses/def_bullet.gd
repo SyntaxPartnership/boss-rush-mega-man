@@ -19,7 +19,7 @@ var boss
 var floor_bnce = 0
 var kill_bnce = 0
 var boss_hit = false
-var hp = 14
+var hp = 12
 
 var target = 0
 var wall = false
@@ -102,18 +102,28 @@ func _physics_process(delta):
 						queue_free()
 						
 			if type == 3:
-				if body.name == "buster_a":
-					world.sound('hit')
-					hp -= 1
-					var boom = load("res://scenes/effects/s_explode.tscn").instance()
-					boom.position = body.global_position
-					world.get_child(3).add_child(boom)
-					body.queue_free()
+				if body.is_in_group("weapons"):
+					if body.id == 0:
+						world.sound('hit')
+						hp -= 1
+						var boom = load("res://scenes/effects/s_explode.tscn").instance()
+						boom.position = body.global_position
+						world.get_child(3).add_child(boom)
+						body.queue_free()
+						
+					if body.id == 1 and !body.ret or body.id == 2 and !body.ret:
+						world.sound('hit')
+						hp -= 3
+						var boom = load("res://scenes/effects/s_explode.tscn").instance()
+						boom.position = body.global_position
+						world.get_child(3).add_child(boom)
+						body.ret()
 					
-				if body.name == "mega_arm" and !body.ret:
-					world.sound('hit')
-					hp -= 3
-					body.ret()
+					if body.id == 5:
+						hp = 0
+						master_vel = Vector2(0, -1)
+						speed = 400
+						body.boing()
 				
 				if body.name == "defend":
 					if !set_master and velocity.y < 0:

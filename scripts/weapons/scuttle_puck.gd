@@ -6,6 +6,10 @@ onready var player = world.get_child(2)
 const GRAVITY = 900
 const X_SPD = 150
 
+var id = 5
+var property = 99
+var reflect = false
+
 var velocity = Vector2()
 var bounce = 1
 var boing = false
@@ -54,10 +58,7 @@ func _on_hit_box_body_entered(body):
 			if !body.desp_fin:
 				if body.bnce_states.has(body.state):
 					body.state = 25
-					velocity.x = 0
-					boing = true
-					$anim.play("boing")
-					world.sound("boing")
+					boing()
 				else:
 					body.normal_dmg()
 					_on_boing_finished(null)
@@ -68,20 +69,14 @@ func _on_hit_box_body_entered(body):
 				elif bounce == 1 and !boing:
 					velocity.x = -X_SPD
 		else:
-			velocity.x = 0
-			boing = true
-			$anim.play("boing")
-			world.sound("boing")
+			boing()
 		
 		if body.name == "def_bullet" and body.type == 3:
 			body.master_vel = Vector2(0, -1)
 			body.speed = 300
-			velocity.x = 0
-			boing = true
-			$anim.play("boing")
-			world.sound("boing")
+			boing()
 		
-		if body.name == "player":
+		if body.name == "player" and !body.cutscene:
 			player.stun = -1
 			player.slap = false
 			player.no_input(false)
@@ -93,6 +88,12 @@ func _on_boing_finished(_anim_name):
 	boom.global_position = global_position
 	world.get_child(3).add_child(boom)
 	queue_free()
+
+func boing():
+	velocity.x = 0
+	boing = true
+	$anim.play("boing")
+	world.sound("boing")
 
 func _on_screen_exited():
 	pass
