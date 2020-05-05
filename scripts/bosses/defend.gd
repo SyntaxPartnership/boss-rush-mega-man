@@ -278,6 +278,7 @@ func _physics_process(delta):
 				else:
 					if global_position.x > camera.limit_left + 128 and $sprite.flip_h or global_position.x < camera.limit_left + 128 and !$sprite.flip_h:
 						$anim.play("turn_2")
+						turns = round(rand_range(2, 5))
 						state = 17
 					else:
 						turns = round(rand_range(2, 5))
@@ -824,7 +825,7 @@ func reflect(body):
 			body.ret()
 
 func plyr_dmg():
-	if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost and player.stun < 0:
+	if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost and !charge and !player.slap:
 		global.player_life[int(player.swap)] -= damage
 		player.damage()
 
