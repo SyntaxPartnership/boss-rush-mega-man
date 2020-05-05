@@ -131,6 +131,7 @@ func _physics_process(delta):
 				if is_on_wall():
 					world.sound("wall_hit")
 					world.shake = 12
+					stun_plyr()
 					$anim.play("recoil")
 					if $sprite.flip_h:
 						velocity.x = -50
@@ -188,11 +189,7 @@ func _physics_process(delta):
 			
 			if is_on_floor() and state == 8:
 				#If the player is on the floor and not displaying iframes, stun them.
-				if player.is_on_floor() and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-					player.slide_timer = 0
-					player.stun = 120
-					player.anim_state(player.FALL)
-					player.no_input(true)
+				stun_plyr()
 				
 				world.shake = 12
 				world.kill_se('fall')
@@ -446,7 +443,6 @@ func _physics_process(delta):
 			else:
 				$anim.play("turn_1")
 				state = 32
-		
 	
 	#Desperation attack.
 	if !desp and world.boss_hp <= 140:
@@ -672,8 +668,8 @@ func _on_anim_finished(anim_name):
 						velocity.x = 90
 				if hits != 0:
 					state = 4
-					velocity.y = 100
 					hits = 0
+					velocity.y = 100
 				else:
 					state = 10
 			
@@ -831,3 +827,10 @@ func plyr_dmg():
 	if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost and player.stun < 0:
 		global.player_life[int(player.swap)] -= damage
 		player.damage()
+
+func stun_plyr():
+	if player.is_on_floor() and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+		player.slide_timer = 0
+		player.stun = 120
+		player.anim_state(player.FALL)
+		player.no_input(true)
