@@ -1,8 +1,44 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/sprites/objects/cage.png" type="Texture" id=1]
 [ext_resource path="res://assets/sprites/enemies/cage_wily.png" type="Texture" id=2]
 [ext_resource path="res://scripts/objects/cage.gd" type="Script" id=3]
+[ext_resource path="res://assets/sprites/enemies/fugue_shadow.png" type="Texture" id=4]
+
+[sub_resource type="Animation" id=1]
+resource_name = "hover"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 5 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "teleport"
+length = 0.2
+step = 0.025
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 2, 1, 0 ]
+}
 
 [node name="cage" type="Node2D"]
 script = ExtResource( 3 )
@@ -25,3 +61,14 @@ position = Vector2( 1, 10 )
 texture = ExtResource( 2 )
 hframes = 6
 frame = 1
+
+[node name="fugue" type="Sprite" parent="."]
+visible = false
+position = Vector2( 0, 12 )
+texture = ExtResource( 4 )
+hframes = 7
+frame = 6
+
+[node name="anim" type="AnimationPlayer" parent="fugue"]
+anims/hover = SubResource( 1 )
+anims/teleport = SubResource( 2 )

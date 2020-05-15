@@ -377,6 +377,7 @@ func _physics_process(delta):
 	if world.boss_hp <= 0:
 		world.kill_music()
 		world.sound("death")
+		global.boss3_clear = true
 		world.bolt_calc()
 		
 		for _b in range(world.max_bolts):

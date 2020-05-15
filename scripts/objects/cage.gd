@@ -11,6 +11,9 @@ var frame = 0
 var frame_offset = 0
 var final_frame = 0
 
+var kidnap = false
+var kdnp_delay = 30
+
 var placement = {
 	Vector2(7, 6) : Vector2(2176, 1484),
 	Vector2(7, 10) : Vector2(2176, 2443),
@@ -24,9 +27,26 @@ func _ready():
 
 func _process(delta):
 	
+	#Set the cage into the appropriate room.
 	if placement.has(world.player_room):
 		if global_position != placement.get(world.player_room):
 			global_position = placement.get(world.player_room)
+			kidnap = false
+			kdnp_delay = 8
+	
+	#Animate Fugue taking Wily.
+	if world.boss_hp <= 0 and !kidnap and world.boss:
+		kidnap = true
+	
+	if kidnap:
+		kdnp_delay -= 1
+		
+		if kdnp_delay == 0:
+			#Check to see how many bosses are remaining.
+			var bosses = int(global.boss1_clear) + int(global.boss2_clear) + int(global.boss3_clear) + int(global.boss4_clear)
+			if bosses < 4:
+				$fugue.show()
+				$fugue/anim.play("teleport")
 	
 	#Track the player's location within the room
 	if player.global_position.x < global_position.x - 24 and frame != 1:
