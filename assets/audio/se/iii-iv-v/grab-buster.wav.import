@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/grab-buster.wav-10c47d90e8bb3593cf13bef6d9893052.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/grab-buster.wav"
+dest_files=[ "res://.import/grab-buster.wav-10c47d90e8bb3593cf13bef6d9893052.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

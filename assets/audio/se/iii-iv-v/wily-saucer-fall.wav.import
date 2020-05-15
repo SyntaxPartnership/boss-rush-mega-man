@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wily-saucer-fall.wav-fd1c2df1a65e4e4f2ec4510ed414c369.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/wily-saucer-fall.wav"
+dest_files=[ "res://.import/wily-saucer-fall.wav-fd1c2df1a65e4e4f2ec4510ed414c369.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

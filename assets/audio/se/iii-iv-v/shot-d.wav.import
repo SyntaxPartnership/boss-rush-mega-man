@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/shot-d.wav-2004192104087f5b7857fc88601df57b.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/shot-d.wav"
+dest_files=[ "res://.import/shot-d.wav-2004192104087f5b7857fc88601df57b.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

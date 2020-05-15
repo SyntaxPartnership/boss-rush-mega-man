@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wily-escape-iv-a.wav-91ef5cf8ca91e7a4ebc0c69477b8d8a1.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/wily-escape-iv-a.wav"
+dest_files=[ "res://.import/wily-escape-iv-a.wav-91ef5cf8ca91e7a4ebc0c69477b8d8a1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

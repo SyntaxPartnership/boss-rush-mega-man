@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/enker-absorb.wav-3e0f93e18f1ae6df41c0b70270bb438d.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/dwr/enker-absorb.wav"
+dest_files=[ "res://.import/enker-absorb.wav-3e0f93e18f1ae6df41c0b70270bb438d.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

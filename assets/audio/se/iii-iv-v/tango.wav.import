@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/tango.wav-796f66edcc8e3045e8201dfe8ec13e37.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/tango.wav"
+dest_files=[ "res://.import/tango.wav-796f66edcc8e3045e8201dfe8ec13e37.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

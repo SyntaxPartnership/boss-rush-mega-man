@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/refill.wav-53d8f45cd1a6b406f902325a90dc4378.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/refill.wav"
+dest_files=[ "res://.import/refill.wav-53d8f45cd1a6b406f902325a90dc4378.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

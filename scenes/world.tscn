@@ -1,4 +1,4 @@
-[gd_scene load_steps=78 format=2]
+[gd_scene load_steps=80 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -75,6 +75,8 @@
 [ext_resource path="res://assets/audio/se/clang.wav" type="AudioStream" id=73]
 [ext_resource path="res://assets/audio/se/split.wav" type="AudioStream" id=74]
 [ext_resource path="res://assets/audio/se/def_bullet.wav" type="AudioStream" id=75]
+[ext_resource path="res://scenes/objects/cage.tscn" type="PackedScene" id=76]
+[ext_resource path="res://assets/audio/se/iii-iv-v/boss-dead.wav" type="AudioStream" id=77]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -171,12 +173,11 @@ collision_mask = 2
 format = 1
 
 [node name="spawn_pts" type="TileMap" parent="coll_mask"]
-visible = false
 position = Vector2( 4, 0 )
 tile_set = ExtResource( 11 )
 cell_size = Vector2( 8, 8 )
 format = 1
-tile_data = PoolIntArray( 1573189, 0, 0, 9437509, 8, 0, 9437515, 10, 0, 9437535, 1, 0, 9437555, 12, 0, 9437561, 14, 0, 12714213, 9, 0, 12714457, 13, 0, 12976367, 2, 0, 20578533, 11, 0, 20578777, 15, 0, 20840687, 3, 0 )
+tile_data = PoolIntArray( 1573189, 0, 0, 9437509, 8, 0, 9437515, 10, 0, 9437535, 1, 0, 9437555, 12, 0, 9437561, 14, 0, 12714213, 9, 0, 12714457, 13, 0, 12976367, 2, 0, 12976591, 4, 0, 20578533, 11, 0, 20578777, 15, 0, 20840687, 3, 0, 20840911, 5, 0 )
 
 [node name="receive_pts" type="TileMap" parent="coll_mask"]
 position = Vector2( 4, 0 )
@@ -220,6 +221,9 @@ position = Vector2( 3008, 1056 )
 texture = ExtResource( 62 )
 hframes = 15
 
+[node name="cage" parent="graphic/stage_gfx" instance=ExtResource( 76 )]
+position = Vector2( 2176, 1484 )
+
 [node name="spawn_tiles" type="Control" parent="graphic"]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -237,7 +241,7 @@ tile_data = PoolIntArray( 6488175, 0, 0, 6488191, 0, 0, 6488287, 0, 0, 6488303, 
 tile_set = ExtResource( 14 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 4718766, 5, 0, 4718767, 5, 0, 4718768, 5, 0, 4718769, 5, 0, 6357116, 3, 0, 6357117, 5, 0, 6357218, 5, 0, 6357219, 3, 0, 10027105, 1, 0, 10027118, 1, 0, 10092645, 0, 0, 10092648, 0, 0, 10289276, 3, 0, 10289277, 5, 0, 10682471, 6, 0, 11468881, 8, 0 )
+tile_data = PoolIntArray( 4718766, 5, 0, 4718767, 5, 0, 4718768, 5, 0, 4718769, 5, 0, 6357116, 3, 0, 6357117, 5, 0, 6357218, 5, 0, 6357219, 3, 0, 10027105, 1, 0, 10027118, 1, 0, 10092645, 0, 0, 10092648, 0, 0, 10289276, 3, 0, 10289277, 5, 0, 10289378, 5, 0, 10289379, 3, 0, 10682471, 6, 0, 11468881, 8, 0 )
 
 [node name="enemy_map" type="TileMap" parent="graphic/spawn_tiles"]
 tile_set = ExtResource( 15 )
@@ -616,6 +620,9 @@ __meta__ = {
 
 [node name="death" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 21 )
+
+[node name="boss_death" type="AudioStreamPlayer" parent="audio/se"]
+stream = ExtResource( 77 )
 
 [node name="splash" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 22 )

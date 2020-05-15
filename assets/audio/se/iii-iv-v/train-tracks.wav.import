@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/train-tracks.wav-6410dc71538d23c80df4d66d605e2f47.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/train-tracks.wav"
+dest_files=[ "res://.import/train-tracks.wav-6410dc71538d23c80df4d66d605e2f47.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

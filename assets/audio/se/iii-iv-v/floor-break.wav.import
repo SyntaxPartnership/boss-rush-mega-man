@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/floor-break.wav-5fe28f6550aaf210350f0b5ff2339420.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/floor-break.wav"
+dest_files=[ "res://.import/floor-break.wav-5fe28f6550aaf210350f0b5ff2339420.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/boss-dead.wav-f5eb9341017de122f09c0e91d5265651.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/boss-dead.wav"
+dest_files=[ "res://.import/boss-dead.wav-f5eb9341017de122f09c0e91d5265651.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

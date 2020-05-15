@@ -164,6 +164,8 @@ var cont_rooms = {
 				Vector2(11, 4) : 1,
 				Vector2(7, 6) : 2,
 				Vector2(7, 10) : 3,
+				Vector2(14, 6) : 4,
+				Vector2(14, 10) : 5,
 				}
 
 # warning-ignore:unused_class_variable

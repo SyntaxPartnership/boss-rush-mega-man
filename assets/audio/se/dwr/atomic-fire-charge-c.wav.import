@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/atomic-fire-charge-c.wav-1f7e8a99702eb5e25cbf249ab5c0eddd.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/dwr/atomic-fire-charge-c.wav"
+dest_files=[ "res://.import/atomic-fire-charge-c.wav-1f7e8a99702eb5e25cbf249ab5c0eddd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

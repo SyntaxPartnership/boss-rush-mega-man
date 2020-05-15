@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/big-boom.wav-01ace3fdb384a06dd7384f982ed885ee.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/big-boom.wav"
+dest_files=[ "res://.import/big-boom.wav-01ace3fdb384a06dd7384f982ed885ee.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

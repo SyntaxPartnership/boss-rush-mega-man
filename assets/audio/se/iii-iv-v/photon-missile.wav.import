@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/photon-missile.wav-cc5eb439e0f8e5119ff6fc8889e3df3e.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/photon-missile.wav"
+dest_files=[ "res://.import/photon-missile.wav-cc5eb439e0f8e5119ff6fc8889e3df3e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

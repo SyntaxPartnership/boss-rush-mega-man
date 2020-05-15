@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/pharoah-shot-b.wav-bcc29e8b3fb07e9f11a6e3e4ac4a40e4.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/pharoah-shot-b.wav"
+dest_files=[ "res://.import/pharoah-shot-b.wav-bcc29e8b3fb07e9f11a6e3e4ac4a40e4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

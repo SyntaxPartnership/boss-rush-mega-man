@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/charge-man-toot.wav-0fcd17c3339fe797b02d96d921709309.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/charge-man-toot.wav"
+dest_files=[ "res://.import/charge-man-toot.wav-0fcd17c3339fe797b02d96d921709309.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

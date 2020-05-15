@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/wpn-get-iii.wav-3094bc10d97f5427fb5b9c6df0f1d47e.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/iii-iv-v/wpn-get-iii.wav"
+dest_files=[ "res://.import/wpn-get-iii.wav-3094bc10d97f5427fb5b9c6df0f1d47e.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

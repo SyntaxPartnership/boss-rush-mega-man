@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/shutter.wav-a2aa588991c28aefb6477fb2ff1cf17c.sample"
+
+[deps]
+
+source_file="res://assets/audio/se/dwr/shutter.wav"
+dest_files=[ "res://.import/shutter.wav-a2aa588991c28aefb6477fb2ff1cf17c.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
