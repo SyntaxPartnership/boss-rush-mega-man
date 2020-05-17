@@ -575,6 +575,12 @@ func _rooms():
 		$player/camera.limit_top = og_limits[0] + 64
 		$player/camera.limit_bottom = og_limits[1] + 64
 		cutsc_mode = 2
+	
+	#Remove the cage.
+	var cage = get_tree().get_nodes_in_group('cage')
+	if cage != []:
+		if cage[0].end_state > 9:
+			cage[0].queue_free()
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -1704,8 +1710,11 @@ func _on_wpn_fade_tween_completed(object, _key):
 			$hud/hud.show()
 			global.boss_num = 1
 			end_state = 0
-			play_music('main')
-			$player.cutscene(false)
+			if $graphic/spawn_tiles/cage.bosses < 4:
+				play_music('main')
+				$player.cutscene(false)
+			else:
+				$graphic/spawn_tiles/cage.cage_open = true
 			#Set appropriate cutscene, if any.
 			if int(global.weapon1[0]) + int(global.weapon2[0]) + int(global.weapon3[0]) + int(global.weapon4[0]) == 1 and global.scene == 0:
 				global.scene = 1

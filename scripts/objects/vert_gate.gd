@@ -107,4 +107,16 @@ func on_close_gate():
 		player_anim.stop()
 		$anim.play_backwards("opening")
 
-
+func disable(state):
+	if state:
+		$solid_left/box.set_deferred('disabled', true)
+		$solid_right/box.set_deferred('disabled', true)
+		$act_left/box.set_deferred('disabled', true)
+		$act_right/box.set_deferred('disabled', true)
+		$sprite.hide()
+	else:
+		$solid_left/box.set_deferred('disabled', false)
+		$solid_right/box.set_deferred('disabled', false)
+		$act_left/box.set_deferred('disabled', false)
+		$act_right/box.set_deferred('disabled', false)
+		$sprite.show()

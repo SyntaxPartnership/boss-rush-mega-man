@@ -64,7 +64,9 @@ extents = Vector2( 16, 32 )
 [sub_resource type="RectangleShape2D" id=6]
 extents = Vector2( 2, 32 )
 
-[node name="vert_gate" type="Node2D"]
+[node name="vert_gate" type="Node2D" groups=[
+"vert_gate",
+]]
 script = ExtResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
