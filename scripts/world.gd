@@ -579,8 +579,16 @@ func _rooms():
 	#Remove the cage.
 	var cage = get_tree().get_nodes_in_group('cage')
 	if cage != []:
+		
+		#Make Wily appear when a room is entered.
+		if !$graphic/spawn_tiles/cage/wily.is_visible_in_tree():
+			if boss_rooms.has(str(player_room)):
+				$graphic/spawn_tiles/cage/wily.show()
+		
 		if cage[0].end_state > 9:
 			cage[0].queue_free()
+	
+	
 
 #warning-ignore:unused_argument
 func _process(delta):

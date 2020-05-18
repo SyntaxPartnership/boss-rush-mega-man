@@ -49,7 +49,6 @@ func _process(delta):
 			kidnap = false
 			kdnp_delay = 60
 			leave_delay = 120
-			$wily.show()
 	
 	#Animate Fugue taking Wily.
 	if world.boss_hp <= 0 and !kidnap and world.boss:
@@ -186,11 +185,9 @@ func _process(delta):
 				if f.open:
 					$anim.play("wily-run")
 					end_state = 7
-					print(end_state)
 		
 		7:
 			if $wily.global_position.x > camera.limit_left - 20 and $wily.global_position.x < camera.limit_right + 20:
-				print('Move! Ya old fuck!')
 				if $wily.flip_h:
 					$wily.position.x -= 2
 				else:

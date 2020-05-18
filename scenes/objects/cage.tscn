@@ -140,11 +140,12 @@ texture = ExtResource( 1 )
 
 [node name="door" type="Sprite" parent="."]
 visible = false
-position = Vector2( 0, 34 )
+position = Vector2( 0, 35 )
 texture = ExtResource( 5 )
 vframes = 3
 
 [node name="wily" type="Sprite" parent="."]
+visible = false
 position = Vector2( 1, 10 )
 texture = ExtResource( 2 )
 hframes = 13

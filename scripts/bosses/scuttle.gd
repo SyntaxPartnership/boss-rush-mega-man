@@ -50,6 +50,8 @@ var flash_delay = 0
 var hit = false
 var touch = false
 
+var kicked = false
+
 var damage = 40
 
 var overlap = []
@@ -74,6 +76,9 @@ func _physics_process(delta):
 	
 	$flash_b.frame = $sprite.frame
 	$flash_b.flip_h = $sprite.flip_h
+	
+	if kicked and !player.s_kick:
+		kicked = false
 	
 	if spark:
 		if !$sprk_anim.is_playing():
@@ -586,9 +591,24 @@ func do_damage(body):
 			body.choke = false
 			body.choke_delay = 0
 	
-	if body.name == "player":		
-		if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
-			if player.r_boost:
-				player.r_boost = false
-			global.player_life[int(player.swap)] -= damage
-			player.damage()
+	if body.name == "player":
+		if !player.s_kick:
+			if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
+				if player.r_boost:
+					player.r_boost = false
+				global.player_life[int(player.swap)] -= damage
+				player.damage()
+		else:
+			if !kicked:
+				if flash == 0 and id != 0:
+					world.boss_hp -= 40
+					flash = 20
+					if world.boss_hp > 0:
+						world.sound("hit")
+					if !add_count:
+						world.hit_num += 1
+						add_count = true
+					hit = true
+				else:
+					world.sound('dink')
+				kicked = true

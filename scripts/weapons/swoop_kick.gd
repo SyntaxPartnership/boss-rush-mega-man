@@ -7,7 +7,7 @@ var id = 3
 var property = 4
 
 func _ready():
-	
+	world.shot_num += 1
 	world.sound("s_kick")
 	
 	if !player.is_on_floor() and !player.wall:
