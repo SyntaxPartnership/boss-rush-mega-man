@@ -17,6 +17,7 @@ var state = 0
 var fire = false
 var elec_st = 0
 var sic_em = 0
+var drop = false
 
 var velocity = Vector2()
 
@@ -32,6 +33,10 @@ func _ready():
 	
 	if type == 1:
 		time = round(rand_range(10, 60))
+	
+	if drop:
+		$anim_a.play("idle-"+str(type - 1))
+		$sprite.show()
 
 func _physics_process(delta):
 	
@@ -43,16 +48,24 @@ func _physics_process(delta):
 		sic_em = floor(global_position.y - player.global_position.y)
 		
 		if !fire:
-			if type != 1:
-				velocity.x = dir * SPEED
-			else:
-				if sic_em != 3:
+			if is_on_floor():
+				
+				if dir == 0:
+					if player.global_position.x < global_position.x:
+						dir = -1
+					else:
+						dir = 1
+				
+				if type != 1:
 					velocity.x = dir * SPEED
 				else:
-					velocity.x = dir * (SPEED * 3)
+					if sic_em != 3:
+						velocity.x = dir * SPEED
+					else:
+						velocity.x = dir * (SPEED * 3)
 		else:
 			velocity.x = 0
-		velocity.y == 900 * delta
+		velocity.y += 900 * delta
 		
 		velocity = move_and_slide(velocity, Vector2(0, -1))
 		

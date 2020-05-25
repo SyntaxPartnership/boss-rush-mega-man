@@ -29,6 +29,8 @@ var spark = false
 var spk_delay = 0
 var spit_spk = 0
 var desp_bounce = 0
+var air_toss = false
+var gaby_air = false
 
 var velocity = Vector2()
 var left_bar = 0
@@ -203,12 +205,17 @@ func _physics_process(delta):
 					state += 1
 			3:
 				if velocity.y > 0:
-					$anim.play("fall")
+					world.sound('throw')
+					if !air_toss:
+						$anim.play("air-toss")
+						air_toss = true
 					state += 1
 			4:
 				if is_on_floor():
 					velocity.x = 0
 					$anim.play("land")
+					air_toss = false
+					gaby_air = false
 					state += 1
 			6:
 				if act_delay == 0:
@@ -447,6 +454,21 @@ func _physics_process(delta):
 	if overlap != []:
 		for body in overlap:
 			do_damage(body)
+	
+	if $sprite.frame == 27:
+		if !gaby_air:
+			var gaby = load("res://scenes/bosses/gabyaoll.tscn").instance()
+			gaby.position.y = global_position.y + -6
+			if !$sprite.flip_h:
+				gaby.position.x = global_position.x + 15
+			else:
+				gaby.position.x = global_position.x + -15
+			gaby.move = true
+			gaby.type = 1
+			gaby.drop = true
+			gaby.velocity.y = -100
+			world.get_child(3).add_child(gaby)
+			gaby_air = true
 		
 
 func play_anim(anim):
@@ -523,6 +545,9 @@ func _on_anim_finished(anim_name):
 						$sprite.flip_h = true
 						desp_dir = -1
 					$anim.play("spin")
+		
+		"air-toss":
+			$anim.play("fall")
 
 func do_damage(body):
 	var add_count = false
