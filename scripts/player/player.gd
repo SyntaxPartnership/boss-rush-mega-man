@@ -102,6 +102,8 @@ var stun = -1
 var stun_bnce = 0
 var slap = false
 var slap_vel = Vector2()
+var reflect = false #Only needed for damage calculations
+
 # warning-ignore:unused_class_variable
 var snap = Vector2()
 var max_en = 0
@@ -219,6 +221,9 @@ var wpn_data = {
 	'1-3-0-31' : [global.weapon3, 1, 2, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 4],
 	'2-3-0-31' : [global.weapon3, 1, 2, 0, 20, THROW, '', load('res://scenes/player/weapons/scuttle_puck.tscn'), 0, 4],
 #	#Master Weapon 4
+	'0-4-0-31' : [global.weapon4, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/attack_shield.tscn'), 0, 4],
+	'1-4-0-31' : [global.weapon4, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/attack_shield.tscn'), 0, 4],
+	'2-4-0-31' : [global.weapon4, 1, 1, 0, 20, THROW, '', load('res://scenes/player/weapons/attack_shield.tscn'), 0, 4],
 	}
 
 #Player States
@@ -857,6 +862,35 @@ func weapons():
 	c_flash = 0
 	world.kill_se("charge")
 	world.palette_swap()
+
+func shoot():
+	#Set variable
+	var min_max = [0, 0]
+	
+	#Set charge level
+	if charge in range(0, 31):
+		min_max = [0, 31]
+	elif charge in range(32, 95):
+		min_max = [32, 95]
+	else:
+		min_max = [96, 99]
+	
+	#Execute weapon spawn
+	spawn_wpn(global.player, global.player_weap[int(swap)], min_max[0], min_max[1])
+	
+	#Kill charge if necessary.
+#	chrg_lvl = 0
+#	c_flash = 0
+#	world.kill_se("charge")
+#	world.palette_swap()
+
+func spawn_wpn(plyr, wpn, chrg_min, chrg_max):
+	
+	#Set variable.
+	var data = str(plyr)+'-'+str(wpn)+'-'+str(chrg_min)+'-'+str(chrg_max)
+	
+	if wpn_data.has(data):
+		print('Shoot: '+str(wpn_data.get(data)[7].name))
 
 func _on_anim_finished(anim_name):
 	if anim_name == 'appear1' or anim_name == 'appear2':

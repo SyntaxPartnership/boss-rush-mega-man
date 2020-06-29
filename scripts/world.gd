@@ -150,7 +150,7 @@ var room_data = {
 				"(13, 10)" : [0, 0, 0, 0, 1, 1, 3], #Defend Boss Room
 				}
 
-var hub_rooms = [Vector2(7, 6), Vector2(7, 10)]
+var hub_rooms = []#Vector2(7, 6), Vector2(7, 10)
 
 var boss_rooms = {
 				"(8, 6)" : "",
@@ -173,12 +173,12 @@ var got_items = {
 				}
 
 var wpn_dmg = {
-				0 : [0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
-				1 : [10, 20, 30, 20, 40, 40, 10],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 30, 10, 40, 10, 0],	#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10],	#Scuttle Woman
-				5 : [10, 20, 30, 10, 10, 40, 20],	#Defend Woman
+				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
+				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0],	#Swoop Woman
+				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40],	#Roto Man
+				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0],	#Scuttle Woman
+				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0],	#Defend Woman
 				}
 				
 var damage = 0
@@ -188,7 +188,7 @@ var wpn_get_anim = [0, 1, 2, 3]
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
 
-var tele_timer = 60
+var tele_timer = -1
 var tele_dest
 
 #Special effects
@@ -587,8 +587,114 @@ func _rooms():
 		
 		if cage[0].end_state > 9:
 			cage[0].queue_free()
-	
-	
+
+
+func calc_damage(to, from):
+	#Check if the player is receiving the damage or not.
+	if to.is_in_group("player"):
+		#If true, then check to see if the player CAN be damaged.
+		if to.hurt_timer == 0 and to.blink_timer == 0 and !to.hurt_swap:
+			global.player_life[int($player.swap)] -= from.damage
+			to.damage()
+	elif from.is_in_group("player") or from.is_in_group("weapons") or from.is_in_group("adaptor_dmg"):
+		#The player is only checked due to Roto Boost or Swoop Kick being active.
+		if to.is_in_group("enemies"):
+			pass
+		elif to.is_in_group("boss"):
+			var add_count = false
+			var get_id = 0
+			if from.is_in_group("player"):
+				#If the damage is being received from the player, set damage IDs based on the attack that struck.
+				if from.s_kick:
+					get_id = 3
+				elif from.r_boost:
+					get_id = 7
+				enemy_dmg(to.id, get_id)
+			else:
+				#Everything else has their own IDs
+				get_id = from.id
+				enemy_dmg(to.id, from.id)
+			if damage != 0 and !from.reflect:
+				if from.is_in_group("weapons") or from.is_in_group("adaptor_dmg"):
+					match from.property:
+						0:
+							from._on_screen_exited()
+						2:
+							if damage < boss_hp:
+								from._on_screen_exited()
+						3:
+							if damage < boss_hp:
+								if to.flash == 0:
+									from.choke_check()
+									from.choke_max = to.CHOKE
+									from.choke_delay = 6
+								from.velocity = Vector2(0, 0)
+						99: #Spring Puck behaves differently based on who it strikes.
+							if to.name == "swoop" or to.name == "roto":
+								from._on_screen_exited()
+						
+				if to.flash == 0:
+					boss_hp -= damage
+				if !add_count:
+					hit_num += 1
+					add_count = true
+				to.flash = 20
+				to.hit = true
+				if boss_hp > 0:
+					sound("hit")
+				else:
+					if from.name != "player":
+						if from.property == 3:
+							if !from.ret:
+								from.ret()
+			else:
+				if from.name != "player":
+					if from.property != 3:
+						from.reflect = true
+					else:
+						if !from.ret:
+							from.ret()
+			
+			#Add additional behaviors based on damage IDs
+			match get_id:
+				3:
+					if to.name == "swoop":
+						if to.state == 1:
+							to.velocity.x = to.velocity.x * 0.5
+							to.velocity.y = 20
+							to.get_child(0).show()
+							to.get_child(6).play("idle")
+							to.get_child(7).play("flap")
+							to.dives = 0
+							to.state = 8
+				7:
+					if from.name == "player":
+						var dist = from.global_position.x - to.global_position.x
+						if to.name != "scuttle":
+							if dist <= 12 and dist >= -12 and from.global_position.y < to.global_position.y - 12 and from.velocity.y >= 0:
+								from.velocity.y = (from.JUMP_SPEED) / from.jump_mod
+						else:
+							calc_damage(from, to)
+		
+		#Mega Arm choke function.
+		if from.is_in_group("weapons") and from.property == 3 and from.choke:
+			from.global_position = to.global_position
+			if to.flash == 0 and from.choke_delay == 0:
+				if from.choke_max > 0:
+					boss_hp -= 10
+					from.choke_max -= 1
+					from.choke_delay = 6
+					to.flash = 20
+					to.hit = true
+					sound("hit")
+					#Make the Mega Arm return to the player if boss dies.
+					if boss_hp <= 0:
+						from.choke = false
+						from.choke_delay = 0
+			elif from.choke_max == 0 or to.id == 0:
+				from.choke = false
+				from.choke_delay = 0
+
 
 #warning-ignore:unused_argument
 func _process(delta):
@@ -845,8 +951,8 @@ func _process(delta):
 		$player.can_move = false
 		get_tree().paused = false
 			
-	if dead and dead_delay < 0 and restart > -1:
-		restart -= 1
+#	if dead and dead_delay < 0 and restart > -1:
+#		restart -= 1
 	
 	if dead and dead_delay < 0 and restart == 0:
 		if !$fade/fade.end:

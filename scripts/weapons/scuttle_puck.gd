@@ -96,4 +96,4 @@ func boing():
 	world.sound("boing")
 
 func _on_screen_exited():
-	pass
+	_on_boing_finished(null)

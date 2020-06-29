@@ -2,6 +2,7 @@ extends KinematicBody2D
 
 onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
+onready var camera = player.get_child(9)
 
 var start = 0
 var state = 0
@@ -67,6 +68,15 @@ func _physics_process(delta):
 			velocity.x = 20 * spd_mod
 		6:
 			velocity.x = 60 * spd_mod
+		7:
+			velocity.x = 0
+			velocity.y = -400
+			
+			if global_position.y < camera.limit_top + 16:
+				var boom = load("res://scenes/effects/s_explode.tscn").instance()
+				boom.global_position = global_position
+				world.get_child(3).add_child(boom)
+				queue_free()
 	
 	if touch and player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
 		global.player_life[int(player.swap)] -= damage
@@ -74,7 +84,7 @@ func _physics_process(delta):
 	
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 
-	if state > 2:
+	if state > 2 and state < 7:
 		velocity.y += 900 * delta
 		
 		if global_position.y > start_pos.y + 16:
@@ -99,21 +109,27 @@ func _on_anim_finished(anim_name):
 func _on_hitbox_body_entered(body):
 	if state < 3:
 		if body.is_in_group("weapons"):
-			if !body.reflect:
-				if body.property == 0:
-					body.queue_free()
-				elif body.property == 3:
-					if body.level == 0:
-						body.dist = 1
-				world.sound("hit")
-				var boom = load("res://scenes/effects/s_explode.tscn").instance()
-				boom.global_position = global_position
-				world.get_child(3).add_child(boom)
-				queue_free()
+			if body.id != 5:
+				if !body.reflect:
+					if body.property == 0:
+						body.queue_free()
+					elif body.property == 3:
+						if body.level == 0:
+							body.dist = 1
+					world.sound("hit")
+					var boom = load("res://scenes/effects/s_explode.tscn").instance()
+					boom.global_position = global_position
+					world.get_child(3).add_child(boom)
+					queue_free()
+			else:
+				state = 7
+				$anim.stop()
+				body.boing()
+			
 	
 	if body.name =="player":
 		
-		if player.r_boost:
+		if player.r_boost or player.s_kick:
 			world.sound("hit")
 			var boom = load("res://scenes/effects/s_explode.tscn").instance()
 			boom.global_position = global_position
@@ -121,16 +137,23 @@ func _on_hitbox_body_entered(body):
 			queue_free()
 		
 		if state < 3:
-			if !player.r_boost:
+			if !player.r_boost and !player.s_kick:
 				touch = true
 			velocity.x = -velocity.x
 			velocity.y = -velocity.y
 			state = 2
 			hp -= 1
 		else:
-			if !player.r_boost:
+			if !player.r_boost and !player.s_kick:
 				touch = true
 
 func _on_hitbox_body_exited(body):
 	if body.name =="player":
 		touch = false
+
+func boom():
+	world.sound("hit")
+	var boom = load("res://scenes/effects/s_explode.tscn").instance()
+	boom.global_position = global_position
+	world.get_child(3).add_child(boom)
+	queue_free()

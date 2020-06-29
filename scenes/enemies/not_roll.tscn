@@ -100,7 +100,6 @@ rotation_duration = 1.5
 position = Vector2( 0, -3 )
 texture = ExtResource( 2 )
 hframes = 8
-frame = 7
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/boing = SubResource( 1 )

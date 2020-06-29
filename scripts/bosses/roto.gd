@@ -260,64 +260,72 @@ func _physics_process(delta):
 	overlap = $hit_box.get_overlapping_bodies()
 	if overlap != []:
 		for body in overlap:
-			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
-				if flash == 0:
-					world.enemy_dmg(id, body.id)
-					if world.damage != 0 and !body.reflect:
-						var add_count = false
-						#Weapon behaviors.
-						match body.property:
-							0:
-								body._on_screen_exited()
-							2:
-								if world.damage < world.boss_hp:
-									body._on_screen_exited()
-							3:
-								if world.damage < world.boss_hp:
-									body.choke_check()
-									body.choke_max = CHOKE
-									body.choke_delay = 6
-									body.velocity = Vector2(0, 0)
-						world.boss_hp -= world.damage
-						flash = 20
-						hit = true
-						if !add_count:
-							world.hit_num += 1
-						if world.boss_hp > 0:
-							world.sound("hit")
-						else:
-							if body.property == 3:
-								if !body.ret:
-									body.ret()
-					else:
-						if body.property != 3:
-							body.reflect = true
-						else:
-							if !body.ret:
-								body.ret()
-			
-			if body.name == "mega_arm" and body.choke:
-				body.global_position = global_position
-				if flash == 0 and body.choke_delay == 0:
-					if body.choke_max > 0:
-						world.boss_hp -= 10
-						body.choke_max -= 1
-						body.choke_delay = 6
-						flash = 20
-						hit = true
-						world.sound("hit")
-						#Make the Mega Arm return to the player if boss dies.
-						if world.boss_hp <= 0:
-							body.choke = false
-							body.choke_delay = 0
-				elif body.choke_max == 0 or id == 0:
-					body.choke = false
-					body.choke_delay = 0
-			
-			if body.name == "player":
-				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-					global.player_life[int(player.swap)] -= damage
-					player.damage()
+			if body.is_in_group("player"):
+				if !player.r_boost and !player.s_kick:
+					world.calc_damage(body, self)
+				else:
+					world.calc_damage(self, body)
+			if body.is_in_group("weapons"):
+				world.calc_damage(self, body)
+#		for body in overlap:
+#			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
+#				if flash == 0:
+#					world.enemy_dmg(id, body.id)
+#					if world.damage != 0 and !body.reflect:
+#						var add_count = false
+#						#Weapon behaviors.
+#						match body.property:
+#							0:
+#								body._on_screen_exited()
+#							2:
+#								if world.damage < world.boss_hp:
+#									body._on_screen_exited()
+#							3:
+#								if world.damage < world.boss_hp:
+#									body.choke_check()
+#									body.choke_max = CHOKE
+#									body.choke_delay = 6
+#									body.velocity = Vector2(0, 0)
+#						world.boss_hp -= world.damage
+#						flash = 20
+#						hit = true
+#						if !add_count:
+#							world.hit_num += 1
+#						if world.boss_hp > 0:
+#							world.sound("hit")
+#						else:
+#							if body.property == 3:
+#								if !body.ret:
+#									body.ret()
+#					else:
+#						if body.property != 3:
+#							body.reflect = true
+#						else:
+#							if !body.ret:
+#								body.ret()
+#
+#			if body.name == "mega_arm" and body.choke:
+#				body.global_position = global_position
+#				if flash == 0 and body.choke_delay == 0:
+#					if body.choke_max > 0:
+#						world.boss_hp -= 10
+#						body.choke_max -= 1
+#						body.choke_delay = 6
+#						flash = 20
+#						hit = true
+#						world.sound("hit")
+#						#Make the Mega Arm return to the player if boss dies.
+#						if world.boss_hp <= 0:
+#							body.choke = false
+#							body.choke_delay = 0
+#				elif body.choke_max == 0 or id == 0:
+#					body.choke = false
+#					body.choke_delay = 0
+#
+#			if body.name == "player":
+#				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+#					global.player_life[int(player.swap)] -= damage
+#					player.damage()
 	
 	if $anim.get_current_animation() == "drop1" and $sprite.get_frame() == 18 and !toss:
 		if bomb_drop == bomb_max:
