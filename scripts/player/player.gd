@@ -103,6 +103,8 @@ var stun_bnce = 0
 var slap = false
 var slap_vel = Vector2()
 var reflect = false #Only needed for damage calculations
+#This is only for getting smacked against a wall
+var damage = 40
 
 # warning-ignore:unused_class_variable
 var snap = Vector2()
@@ -534,7 +536,7 @@ func _physics_process(delta):
 					$sprite.flip_h = false
 				else:
 					$sprite.flip_h = true
-				damage()
+				world.calc_damage(self, self)
 				world.shake = 8
 				slap_vel = Vector2.ZERO
 				stun_bnce = 0

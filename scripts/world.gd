@@ -58,6 +58,7 @@ var boss_dead = false
 var end_delay = 360
 var end_stage = true
 var end_state = 0
+var end_style = 0
 var leave_delay = 120
 
 var wpn_txt_delay = 6
@@ -150,7 +151,14 @@ var room_data = {
 				"(13, 10)" : [0, 0, 0, 0, 1, 1, 3], #Defend Boss Room
 				}
 
-var hub_rooms = []#Vector2(7, 6), Vector2(7, 10)
+var hub_rooms = [
+				Vector2(10, 4),
+				Vector2(11, 4),
+				Vector2(7, 6),
+				Vector2(7, 10),
+				Vector2(14, 6),
+				Vector2(14, 10)
+				]
 
 var boss_rooms = {
 				"(8, 6)" : "",
@@ -201,10 +209,13 @@ var hit_num = 0.0
 var hits = 0
 var start_time = 0
 var time = 0
+var show_time = false
+var go_time = false
 var deaths = false
 var tanks = false
 var max_bolts = 0
 var accuracy = 0.0
+var after_boss = false
 
 func _ready():
 	
@@ -326,6 +337,8 @@ func _input(event):
 			for a in get_tree().get_nodes_in_group('adaptors'):
 				a.hide()
 			$hud/hud.hide()
+			if $hud/boss_timer.is_visible_in_tree():
+				$hud/boss_timer.hide()
 			$player.can_move = false
 			get_tree().paused = true
 	
@@ -348,6 +361,13 @@ func _camera():
 	center = Vector2(floor(center.x), floor(center.y))
 	
 	#FOR FUTURE REFERENCE: The cam_allow stores values for up, down, left, right in that order in the array.
+	
+	if $hud/boss_timer.is_visible_in_tree() and scroll:
+		if after_boss:
+			reset_bolt_calc(true)
+			after_boss = false
+		$hud/boss_timer.hide()
+		$hud/boss_timer.init()
 	
 	#Scroll up (Edge of screen)
 	if pos.y < $player/camera.limit_top and cam_allow[0] == 1 and !scroll:
@@ -455,10 +475,10 @@ func _rooms():
 	print("In Room: ",player_room)
 	
 	#This function also houses the counter for Endless Mode.
-	if endless:
-		if !endless_rms.has(player_room):
-			endless_rms.insert(endless_rms.size(), player_room)
-			screens += 1
+#	if endless:
+#		if !endless_rms.has(player_room):
+#			endless_rms.insert(endless_rms.size(), player_room)
+#			screens += 1
 	
 	#Add function here to clear endless_rms to prevent lag. (Example: When the player reaches a teleporter, clear endless_rms)
 	
@@ -491,19 +511,46 @@ func _rooms():
 	
 	#Prevent the player from re-entering a boss room until they've visted the main hub.
 	if hub_rooms.has(player_room):
-		match which_wpn:
-			0:
-				if global.weapon1[0] and !global.boss1_clear:
-					cam_allow[3] = 0
-			1:
-				if global.weapon2[0] and !global.boss2_clear:
-					cam_allow[3] = 0
-			2:
-				if global.weapon3[0] and !global.boss3_clear:
-					cam_allow[2] = 0
-			3:
-				if global.weapon3[0] and !global.boss3_clear:
-					cam_allow[2] = 0
+		
+		var room_chk = player_room
+		
+		if room_chk != Vector2(10, 4) and room_chk != Vector2(11, 4):
+			match which_wpn:
+				0:
+					if !global.weapon1[0] and !global.boss1_clear:
+						end_style = 0
+					elif global.weapon1[0] and !global.boss1_clear:
+						cam_allow[3] = 0
+					elif global.weapon1[0] and global.boss1_clear:
+						end_style = 1
+				1:
+					if !global.weapon2[0] and !global.boss2_clear:
+						end_style = 0
+					elif global.weapon2[0] and !global.boss2_clear:
+						cam_allow[3] = 0
+					elif global.weapon2[0] and global.boss2_clear:
+						end_style = 1
+				2:
+					if !global.weapon3[0] and !global.boss3_clear:
+						end_style = 0
+					elif global.weapon3[0] and !global.boss3_clear:
+						cam_allow[2] = 0
+					elif global.weapon3[0] and global.boss3_clear:
+						end_style = 1
+				3:
+					if !global.weapon4[0] and !global.boss4_clear:
+						end_style = 0
+					elif global.weapon4[0] and !global.boss4_clear:
+						cam_allow[2] = 0
+					elif global.weapon4[0] and global.boss4_clear:
+						end_style = 1
+		else:
+			#Check to see if the bosses have been defeated.
+			if global.weapon1[0] and global.weapon2[0] and global.weapon3[0] and global.weapon4[0]:
+				global.boss1_clear = true
+				global.boss2_clear = true
+				global.boss3_clear = true
+				global.boss4_clear = true
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
@@ -703,11 +750,41 @@ func _process(delta):
 	
 	#Calculate time during a boss fight.
 	if boss:
-		if start_time == 0:
-			start_time = OS.get_ticks_msec()
 		
-		if start_time != 0 and !get_tree().paused and boss_hp > 0:
-			time = OS.get_ticks_msec() - start_time
+		match which_wpn:
+			0:
+				if global.boss1_clear:
+					show_time = true
+			1:
+				if global.boss2_clear:
+					show_time = true
+			2:
+				if global.boss3_clear:
+					show_time = true
+			3:
+				if global.boss4_clear:
+					show_time = true
+		
+		if !$hud/boss_timer.is_visible_in_tree() and show_time and !get_tree().paused:
+			$hud/boss_timer/text.set_text('00:00:000')
+			$hud/boss_timer.show()
+		
+		if go_time:
+			if start_time == 0:
+				start_time = OS.get_ticks_msec()
+			
+			if start_time != 0 and !get_tree().paused and boss_hp > 0:
+				time = OS.get_ticks_msec() - start_time
+				if time > 5999999:
+					time = 5999999
+				
+			var mins = int(time / 60 / 1000)
+			var secs = int(time / 1000) % 60
+			var msecs = int(time) % 1000
+			
+			var b_time = ("%02d" % mins) + (":%02d" % secs) + (":%03d" % msecs)
+			$hud/boss_timer/text.set_text(b_time)
+				
 		
 	#Print Shit
 	
@@ -855,6 +932,19 @@ func _process(delta):
 		fill_b_meter = false
 		for b in get_tree().get_nodes_in_group("boss"):
 			b.intro = false
+			match which_wpn:
+				0:
+					if global.boss1_clear:
+						go_time = true
+				1:
+					if global.boss2_clear:
+						go_time = true
+				2:
+					if global.boss3_clear:
+						go_time = true
+				3:
+					if global.boss4_clear:
+						go_time = true
 			b.fill_bar = false
 			match which_wpn:
 				0:
@@ -951,8 +1041,8 @@ func _process(delta):
 		$player.can_move = false
 		get_tree().paused = false
 			
-#	if dead and dead_delay < 0 and restart > -1:
-#		restart -= 1
+	if dead and dead_delay < 0 and restart > -1:
+		restart -= 1
 	
 	if dead and dead_delay < 0 and restart == 0:
 		if !$fade/fade.end:
@@ -992,12 +1082,12 @@ func _process(delta):
 					$graphic/stage_overlap/arrow.global_position = Vector2(2976, 1128)
 					show_boss = 3
 				13:
-					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
+					$graphic/stage_overlap/arrow.global_position = Vector2(3792, 1528)
 				14:
 					$graphic/stage_overlap/arrow.global_position = Vector2(3024, 1128)
 					show_boss = 4
 				15:
-					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
+					$graphic/stage_overlap/arrow.global_position = Vector2(3792, 2488)
 	else:
 		if $graphic/stage_overlap/arrow.global_position != Vector2(2500, 1100):
 			 $graphic/stage_overlap/arrow.global_position = Vector2(2500, 1100)
@@ -1044,10 +1134,35 @@ func _process(delta):
 	
 	if end_delay == 0:
 		if end_state == 0:
-			$hud/hud.hide()
-			$audio/music/clear.play()
-			$player.cutscene(true)
-			boss = false
+			match end_style:
+				0:
+					$hud/hud.hide()
+					$audio/music/clear.play()
+					$player.cutscene(true)
+					boss = false
+				1:
+					play_music('main')
+					boss = false
+					$pause/pause_menu.hide_icons()
+					cam_allow[2] = 1
+					cam_allow[3] = 1
+					end_delay = 360
+					boss_dead = false
+					boss = false
+					max_bolts = 0
+					ready_boss = false
+					boss_delay = 60
+					fill_b_meter = false
+					elec_wall = false
+					wall_delay = 60
+					d_appear = false
+					show_time = false
+					go_time = false
+					d_delay = 60
+					boss_hp = 280
+					heal_delay = 0
+					drop_back = 180
+					global.boss_num = 1
 			
 	if end_state == 1:
 		if wpn_get_anim.has(global.level_id):
@@ -1824,7 +1939,7 @@ func _on_wpn_fade_tween_completed(object, _key):
 			$hud/hud.show()
 			global.boss_num = 1
 			end_state = 0
-			if $graphic/spawn_tiles/cage.bosses < 4:
+			if $graphic/spawn_tiles/cage.bosses < 3:
 				play_music('main')
 				$player.cutscene(false)
 			else:
@@ -1839,6 +1954,39 @@ func bolt_calc():
 	
 	#Calculate accuracy for later.
 	accuracy = (hit_num / shot_num) * 100
+	
+	match which_wpn:
+		0:
+			if time < global.b1_time and global.boss1_clear:
+				$hud/boss_timer.best_flash = true
+				global.b1_time = time
+		1:
+			if time < global.b2_time and global.boss2_clear:
+				$hud/boss_timer.best_flash = true
+				global.b2_time = time
+		2:
+			if time < global.b3_time and global.boss3_clear:
+				$hud/boss_timer.best_flash = true
+				global.b3_time = time
+		3:
+			if time < global.b4_time and global.boss4_clear:
+				$hud/boss_timer.best_flash = true
+				global.b4_time = time
+	
+	$hud/boss_timer.show_badge = true
+	after_boss = true
+	
+	#Choose Badge
+	if hits > 0 and hits < 2:
+		$hud/boss_timer.set_badge += 1
+	else:
+		$hud/boss_timer.set_badge += 2
+	
+	if accuracy < 50:
+		$hud/boss_timer.set_badge += 1
+	
+	if time > 30000:
+		$hud/boss_timer.set_badge += 1
 	
 	#Set value for time.
 	var total_time = time

@@ -59,20 +59,20 @@ func _process(delta):
 		
 		if kdnp_delay == 0:
 			#Check to see how many bosses are remaining.
-			bosses = int(global.boss1_clear) + int(global.boss2_clear) + int(global.boss3_clear) + int(global.boss4_clear)
-			if bosses < 4:
+			bosses = int(global.weapon1[0]) + int(global.weapon2[0]) + int(global.weapon3[0]) + int(global.weapon4[0])
+			if bosses < 3:
 				$fugue.show()
 				$anim.play("teleport")
 	
 	if $anim.get_current_animation() == "hover":
 		leave_delay -= 1
 	
-	if leave_delay == 0 and bosses != 4:
+	if leave_delay == 0 and bosses < 3:
 		$wily.hide()
 		$anim.play_backwards("teleport")
 	
 	#Animate Wily escaping.
-	if bosses == 4 and player.cutscene and player.is_on_floor() and cage_open:
+	if bosses >= 3 and player.cutscene and player.is_on_floor() and cage_open:
 		
 		if player.anim_st != player.LOOKUP and end_state == 0:
 			player.anim_state(player.LOOKUP)

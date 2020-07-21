@@ -65,12 +65,26 @@ var perma_items = {
 	}
 
 #Stage Cleared Flags
-var boss1_clear = false
-var boss2_clear = false
-var boss3_clear = false
-var boss4_clear = false
+var boss1_clear = true
+var boss2_clear = true
+var boss3_clear = true
+var boss4_clear = true
+var boss5_clear = false
 var wily1_clear = false
 var wily2_clear = false
+var fugue_clear = false
+var toccata_clear = false
+
+#Boss Attack Times
+var b1_time = 5999999
+var b2_time = 5999999
+var b3_time = 5999999
+var b4_time = 5999999
+var b5_time = 5999999
+var w1_time = 5999999
+var w2_time = 5999999
+var fg_time = 5999999
+var tc_time = 5999999
 
 #Strider's location and health
 var location = 0

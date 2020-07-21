@@ -360,7 +360,6 @@ func _physics_process(delta):
 	if world.boss_hp <= 0:
 		world.kill_music()
 		world.sound("death")
-		global.boss2_clear = true
 		world.bolt_calc()
 		
 		for i in get_tree().get_nodes_in_group("bomb"):
