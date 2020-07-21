@@ -60,6 +60,8 @@ var overlap = []
 
 func _ready():
 	
+	world.reset_bolt_calc(false)
+	
 	$anim.play("spin")
 	
 	left_bar = camera.limit_left + 44

@@ -86,6 +86,8 @@ var shld_data = {
 }
 
 func _ready():
+	world.reset_bolt_calc(false)
+	
 	$anim.play("fade_in")
 	
 	$sprite.flip_h = true
