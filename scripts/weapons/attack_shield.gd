@@ -4,6 +4,12 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var camera = player.get_child(9)
 
+var property = null
+
+var id = 6
+
+var reflect = false
+
 var active = false
 var dist = 0
 var pos = 0
@@ -55,13 +61,6 @@ func _input(event):
 
 func _physics_process(delta):
 	
-	bat_check = $shield.get_overlapping_areas()
-	
-	if bat_check != []:
-		for bat in bat_check:
-			if bat.name == "bat_hitbox":
-				bat.get_parent().boom()
-	
 	$sprite.frame = pos
 	
 	if dist < 5:
@@ -79,42 +78,42 @@ func _physics_process(delta):
 	if active:
 		match pos:
 			0:
-				if $shield/box_right.disabled:
-					$shield/box_left.set_deferred('disabled', true)
-					$shield/box_right.set_deferred('disabled', false)
-					$shield/box_top.set_deferred('disabled', true)
+				if $box_right.disabled:
+					$box_left.set_deferred('disabled', true)
+					$box_right.set_deferred('disabled', false)
+					$box_top.set_deferred('disabled', true)
 				
 				position.x = player.position.x + dist
 				position.y = player.position.y
 			1:
-				if $shield/box_left.disabled or $shield/box_right.disabled or $shield/box_top.disabled:
-					$shield/box_left.set_deferred('disabled', true)
-					$shield/box_right.set_deferred('disabled', true)
-					$shield/box_top.set_deferred('disabled', true)
+				if $box_left.disabled or $box_right.disabled or $box_top.disabled:
+					$box_left.set_deferred('disabled', true)
+					$box_right.set_deferred('disabled', true)
+					$box_top.set_deferred('disabled', true)
 				
 				position.x = player.position.x + (dist * 0.75)
 				position.y = player.position.y - (dist * 0.75)
 			2:
-				if $shield/box_top.disabled:
-					$shield/box_left.set_deferred('disabled', true)
-					$shield/box_right.set_deferred('disabled', true)
-					$shield/box_top.set_deferred('disabled', false)
+				if $box_top.disabled:
+					$box_left.set_deferred('disabled', true)
+					$box_right.set_deferred('disabled', true)
+					$box_top.set_deferred('disabled', false)
 					
 				position.x = player.position.x
 				position.y = player.position.y - dist
 			3:
-				if $shield/box_left.disabled or $shield/box_right.disabled or $shield/box_top.disabled:
-					$shield/box_left.set_deferred('disabled', true)
-					$shield/box_right.set_deferred('disabled', true)
-					$shield/box_top.set_deferred('disabled', true)
+				if $box_left.disabled or $box_right.disabled or $box_top.disabled:
+					$box_left.set_deferred('disabled', true)
+					$box_right.set_deferred('disabled', true)
+					$box_top.set_deferred('disabled', true)
 					
 				position.x = player.position.x - (dist * 0.75)
 				position.y = player.position.y - (dist * 0.75)
 			4:
-				if $shield/box_left.disabled:
-					$shield/box_left.set_deferred('disabled', false)
-					$shield/box_right.set_deferred('disabled', true)
-					$shield/box_top.set_deferred('disabled', true)
+				if $box_left.disabled:
+					$box_left.set_deferred('disabled', false)
+					$box_right.set_deferred('disabled', true)
+					$box_top.set_deferred('disabled', true)
 					
 				position.x = player.position.x - dist
 				position.y = player.position.y

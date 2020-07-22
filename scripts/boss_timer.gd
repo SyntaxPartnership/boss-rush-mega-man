@@ -64,7 +64,13 @@ func _process(delta):
 			
 			badge_frame = set_badge
 		
-		$badge.frame = badge_frame
+		if self.is_visible_in_tree():
+			$badge.frame = badge_frame
+		else:
+			if best_flash or show_badge:
+				$badge.hide()
+				init()
+			
 
 func init():
 	best_flash = false

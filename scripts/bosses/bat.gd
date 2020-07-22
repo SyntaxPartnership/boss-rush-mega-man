@@ -107,6 +107,7 @@ func _on_anim_finished(anim_name):
 		state = 1
 
 func _on_hitbox_body_entered(body):
+	print(body.name)
 	if state < 3:
 		if body.is_in_group("weapons"):
 			if body.id != 5:

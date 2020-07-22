@@ -180,13 +180,24 @@ var cont_rooms = {
 var got_items = {
 				}
 
+#Weapon ID Refence (Because I'm fucking retarded and forgot to write them down.)
+#0: Normal Shot
+#1: Level 1 Mega Arm
+#2: Level 2 Mega Arm
+#3: Swoop Kick
+#4: Roto Boost
+#5: Spring Puck
+#6: Attack Shield
+#7: Spinning Mega Man (Roto Boost)
+#8: Ricocheted bombs
+
 var wpn_dmg = {
-				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0],		#Immunity to damage.
+				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
 				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0],	#Swoop Woman
+				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0],		#Swoop Woman
 				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0],	#Scuttle Woman
-				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0],	#Defend Woman
+				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0],		#Scuttle Woman
+				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0],		#Defend Woman
 				}
 				
 var damage = 0
@@ -696,9 +707,9 @@ func calc_damage(to, from):
 								from.ret()
 			else:
 				if from.name != "player":
-					if from.property != 3:
+					if from.property != 3 and from.property != null:
 						from.reflect = true
-					else:
+					elif from.property == 3:
 						if !from.ret:
 							from.ret()
 			
