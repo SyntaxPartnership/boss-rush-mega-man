@@ -44,6 +44,7 @@ var p_menu = false
 var swapping = false
 var shots = 0
 var adaptors = 0
+var dink = false
 
 var fill_b_meter = false
 var boss_hp = 280
@@ -277,6 +278,9 @@ func _ready():
 	
 	if global.opening == 7:
 		play_music("main")
+	
+	if int(global.boss1_clear) + int(global.boss2_clear) + int(global.boss3_clear) + int(global.boss4_clear) == 4:
+		$graphic/spawn_tiles/cage.queue_free()
 
 
 # warning-ignore:unused_argument
@@ -687,19 +691,19 @@ func calc_damage(to, from):
 									from.choke_max = to.CHOKE
 									from.choke_delay = 6
 								from.velocity = Vector2(0, 0)
+						6:
+							from._on_screen_exited()
 						99: #Spring Puck behaves differently based on who it strikes.
 							if to.name == "swoop" or to.name == "roto":
 								from._on_screen_exited()
-						
-				if to.flash == 0:
-					boss_hp -= damage
-				if !add_count:
-					hit_num += 1
-					add_count = true
-				to.flash = 20
-				to.hit = true
 				if boss_hp > 0:
-					sound("hit")
+					if to.flash == 0:
+						sound("hit")
+						boss_hp -= damage
+						hit_num += 1
+						add_count = true
+						to.flash = 20
+						to.hit = true
 				else:
 					if from.name != "player":
 						if from.property == 3:
@@ -708,10 +712,22 @@ func calc_damage(to, from):
 			else:
 				if from.name != "player":
 					if from.property != 3 and from.property != null:
-						from.reflect = true
+						if !from.reflect:
+							sound("dink")
+							from.reflect = true
+					elif from.property == null:
+						if !from.reflect:
+							sound("dink")
+							from.reflect = true
+							from._on_screen_exited()
 					elif from.property == 3:
 						if !from.ret:
+							sound("dink")
 							from.ret()
+				else:
+					if !dink:
+						sound("dink")
+						dink = true
 			
 			#Add additional behaviors based on damage IDs
 			match get_id:

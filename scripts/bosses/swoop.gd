@@ -314,7 +314,12 @@ func _physics_process(delta):
 	#Object overlap detection
 	overlap = $hitbox.get_overlapping_bodies()
 	
+	if !overlap.has(player):
+		if world.dink:
+			world.dink = false
+	
 	if overlap != []:
+		
 		for body in overlap:
 			if body.is_in_group("player"):
 				if !player.r_boost and !player.s_kick:

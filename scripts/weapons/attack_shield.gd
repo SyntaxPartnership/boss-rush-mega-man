@@ -126,4 +126,8 @@ func _physics_process(delta):
 				pos_delay = 2
 
 func _on_screen_exited():
-	pass
+	print('Boom!')
+	var boom = load("res://scenes/effects/s_explode.tscn").instance()
+	boom.global_position = global_position
+	world.get_child(3).add_child(boom)
+	queue_free()
