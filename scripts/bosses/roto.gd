@@ -272,6 +272,16 @@ func _physics_process(delta):
 				else:
 					world.calc_damage(self, body)
 			if body.is_in_group("weapons"):
+				if state == 2 and body.id == 8:
+					velocity.x = 0
+					state = 3
+					act_count = 0
+					bomb_drop = 0
+					$anim.play_backwards("teleport")
+					world.sound("roto_a")
+				if state == 3 and velocity.x != 0 and body.id == 6:
+					velocity.x = -velocity.x
+					
 				world.calc_damage(self, body)
 #		for body in overlap:
 #			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):

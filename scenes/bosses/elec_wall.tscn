@@ -111,6 +111,7 @@ anims/idle = SubResource( 1 )
 anims/idle = SubResource( 2 )
 
 [node name="hit_box" type="Area2D" parent="."]
+collision_layer = 1025
 collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="hit_box"]

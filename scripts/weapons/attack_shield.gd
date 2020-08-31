@@ -23,6 +23,8 @@ var bat_check = []
 func _ready():
 	world.sound("shoot_a")
 	
+	world.shot_num += 1
+	
 	match player.get_child(3).flip_h:
 		true:
 			pos = 4
@@ -126,7 +128,6 @@ func _physics_process(delta):
 				pos_delay = 2
 
 func _on_screen_exited():
-	print('Boom!')
 	var boom = load("res://scenes/effects/s_explode.tscn").instance()
 	boom.global_position = global_position
 	world.get_child(3).add_child(boom)

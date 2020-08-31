@@ -6,7 +6,13 @@ onready var camera = player.get_child(9)
 
 var damage = 60
 
+var id = 9
+
+var property = 100
+
 var overlap = []
+
+var reflect = false
 
 func _ready():
 	$anim_a.play("idle")
@@ -24,3 +30,7 @@ func _physics_process(delta):
 						player.r_boost = false
 					global.player_life[int(player.swap)] -= damage
 					player.damage()
+			if body.is_in_group('boss'):
+				if body.name == 'scuttle' and body.state == 24:
+					print('Do Damage')
+					world.calc_damage(body, self)

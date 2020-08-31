@@ -289,9 +289,10 @@ func _physics_process(delta):
 						$anim.playback_speed = 2
 						velocity.x = -60 * 2
 				if global_position.x <= player.global_position.x + 16 and global_position.x >= player.global_position.x - 16:
-					world.sound('boing')
-					velocity.x = 0
-					state += 1
+					if !player.s_kick:
+						world.sound('boing')
+						velocity.x = 0
+						state += 1
 			13:
 				id = 4
 				spr_delay -= 1
@@ -385,6 +386,11 @@ func _physics_process(delta):
 				if is_on_floor():
 					$anim.play("land")
 					state += 1
+			24:
+				if is_on_floor():
+					velocity.x = 0
+					play_anim('land')
+					state += 1
 				
 	
 	#Kill boss.
@@ -454,7 +460,23 @@ func _physics_process(delta):
 	
 	if overlap != []:
 		for body in overlap:
-			do_damage(body)
+			if body.is_in_group("player"):
+				if !player.s_kick:
+					world.calc_damage(body, self)
+				else:
+					if state == 12:
+						id = 4
+						play_anim('fall')
+						velocity.y = -300
+						if !player.get_child(3).flip_h:
+							velocity.x = 200
+						else:
+							velocity.x = -200
+						state = 24
+						
+					world.calc_damage(self, body)
+			if body.is_in_group("weapons"):
+				world.calc_damage(self, body)
 	
 	if $sprite.frame == 27:
 		if !gaby_air:
@@ -531,6 +553,9 @@ func _on_anim_finished(anim_name):
 					id = 4
 					state = 0
 					$anim.play("idle")
+				25:
+					state = 0
+					$anim.play("idle")
 		"shrink":
 			match state:
 				12:
@@ -549,92 +574,3 @@ func _on_anim_finished(anim_name):
 		
 		"air-toss":
 			$anim.play("fall")
-
-func do_damage(body):
-	var add_count = false
-	if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
-		world.enemy_dmg(id, body.id)
-		if world.damage != 0 and !body.reflect:
-			#Scuttle Only.
-			if state == 14:
-				state = 0
-				
-			if state == 10:
-				force_spin += 1
-				
-			if force_spin > 1:
-				state = 11
-			#Weapon behaviors.
-			match body.property:
-				0:
-					body._on_screen_exited()
-				2:
-					if world.damage < world.boss_hp:
-						body._on_screen_exited()
-				3:
-					if world.damage < world.boss_hp:
-						if flash == 0:
-							body.choke_check()
-							body.choke_max = CHOKE
-							body.choke_delay = 6
-						body.velocity = Vector2(0, 0)
-			if flash == 0:
-				world.boss_hp -= world.damage
-				flash = 20
-				if world.boss_hp > 0:
-					world.sound("hit")
-				else:
-					if body.property == 3:
-						if !body.ret:
-							body.ret()
-			if !add_count:
-				world.hit_num += 1
-				add_count = true
-			hit = true
-			
-		else:
-			if body.property != 3:
-				body.reflect = true
-			else:
-				if !body.ret:
-					body.ret()
-			
-	if body.name == "mega_arm" and body.choke:
-		body.global_position = global_position
-		if flash == 0 and body.choke_delay == 0:
-			if body.choke_max > 0:
-				world.boss_hp -= 10
-				body.choke_max -= 1
-				body.choke_delay = 6
-				flash = 20
-				hit = true
-				world.sound("hit")
-				#Make the Mega Arm return to the player if boss dies.
-				if world.boss_hp <= 0:
-					body.choke = false
-					body.choke_delay = 0
-		elif body.choke_max == 0 or id == 0:
-			body.choke = false
-			body.choke_delay = 0
-	
-	if body.name == "player":
-		if !player.s_kick:
-			if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
-				if player.r_boost:
-					player.r_boost = false
-				global.player_life[int(player.swap)] -= damage
-				player.damage()
-		else:
-			if !kicked:
-				if flash == 0 and id != 0:
-					world.boss_hp -= 40
-					flash = 20
-					if world.boss_hp > 0:
-						world.sound("hit")
-					if !add_count:
-						world.hit_num += 1
-						add_count = true
-					hit = true
-				else:
-					world.sound('dink')
-				kicked = true

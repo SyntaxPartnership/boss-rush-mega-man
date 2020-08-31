@@ -193,12 +193,12 @@ var got_items = {
 #8: Ricocheted bombs
 
 var wpn_dmg = {
-				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
-				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0],		#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0],		#Scuttle Woman
-				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0],		#Defend Woman
+				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
+				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0],		#Swoop Woman
+				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0],	#Roto Man
+				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 40],		#Scuttle Woman
+				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0],		#Defend Woman
 				}
 				
 var damage = 0
@@ -658,7 +658,7 @@ func calc_damage(to, from):
 		if to.hurt_timer == 0 and to.blink_timer == 0 and !to.hurt_swap:
 			global.player_life[int($player.swap)] -= from.damage
 			to.damage()
-	elif from.is_in_group("player") or from.is_in_group("weapons") or from.is_in_group("adaptor_dmg"):
+	elif from.is_in_group("player") or from.is_in_group("weapons") or from.is_in_group("adaptor_dmg") or from.is_in_group("wall"):
 		#The player is only checked due to Roto Boost or Swoop Kick being active.
 		if to.is_in_group("enemies"):
 			pass
@@ -679,6 +679,8 @@ func calc_damage(to, from):
 			if damage != 0 and !from.reflect:
 				if from.is_in_group("weapons") or from.is_in_group("adaptor_dmg"):
 					match from.property:
+						null:
+							from._on_screen_exited()
 						0:
 							from._on_screen_exited()
 						2:
@@ -693,6 +695,8 @@ func calc_damage(to, from):
 								from.velocity = Vector2(0, 0)
 						6:
 							from._on_screen_exited()
+						8:
+							from.boom()
 						99: #Spring Puck behaves differently based on who it strikes.
 							if to.name == "swoop" or to.name == "roto":
 								from._on_screen_exited()
@@ -1978,6 +1982,9 @@ func _on_wpn_fade_tween_completed(object, _key):
 func bolt_calc():
 	
 	print(hit_num,', ',shot_num)
+	
+	if hit_num > shot_num:
+		hit_num = shot_num
 	
 	#Calculate accuracy for later.
 	accuracy = (hit_num / shot_num) * 100
