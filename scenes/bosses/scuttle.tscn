@@ -8,7 +8,7 @@
 
 [sub_resource type="Animation" id=1]
 resource_name = "air-toss"
-length = 0.2
+length = 0.3
 step = 0.025
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -17,7 +17,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.1, 0.125, 0.15 ),
+"times": PoolRealArray( 0, 0.15, 0.2, 0.25 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 26, 27, 28, 29 ]
@@ -237,7 +237,7 @@ script = ExtResource( 2 )
 texture = ExtResource( 1 )
 vframes = 2
 hframes = 15
-frame = 15
+frame = 29
 
 [node name="flash" type="Sprite" parent="."]
 visible = false

@@ -1,0 +1,34 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform vec4 t_col1 : hint_color;
+uniform vec4 t_col2 : hint_color;
+uniform vec4 t_col3 : hint_color;
+uniform vec4 t_col4 : hint_color;
+
+uniform vec4 r_col1 : hint_color;
+uniform vec4 r_col2 : hint_color;
+uniform vec4 r_col3 : hint_color;
+uniform vec4 r_col4 : hint_color;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	
+	if (color == t_col1) COLOR = r_col1;
+	else if (color == t_col2) COLOR = r_col2;
+	else if (color == t_col3) COLOR = r_col3;
+	else if (color == t_col4) COLOR = r_col4;
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/t_col1 = Color( 0.0588235, 0.0588235, 0.0588235, 1 )
+shader_param/t_col2 = Color( 0.254902, 0.254902, 0.254902, 1 )
+shader_param/t_col3 = Color( 0.45098, 0.45098, 0.45098, 1 )
+shader_param/t_col4 = null
+shader_param/r_col1 = Color( 0, 0, 0, 1 )
+shader_param/r_col2 = Color( 0, 0, 0, 1 )
+shader_param/r_col3 = Color( 0, 0, 0, 1 )
+shader_param/r_col4 = null

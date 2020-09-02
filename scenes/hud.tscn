@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://scripts/hud.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/hud/meter_e.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/hud/meter_l.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/hud/meter_f.png" type="Texture" id=4]
+[ext_resource path="res://shaders/boss_meter.tres" type="Material" id=5]
 [ext_resource path="res://shaders/player.tres" type="Material" id=6]
 
 [node name="hud" type="Node2D"]
@@ -22,7 +23,6 @@ texture_progress = ExtResource( 3 )
 fill_mode = 3
 
 [node name="weap" type="TextureProgress" parent="."]
-visible = false
 material = ExtResource( 6 )
 margin_left = 32.0
 margin_top = 16.0
@@ -35,12 +35,16 @@ texture_progress = ExtResource( 4 )
 fill_mode = 3
 
 [node name="boss" type="TextureProgress" parent="."]
-visible = false
+material = ExtResource( 5 )
 margin_left = 48.0
 margin_top = 16.0
-margin_right = 8.0
-margin_bottom = 56.0
+margin_right = 56.0
+margin_bottom = 72.0
+rect_pivot_offset = Vector2( 62, 344 )
 max_value = 280.0
 texture_under = ExtResource( 2 )
 texture_progress = ExtResource( 4 )
 fill_mode = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}

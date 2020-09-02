@@ -102,11 +102,14 @@ func _physics_process(delta):
 		
 		if spit_spk == 30:
 			world.sound('spark')
-			var spark = load("res://scenes/bosses/sm_spark.tscn").instance()
-			spark.position = global_position
-			spark.velocity.x = rand_range(-50, 50)
-			world.get_child(3).add_child(spark)
+			var sm_spark = load("res://scenes/bosses/sm_spark.tscn").instance()
+			sm_spark.position = global_position
+			sm_spark.velocity.x = rand_range(-50, 50)
+			world.get_child(3).add_child(sm_spark)
 			spit_spk = 0
+	else:
+		if $flash_b.is_visible():
+			$flash_b.hide()
 	
 	if p_intro:
 		intro_delay -= 1
@@ -275,19 +278,33 @@ func _physics_process(delta):
 				state += 1
 			12:
 				if $sprite.flip_h:
-					if !player.is_on_floor():
-						$anim.playback_speed = 1
-						velocity.x = 60
+					if global_position.x < camera.limit_right - 48:
+						if !player.is_on_floor():
+							$anim.playback_speed = 1
+							velocity.x = 60
+						else:
+							$anim.playback_speed = 2
+							velocity.x = 60 * 2
 					else:
-						$anim.playback_speed = 2
-						velocity.x = 60 * 2
+						id = 4
+						velocity.x = 0
+						$anim.playback_speed = 1
+						$anim.play_backwards("shrink")
+						state = 26
 				else:
-					if !player.is_on_floor():
-						$anim.playback_speed = 1
-						velocity.x = -60
+					if global_position.x > camera.limit_left + 48:
+						if !player.is_on_floor():
+							$anim.playback_speed = 1
+							velocity.x = -60
+						else:
+							$anim.playback_speed = 2
+							velocity.x = -60 * 2
 					else:
-						$anim.playback_speed = 2
-						velocity.x = -60 * 2
+						id = 4
+						velocity.x = 0
+						$anim.playback_speed = 1
+						$anim.play_backwards("shrink")
+						state = 26
 				if global_position.x <= player.global_position.x + 16 and global_position.x >= player.global_position.x - 16:
 					if !player.s_kick:
 						world.sound('boing')
@@ -374,6 +391,7 @@ func _physics_process(delta):
 						velocity.y = 100
 						bounce += 1
 					elif bounce == 1:
+						id = 4
 						velocity.y = -200
 						world.sound('boing')
 						$anim.play("jump")
@@ -467,6 +485,7 @@ func _physics_process(delta):
 					if state == 12:
 						id = 4
 						play_anim('fall')
+						$anim.playback_speed = 1
 						velocity.y = -300
 						if !player.get_child(3).flip_h:
 							velocity.x = 200
@@ -546,7 +565,6 @@ func _on_anim_finished(anim_name):
 					velocity.y = JUMP_STR * 0.75
 					state += 1
 				19:
-					id = 0
 					$anim.play("shrink")
 					state += 1
 				23:
@@ -571,6 +589,9 @@ func _on_anim_finished(anim_name):
 						$sprite.flip_h = true
 						desp_dir = -1
 					$anim.play("spin")
+				26:
+					state = 0
+					$anim.play("idle")
 		
 		"air-toss":
 			$anim.play("fall")

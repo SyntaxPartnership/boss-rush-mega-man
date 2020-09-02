@@ -31,6 +31,5 @@ func _physics_process(delta):
 					global.player_life[int(player.swap)] -= damage
 					player.damage()
 			if body.is_in_group('boss'):
-				if body.name == 'scuttle' and body.state == 24:
-					print('Do Damage')
+				if body.name == 'scuttle' and body.state != 12 and body.state != 19:
 					world.calc_damage(body, self)

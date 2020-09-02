@@ -197,7 +197,7 @@ var wpn_dmg = {
 				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0],	#Standard enemy. All Weapons hurt it.
 				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0],		#Swoop Woman
 				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 40],		#Scuttle Woman
+				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 10],		#Scuttle Woman
 				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0],		#Defend Woman
 				}
 				
@@ -207,6 +207,8 @@ var wpn_get_anim = [0, 1, 2, 3]
 
 #Color Variables.
 var palette = [Color('#000000'), Color('#000000'), Color('#000000')]
+
+var bmtr_pal = [Color('#000000'), Color('#000000'), Color('#000000')]
 
 var tele_timer = -1
 var tele_dest
@@ -230,6 +232,14 @@ var accuracy = 0.0
 var after_boss = false
 
 func _ready():
+	
+	$hud/hud/boss.material.set_shader_param('t_col1', global.t_color1)
+	$hud/hud/boss.material.set_shader_param('t_col2', global.t_color2)
+	$hud/hud/boss.material.set_shader_param('t_col3', global.t_color3)
+	$hud/hud/boss.material.set_shader_param('t_col4', Color('#000000'))
+	
+	$hud/hud/boss.material.set_shader_param('r_col1', bmtr_pal[0])
+	$hud/hud/boss.material.set_shader_param('r_col4', Color('#000000'))
 	
 	if global.opening >= 7:
 		$overlap.show()
@@ -532,6 +542,8 @@ func _rooms():
 		if room_chk != Vector2(10, 4) and room_chk != Vector2(11, 4):
 			match which_wpn:
 				0:
+					$hud/hud/boss.material.set_shader_param('r_col2', global.grey1)
+					$hud/hud/boss.material.set_shader_param('r_col3', global.white)
 					if !global.weapon1[0] and !global.boss1_clear:
 						end_style = 0
 					elif global.weapon1[0] and !global.boss1_clear:
@@ -539,6 +551,8 @@ func _rooms():
 					elif global.weapon1[0] and global.boss1_clear:
 						end_style = 1
 				1:
+					$hud/hud/boss.material.set_shader_param('r_col2', global.blue2)
+					$hud/hud/boss.material.set_shader_param('r_col3', global.white)
 					if !global.weapon2[0] and !global.boss2_clear:
 						end_style = 0
 					elif global.weapon2[0] and !global.boss2_clear:
@@ -546,6 +560,8 @@ func _rooms():
 					elif global.weapon2[0] and global.boss2_clear:
 						end_style = 1
 				2:
+					$hud/hud/boss.material.set_shader_param('r_col2', global.red1)
+					$hud/hud/boss.material.set_shader_param('r_col3', global.white)
 					if !global.weapon3[0] and !global.boss3_clear:
 						end_style = 0
 					elif global.weapon3[0] and !global.boss3_clear:
@@ -553,6 +569,8 @@ func _rooms():
 					elif global.weapon3[0] and global.boss3_clear:
 						end_style = 1
 				3:
+					$hud/hud/boss.material.set_shader_param('r_col2', global.red2)
+					$hud/hud/boss.material.set_shader_param('r_col3', global.white)
 					if !global.weapon4[0] and !global.boss4_clear:
 						end_style = 0
 					elif global.weapon4[0] and !global.boss4_clear:
