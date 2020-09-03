@@ -497,7 +497,7 @@ func _physics_process(delta):
 			if body.is_in_group("weapons"):
 				world.calc_damage(self, body)
 	
-	if $sprite.frame == 27:
+	if $sprite.frame == 28:
 		if !gaby_air:
 			var gaby = load("res://scenes/bosses/gabyaoll.tscn").instance()
 			gaby.position.y = global_position.y + -6
