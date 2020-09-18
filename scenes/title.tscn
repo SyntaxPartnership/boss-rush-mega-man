@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/title.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/logo.png" type="Texture" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=6]
 [ext_resource path="res://assets/audio/se/Select.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/sprites/logo2.png" type="Texture" id=9]
 
 [node name="title" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,9 +17,13 @@ script = ExtResource( 1 )
 position = Vector2( 128, 40 )
 texture = ExtResource( 2 )
 
+[node name="logob" type="Sprite" parent="."]
+position = Vector2( 176, 152 )
+texture = ExtResource( 9 )
+
 [node name="cursor" type="Sprite" parent="."]
 visible = false
-position = Vector2( 36, 116 )
+position = Vector2( 20, 116 )
 texture = ExtResource( 3 )
 
 [node name="menu" type="Label" parent="."]
@@ -26,14 +31,17 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = 40.0
+margin_left = 24.0
 margin_top = 112.0
-margin_right = 128.0
+margin_right = 112.0
 margin_bottom = 144.0
 custom_fonts/font = ExtResource( 4 )
 text = "
 
 PRESS START"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="menu_fade" type="Tween" parent="."]
 pause_mode = 2
@@ -58,6 +66,9 @@ position = Vector2( 128, 120 )
 [node name="sounds" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="cursor" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 6 )
