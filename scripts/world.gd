@@ -1061,13 +1061,14 @@ func _process(delta):
 		$player.can_move = false
 		get_tree().paused = true
 		$player.hide()
+		kill_weapons()
 		kill_se("charge")
 		for m in $audio/music.get_children():
 			m.stop()
 		
 	if global.player_life[0] <= 0 and global.player_life[1] <= 0 and !dead:
 		dead = true
-		$player.can_move = false
+		$player.s_kick = false
 		get_tree().paused = true
 		kill_se("charge")
 		for m in $audio/music.get_children():
@@ -1078,8 +1079,13 @@ func _process(delta):
 	
 	if dead and dead_delay == 0:
 		if $player.is_visible():
+			$player.s_kick = false
+			$player.r_boost = false
 			$audio/se/death.play()
 			$player.hide()
+			$player/standbox.set_deferred("disabled", true)
+			$player/slidebox.set_deferred("disabled", true)
+			kill_weapons()
 			for n in range(16):
 				var boom = DEATH_BOOM.instance()
 				boom.position = $player.position

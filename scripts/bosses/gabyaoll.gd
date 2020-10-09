@@ -106,7 +106,13 @@ func _physics_process(delta):
 		
 		if overlap != []:
 			for body in overlap:
-				do_damage(body)
+				if body.name == 'player':
+					damage = 30
+					world.calc_damage(body, self)
+				
+				if body.name == 'attack_shield':
+					body._on_screen_exited()
+					kill_gaby()
 		
 		kill_weap = $beam_box.get_overlapping_bodies()
 		
@@ -123,11 +129,8 @@ func _physics_process(delta):
 							body.ret()
 				
 				if body.name == 'player':
-					if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap and !player.r_boost:
-						if player.r_boost:
-							player.r_boost = false
-						global.player_life[int(player.swap)] -= beam_dmg
-						player.damage()
+					damage = 60
+					world.calc_damage(body, self)
 		
 		if global_position.x < camera.limit_left + 32 or global_position.x > camera.limit_right - 32:
 			kill_gaby()

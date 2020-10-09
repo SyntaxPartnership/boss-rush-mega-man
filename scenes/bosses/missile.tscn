@@ -18,7 +18,8 @@ vframes = 2
 hframes = 8
 
 [node name="hitbox" type="Area2D" parent="."]
-collision_mask = 4
+collision_layer = 33
+collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource( 1 )

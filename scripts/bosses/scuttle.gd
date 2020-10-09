@@ -31,6 +31,7 @@ var spit_spk = 0
 var desp_bounce = 0
 var air_toss = false
 var gaby_air = false
+var mssl_toss = false
 
 var velocity = Vector2()
 var left_bar = 0
@@ -243,6 +244,14 @@ func _physics_process(delta):
 					else:
 						gaby.position.x = global_position.x + -15
 						gaby.dir = 1
+						
+					#Temp fix until I figure out why missile disappear.
+					if pull == 3:
+						if !mssl_toss:
+							mssl_toss = true
+						else:
+							pull = 1
+					
 					gaby.type = pull
 					world.get_child(3).add_child(gaby)
 					act_delay = 8
@@ -275,6 +284,7 @@ func _physics_process(delta):
 				$hitbox/squat.set_deferred('disabled', false)
 				$hitbox/boing.set_deferred('disabled', true)
 				$anim.play("shrink")
+				mssl_toss = false
 				state += 1
 			12:
 				if $sprite.flip_h:
