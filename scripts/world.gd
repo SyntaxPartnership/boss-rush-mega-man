@@ -190,15 +190,16 @@ var got_items = {
 #5: Spring Puck
 #6: Attack Shield
 #7: Spinning Mega Man (Roto Boost)
-#8: Ricocheted bombs
+#8: Ricocheted Roto Bombs
+#9: Ricocheted Defend Buillets
 
 var wpn_dmg = {
-				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
-				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0],		#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 10],		#Scuttle Woman
-				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0],		#Defend Woman
+				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
+				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
+				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
+				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
+				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0, 10],		#Defend Woman
 				}
 				
 var damage = 0

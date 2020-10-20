@@ -504,7 +504,7 @@ func _physics_process(delta):
 						state = 24
 						
 					world.calc_damage(self, body)
-			if body.is_in_group("weapons"):
+			if body.is_in_group("weapons") or body.is_in_group("adaptor_dmg"):
 				world.calc_damage(self, body)
 	
 	if $sprite.frame == 28:

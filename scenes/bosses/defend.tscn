@@ -361,20 +361,22 @@ anims/up_floor = SubResource( 18 )
 playback_process_mode = 0
 
 [node name="coll_box_a" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, 4 )
 shape = SubResource( 19 )
 
 [node name="coll_box_b" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, -4 )
 shape = SubResource( 20 )
 disabled = true
 
 [node name="hit_box" type="Area2D" parent="."]
-visible = false
-collision_layer = 32
+collision_layer = 33
 collision_mask = 0
 
 [node name="box_a" type="CollisionShape2D" parent="hit_box"]
+visible = false
 position = Vector2( 0, 2 )
 shape = SubResource( 21 )
 
@@ -384,7 +386,7 @@ shape = SubResource( 22 )
 
 [node name="shield_box" type="Area2D" parent="."]
 visible = false
-collision_layer = 32
+collision_layer = 33
 collision_mask = 0
 
 [node name="box" type="CollisionShape2D" parent="shield_box"]

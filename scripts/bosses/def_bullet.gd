@@ -8,6 +8,10 @@ var type = 0
 
 var damage = 0
 
+var id = 9
+var reflect = false
+var ricochet = false
+
 var reverse
 var velocity = Vector2()
 var angle = 0
@@ -23,6 +27,7 @@ var hp = 12
 
 var target = 0
 var wall = false
+var a_shield = false
 
 var overlap = []
 
@@ -100,6 +105,12 @@ func _physics_process(delta):
 					player.damage()
 					if type != 3:
 						queue_free()
+			
+			if type != 3:
+				if body.is_in_group("weapons") and body.name == "attack_shield":
+					if !ricochet:
+						print('test')
+						ricochet()
 						
 			if type == 3:
 				if body.is_in_group("weapons"):
@@ -124,6 +135,14 @@ func _physics_process(delta):
 						master_vel = Vector2(0, -1)
 						speed = 400
 						body.boing()
+					
+					if body.id == 6:
+						if !a_shield and master_vel.y > 0:
+							world.sound('dink')
+							hp -= 3
+							master_vel.y = -master_vel.y
+							add_speed()
+							a_shield = true
 				
 				if body.name == "defend":
 					if !set_master and velocity.y < 0:
@@ -155,8 +174,11 @@ func _physics_process(delta):
 		if set_master:
 			set_master = false
 	
+	if a_shield and !overlap.has(get_tree().get_nodes_in_group('weapons')):
+		a_shield = false
+	
 	if type == 0:
-		if is_on_wall() and !wall:
+		if is_on_wall() and !wall and !ricochet:
 			velocity = reverse * (speed * 1.5)
 			$box_b.set_deferred("disabled", true)
 			world.sound('split')
@@ -187,3 +209,14 @@ func _on_anim_finished(anim_name):
 	if anim_name == "poof":
 		boss.state = 23
 		queue_free()
+
+func ricochet():
+	if !ricochet:
+		world.sound('dink')
+		velocity = -velocity
+		remove_from_group('def_bullet')
+		add_to_group('weapons')
+		self.set_collision_mask_bit(5, true)
+		$hit_box.set_collision_layer_bit(0, false)
+		$hit_box.set_collision_layer_bit(5, false)
+		ricochet = true
