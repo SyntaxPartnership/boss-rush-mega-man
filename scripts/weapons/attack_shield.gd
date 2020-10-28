@@ -126,6 +126,10 @@ func _physics_process(delta):
 			if pos_delay == 0:
 				pos = desired
 				pos_delay = 2
+	
+	if reflect:
+		world.sound('dink')
+		_on_screen_exited()
 
 func _on_screen_exited():
 	var boom = load("res://scenes/effects/s_explode.tscn").instance()

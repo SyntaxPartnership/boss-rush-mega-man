@@ -9,6 +9,7 @@ var type = 0
 var damage = 0
 
 var id = 9
+var property = 0
 var reflect = false
 var ricochet = false
 

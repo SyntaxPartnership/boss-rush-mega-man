@@ -4,7 +4,7 @@ onready var world = get_parent().get_parent()
 onready var player = world.get_child(2)
 onready var camera = player.get_child(9)
 
-var id = 4
+var id = 5
 const CHOKE = 3
 
 var damage = 30
@@ -83,6 +83,8 @@ var shld_data = {
 	17 : [true, false, false],
 	18 : [true, false, false],
 	19 : [true, false, false],
+	21 : [true, false, false],
+	22 : [true, false, false]
 }
 
 func _ready():
@@ -559,10 +561,7 @@ func _physics_process(delta):
 	
 	if hit_overlap != []:
 		for i in hit_overlap:
-			if !desp_fin:
-				calc_damage(i)
-			else:
-				reflect(i)
+			world.calc_damage(i, self)
 	
 	if shld_overlap != []:
 		for i in shld_overlap:

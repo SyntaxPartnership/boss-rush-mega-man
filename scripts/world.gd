@@ -699,6 +699,7 @@ func calc_damage(to, from):
 				if from.is_in_group("weapons") or from.is_in_group("adaptor_dmg"):
 					match from.property:
 						null:
+							print('shield')
 							from._on_screen_exited()
 						0:
 							from._on_screen_exited()
