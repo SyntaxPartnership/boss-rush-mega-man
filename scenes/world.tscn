@@ -1,4 +1,4 @@
-[gd_scene load_steps=82 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -79,6 +79,9 @@
 [ext_resource path="res://assets/audio/se/iii-iv-v/boss-dead.wav" type="AudioStream" id=77]
 [ext_resource path="res://assets/audio/se/Gate.wav" type="AudioStream" id=78]
 [ext_resource path="res://scenes/boss_timer.tscn" type="PackedScene" id=79]
+[ext_resource path="res://assets/sprites/shop/eddie.png" type="Texture" id=80]
+[ext_resource path="res://assets/sprites/shop/icons.png" type="Texture" id=81]
+[ext_resource path="res://assets/sprites/shop/fakeplyr.png" type="Texture" id=82]
 
 [sub_resource type="DynamicFontData" id=1]
 antialiased = false
@@ -199,6 +202,9 @@ __meta__ = {
 [node name="stage_gfx" type="Control" parent="graphic"]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="world" type="TileMap" parent="graphic/stage_gfx"]
 tile_set = ExtResource( 12 )
@@ -241,7 +247,7 @@ tile_data = PoolIntArray( 6488175, 0, 0, 6488191, 0, 0, 6488287, 0, 0, 6488303, 
 tile_set = ExtResource( 14 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 4718766, 5, 0, 4718767, 5, 0, 4718768, 5, 0, 4718769, 5, 0, 6357116, 3, 0, 6357117, 5, 0, 6357218, 5, 0, 6357219, 3, 0, 10027105, 1, 0, 10027118, 1, 0, 10092645, 0, 0, 10092648, 0, 0, 10289276, 3, 0, 10289277, 5, 0, 10289378, 5, 0, 10289379, 3, 0, 10682471, 6, 0, 11468881, 8, 0 )
+tile_data = PoolIntArray( 6357116, 3, 0, 6357117, 5, 0, 6357218, 5, 0, 6357219, 3, 0, 10027105, 1, 0, 10027118, 1, 0, 10092645, 0, 0, 10092648, 0, 0, 10289276, 3, 0, 10289277, 5, 0, 10289378, 5, 0, 10289379, 3, 0, 10682471, 6, 0, 11468881, 8, 0 )
 
 [node name="enemy_map" type="TileMap" parent="graphic/spawn_tiles"]
 tile_set = ExtResource( 15 )
@@ -249,11 +255,91 @@ cell_size = Vector2( 16, 16 )
 format = 1
 tile_data = PoolIntArray( 6684813, 0, 0, 9961561, 2, 0, 10027092, 3, 0, 10027096, 3, 0, 10092636, 1, 0, 10158188, 1, 0, 10223710, 1, 0, 10223721, 2, 0, 10354770, 2, 0, 10354780, 1, 0, 10420331, 1, 0, 10682453, 1, 0, 10682455, 1, 0, 10682457, 1, 0, 11075665, 1, 0, 11141206, 1, 0, 11141209, 1, 0, 11206744, 3, 0, 11206747, 1, 0, 11206750, 1, 0, 11599966, 2, 0, 11731033, 3, 0, 11731035, 3, 0, 11731038, 1, 0 )
 
-[node name="auto" type="Sprite" parent="graphic/spawn_tiles"]
-visible = false
+[node name="shop" type="Control" parent="graphic/spawn_tiles"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="auto" type="Sprite" parent="graphic/spawn_tiles/shop"]
 position = Vector2( 2768, 1144 )
 texture = ExtResource( 65 )
+flip_h = true
 hframes = 14
+
+[node name="eddie" type="Sprite" parent="graphic/spawn_tiles/shop"]
+position = Vector2( 2859, 1155 )
+texture = ExtResource( 80 )
+flip_h = true
+hframes = 7
+
+[node name="fakeplyr" type="Sprite" parent="graphic/spawn_tiles/shop"]
+position = Vector2( 2816, 1157 )
+texture = ExtResource( 82 )
+hframes = 3
+frame = 2
+
+[node name="menu" type="Control" parent="graphic/spawn_tiles/shop"]
+visible = false
+margin_right = 12.0
+margin_bottom = 20.0
+
+[node name="icon1" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2784, 1072 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 8
+
+[node name="icon2" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2816, 1072 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 9
+
+[node name="icon3" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2848, 1072 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 10
+
+[node name="icon4" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2880, 1072 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 11
+
+[node name="icon5" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2784, 1104 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 12
+
+[node name="icon6" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2816, 1104 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 12
+
+[node name="icon7" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2848, 1104 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 12
+
+[node name="icon8" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+position = Vector2( 2880, 1104 )
+texture = ExtResource( 81 )
+vframes = 2
+hframes = 8
+frame = 12
 
 [node name="cage" parent="graphic/spawn_tiles" instance=ExtResource( 76 )]
 position = Vector2( 2176, 2444 )
@@ -777,8 +863,8 @@ stream = ExtResource( 66 )
 [connection signal="tween_completed" from="fake_fade/fade" to="." method="_on_fade_tween_completed"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
 [connection signal="tween_completed" from="wpn_get/wpn_fade" to="." method="_on_wpn_fade_tween_completed"]
-[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
 [connection signal="finished" from="audio/music/clear" to="." method="_on_clear_finished"]
 [connection signal="finished" from="audio/music/intro" to="." method="_on_intro_finished"]

@@ -48,6 +48,7 @@ var hit_overlap = []
 var shld_overlap = []
 var plyr_overlap = []
 var bnce_states = [0, 1, 2, 3, 10]
+var shld_touch = false
 
 var velocity = Vector2()
 
@@ -559,16 +560,48 @@ func _physics_process(delta):
 	shld_overlap = $shield_box.get_overlapping_bodies()
 	plyr_overlap = $plyr_box.get_overlapping_bodies()
 	
-	if hit_overlap != []:
-		for i in hit_overlap:
-			world.calc_damage(i, self)
-	
+	if shld_touch:
+		if !shld_overlap.has(player):
+			shld_touch = false
+		else:
+			if !player.s_kick and !player.r_boost:
+				shld_touch = false
+
 	if shld_overlap != []:
 		for i in shld_overlap:
-			reflect(i)
+			if i.is_in_group("player"):
+				if !shld_touch:
+					if player.s_kick or player.r_boost:
+						world.sound('dink')
+						world.calc_damage($shield_box, i)
+						shld_touch = true
+					else:
+						if player.stun < 0:
+							world.calc_damage(i, $shield_box)
+			else:
+				if i.name != "scuttle_puck":
+					reflect(i)
+
+	if hit_overlap != []:
+		for i in hit_overlap:
+			var prev_hits = -1
+			world.calc_damage(self, i)
+			if prev_hits != hits:
+				hits += 1
+				prev_hits = hits
+			
 	
 	if plyr_overlap != []:
-		plyr_dmg()
+		if player.s_kick or player.r_boost:
+			if !shld_touch:
+				var prev_hits = -1
+				world.calc_damage(self, player)
+				if prev_hits != hits:
+					hits += 1
+					prev_hits = hits
+		else:
+			if player.stun < 0:
+				world.calc_damage(player, self)
 	
 	if world.boss_hp <= 0:
 		world.kill_music()

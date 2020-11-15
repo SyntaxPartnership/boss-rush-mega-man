@@ -89,6 +89,14 @@ var shake_delay = 2
 var shake_x = 0
 var shake_y = 0
 
+#Shop values
+var shop_active = false
+var auto_dist = 0
+var shop_state = 0
+var shop_page = 0
+var shop_pos = Vector2()
+var shop_rand = 0
+
 var cutsc_mode = 0
 var scene = 0
 var sub_scene = 0
@@ -109,6 +117,21 @@ var scene_txt = {
 	13 : ["AUTO:", "JUNK LYING AROUND. BRING ME\n\nSCREWS AND I'LL WHIP THEM"],
 	14 : ["AUTO:", "TOGETHER! GO AHEAD! LOOK AT\n\nMY WARES!"],
 	15 : ["", ""]
+}
+
+var shop_text = {
+	0 : "FIND ANYTHING YOU LIKE?",
+	1 : "DON'T BE SHY! BUY WHATEVER\n\nYOU LIKE!",
+	2 : "HEY, MEGA! YOU WON'T\n\nBELIEVE THESE PRICES!",
+	3 : "WISE CHOICE!",
+	4 : "YOU WON'T FIND A BETTER DEAL\n\nANYWHERE ELSE!",
+	5 : "HERE YOU GO!",
+	6 : "YOU DON'T HAVE ENOUGH SCREWS...",
+	7 : "DON'T BE GREEDY NOW.",
+	8 : "[LIFE REFILL]\n\nREFILL LIFE ENERGY.",
+	9 : "[E-TANK]\n\nUSE TO REFILL LIFE ENERGY.",
+	10 : "[W-TANK]\n\nUSE TO REFILL WEAPON ENERGY.",
+	11 : "[DAMAGE REDUCER]\n\n50% DAMAGE REDUCTION.",
 }
 
 #Item Drops
@@ -767,9 +790,14 @@ func calc_damage(to, from):
 							to.state = 8
 				7:
 					if from.name == "player":
+						var dist_mul = 1
 						var dist = from.global_position.x - to.global_position.x
+						if to.name == "defend":
+							dist_mul = 2
 						if to.name != "scuttle":
-							if dist <= 12 and dist >= -12 and from.global_position.y < to.global_position.y - 12 and from.velocity.y >= 0:
+							if dist <= 12 * dist_mul and dist >= -12 * dist_mul and from.global_position.y < to.global_position.y - 12 and from.velocity.y >= 0:
+								if to.name == "defend": #This is for Defend only. Quickfix.
+									sound('dink')
 								from.velocity.y = (from.JUMP_SPEED) / from.jump_mod
 						else:
 							calc_damage(from, to)
@@ -798,6 +826,45 @@ func calc_damage(to, from):
 func _process(delta):
 	_camera()
 	cutscene()
+	
+	
+	#Shop function
+	#Calculate how close the player is to Auto.
+	if player_room == Vector2(10, 4):
+		auto_dist = $graphic/spawn_tiles/shop/auto.global_position.x - $player.global_position.x
+		
+	#If the player presses up in the right spot, trigger shop sequence.
+	if auto_dist < 0 and auto_dist > -16 and Input.is_action_just_pressed('up') and shop_state == 0 and !shop_active:
+		shop_rand = round(rand_range(0, 2))
+		$player.cutscene(true)
+		shop_state = 1
+	
+	match shop_state:
+		1:
+			if $player.global_position.x < 2816:
+				$player.x_dir = 1
+			else:
+				$player.global_position.x = 2816
+				$player.x_dir = 0
+				shop_state += 1
+				
+		2:
+			$player.hide()
+			cutsc_mode = 1
+			shop_active = true
+			shop_state += 1
+		3:
+			if cutsc_mode == 2:
+				$scene_txt/on_off/text.set_visible_characters(0)
+				$scene_txt/on_off/name.set_text("AUTO:")
+				$scene_txt/on_off/text.set_text(shop_text.get(int(shop_rand)))
+				$scene_txt/on_off.show()
+				shop_state += 1
+	
+	if shop_state > 3:
+		if shop_active:
+			if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
+				$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 	
 	#Calculate time during a boss fight.
 	if boss:
@@ -2165,7 +2232,7 @@ func show_text():
 	if global.scene == 3:
 		sound("fall")
 		var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
-		scene_auto.position.x = $graphic/spawn_tiles/auto.global_position.x
+		scene_auto.position.x = $graphic/spawn_tiles/shop/auto.global_position.x
 		scene_auto.position.y = $player/camera.limit_top - 50
 		$graphic/spawn_tiles.add_child(scene_auto)
 		$player/sprite.flip_h = true
@@ -2176,6 +2243,38 @@ func _on_intro_finished():
 	$player.anim_state($player.LOOKUP)
 	sound("fall")
 	var scene_eddie = load("res://scenes/cutscene/scene_eddie.tscn").instance()
-	scene_eddie.position.x = $graphic/spawn_tiles/auto.global_position.x - 4
+	scene_eddie.position.x = $graphic/spawn_tiles/shop/auto.global_position.x - 4
 	scene_eddie.position.y = $player/camera.limit_top - 28
 	$graphic/spawn_tiles.add_child(scene_eddie)
+
+func shop():
+	
+		
+#	var allow = false
+#	if global.scene != 0:
+#		if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
+#			$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
+#
+#	if scene_txt.get(global.sub_scene)[0] != "":
+#		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+#			if !allow:
+#				allow = true
+#	else:
+#		match global.scene:
+#			2:
+#				if global.sub_scene == 3:
+#					global.scene = 3
+#			5:
+#				if global.sub_scene == 15:
+#					cutsc_mode = 3
+#					play_music("main")
+#					global.scene = 6
+#
+#	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
+#		$scene_txt/on_off/text.set_visible_characters(0)
+#		global.sub_scene += 1
+#
+#	if global.scene == 2 or global.scene == 5:
+#		$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
+#		$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
+	pass
