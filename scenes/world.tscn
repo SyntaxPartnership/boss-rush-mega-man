@@ -275,6 +275,7 @@ flip_h = true
 hframes = 7
 
 [node name="fakeplyr" type="Sprite" parent="graphic/spawn_tiles/shop"]
+visible = false
 position = Vector2( 2816, 1157 )
 texture = ExtResource( 82 )
 hframes = 3
@@ -307,35 +308,21 @@ hframes = 8
 frame = 10
 
 [node name="icon4" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
-position = Vector2( 2880, 1072 )
-texture = ExtResource( 81 )
-vframes = 2
-hframes = 8
-frame = 11
-
-[node name="icon5" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
 position = Vector2( 2784, 1104 )
 texture = ExtResource( 81 )
 vframes = 2
 hframes = 8
 frame = 12
 
-[node name="icon6" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+[node name="icon5" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
 position = Vector2( 2816, 1104 )
 texture = ExtResource( 81 )
 vframes = 2
 hframes = 8
 frame = 12
 
-[node name="icon7" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
+[node name="icon6" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
 position = Vector2( 2848, 1104 )
-texture = ExtResource( 81 )
-vframes = 2
-hframes = 8
-frame = 12
-
-[node name="icon8" type="Sprite" parent="graphic/spawn_tiles/shop/menu"]
-position = Vector2( 2880, 1104 )
 texture = ExtResource( 81 )
 vframes = 2
 hframes = 8

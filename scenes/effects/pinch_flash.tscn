@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scripts/effects/pinch_flash.gd" type="Script" id=1]
+[ext_resource path="res://assets/sprites/effects/pinch_flash.png" type="Texture" id=2]
+
+[node name="pinch_flash" type="Sprite"]
+texture = ExtResource( 2 )
+hframes = 6
+frame = 5
+script = ExtResource( 1 )

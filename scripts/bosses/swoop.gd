@@ -281,6 +281,10 @@ func _physics_process(delta):
 		orig_state = state
 		$wings.hide()
 		$anim_body.play("drill_e")
+		var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
+		p_flash.position = global_position
+		world.get_child(3).add_child(p_flash)
+		world.sound('bling')
 		state = 9
 	
 	if flash > 0:

@@ -146,6 +146,10 @@ func _physics_process(delta):
 			state = 9
 			$anim.play_backwards("teleport")
 			world.sound("roto_a")
+			var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
+			p_flash.position = global_position
+			world.get_child(3).add_child(p_flash)
+			world.sound('bling')
 			pinch = true
 		
 	if state == 3:

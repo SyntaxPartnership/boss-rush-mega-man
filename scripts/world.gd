@@ -90,12 +90,16 @@ var shake_x = 0
 var shake_y = 0
 
 #Shop values
-var shop_active = false
+var shop_active = true
 var auto_dist = 0
 var shop_state = 0
 var shop_page = 0
-var shop_pos = Vector2()
+var shop_pos = 0
 var shop_rand = 0
+var menu_flsh = 0
+var icon_flsh = 0
+var prices = [100, 250, 200, -1, -1, -1]
+var next = false
 
 var cutsc_mode = 0
 var scene = 0
@@ -120,18 +124,24 @@ var scene_txt = {
 }
 
 var shop_text = {
-	0 : "FIND ANYTHING YOU LIKE?",
-	1 : "DON'T BE SHY! BUY WHATEVER\n\nYOU LIKE!",
-	2 : "HEY, MEGA! YOU WON'T\n\nBELIEVE THESE PRICES!",
-	3 : "WISE CHOICE!",
-	4 : "YOU WON'T FIND A BETTER DEAL\n\nANYWHERE ELSE!",
-	5 : "HERE YOU GO!",
-	6 : "YOU DON'T HAVE ENOUGH SCREWS...",
-	7 : "DON'T BE GREEDY NOW.",
-	8 : "[LIFE REFILL]\n\nREFILL LIFE ENERGY.",
-	9 : "[E-TANK]\n\nUSE TO REFILL LIFE ENERGY.",
-	10 : "[W-TANK]\n\nUSE TO REFILL WEAPON ENERGY.",
-	11 : "[DAMAGE REDUCER]\n\n50% DAMAGE REDUCTION.",
+	0 : ["AUTO:", "FIND ANYTHING YOU LIKE?"],
+	1 : ["AUTO:", "DON'T BE SHY! BUY WHATEVER\n\nYOU LIKE!"],
+	2 : ["AUTO:", "HEY, MEGA! YOU WON'T\n\nBELIEVE THESE PRICES!"],
+	3 : ["AUTO:", "WISE CHOICE!"],
+	4 : ["AUTO:", "YOU WON'T FIND A BETTER DEAL\n\nANYWHERE ELSE!"],
+	5 : ["AUTO:", "HERE YOU GO!"],
+	6 : ["AUTO:", "YOU DON'T HAVE ENOUGH\n\nSCREWS..."],
+	7 : ["AUTO:", "DON'T BE GREEDY NOW."],
+	8 : ["[ENERGY REFILL]", "REFILLS LIFE AND\n\nWEAPON ENERGY."],
+	9 : ["[E-TANK]", "USE TO REFILL LIFE ENERGY."],
+	10 : ["[W-TANK]", "USE TO REFILL WEAPON ENERGY."],
+	11 : ["[DAMAGE REDUCER]", "50% DAMAGE REDUCTION."],
+	12 : ["", ""],#Extra Item 1
+	13 : ["", ""],#Extra Item 2
+	14 : ["AUTO:", "ARE YOU SURE?\n\n[JUMP] - YES   [FIRE] - NO"],
+	15 : ["AUTO:", "SORRY... THAT ITEM ISN'T\n\nAVAILABLE YET..."],
+	16 : ["AUTO:", "TAKE CARE, MEGA!"],
+	17 : ["AUTO:", "OH... CHANGE YOUR MIND?"]
 }
 
 #Item Drops
@@ -827,6 +837,13 @@ func _process(delta):
 	_camera()
 	cutscene()
 	
+	#This is just to make the shop menu flash.
+	if shop_state == 1:
+		menu_flsh += 1
+		if menu_flsh > 1:
+			menu_flsh = 0
+	
+	shop()
 	
 	#Shop function
 	#Calculate how close the player is to Auto.
@@ -834,37 +851,10 @@ func _process(delta):
 		auto_dist = $graphic/spawn_tiles/shop/auto.global_position.x - $player.global_position.x
 		
 	#If the player presses up in the right spot, trigger shop sequence.
-	if auto_dist < 0 and auto_dist > -16 and Input.is_action_just_pressed('up') and shop_state == 0 and !shop_active:
+	if auto_dist < 0 and auto_dist > -16 and Input.is_action_just_pressed('up') and shop_state == 0 and shop_active:
 		shop_rand = round(rand_range(0, 2))
 		$player.cutscene(true)
 		shop_state = 1
-	
-	match shop_state:
-		1:
-			if $player.global_position.x < 2816:
-				$player.x_dir = 1
-			else:
-				$player.global_position.x = 2816
-				$player.x_dir = 0
-				shop_state += 1
-				
-		2:
-			$player.hide()
-			cutsc_mode = 1
-			shop_active = true
-			shop_state += 1
-		3:
-			if cutsc_mode == 2:
-				$scene_txt/on_off/text.set_visible_characters(0)
-				$scene_txt/on_off/name.set_text("AUTO:")
-				$scene_txt/on_off/text.set_text(shop_text.get(int(shop_rand)))
-				$scene_txt/on_off.show()
-				shop_state += 1
-	
-	if shop_state > 3:
-		if shop_active:
-			if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
-				$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 	
 	#Calculate time during a boss fight.
 	if boss:
@@ -2199,45 +2189,50 @@ func cutscene():
 					global.scene = 2
 
 func show_text():
-#	print(scene,' ',sub_scene)
 	
-	var allow = false
-	if global.scene != 0:
-		if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
-			$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
-	
-	if scene_txt.get(global.sub_scene)[0] != "":
-		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
-			if !allow:
-				allow = true
-	else:
-		match global.scene:
-			2:
-				if global.sub_scene == 3:
-					global.scene = 3
-			5:
-				if global.sub_scene == 15:
-					cutsc_mode = 3
-					play_music("main")
-					global.scene = 6
-	
-	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
-		$scene_txt/on_off/text.set_visible_characters(0)
-		global.sub_scene += 1
+	if !shop_active:
+		var allow = false
+		if global.scene != 0:
+			if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
+				$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 		
-	if global.scene == 2 or global.scene == 5:
-		$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
-		$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
-	
-	if global.scene == 3:
-		sound("fall")
-		var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
-		scene_auto.position.x = $graphic/spawn_tiles/shop/auto.global_position.x
-		scene_auto.position.y = $player/camera.limit_top - 50
-		$graphic/spawn_tiles.add_child(scene_auto)
-		$player/sprite.flip_h = true
-		$player.anim_state($player.LOOKUP)
-		global.scene = 4
+		if scene_txt.get(global.sub_scene)[0] != "":
+			if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+				if !allow:
+					allow = true
+		else:
+			match global.scene:
+				2:
+					if global.sub_scene == 3:
+						global.scene = 3
+				5:
+					if global.sub_scene == 15:
+						cutsc_mode = 3
+						play_music("main")
+						for c in get_tree().get_nodes_in_group("cutscene"):
+							c.queue_free()
+						$graphic/spawn_tiles/shop/auto.show()
+						$graphic/spawn_tiles/shop/eddie.show()
+						shop_active = true
+						global.scene = 6
+		
+		if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
+			$scene_txt/on_off/text.set_visible_characters(0)
+			global.sub_scene += 1
+			
+		if global.scene == 2 or global.scene == 5:
+			$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
+			$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
+		
+		if global.scene == 3:
+			sound("fall")
+			var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
+			scene_auto.position.x = $graphic/spawn_tiles/shop/auto.global_position.x
+			scene_auto.position.y = $player/camera.limit_top - 50
+			$graphic/spawn_tiles.add_child(scene_auto)
+			$player/sprite.flip_h = true
+			$player.anim_state($player.LOOKUP)
+			global.scene = 4
 
 func _on_intro_finished():
 	$player.anim_state($player.LOOKUP)
@@ -2249,32 +2244,197 @@ func _on_intro_finished():
 
 func shop():
 	
+	if shop_active:
 		
-#	var allow = false
-#	if global.scene != 0:
-#		if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
-#			$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
-#
-#	if scene_txt.get(global.sub_scene)[0] != "":
-#		if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
-#			if !allow:
-#				allow = true
-#	else:
-#		match global.scene:
-#			2:
-#				if global.sub_scene == 3:
-#					global.scene = 3
-#			5:
-#				if global.sub_scene == 15:
-#					cutsc_mode = 3
-#					play_music("main")
-#					global.scene = 6
-#
-#	if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
-#		$scene_txt/on_off/text.set_visible_characters(0)
-#		global.sub_scene += 1
-#
-#	if global.scene == 2 or global.scene == 5:
-#		$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
-#		$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
-	pass
+		if shop_state >= 5 and shop_state < 8:
+			if !Input.is_action_pressed('jump') and !Input.is_action_pressed('fire'):
+				next = true
+		
+		match shop_state:
+			1:
+				
+				if menu_flsh == 1:
+					$graphic/spawn_tiles/shop/menu.show()
+				elif menu_flsh == 0:
+					$graphic/spawn_tiles/shop/menu.hide()
+				
+				if $player.global_position.x < 2816:
+					$player.x_dir = 1
+				else:
+					$player.global_position.x = 2816
+					$player.x_dir = 0
+					$player.hide()
+					$graphic/spawn_tiles/shop/fakeplyr.show()
+					$graphic/spawn_tiles/shop/menu.show()
+					shop_state += 1
+					
+			2:
+				$player.hide()
+				cutsc_mode = 1
+				shop_active = true
+				shop_state += 1
+			3:
+				if cutsc_mode == 2:
+					$scene_txt/on_off/text.set_visible_characters(0)
+					$scene_txt/on_off/name.set_text(shop_text.get(0)[0])
+					$scene_txt/on_off/text.set_text(shop_text.get(int(shop_rand))[1])
+					$scene_txt/on_off.show()
+					shop_state += 1
+			4:
+				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+					if !next:
+						next = true
+						
+				if next and Input.is_action_just_pressed("jump"):
+					$scene_txt/on_off/text.set_visible_characters(0)
+					$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
+					$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
+					shop_state += 1
+					next = false
+			
+			5: #Actual shop functions.
+				var reset_txt = false
+				
+				if shop_pos == 0:
+					$graphic/spawn_tiles/shop/menu/icon1.frame = 0
+				else:
+					$graphic/spawn_tiles/shop/menu/icon1.frame = 8
+				
+				if shop_pos == 1:
+					$graphic/spawn_tiles/shop/menu/icon2.frame = 1
+				else:
+					$graphic/spawn_tiles/shop/menu/icon2.frame = 9
+				
+				if shop_pos == 2:
+					$graphic/spawn_tiles/shop/menu/icon3.frame = 2
+				else:
+					$graphic/spawn_tiles/shop/menu/icon3.frame = 10
+				
+				if shop_pos == 3:
+					$graphic/spawn_tiles/shop/menu/icon4.frame = 4
+				else:
+					$graphic/spawn_tiles/shop/menu/icon4.frame = 12
+				
+				if shop_pos == 4:
+					$graphic/spawn_tiles/shop/menu/icon5.frame = 4
+				else:
+					$graphic/spawn_tiles/shop/menu/icon5.frame = 12
+					
+				if shop_pos == 5:
+					$graphic/spawn_tiles/shop/menu/icon6.frame = 4
+				else:
+					$graphic/spawn_tiles/shop/menu/icon6.frame = 12
+				
+				if !reset_txt:
+					if Input.is_action_just_pressed("up"):
+						if shop_pos >= 3 and shop_pos <= 5:
+							shop_pos -= 3
+							reset_txt = true
+					
+					if Input.is_action_just_pressed("down"):
+						if shop_pos >= 0 and shop_pos <= 2:
+							shop_pos += 3
+							reset_txt = true
+					
+					if Input.is_action_just_pressed("left"):
+						if shop_pos > 3 and shop_pos <= 5 or shop_pos > 0 and shop_pos <= 2:
+							shop_pos -= 1
+							reset_txt = true
+					
+					if Input.is_action_just_pressed("right"):
+						if shop_pos >= 3 and shop_pos < 5 or shop_pos >= 0 and shop_pos < 2:
+							shop_pos += 1
+
+							reset_txt = true
+				
+				#Display the appropriate text.
+				if reset_txt:
+					$scene_txt/on_off/text.set_visible_characters(0)
+					if shop_pos >= 0 and shop_pos <=2:
+						$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
+					else: #These items are currently unavailable.
+						$scene_txt/on_off/name.set_text(shop_text.get(15)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(15)[1])
+					reset_txt = false
+				
+				if next and Input.is_action_just_pressed("jump"):
+					$scene_txt/on_off/text.set_visible_characters(0)
+					#Begin checks.
+					
+					#Check item and see if available.
+					if prices[shop_pos] == -1:
+						sound('buzz')
+					else:
+						#Item IS available, check bolts.
+						if global.bolts >= prices[shop_pos]:
+							#Check if maximum obtained.
+							if shop_pos == 0:#Check Life and Weapon Energy
+								var hp_mp = global.player_life[0] + global.weapon1[1] + global.weapon2[1] + global.weapon3[1] + global.weapon4[1]
+								if hp_mp == 1400:
+									sound('buzz')
+									$scene_txt/on_off/name.set_text(shop_text.get(7)[0])
+									$scene_txt/on_off/text.set_text(shop_text.get(7)[1])
+								else:
+									$scene_txt/on_off/name.set_text(shop_text.get(14)[0])
+									$scene_txt/on_off/text.set_text(shop_text.get(14)[1])
+									shop_state = 6
+							if shop_pos == 1:
+								if global.etanks == 4:
+									sound('buzz')
+									$scene_txt/on_off/name.set_text(shop_text.get(7)[0])
+									$scene_txt/on_off/text.set_text(shop_text.get(7)[1])
+								else:
+									$scene_txt/on_off/name.set_text(shop_text.get(14)[0])
+									$scene_txt/on_off/text.set_text(shop_text.get(14)[1])
+									shop_state = 6
+							if shop_pos == 2:
+								if global.wtanks == 1:
+									sound('buzz')
+									$scene_txt/on_off/name.set_text(shop_text.get(7)[0])
+									$scene_txt/on_off/text.set_text(shop_text.get(7)[1])
+								else:
+									$scene_txt/on_off/name.set_text(shop_text.get(14)[0])
+									$scene_txt/on_off/text.set_text(shop_text.get(14)[1])
+									shop_state = 6
+						else:
+							sound('buzz')
+							$scene_txt/on_off/name.set_text(shop_text.get(6)[0])
+							$scene_txt/on_off/text.set_text(shop_text.get(6)[1])
+					next = false
+					
+				#Cancel out of shop
+				elif next and Input.is_action_just_pressed("fire"):
+					$scene_txt/on_off/text.set_visible_characters(0)
+					$scene_txt/on_off/name.set_text(shop_text.get(16)[0])
+					$scene_txt/on_off/text.set_text(shop_text.get(16)[1])
+					next = false
+					shop_state = 8
+			6:
+				if next and Input.is_action_just_pressed("jump"):
+					print('Yes')
+					next = false
+					pass
+				elif next and Input.is_action_just_pressed("fire"):
+					print('No')
+					next = false
+					pass
+			
+			7:
+				pass
+			
+			8: #Cancel out of shop.
+#				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+#					if !next:
+#						next = true
+				
+				if next:
+					if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("fire"):
+						cutsc_mode += 1
+						next = false
+						
+		
+		if shop_state > 3:
+			if shop_active:
+				if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
+					$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)

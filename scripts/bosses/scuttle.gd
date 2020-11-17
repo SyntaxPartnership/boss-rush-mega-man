@@ -194,6 +194,10 @@ func _physics_process(delta):
 			act_delay = 10
 			state = 15
 			force_spin = 0
+			var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
+			p_flash.position = global_position
+			world.get_child(3).add_child(p_flash)
+			world.sound('bling')
 			desp = true
 	
 	if !fill_bar:

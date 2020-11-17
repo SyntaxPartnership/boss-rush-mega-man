@@ -124,7 +124,9 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=8]
 extents = Vector2( 16, 16 )
 
-[node name="scene_auto" type="KinematicBody2D"]
+[node name="scene_auto" type="KinematicBody2D" groups=[
+"cutscene",
+]]
 collision_layer = 66
 collision_mask = 256
 script = ExtResource( 1 )

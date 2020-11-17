@@ -456,6 +456,10 @@ func _physics_process(delta):
 			velocity = Vector2.ZERO
 			state = 18
 			$anim.play("open")
+			var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
+			p_flash.position = global_position
+			world.get_child(3).add_child(p_flash)
+			world.sound('bling')
 			desp_fin = true
 			desp = true
 	

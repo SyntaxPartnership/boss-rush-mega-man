@@ -3,7 +3,7 @@
 [ext_resource path="res://scripts/cutscene/scene_eddie.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/shop/eddie.png" type="Texture" id=2]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id=1]
 resource_name = "fall"
 length = 0.1
 loop = true
@@ -20,7 +20,7 @@ tracks/0/keys = {
 "values": [ 5 ]
 }
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=2]
 resource_name = "idle"
 length = 2.0
 loop = true
@@ -37,7 +37,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=3]
 resource_name = "land"
 length = 0.1
 tracks/0/type = "value"
@@ -53,10 +53,12 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 8, 8 )
 
-[node name="scene_eddie" type="KinematicBody2D"]
+[node name="scene_eddie" type="KinematicBody2D" groups=[
+"cutscene",
+]]
 collision_layer = 322
 collision_mask = 256
 script = ExtResource( 1 )
@@ -67,11 +69,11 @@ hframes = 7
 frame = 3
 
 [node name="anim" type="AnimationPlayer" parent="."]
-anims/fall = SubResource( 2 )
-anims/idle = SubResource( 3 )
-anims/land = SubResource( 4 )
+anims/fall = SubResource( 1 )
+anims/idle = SubResource( 2 )
+anims/land = SubResource( 3 )
 
 [node name="box" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
-shape = SubResource( 1 )
+shape = SubResource( 4 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
