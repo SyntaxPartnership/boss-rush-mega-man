@@ -536,10 +536,10 @@ frame = 16
 [node name="text" type="Label" parent="items_menu/bolts"]
 margin_left = 200.0
 margin_top = 296.0
-margin_right = 224.0
+margin_right = 232.0
 margin_bottom = 304.0
 custom_fonts/font = ExtResource( 1 )
-text = ":0000"
+text = ":000"
 __meta__ = {
 "_edit_use_anchors_": false
 }

@@ -942,7 +942,7 @@ func damage():
 func _on_item_entered(body):
 	if body.is_in_group('items'):
 		#Bolts
-		if global.bolts < 9999:
+		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
 				$audio/bolt.play()
 				if body.type == 0:
@@ -950,8 +950,8 @@ func _on_item_entered(body):
 				if body.type == 1:
 					global.bolts += 20
 			#Keep the bolts counter lower than 1000
-			if global.bolts > 9999:
-				global.bolts = 9999
+			if global.bolts > 999:
+				global.bolts = 999
 		
 		if body.type == 2:
 			world.life_en = 20

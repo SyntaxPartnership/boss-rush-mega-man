@@ -9,7 +9,7 @@ var player_id = [0, 99]
 var player_life = [280, 0]
 var player_weap = [0, 0]
 var lives = 2
-var bolts = 5000
+var bolts = 0
 var etanks = 0
 var wtanks = 0
 var tokens = 0
@@ -65,10 +65,10 @@ var perma_items = {
 	}
 
 #Stage Cleared Flags
-var boss1_clear = false
+var boss1_clear = true
 var boss2_clear = false
-var boss3_clear = false
-var boss4_clear = false
+var boss3_clear = true
+var boss4_clear = true
 var boss5_clear = false
 var wily1_clear = false
 var wily2_clear = false
@@ -94,10 +94,10 @@ var bass = true
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var dummy = [true, 280, 280]
-var weapon1 = [false, 280, 280]
+var weapon1 = [true, 280, 280]
 var weapon2 = [false, 280, 280]
-var weapon3 = [false, 280, 280]
-var weapon4 = [false, 280, 280]
+var weapon3 = [true, 280, 280]
+var weapon4 = [true, 280, 280]
 
 var end_pos = Vector2()
 var end_frame = 0

@@ -210,6 +210,9 @@ func _process(delta):
 		
 		9:
 			world.play_music('main')
+			global.scene = 8
+			global.sub_scene = 16
+			world.shop_active = false
 			player.cutscene(false)
 			end_state = 10
 					

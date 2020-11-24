@@ -85,12 +85,13 @@ var j_release = 0
 var opening = 0
 
 var og_limits = []
+var c_offset_mod = 0
 var shake_delay = 2
 var shake_x = 0
 var shake_y = 0
 
 #Shop values
-var shop_active = true
+var shop_active = false
 var auto_dist = 0
 var shop_state = 0
 var shop_page = 0
@@ -98,7 +99,11 @@ var shop_pos = 0
 var shop_rand = 0
 var menu_flsh = 0
 var icon_flsh = 0
+var screws = 0
 var prices = [100, 250, 200, -1, -1, -1]
+var countdown = false
+var buy_rand = 0
+var ret_delay = 12
 var next = false
 
 var cutsc_mode = 0
@@ -120,7 +125,16 @@ var scene_txt = {
 	12 : ["AUTO:", "WAIT. BEFORE YOU GO, I CAN\n\nMAKE SOME ITEMS OUT OF THE"],
 	13 : ["AUTO:", "JUNK LYING AROUND. BRING ME\n\nSCREWS AND I'LL WHIP THEM"],
 	14 : ["AUTO:", "TOGETHER! GO AHEAD! LOOK AT\n\nMY WARES!"],
-	15 : ["", ""]
+	15 : ["", ""],
+	16 : ["DR. WILY:", "SO! YOU'VE MANAGED TO DEFEAT\n\nTHE ROBOT MASTERS."],
+	17 : ["DR. WILY:", "I GUESS I SHOULD THANK YOU\n\nFOR RESCUING ME..."],
+	18 : ["DR. WILY:", "BAH! WHAT AM I SAYING?! THIS\n\nISN'T OVER!"],
+	19 : ["DR. WILY:", "EXCEPT FOR THIS DEMO."],
+	20 : ["DR. WILY:", "THOSE EXTRA DOORS? I CAN'T\n\nREALLY SAY."],
+	21 : ["DR. WILY:", "YOU'LL HAVE TO FIND OUT IN\n\nTHE FULL GAME."],
+	22 : ["DR. WILY:", "YOU CAN NOW REFIGHT THE\n\nBOSSES FOR A BETTER TIME AND"],
+	23 : ["DR. WILY:", "RANK. CAN YOU REACH RANK S?"],
+	24 : ["", ""]
 }
 
 var shop_text = {
@@ -266,6 +280,8 @@ var accuracy = 0.0
 var after_boss = false
 
 func _ready():
+	
+	$graphic/spawn_tiles/shop/eddie/anim.play('idle')
 	
 	$hud/hud/boss.material.set_shader_param('t_col1', global.t_color1)
 	$hud/hud/boss.material.set_shader_param('t_col2', global.t_color2)
@@ -574,6 +590,12 @@ func _rooms():
 		var room_chk = player_room
 		
 		if room_chk != Vector2(10, 4) and room_chk != Vector2(11, 4):
+			#Check to see if the other bosses are defeated
+			if global.weapon1[0] and global.weapon2[0] and global.weapon3[0] and global.weapon4[0]:
+				global.boss1_clear = true
+				global.boss2_clear = true
+				global.boss3_clear = true
+				global.boss4_clear = true
 			match which_wpn:
 				0:
 					$hud/hud/boss.material.set_shader_param('r_col2', global.grey1)
@@ -611,13 +633,7 @@ func _rooms():
 						cam_allow[2] = 0
 					elif global.weapon4[0] and global.boss4_clear:
 						end_style = 1
-		else:
-			#Check to see if the bosses have been defeated.
-			if global.weapon1[0] and global.weapon2[0] and global.weapon3[0] and global.weapon4[0]:
-				global.boss1_clear = true
-				global.boss2_clear = true
-				global.boss3_clear = true
-				global.boss4_clear = true
+			
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
@@ -674,22 +690,43 @@ func _rooms():
 		
 	og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
 	
-	if global.scene == 1 and cutsc_mode == 0:
-		if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
-			cutsc_mode = 1
+	if global.scene < 7:
+		if global.scene == 1 and cutsc_mode == 0:#Edit for additional scenes.
+			if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
+				c_offset_mod = 64
+				cutsc_mode = 1
+		
+		if cutsc_mode == 1:
+			if !$scene_txt/on_off.is_visible_in_tree():
+				$scene_txt.offset.y = -64
+				$scene_txt/on_off.show()
+			kill_music()
+			$player.cutscene(true)
+			global.player_weap[0] = 0
+			palette_swap()
+			$player/camera.limit_top = og_limits[0] + 64
+			$player/camera.limit_bottom = og_limits[1] + 64
+			cutsc_mode = 2
 	
-	if cutsc_mode == 1:
-		if !$scene_txt/on_off.is_visible_in_tree():
-			$scene_txt.offset.y = -64
-			$scene_txt/on_off.show()
+	if global.scene == 8:
 		kill_music()
+		if player_room == Vector2(7, 6):
+			$graphic/spawn_tiles/demo_wily.global_position = Vector2(1920, 1585)
+		elif player_room == Vector2(7, 10):
+			$graphic/spawn_tiles/demo_wily.global_position = Vector2(1920, 2545)
+		elif player_room == Vector2(14, 6):
+			$graphic/spawn_tiles/demo_wily.global_position = Vector2(3712, 1585)
+		elif player_room == Vector2(14, 10):
+			$graphic/spawn_tiles/demo_wily.global_position = Vector2(3712, 2545)
 		$player.cutscene(true)
 		global.player_weap[0] = 0
 		palette_swap()
-		$player/camera.limit_top = og_limits[0] + 64
-		$player/camera.limit_bottom = og_limits[1] + 64
-		cutsc_mode = 2
+		cutsc_mode = 1
 	
+	if global.scene == 9:
+		if $graphic/spawn_tiles/demo_wily.is_visible_in_tree():
+			$graphic/spawn_tiles/demo_wily.hide()
+		
 	#Remove the cage.
 	var cage = get_tree().get_nodes_in_group('cage')
 	if cage != []:
@@ -838,12 +875,26 @@ func _process(delta):
 	cutscene()
 	
 	#This is just to make the shop menu flash.
-	if shop_state == 1:
+	if shop_state == 1 or shop_state == 9:
 		menu_flsh += 1
 		if menu_flsh > 1:
 			menu_flsh = 0
 	
 	shop()
+	
+	#Make the fake Wily face the player.
+	if $graphic/spawn_tiles/demo_wily.global_position.x > $player.global_position.x and !$graphic/spawn_tiles/demo_wily.flip_h:
+		$graphic/spawn_tiles/demo_wily.flip_h = true
+	elif $graphic/spawn_tiles/demo_wily.global_position.x < $player.global_position.x and $graphic/spawn_tiles/demo_wily.flip_h:
+		$graphic/spawn_tiles/demo_wily.flip_h = false
+	
+	#Make the shop appear if the current scene is 6 or above. This is mostly to make the shop accessible when the player dies.
+	if global.scene == 6 and !shop_active:
+		shop_active = true
+	
+	if shop_active and !$graphic/spawn_tiles/shop/auto.is_visible_in_tree():
+		$graphic/spawn_tiles/shop/auto.show()
+		$graphic/spawn_tiles/shop/eddie.show()
 	
 	#Shop function
 	#Calculate how close the player is to Auto.
@@ -852,7 +903,14 @@ func _process(delta):
 		
 	#If the player presses up in the right spot, trigger shop sequence.
 	if auto_dist < 0 and auto_dist > -16 and Input.is_action_just_pressed('up') and shop_state == 0 and shop_active:
+		kill_music()
+		play_music('shop - rock')
 		shop_rand = round(rand_range(0, 2))
+		$graphic/spawn_tiles/shop/menu/screws.set_text(str(global.bolts))
+		screws = global.bolts
+		$graphic/spawn_tiles/shop/menu/icon1/price1.set_text(str(prices[0]))
+		$graphic/spawn_tiles/shop/menu/icon2/price2.set_text(str(prices[1]))
+		$graphic/spawn_tiles/shop/menu/icon3/price3.set_text(str(prices[2]))
 		$player.cutscene(true)
 		shop_state = 1
 	
@@ -2165,14 +2223,19 @@ func cutscene():
 			$player/camera.limit_top += 4
 			$player/camera.limit_bottom += 4
 		if $player/camera.limit_top == og_limits[0] + 64:
+			$scene_txt/on_off.show()
 			cutsc_mode = 2
 	elif cutsc_mode == 3:
-		if $player/camera.limit_top > og_limits[0] - 64:
+		if $player/camera.limit_top > og_limits[0] - c_offset_mod:
 			$scene_txt.offset.y += 4
 			$player/camera.limit_top -= 4
 			$player/camera.limit_bottom -= 4
-		if $player/camera.limit_top == og_limits[0] - 64:
+		if $player/camera.limit_top == og_limits[0] - c_offset_mod:
 			$player.cutscene(false)
+			if shop_state != 0:
+				shop_state = 0
+			if c_offset_mod != 0:
+				c_offset_mod = 0
 			cutsc_mode = 0
 	
 	if $player.cutscene and cutsc_mode > 0 and cutsc_mode < 3:
@@ -2212,15 +2275,23 @@ func show_text():
 						for c in get_tree().get_nodes_in_group("cutscene"):
 							c.queue_free()
 						$graphic/spawn_tiles/shop/auto.show()
+						$graphic/spawn_tiles/shop/auto/anim.play("idle")
 						$graphic/spawn_tiles/shop/eddie.show()
+						$graphic/spawn_tiles/shop/eddie/anim.play("idle")
 						shop_active = true
 						global.scene = 6
+				8:
+					if global.sub_scene == 24:
+						cutsc_mode = 3
+						play_music("main")
+						shop_active = true
+						global.scene = 9
 		
 		if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
 			$scene_txt/on_off/text.set_visible_characters(0)
 			global.sub_scene += 1
 			
-		if global.scene == 2 or global.scene == 5:
+		if global.scene == 2 or global.scene == 5 or global.scene == 8:
 			$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
 			$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
 		
@@ -2244,6 +2315,27 @@ func _on_intro_finished():
 
 func shop():
 	
+	#Handle animations for the shop.
+	#Auto
+	if shop_state != 10:
+		if $scene_txt/on_off/name.get_text() == "AUTO:" and $graphic/spawn_tiles/shop/auto/anim.get_current_animation() != "talk":
+			$graphic/spawn_tiles/shop/auto/anim.play('talk')
+		elif $scene_txt/on_off/name.get_text() != "AUTO:" and $graphic/spawn_tiles/shop/auto/anim.get_current_animation() != "idle":
+			$graphic/spawn_tiles/shop/auto/anim.play('idle')
+	
+	#Screw Countdown
+	if shop_state == 10:
+		if global.bolts != screws and !countdown:
+			$graphic/spawn_tiles/shop/menu/screws/countdown.interpolate_property(self, 'screws', screws, global.bolts, 0.25)
+			$graphic/spawn_tiles/shop/menu/screws/countdown.start()
+			countdown = true
+		
+		if int($graphic/spawn_tiles/shop/menu/screws.get_text()) != screws:
+			$graphic/spawn_tiles/shop/menu/screws.set_text(str(round(screws)))
+		
+		if screws == global.bolts and countdown:
+			countdown = false
+	
 	if shop_active:
 		
 		if shop_state >= 5 and shop_state < 8:
@@ -2251,6 +2343,9 @@ func shop():
 				next = true
 		
 		match shop_state:
+			0:
+				if $graphic/spawn_tiles/shop/menu.is_visible_in_tree():
+					$graphic/spawn_tiles/shop/menu.hide()
 			1:
 				
 				if menu_flsh == 1:
@@ -2328,23 +2423,26 @@ func shop():
 				if !reset_txt:
 					if Input.is_action_just_pressed("up"):
 						if shop_pos >= 3 and shop_pos <= 5:
+							sound('cursor')
 							shop_pos -= 3
 							reset_txt = true
 					
 					if Input.is_action_just_pressed("down"):
 						if shop_pos >= 0 and shop_pos <= 2:
+							sound('cursor')
 							shop_pos += 3
 							reset_txt = true
 					
 					if Input.is_action_just_pressed("left"):
 						if shop_pos > 3 and shop_pos <= 5 or shop_pos > 0 and shop_pos <= 2:
+							sound('cursor')
 							shop_pos -= 1
 							reset_txt = true
 					
 					if Input.is_action_just_pressed("right"):
 						if shop_pos >= 3 and shop_pos < 5 or shop_pos >= 0 and shop_pos < 2:
+							sound('cursor')
 							shop_pos += 1
-
 							reset_txt = true
 				
 				#Display the appropriate text.
@@ -2412,29 +2510,139 @@ func shop():
 					shop_state = 8
 			6:
 				if next and Input.is_action_just_pressed("jump"):
-					print('Yes')
+					#Start tween for the screw countdown
+					
+					buy_rand = int(round(rand_range(3, 5)))
+					
+					$scene_txt/on_off/text.set_visible_characters(0)
+					$scene_txt/on_off/name.set_text(shop_text.get(buy_rand)[0])
+					$scene_txt/on_off/text.set_text(shop_text.get(buy_rand)[1])
+					
+					sound('buy')
+					global.bolts -= prices[shop_pos]
+					$graphic/spawn_tiles/shop/fakeplyr.frame = 1
+					
+					$graphic/spawn_tiles/shop/eddie/anim.play("spit-a")
+					
+					shop_state = 10
 					next = false
-					pass
 				elif next and Input.is_action_just_pressed("fire"):
-					print('No')
+					$scene_txt/on_off/text.set_visible_characters(0)
+					$scene_txt/on_off/name.set_text(shop_text.get(17)[0])
+					$scene_txt/on_off/text.set_text(shop_text.get(17)[1])
+					shop_state = 7
 					next = false
-					pass
 			
 			7:
-				pass
+				if next and Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("fire"):
+					$scene_txt/on_off/text.set_visible_characters(0)
+					if shop_pos >= 0 and shop_pos <=2:
+						$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
+					else: #These items are currently unavailable.
+						$scene_txt/on_off/name.set_text(shop_text.get(15)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(15)[1])
+					shop_state = 5
+					next = false
 			
 			8: #Cancel out of shop.
-#				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
-#					if !next:
-#						next = true
+				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+					if !next:
+						next = true
 				
 				if next:
 					if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("fire"):
+						kill_music()
+						play_music('main')
 						cutsc_mode += 1
+						shop_state = 9
+						$graphic/spawn_tiles/shop/fakeplyr.hide()
+						$player.show()
+						$scene_txt/on_off/name.set_text("")
+						$scene_txt/on_off/text.set_text("")
 						next = false
+			
+			9:
+				if menu_flsh == 1:
+					$graphic/spawn_tiles/shop/menu.show()
+				elif menu_flsh == 0:
+					$graphic/spawn_tiles/shop/menu.hide()
+			
+			10: #Purchase item.
+				
+				for s in get_tree().get_nodes_in_group('spit'):
+					
+					if s.global_position.x < $player.global_position.x and $graphic/spawn_tiles/shop/fakeplyr.frame == 3:
+						$graphic/spawn_tiles/shop/fakeplyr.frame = 4
+					
+					if s.global_position.x < $graphic/spawn_tiles/shop/auto.global_position.x:
+						s.velocity = Vector2(100, -160)
+						$graphic/spawn_tiles/shop/auto/anim.play('bounce')
+						$graphic/spawn_tiles/shop/fakeplyr.frame = 2
+						sound('dink')
+					
+					if s.plyr_det != []:
+						#Add the appropriate items.
+						if shop_pos == 0:
+							global.player_life[0] = 280
+							global.weapon1[1] = 280
+							global.weapon2[1] = 280
+							global.weapon3[1] = 280
+							global.weapon4[1] = 280
+						elif shop_pos == 1:
+							global.etanks += 1
+						elif shop_pos == 2:
+							global.wtanks += 1
+						sound('1up')
+						shop_state = 11
+						$graphic/spawn_tiles/shop/eddie/anim.play("spit-b")
+						s.queue_free()
+			11:
+				ret_delay -= 1
+				
+				if ret_delay == 0:
+					$graphic/spawn_tiles/shop/fakeplyr.frame = 0
+					if shop_pos >= 0 and shop_pos <=2:
+						$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
+					else: #These items are currently unavailable.
+						$scene_txt/on_off/name.set_text(shop_text.get(15)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(15)[1])
+					ret_delay = 12
+					shop_state = 5
 						
 		
 		if shop_state > 3:
 			if shop_active:
 				if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
 					$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
+
+
+func eddie_spit(anim_name):
+	if anim_name == 'spit-a':
+		
+		$graphic/spawn_tiles/shop/auto/anim.play('idle')
+		
+		$scene_txt/on_off/text.set_visible_characters(0)
+		$scene_txt/on_off/name.set_text('')
+		$scene_txt/on_off/text.set_text('')
+		
+		var spit_dist = int(round(rand_range(0, 11)))
+		var spit_vel = Vector2()
+		
+		if spit_dist == 0:
+			$graphic/spawn_tiles/shop/fakeplyr.frame = 3
+			spit_vel = Vector2(-150, -310)
+		else:
+			spit_vel = Vector2(-100, -225)
+		
+		sound('throw')
+		var spit = load('res://scenes/objects/eddie-spit.tscn').instance()
+		spit.get_child(0).frame = shop_pos
+		spit.velocity = spit_vel
+		spit.global_position.x = $graphic/spawn_tiles/shop/eddie.global_position.x
+		spit.global_position.y = $graphic/spawn_tiles/shop/eddie.global_position.y - 8
+		$graphic.add_child(spit)
+	
+	if anim_name == 'spit-b':
+		$graphic/spawn_tiles/shop/eddie/anim.play('idle')

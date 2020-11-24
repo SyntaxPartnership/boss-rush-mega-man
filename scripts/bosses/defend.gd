@@ -608,6 +608,8 @@ func _physics_process(delta):
 				world.calc_damage(player, self)
 	
 	if world.boss_hp <= 0:
+		for k in get_tree().get_nodes_in_group('def_bullet'):
+			k.queue_free()
 		world.kill_music()
 		world.sound("death")
 		world.bolt_calc()

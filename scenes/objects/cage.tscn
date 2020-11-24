@@ -148,7 +148,7 @@ vframes = 3
 visible = false
 position = Vector2( 1, 10 )
 texture = ExtResource( 2 )
-hframes = 13
+hframes = 14
 
 [node name="fugue" type="Sprite" parent="."]
 visible = false
