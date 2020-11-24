@@ -209,6 +209,9 @@ func _input(_event):
 	#Quick way to close the game.
 	if Input.is_key_pressed(KEY_ESCAPE):
 		get_tree().quit()
+	
+	if Input.is_key_pressed(KEY_F1):
+		OS.shell_open('https://docs.google.com/forms/d/e/1FAIpQLSeyLL_FwRGr4QF95_05v7IEJBzN-SIagEJleyIiJSSoUVABwA/viewform')
 
 func _screen_resized():
 	var window_size

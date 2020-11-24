@@ -1530,6 +1530,10 @@ func cutscene(state):
 		fire = false
 		cutscene = true
 	else:
+		if $sprite.flip_h:
+			shot_dir = 0
+		else:
+			shot_dir = 1
 		shot_pos()
 		no_input(false)
 		cutscene = false

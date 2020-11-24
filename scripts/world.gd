@@ -348,7 +348,7 @@ func _input(event):
 	#Weapon Swapping.
 	if $player.can_move:
 		#L and R Button.
-		if Input.is_action_just_pressed("prev"):
+		if Input.is_action_just_pressed("prev") and !$player.cutscene:
 			global.player_weap[int($player.swap)] -= 1
 			$player.w_icon = 64
 			$player.r_boost = false
@@ -371,7 +371,7 @@ func _input(event):
 			
 			palette_swap()
 			
-		if Input.is_action_just_pressed("next"):
+		if Input.is_action_just_pressed("next") and !$player.cutscene:
 			global.player_weap[int($player.swap)] += 1
 			$player.w_icon = 64
 			$player.r_boost = false

@@ -92,3 +92,6 @@ func _on_hitbox_body_entered(body):
 		boom.position = global_position
 		world.get_child(3).add_child(boom)
 		queue_free()
+
+func kill_gaby():
+	pass

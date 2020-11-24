@@ -16,11 +16,13 @@ func _input(event):
 		
 		if Input.is_action_just_pressed('start') or Input.is_action_just_pressed('jump'):
 			if menu == 1:
-				if menu_pos == 0 or menu_pos == 2:
+				if menu_pos == 0 or menu_pos == 1:
 					$sounds/select.play()
 					menu += 1
 					$fade.state = 1
 					$fade.set("end", true)
+				elif menu_pos == 2:
+					OS.shell_open('https://docs.google.com/forms/d/e/1FAIpQLSelexfghh9gmATILFTiGlgXRaFNjJCXwUAkJoMlBAXvH8JPsQ/viewform')
 			if menu == 0:
 				$sounds/select.play()
 				menu += 1
@@ -62,7 +64,7 @@ func _on_fade_fadeout():
 	if menu_pos == 0:
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/world.tscn")
-	elif menu_pos == 2:
+	elif menu_pos == 1:
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/options.tscn")
 
@@ -86,7 +88,7 @@ func _on_menu_fade_tween_completed(object, key):
 		if menu == 0:
 			$menu.set_text('\n\nPRESS START')
 		elif menu == 1:
-			$menu.set_text('NEW GAME\n\nLOAD GAME\n\nOPTIONS\n\nEXTRA MODES')
+			$menu.set_text('NEW GAME\n\nOPTIONS\n\nFEEDBACK')
 		elif menu == 2:
 			$menu.set_text('EASY\n\nNORMAL\n\n?????\n\n?????\n\n?????')
 		fade_out = false
