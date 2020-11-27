@@ -1199,12 +1199,15 @@ func standing():
 	
 	#When the player is no longer on the floor, cancel slide.
 	if slide and !is_on_floor() and jumps > 0:
+		print('Not on floor')
 		slide_timer = 0
 		anim_state(JUMP)
 		jumps = 0
 		$standbox.set_disabled(false)
 		$slidebox.set_disabled(true)
-		s_kick = false
+		if s_kick:
+			velocity.y = 0
+			s_kick = false
 		slide = false
 	
 	if global.player == 1 and slide and !is_on_floor():

@@ -70,7 +70,7 @@ var floor_boom = 8
 var boom_delay = 0
 
 var opn_lk_delay = 60
-var opn_look_cnt = 0
+var opn_look_cnt = -1
 
 var blink_delay = 30
 var blink_cnt = 0
@@ -889,8 +889,9 @@ func _process(delta):
 		$graphic/spawn_tiles/demo_wily.flip_h = false
 	
 	#Make the shop appear if the current scene is 6 or above. This is mostly to make the shop accessible when the player dies.
-	if global.scene == 6 and !shop_active:
-		shop_active = true
+	if global.scene == 6 or global.scene == 9:
+		if !shop_active:
+			shop_active = true
 	
 	if shop_active and !$graphic/spawn_tiles/shop/auto.is_visible_in_tree():
 		$graphic/spawn_tiles/shop/auto.show()
@@ -1453,19 +1454,26 @@ func _process(delta):
 			global.opening = 2
 	
 	if global.opening == 2 and $player.is_on_floor():
+		
+		if opn_look_cnt == -1:
+			if $player/sprite.flip_h:
+				opn_look_cnt = 4
+			else:
+				opn_look_cnt = 3
+		
 		opn_lk_delay -= 1
 		
 		if opn_lk_delay == 0:
-			if opn_look_cnt < 3:
+			if opn_look_cnt > 0:
 				if $player/sprite.flip_h:
 					$player/sprite.flip_h = false
 				else:
 					$player/sprite.flip_h = true
 			
 			opn_lk_delay = 16
-			opn_look_cnt += 1
+			opn_look_cnt -= 1
 		
-		if opn_look_cnt == 4:
+		if opn_look_cnt == 0:
 			$player.anim_state($player.LOOKUP)
 			global.opening = 3
 	
@@ -2259,7 +2267,7 @@ func show_text():
 			if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
 				$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 		
-		if scene_txt.get(global.sub_scene)[0] != "":
+		if scene_txt.get(global.sub_scene)[0] != "" and global.scene > 1:
 			if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
 				if !allow:
 					allow = true

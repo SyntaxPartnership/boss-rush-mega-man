@@ -16,6 +16,7 @@ var bounce = 0
 var p_intro = false
 var intro_delay = 40
 var fill_bar = true
+var intro_boing = false
 var spin_spawn = false
 var spinner
 var sic_em = 0
@@ -171,7 +172,9 @@ func _physics_process(delta):
 	if intro:
 		if !is_on_floor() and intro_bnce == 1:
 			if velocity.y < 0:
-				world.sound('boing')
+				if !intro_boing:
+					world.sound('boing')
+					intro_boing = true
 				$anim.play("jump")
 			else:
 				$anim.play("fall")

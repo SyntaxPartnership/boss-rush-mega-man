@@ -118,6 +118,7 @@ tracks/8/keys = {
 [node name="l_explode" type="Node2D" groups=[
 "effects",
 ]]
+pause_mode = 1
 script = ExtResource( 1 )
 
 [node name="explode_01" type="Sprite" parent="."]
