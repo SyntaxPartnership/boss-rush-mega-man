@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/1025 FOR YOU -ROLL'S THEME-.ogg-8530092b2fe436679d3a25b260aaa2ac.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/music/1025 FOR YOU -ROLL'S THEME-.ogg"
+dest_files=[ "res://.import/1025 FOR YOU -ROLL'S THEME-.ogg-8530092b2fe436679d3a25b260aaa2ac.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

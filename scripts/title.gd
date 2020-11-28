@@ -50,8 +50,8 @@ func _input(event):
 		
 		#Loop cursor position.
 		if menu_pos < 0:
-			menu_pos = 3
-		elif menu_pos > 3:
+			menu_pos = 2
+		elif menu_pos > 2:
 			menu_pos = 0
 		
 		#Set sprite to position.

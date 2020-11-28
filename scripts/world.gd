@@ -1315,7 +1315,8 @@ func _process(delta):
 			match end_style:
 				0:
 					$hud/hud.hide()
-					$audio/music/clear.play()
+					kill_weapons()
+					play_music('clear')
 					$player.cutscene(true)
 					boss = false
 				1:

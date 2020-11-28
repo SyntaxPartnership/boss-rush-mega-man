@@ -26,6 +26,7 @@ var spawn = 0
 
 func _ready():
 	$anim.play("idle")
+	world.play_music('for_you')
 
 func _physics_process(delta):
 	
@@ -42,6 +43,7 @@ func _physics_process(delta):
 	
 		#If the player is close enough, trigger kick action.
 		if dist <= 30 and !kick and !fly:
+			world.kill_music()
 			$anim.play("idle2")
 			kick = true
 	
@@ -58,6 +60,7 @@ func _physics_process(delta):
 		if boom_time == 0 and !fly:
 			$anim.play("float")
 			boom_time = 400
+			world.kill_music()
 			fly = true
 	
 		if boom_time == 0 and fly and !dead:
@@ -118,6 +121,7 @@ func _on_anim_finished(anim_name):
 
 func _on_hitbox_body_entered(body):
 	if body.is_in_group("weapons"):
+		world.kill_music()
 		if body.name == "scuttle_puck":
 			boing = true
 			$anim.play("boing")
