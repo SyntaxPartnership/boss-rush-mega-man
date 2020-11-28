@@ -106,6 +106,7 @@ var buy_rand = 0
 var ret_delay = 12
 var next = false
 
+var cursor_blnk = 0
 var cutsc_mode = 0
 var scene = 0
 var sub_scene = 0
@@ -767,6 +768,7 @@ func calc_damage(to, from):
 				enemy_dmg(to.id, from.id)
 			if damage != 0 and !from.reflect:
 				if from.is_in_group("weapons") or from.is_in_group("adaptor_dmg"):
+					
 					match from.property:
 						null:
 							print('shield')
@@ -792,6 +794,9 @@ func calc_damage(to, from):
 								from._on_screen_exited()
 				if boss_hp > 0:
 					if to.flash == 0:
+						if to.name == "scuttle":
+							if to.state >= 6 and to.state <= 10:
+								to.force_spin += 1
 						sound("hit")
 						boss_hp -= damage
 						hit_num += 1
@@ -1234,36 +1239,36 @@ func _process(delta):
 		arr_blnk = 0
 		
 	if arr_blnk < 8:
-		$graphic/stage_overlap/arrow.show()
+		$overlap/arrow.show()
 	else:
-		$graphic/stage_overlap/arrow.hide()
+		$overlap/arrow.hide()
 	
 	if spawn_pt != -1:
 		if spawn_pt >= 8 and spawn_pt <= 27:
 			match spawn_pt:
 				8:
-					$graphic/stage_overlap/arrow.global_position = Vector2(2608, 1128)
+					$overlap/arrow.global_position = Vector2(2608, 1128)
 					show_boss = 1
 				9:
-					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 1528)
+					$overlap/arrow.global_position = Vector2(1840, 1528)
 				10:
-					$graphic/stage_overlap/arrow.global_position = Vector2(2656, 1128)
+					$overlap/arrow.global_position = Vector2(2656, 1128)
 					show_boss = 2
 				11:
-					$graphic/stage_overlap/arrow.global_position = Vector2(1840, 2488)
+					$overlap/arrow.global_position = Vector2(1840, 2488)
 				12:
-					$graphic/stage_overlap/arrow.global_position = Vector2(2976, 1128)
+					$overlap/arrow.global_position = Vector2(2976, 1128)
 					show_boss = 3
 				13:
-					$graphic/stage_overlap/arrow.global_position = Vector2(3792, 1528)
+					$overlap/arrow.global_position = Vector2(3792, 1528)
 				14:
-					$graphic/stage_overlap/arrow.global_position = Vector2(3024, 1128)
+					$overlap/arrow.global_position = Vector2(3024, 1128)
 					show_boss = 4
 				15:
-					$graphic/stage_overlap/arrow.global_position = Vector2(3792, 2488)
+					$overlap/arrow.global_position = Vector2(3792, 2488)
 	else:
-		if $graphic/stage_overlap/arrow.global_position != Vector2(2500, 1100):
-			 $graphic/stage_overlap/arrow.global_position = Vector2(2500, 1100)
+		if $overlap/arrow.global_position != Vector2(2500, 1100):
+			 $overlap/arrow.global_position = Vector2(2500, 1100)
 		if show_boss != 0:
 			show_boss = 0
 			
@@ -1474,7 +1479,6 @@ func _process(delta):
 			opn_look_cnt -= 1
 		
 		if opn_look_cnt == 0:
-			$player.anim_state($player.LOOKUP)
 			global.opening = 3
 	
 	if global.opening == 3:
@@ -1512,6 +1516,7 @@ func _process(delta):
 					m.frame = mntr_frame
 			
 			if mntr_frame >= 3:
+				$player.anim_state($player.LOOKUP)
 				global.opening = 5
 
 	if global.opening >= 4:
@@ -1577,7 +1582,7 @@ func _process(delta):
 		if j_delay == 0:
 			$player.jump_tap = true
 			$player.jump = true
-			j_release = 8
+			j_release = 4
 			global.opening = 6
 	
 	if global.opening == 6:
@@ -2267,11 +2272,32 @@ func show_text():
 			if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
 				$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 		
-		if scene_txt.get(global.sub_scene)[0] != "" and global.scene > 1:
-			if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
-				if !allow:
-					allow = true
+		if scene_txt.get(global.sub_scene)[0] != "":
+			if global.scene > 1:
+				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+					
+					#make the cursor blink
+					cursor_blnk += 1
+					
+					if cursor_blnk > 5:
+						if $scene_txt/on_off/next.is_visible_in_tree():
+							$scene_txt/on_off/next.hide()
+						else:
+							$scene_txt/on_off/next.show()
+						cursor_blnk = 0
+					
+					if !allow:
+						allow = true
+			else:
+				if cursor_blnk != 0:
+					cursor_blnk = 0
+				if $scene_txt/on_off/next.is_visible_in_tree():
+					$scene_txt/on_off/next.hide()
 		else:
+			if cursor_blnk != 0:
+				cursor_blnk = 0
+			if $scene_txt/on_off/next.is_visible_in_tree():
+				$scene_txt/on_off/next.hide()
 			match global.scene:
 				2:
 					if global.sub_scene == 3:
@@ -2296,6 +2322,10 @@ func show_text():
 						global.scene = 9
 		
 		if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
+			if cursor_blnk != 0:
+				cursor_blnk = 0
+			if $scene_txt/on_off/next.is_visible_in_tree():
+				$scene_txt/on_off/next.hide()
 			$scene_txt/on_off/text.set_visible_characters(0)
 			global.sub_scene += 1
 			
@@ -2385,10 +2415,29 @@ func shop():
 					shop_state += 1
 			4:
 				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+					cursor_blnk += 1
+					
+					if cursor_blnk > 5:
+						if $scene_txt/on_off/next.is_visible_in_tree():
+							$scene_txt/on_off/next.hide()
+						else:
+							$scene_txt/on_off/next.show()
+						cursor_blnk = 0
+					
 					if !next:
-						next = true
+							next = true
+					
+				else:
+					if cursor_blnk != 0:
+						cursor_blnk = 0
+					if $scene_txt/on_off/next.is_visible_in_tree():
+						$scene_txt/on_off/next.hide()
+						
 						
 				if next and Input.is_action_just_pressed("jump"):
+					cursor_blnk = 0
+					if $scene_txt/on_off/next.is_visible_in_tree():
+						$scene_txt/on_off/next.hide()
 					$scene_txt/on_off/text.set_visible_characters(0)
 					$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
 					$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
@@ -2555,11 +2604,22 @@ func shop():
 			
 			8: #Cancel out of shop.
 				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+					cursor_blnk += 1
+					
+					if cursor_blnk > 5:
+						if $scene_txt/on_off/next.is_visible_in_tree():
+							$scene_txt/on_off/next.hide()
+						else:
+							$scene_txt/on_off/next.show()
+						cursor_blnk = 0
 					if !next:
 						next = true
 				
 				if next:
 					if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("fire"):
+						cursor_blnk = 0
+						if $scene_txt/on_off/next.is_visible_in_tree():
+							$scene_txt/on_off/next.hide()
 						kill_music()
 						play_music('main')
 						cutsc_mode += 1

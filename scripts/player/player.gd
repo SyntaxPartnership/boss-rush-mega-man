@@ -1198,8 +1198,7 @@ func standing():
 		slide = false
 	
 	#When the player is no longer on the floor, cancel slide.
-	if slide and !is_on_floor() and jumps > 0:
-		print('Not on floor')
+	if slide and !is_on_floor(): # and jumps > 0
 		slide_timer = 0
 		anim_state(JUMP)
 		jumps = 0

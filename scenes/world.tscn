@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=97 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -87,6 +87,7 @@
 [ext_resource path="res://assets/audio/se/Item.wav" type="AudioStream" id=85]
 [ext_resource path="res://assets/audio/music/1020 SHOP -ROCK-.ogg" type="AudioStream" id=86]
 [ext_resource path="res://assets/sprites/enemies/cage_wily.png" type="Texture" id=87]
+[ext_resource path="res://assets/sprites/effects/text_end.png" type="Texture" id=88]
 
 [sub_resource type="Animation" id=1]
 resource_name = "bounce"
@@ -543,16 +544,12 @@ tile_data = PoolIntArray( 589986, 382, 0, 589987, 380, 0, 589994, 382, 0, 589995
 [node name="dark" type="ColorRect" parent="graphic/stage_overlap"]
 margin_left = 2560.0
 margin_top = 960.0
-margin_right = 2816.0
+margin_right = 3072.0
 margin_bottom = 1200.0
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="arrow" type="Sprite" parent="graphic/stage_overlap"]
-position = Vector2( 2468, 1088 )
-texture = ExtResource( 64 )
 
 [node name="player" parent="." instance=ExtResource( 16 )]
 pause_mode = 1
@@ -585,7 +582,11 @@ __meta__ = {
 tile_set = ExtResource( 12 )
 cell_size = Vector2( 16, 16 )
 format = 1
-tile_data = PoolIntArray( 4653218, 345, 0, 4653219, 346, 0, 4653221, 347, 0, 4653222, 348, 0, 4653241, 349, 0, 4653242, 350, 0, 4653244, 351, 0, 4653245, 352, 0, 4718754, 353, 0, 4718755, 354, 0, 4718757, 355, 0, 4718758, 356, 0, 4718777, 357, 0, 4718778, 358, 0, 4718780, 359, 0, 4718781, 360, 0, 6291570, 345, 0, 6291571, 346, 0, 6291692, 349, 0, 6291693, 350, 0, 6357106, 353, 0, 6357107, 354, 0, 6357228, 357, 0, 6357229, 358, 0, 10223730, 347, 0, 10223731, 348, 0, 10223852, 351, 0, 10223853, 352, 0, 10289266, 355, 0, 10289267, 356, 0, 10289388, 359, 0, 10289389, 360, 0 )
+tile_data = PoolIntArray( 4587682, 329, 0, 4587683, 330, 0, 4587685, 331, 0, 4587686, 332, 0, 4587705, 333, 0, 4587706, 334, 0, 4587708, 335, 0, 4587709, 336, 0, 4653218, 345, 0, 4653219, 346, 0, 4653221, 347, 0, 4653222, 348, 0, 4653241, 349, 0, 4653242, 350, 0, 4653244, 351, 0, 4653245, 352, 0, 4718754, 353, 0, 4718755, 354, 0, 4718757, 355, 0, 4718758, 356, 0, 4718777, 357, 0, 4718778, 358, 0, 4718780, 359, 0, 4718781, 360, 0, 6226034, 329, 0, 6226035, 330, 0, 6226156, 333, 0, 6226157, 334, 0, 6291570, 345, 0, 6291571, 346, 0, 6291692, 349, 0, 6291693, 350, 0, 6357106, 353, 0, 6357107, 354, 0, 6357228, 357, 0, 6357229, 358, 0, 10158194, 331, 0, 10158195, 332, 0, 10158316, 335, 0, 10158317, 336, 0, 10223730, 347, 0, 10223731, 348, 0, 10223852, 351, 0, 10223853, 352, 0, 10289266, 355, 0, 10289267, 356, 0, 10289388, 359, 0, 10289389, 360, 0 )
+
+[node name="arrow" type="Sprite" parent="overlap"]
+position = Vector2( 2468, 1088 )
+texture = ExtResource( 64 )
 
 [node name="fake_fade" type="CanvasLayer" parent="."]
 
@@ -670,6 +671,11 @@ autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="next" type="Sprite" parent="scene_txt/on_off"]
+visible = false
+position = Vector2( 244, 292 )
+texture = ExtResource( 88 )
 
 [node name="wpn_get" type="CanvasLayer" parent="."]
 

@@ -77,6 +77,8 @@ func _ready():
 
 func _physics_process(delta):
 	
+	print(force_spin)
+	
 	sic_em = floor(global_position.y - player.global_position.y)
 	dist = global_position.distance_to(player.global_position)
 	
@@ -194,6 +196,7 @@ func _physics_process(delta):
 	#Desperation
 	if world.boss_hp <= 140 and !desp:
 		if state == 1 or state == 10:
+			tosses = 3
 			act_delay = 10
 			state = 15
 			force_spin = 0
@@ -232,12 +235,16 @@ func _physics_process(delta):
 					state += 1
 			6:
 				if act_delay == 0:
-					if tosses > 0:
-						world.sound('pull')
-						$anim.play("pull")
-						state += 1
+					if force_spin < 5:
+						if tosses > 0:
+							world.sound('pull')
+							$anim.play("pull")
+							state += 1
+						elif tosses <= 0:
+							#Add function for desperation attack.
+							state = 11
+							tosses = 3
 					else:
-						#Add function for desperation attack.
 						state = 11
 						tosses = 3
 			7:
