@@ -419,6 +419,7 @@ func _process(_delta):
 			ignore_input = false
 			heal_delay = 0
 			heal_type = 0
+			heal_amt = 0
 			menu_pos = Vector2(0, 0)
 			select(false)
 		
