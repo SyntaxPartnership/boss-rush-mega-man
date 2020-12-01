@@ -373,7 +373,8 @@ func _physics_process(delta):
 
 			#Charge level.
 			if !cutscene and fire and charge < 99 and !cooldown and stun < 0:
-				charge += 1
+				if world.tele_timer == -1:
+					charge += 1
 			
 			#Start charge sound loop. Change attributes of more than one charging weapon is made.
 			if global.player != 2 and global.player_weap[int(swap)] == 0:

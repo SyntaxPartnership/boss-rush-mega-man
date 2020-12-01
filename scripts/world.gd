@@ -1279,6 +1279,7 @@ func _process(delta):
 			$player.anim_state(2)
 			$player.slide = false
 			$player.slide_timer = 0
+			kill_weapons()
 			arr_up = true
 			tele_timer = 60
 			tele_dest = spawn_pt + 20

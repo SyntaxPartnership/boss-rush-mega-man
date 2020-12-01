@@ -3,7 +3,8 @@ extends Node2D
 onready var world = get_parent().get_parent()
 
 func _ready():
-	world.sound("big_explode")
+	if world.name == "world":
+		world.sound("big_explode")
 	$anim.play("anim")
 
 # warning-ignore:unused_argument

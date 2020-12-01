@@ -1,0 +1,380 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://assets/tilesets/stage_graphics/gfx_tiles.tres" type="TileSet" id=1]
+[ext_resource path="res://scripts/cutscene.gd" type="Script" id=2]
+[ext_resource path="res://assets/audio/music/opening.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/sprites/cutscene/brokebot_d.png" type="Texture" id=5]
+[ext_resource path="res://assets/sprites/cutscene/brokebot_a.png" type="Texture" id=6]
+[ext_resource path="res://assets/sprites/cutscene/brokebot_c.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/cutscene/brokebot_b.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/enemies/fugue_shadow.png" type="Texture" id=9]
+[ext_resource path="res://assets/audio/se/wall_hit.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/audio/se/Big Explode.wav" type="AudioStream" id=11]
+[ext_resource path="res://assets/sprites/cutscene/hole.png" type="Texture" id=12]
+[ext_resource path="res://assets/sprites/enemies/cage_wily.png" type="Texture" id=13]
+
+[sub_resource type="Animation" id=1]
+resource_name = "hover"
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 5 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "teleport"
+length = 0.2
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 2, 1, 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 13 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle2"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "nervous"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "run"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:flip_h")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 11, 12 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "surprise"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 11 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[node name="cutscene" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="cam" type="Camera2D" parent="."]
+position = Vector2( 384, 112 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_bottom = 240
+smoothing_enabled = true
+smoothing_speed = 4.0
+drag_margin_left = 0.0
+drag_margin_top = 0.0
+drag_margin_right = 0.0
+drag_margin_bottom = 0.0
+
+[node name="map" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="back" type="TileMap" parent="map"]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 0, 362, 0, 1, 362, 0, 2, 362, 0, 3, 362, 0, 4, 362, 0, 5, 362, 0, 6, 362, 0, 7, 362, 0, 8, 362, 0, 9, 362, 0, 10, 362, 0, 11, 362, 0, 12, 362, 0, 13, 362, 0, 14, 362, 0, 15, 362, 0, 16, 362, 0, 17, 362, 0, 18, 362, 0, 19, 362, 0, 20, 362, 0, 21, 362, 0, 22, 362, 0, 23, 362, 0, 24, 362, 0, 25, 362, 0, 26, 362, 0, 27, 362, 0, 28, 362, 0, 29, 362, 0, 30, 362, 0, 31, 362, 0, 48, 465, 0, 49, 466, 0, 50, 467, 0, 51, 468, 0, 52, 468, 0, 53, 468, 0, 54, 469, 0, 55, 466, 0, 56, 466, 0, 57, 467, 0, 58, 468, 0, 59, 468, 0, 60, 468, 0, 61, 469, 0, 62, 466, 0, 63, 470, 0, 65536, 363, 0, 65537, 363, 0, 65538, 363, 0, 65539, 363, 0, 65540, 363, 0, 65541, 363, 0, 65542, 363, 0, 65543, 363, 0, 65544, 363, 0, 65545, 363, 0, 65546, 363, 0, 65547, 363, 0, 65548, 363, 0, 65549, 363, 0, 65550, 363, 0, 65551, 363, 0, 65552, 363, 0, 65553, 363, 0, 65554, 363, 0, 65555, 363, 0, 65556, 363, 0, 65557, 363, 0, 65558, 363, 0, 65559, 363, 0, 65560, 363, 0, 65561, 363, 0, 65562, 363, 0, 65563, 363, 0, 65564, 363, 0, 65565, 363, 0, 65566, 363, 0, 65567, 363, 0, 65584, 471, 0, 65585, 472, 0, 65586, 472, 0, 65587, 472, 0, 65588, 472, 0, 65589, 472, 0, 65590, 472, 0, 65591, 472, 0, 65592, 472, 0, 65593, 472, 0, 65594, 472, 0, 65595, 472, 0, 65596, 472, 0, 65597, 472, 0, 65598, 472, 0, 65599, 473, 0, 131072, 432, 0, 131073, 432, 0, 131074, 1073742192, 0, 131075, 1073742193, 0, 131076, 432, 0, 131077, 432, 0, 131078, 432, 0, 131079, 432, 0, 131080, 432, 0, 131081, 432, 0, 131082, 432, 0, 131083, 432, 0, 131084, 432, 0, 131085, 432, 0, 131086, 432, 0, 131087, 432, 0, 131088, 432, 0, 131089, 432, 0, 131090, 432, 0, 131091, 432, 0, 131092, 432, 0, 131093, 432, 0, 131094, 375, 0, 131095, 376, 0, 131096, 377, 0, 131097, 378, 0, 131098, 379, 0, 131099, 432, 0, 131100, 432, 0, 131101, 432, 0, 131102, 432, 0, 131103, 432, 0, 131120, 471, 0, 131121, 474, 0, 131122, 475, 0, 131123, 476, 0, 131124, 475, 0, 131125, 475, 0, 131126, 475, 0, 131127, 475, 0, 131128, 475, 0, 131129, 475, 0, 131130, 475, 0, 131131, 475, 0, 131132, 476, 0, 131133, 475, 0, 131134, 477, 0, 131135, 473, 0, 196608, 432, 0, 196609, 432, 0, 196610, 1073742190, 0, 196611, 1073742191, 0, 196612, 432, 0, 196613, 432, 0, 196614, 432, 0, 196615, 432, 0, 196616, 375, 0, 196617, 376, 0, 196618, 377, 0, 196619, 378, 0, 196620, 379, 0, 196621, 432, 0, 196622, 432, 0, 196623, 432, 0, 196624, 432, 0, 196625, 432, 0, 196626, 432, 0, 196627, 432, 0, 196628, 432, 0, 196629, 432, 0, 196630, 432, 0, 196631, 432, 0, 196632, 432, 0, 196633, 432, 0, 196634, 432, 0, 196635, 432, 0, 196636, 432, 0, 196637, 432, 0, 196638, 432, 0, 196639, 432, 0, 196656, 471, 0, 196657, 478, 0, 196658, 479, 0, 196659, 480, 0, 196660, 479, 0, 196661, 479, 0, 196662, 479, 0, 196663, 479, 0, 196664, 479, 0, 196665, 479, 0, 196666, 479, 0, 196667, 479, 0, 196668, 480, 0, 196669, 479, 0, 196670, 481, 0, 196671, 473, 0, 262144, 378, 0, 262145, 379, 0, 262146, 432, 0, 262147, 432, 0, 262148, 432, 0, 262149, 432, 0, 262150, 432, 0, 262151, 432, 0, 262152, 432, 0, 262153, 432, 0, 262154, 432, 0, 262155, 432, 0, 262156, 432, 0, 262157, 432, 0, 262158, 432, 0, 262159, 432, 0, 262160, 432, 0, 262161, 432, 0, 262162, 432, 0, 262163, 432, 0, 262164, 432, 0, 262165, 432, 0, 262166, 432, 0, 262167, 432, 0, 262168, 432, 0, 262169, 432, 0, 262170, 432, 0, 262171, 432, 0, 262172, 432, 0, 262173, 432, 0, 262174, 432, 0, 262175, 432, 0, 262192, 471, 0, 262193, 474, 0, 262194, 475, 0, 262195, 482, 0, 262196, 475, 0, 262197, 475, 0, 262198, 475, 0, 262199, 475, 0, 262200, 475, 0, 262201, 475, 0, 262202, 475, 0, 262203, 475, 0, 262204, 482, 0, 262205, 475, 0, 262206, 477, 0, 262207, 473, 0, 327680, 432, 0, 327681, 432, 0, 327682, 432, 0, 327683, 432, 0, 327684, 432, 0, 327685, 432, 0, 327686, 432, 0, 327687, 432, 0, 327688, 432, 0, 327689, 432, 0, 327690, 432, 0, 327691, 432, 0, 327692, 432, 0, 327693, 432, 0, 327694, 432, 0, 327695, 432, 0, 327696, 432, 0, 327697, 375, 0, 327698, 376, 0, 327699, 377, 0, 327700, 378, 0, 327701, 379, 0, 327702, 432, 0, 327703, 432, 0, 327704, 432, 0, 327705, 432, 0, 327706, 432, 0, 327707, 432, 0, 327708, 432, 0, 327709, 432, 0, 327710, 432, 0, 327711, 432, 0, 327728, 471, 0, 327729, 484, 0, 327730, 484, 0, 327731, 484, 0, 327732, 484, 0, 327733, 484, 0, 327734, 484, 0, 327735, 484, 0, 327736, 484, 0, 327737, 484, 0, 327738, 483, 0, 327739, 483, 0, 327740, 483, 0, 327741, 483, 0, 327742, 483, 0, 327743, 473, 0, 393216, 432, 0, 393217, 432, 0, 393218, 432, 0, 393219, 432, 0, 393220, 432, 0, 393221, 432, 0, 393222, 432, 0, 393223, 432, 0, 393224, 432, 0, 393225, 432, 0, 393226, 432, 0, 393227, 375, 0, 393228, 376, 0, 393229, 377, 0, 393230, 378, 0, 393231, 379, 0, 393232, 432, 0, 393233, 432, 0, 393234, 432, 0, 393235, 432, 0, 393236, 432, 0, 393237, 432, 0, 393238, 432, 0, 393239, 432, 0, 393240, 375, 0, 393241, 376, 0, 393242, 377, 0, 393243, 378, 0, 393244, 379, 0, 393245, 432, 0, 393246, 432, 0, 393247, 432, 0, 393264, 471, 0, 393265, 485, 0, 393266, 486, 0, 393267, 487, 0, 393268, 487, 0, 393269, 487, 0, 393270, 487, 0, 393271, 487, 0, 393272, 487, 0, 393273, 487, 0, 393274, 489, 0, 393275, 490, 0, 393276, 491, 0, 393277, 492, 0, 393278, 493, 0, 393279, 473, 0, 458752, 364, 0, 458753, 364, 0, 458754, 364, 0, 458755, 364, 0, 458756, 364, 0, 458757, 364, 0, 458758, 364, 0, 458759, 364, 0, 458760, 364, 0, 458761, 364, 0, 458762, 364, 0, 458763, 364, 0, 458764, 383, 0, 458765, 384, 0, 458766, 383, 0, 458767, 384, 0, 458768, 383, 0, 458769, 384, 0, 458770, 383, 0, 458771, 384, 0, 458772, 383, 0, 458773, 384, 0, 458774, 383, 0, 458775, 384, 0, 458776, 383, 0, 458777, 384, 0, 458778, 383, 0, 458779, 384, 0, 458780, 383, 0, 458781, 384, 0, 458782, 383, 0, 458783, 384, 0, 458800, 471, 0, 458801, 484, 0, 458802, 494, 0, 458803, 495, 0, 458804, 496, 0, 458805, 496, 0, 458806, 498, 0, 458807, 499, 0, 458808, 484, 0, 458809, 484, 0, 458810, 500, 0, 458811, 501, 0, 458812, 502, 0, 458813, 502, 0, 458814, 502, 0, 458815, 473, 0, 524288, 381, 0, 524292, 382, 0, 524293, 383, 0, 524294, 384, 0, 524295, 383, 0, 524296, 384, 0, 524297, 383, 0, 524298, 384, 0, 524299, 383, 0, 524300, 384, 0, 524301, 383, 0, 524302, 384, 0, 524303, 383, 0, 524304, 384, 0, 524305, 383, 0, 524306, 384, 0, 524307, 383, 0, 524308, 384, 0, 524309, 383, 0, 524310, 384, 0, 524311, 383, 0, 524312, 384, 0, 524313, 383, 0, 524314, 384, 0, 524315, 383, 0, 524316, 384, 0, 524317, 383, 0, 524318, 384, 0, 524319, 383, 0, 524336, 471, 0, 524337, 484, 0, 524338, 503, 0, 524339, 504, 0, 524340, 505, 0, 524341, 505, 0, 524342, 507, 0, 524343, 508, 0, 524344, 484, 0, 524345, 509, 0, 524346, 510, 0, 524347, 510, 0, 524348, 510, 0, 524349, 511, 0, 524350, 484, 0, 524351, 473, 0, 589824, 440, 0, 589825, 441, 0, 589826, 440, 0, 589827, 441, 0, 589828, 440, 0, 589829, 441, 0, 589830, 440, 0, 589831, 441, 0, 589832, 440, 0, 589833, 441, 0, 589834, 440, 0, 589835, 441, 0, 589836, 440, 0, 589837, 441, 0, 589838, 440, 0, 589839, 441, 0, 589840, 440, 0, 589841, 441, 0, 589842, 440, 0, 589843, 441, 0, 589844, 440, 0, 589845, 441, 0, 589846, 440, 0, 589847, 441, 0, 589848, 440, 0, 589849, 441, 0, 589850, 440, 0, 589851, 441, 0, 589852, 440, 0, 589853, 441, 0, 589854, 440, 0, 589855, 441, 0, 589872, 471, 0, 589873, 512, 0, 589874, 513, 0, 589875, 484, 0, 589876, 484, 0, 589877, 484, 0, 589878, 515, 0, 589879, 516, 0, 589880, 484, 0, 589881, 517, 0, 589882, 518, 0, 589883, 519, 0, 589884, 520, 0, 589885, 521, 0, 589886, 484, 0, 589887, 473, 0, 655360, 442, 0, 655361, 442, 0, 655362, 442, 0, 655363, 442, 0, 655364, 442, 0, 655365, 442, 0, 655366, 442, 0, 655367, 442, 0, 655368, 442, 0, 655369, 442, 0, 655370, 442, 0, 655371, 442, 0, 655372, 442, 0, 655373, 442, 0, 655374, 442, 0, 655375, 442, 0, 655376, 442, 0, 655377, 442, 0, 655378, 442, 0, 655379, 442, 0, 655380, 442, 0, 655381, 442, 0, 655382, 442, 0, 655383, 442, 0, 655384, 442, 0, 655385, 442, 0, 655386, 442, 0, 655387, 442, 0, 655388, 442, 0, 655389, 442, 0, 655390, 442, 0, 655391, 442, 0, 655408, 522, 0, 655409, 523, 0, 655410, 524, 0, 655411, 525, 0, 655412, 526, 0, 655413, 524, 0, 655414, 527, 0, 655415, 528, 0, 655416, 525, 0, 655417, 525, 0, 655418, 526, 0, 655419, 524, 0, 655420, 529, 0, 655421, 523, 0, 655422, 529, 0, 655423, 532, 0 )
+
+[node name="overlap" type="TileMap" parent="map"]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( 393224, 387, 0, 393225, 388, 0, 393226, 389, 0, 393227, 390, 0, 393230, 382, 0, 393231, 380, 0, 393236, 382, 0, 393237, 383, 0, 393238, 380, 0, 393239, 387, 0, 393240, 388, 0, 393241, 389, 0, 393242, 390, 0, 393245, 382, 0, 393246, 380, 0, 458759, 391, 0, 458760, 392, 0, 458761, 393, 0, 458762, 394, 0, 458763, 395, 0, 458764, 396, 0, 458765, 397, 0, 458766, 398, 0, 458774, 391, 0, 458775, 392, 0, 458776, 393, 0, 458777, 394, 0, 458778, 395, 0, 458779, 396, 0, 458780, 397, 0, 458781, 398, 0, 524295, 399, 0, 524296, 401, 0, 524297, 402, 0, 524298, 403, 0, 524299, 404, 0, 524300, 405, 0, 524301, 406, 0, 524302, 407, 0, 524303, 408, 0, 524310, 399, 0, 524311, 401, 0, 524312, 402, 0, 524313, 403, 0, 524314, 404, 0, 524315, 405, 0, 524316, 406, 0, 524317, 407, 0, 524318, 408, 0 )
+
+[node name="hole" type="Sprite" parent="map"]
+visible = false
+position = Vector2( 831, 116 )
+texture = ExtResource( 12 )
+
+[node name="sprites" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="white" type="ColorRect" parent="sprites"]
+visible = false
+margin_left = 768.0
+margin_right = 1024.0
+margin_bottom = 176.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="brokebot_a" type="Sprite" parent="sprites"]
+position = Vector2( 127, 117 )
+texture = ExtResource( 6 )
+
+[node name="brokebot_b" type="Sprite" parent="sprites"]
+position = Vector2( 152, 99 )
+texture = ExtResource( 8 )
+
+[node name="brokebot_c" type="Sprite" parent="sprites"]
+position = Vector2( 224, 136 )
+texture = ExtResource( 7 )
+
+[node name="brokebot_d" type="Sprite" parent="sprites"]
+position = Vector2( 208, 104 )
+texture = ExtResource( 5 )
+
+[node name="fugue" type="Sprite" parent="sprites"]
+visible = false
+position = Vector2( 64, 72 )
+texture = ExtResource( 9 )
+flip_h = true
+hframes = 7
+frame = 4
+
+[node name="anim" type="AnimationPlayer" parent="sprites/fugue"]
+anims/hover = SubResource( 1 )
+anims/teleport = SubResource( 2 )
+
+[node name="wily" type="Sprite" parent="sprites"]
+position = Vector2( 904, 145 )
+texture = ExtResource( 13 )
+hframes = 14
+frame = 13
+
+[node name="anim" type="AnimationPlayer" parent="sprites/wily"]
+anims/idle = SubResource( 3 )
+anims/idle2 = SubResource( 4 )
+anims/nervous = SubResource( 5 )
+anims/run = SubResource( 7 )
+anims/surprise = SubResource( 6 )
+
+[node name="fade" type="CanvasLayer" parent="."]
+
+[node name="front" type="Control" parent="fade"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="black" type="ColorRect" parent="fade/front"]
+margin_right = 256.0
+margin_bottom = 240.0
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="name" type="Label" parent="fade/front"]
+margin_left = 24.0
+margin_top = 80.0
+margin_right = 232.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 4 )
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="fade/front"]
+margin_left = 24.0
+margin_top = 96.0
+margin_right = 232.0
+margin_bottom = 224.0
+custom_fonts/font = ExtResource( 4 )
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="bottom" type="Control" parent="fade"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="name" type="Label" parent="fade/bottom"]
+margin_left = 8.0
+margin_top = 184.0
+margin_right = 248.0
+margin_bottom = 192.0
+custom_fonts/font = ExtResource( 4 )
+valign = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="text" type="Label" parent="fade/bottom"]
+margin_left = 8.0
+margin_top = 200.0
+margin_right = 248.0
+margin_bottom = 232.0
+custom_fonts/font = ExtResource( 4 )
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fadeout" type="Tween" parent="fade"]
+
+[node name="timer" type="Timer" parent="."]
+
+[node name="audio" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="music" type="Control" parent="audio"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="opening" type="AudioStreamPlayer" parent="audio/music"]
+stream = ExtResource( 3 )
+
+[node name="sfx" type="Control" parent="audio"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="thud" type="AudioStreamPlayer" parent="audio/sfx"]
+stream = ExtResource( 10 )
+
+[node name="bigboom" type="AudioStreamPlayer" parent="audio/sfx"]
+stream = ExtResource( 11 )
+[connection signal="animation_finished" from="sprites/fugue/anim" to="." method="_on_fugue_anim_done"]
+[connection signal="tween_completed" from="fade/fadeout" to="." method="_on_fadeout_tween_completed"]
+[connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

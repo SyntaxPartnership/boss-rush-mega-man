@@ -6,12 +6,12 @@ var debug_menu = 0
 #Player Variables
 var player = 0
 var player_id = [0, 99]
-var player_life = [140, 0]
+var player_life = [280, 0]
 var player_weap = [0, 0]
 var lives = 2
 var bolts = 0
-var etanks = 4
-var wtanks = 1
+var etanks = 0
+var wtanks = 0
 var tokens = 0
 var game_over = false
 var opening = 0
@@ -211,6 +211,7 @@ func _input(_event):
 		get_tree().quit()
 	
 	if Input.is_key_pressed(KEY_F1):
+# warning-ignore:return_value_discarded
 		OS.shell_open('https://docs.google.com/forms/d/e/1FAIpQLSeyLL_FwRGr4QF95_05v7IEJBzN-SIagEJleyIiJSSoUVABwA/viewform')
 
 func _screen_resized():

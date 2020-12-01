@@ -14,5 +14,5 @@ func _process(delta):
 	if sprite == 6:
 		queue_free()
 	
-	if sprite != frame:
+	if sprite != frame and sprite < 6:
 		frame = sprite

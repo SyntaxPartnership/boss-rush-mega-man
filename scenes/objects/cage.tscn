@@ -139,7 +139,6 @@ __meta__ = {
 texture = ExtResource( 1 )
 
 [node name="door" type="Sprite" parent="."]
-visible = false
 position = Vector2( 0, 35 )
 texture = ExtResource( 5 )
 vframes = 3
