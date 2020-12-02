@@ -13,6 +13,7 @@ var camx_ogpos = 0
 var shake = false
 var shake_time = 0
 var boom_flash = 0
+var start = false
 
 var text = {
 	1 : ["20XX", "IN A SEEMINGLY ABANDONED\n\nJUNKYARD."],
@@ -24,7 +25,7 @@ var text = {
 	7 : [" [??????]:", "NOW TELL ME..."],
 	8 : [" [??????]:", "WHAT DO YOU DESIRE?"],
 	9 : ["", ""],
-	10 : [" [ROBOTS]:", "REVENGE!!!"],
+	10 : [" [ROBOTS]:", "R-E-V-E-N-G-E!!!"],
 	11 : ["", ""],
 	12 : ["MEANWHILE...", "INSIDE THE NOTORIOUS DR.\n\nWILY'S NEW LAIR."],
 	13 : ["", ""],
@@ -33,6 +34,9 @@ var text = {
 	16 : ["", ""],
 	19 : [" [DR. WILY]:", "WH-WH-WHAT IS THAT NOISE?!"],
 	20 : ["", ""],
+	31 : [" [DR. WILY]:", "I DON'T CARE WHO RECEIVES\n\nTHIS! HERE ARE MY\n\nCOORDINATES! SOMEBODY!\n\nANYBODY! SAVE ME!"],
+	32 : [" [??????]:", "FUFUFU! SO MY HUNCH ON\n\nTHIS PLANET WAS CORRECT.\n\nI'M CERTAINLY GOING TO\n\nHAVE FUN HERE!"],
+	33 : ["", ""]
 }
 
 # Called when the node enters the scene tree for the first time.
@@ -65,25 +69,40 @@ func _physics_process(delta):
 	else:
 		if $sprites/white.is_visible_in_tree():
 			$sprites/white.hide()
+	
+	if sub_scene < 30:
+		if $sprites/wily/anim.current_animation == "scoot" and $sprites/wily.frame == 10:
+			$sprites/wily.position.x += 0.125
 		
+		if $sprites/wily/anim.current_animation == "run":
+			var swoop_ang = ($sprites/shdw_swoop.position - $sprites/wily.position).normalized()
+			var roto_ang = ($sprites/shdw_roto.position - $sprites/wily.position).normalized()
+			$sprites/shdw_swoop.position -= swoop_ang * 0.60
+			$sprites/shdw_roto.position -= roto_ang * 0.60
+			$sprites/wily.position.x += 0.5
+			$sprites/shdw_scuttle.position.x += 0.60
+			$sprites/shdw_defend.position.x += 0.60
 	
 	if allow_text:
 		if txt_overlap:
 			if $fade/front/name.get_visible_characters() < $fade/front/name.get_total_character_count():
 				$fade/front/name.set_visible_characters($fade/front/name.get_visible_characters() + 1)
+				$timer.stop()
 			else:
 				if $fade/front/text.get_visible_characters() < $fade/front/text.get_total_character_count() and txt_delay == 0:
 					$fade/front/text.set_visible_characters($fade/front/text.get_visible_characters() + 1)
+					$timer.stop()
 					txt_delay = td_max
-				else:
+				elif $fade/front/text.get_visible_characters() == $fade/front/text.get_total_character_count():
 					if $timer.is_stopped():
 						$timer.start()
 		else:
 			if $fade/bottom/name.get_text() != "":
 				if $fade/bottom/text.get_visible_characters() < $fade/bottom/text.get_total_character_count() and txt_delay == 0:
 					$fade/bottom/text.set_visible_characters($fade/bottom/text.get_visible_characters() + 1)
+					$timer.stop()
 					txt_delay = td_max
-				else:
+				elif $fade/bottom/text.get_visible_characters() == $fade/bottom/text.get_total_character_count():
 					if $timer.is_stopped() and time_allow:
 						$timer.start()
 				
@@ -199,6 +218,22 @@ func _on_timer_timeout():
 			shake = true
 			shake_time = 20
 		24:
+			$sprites/shdw_swoop.show()
+			$sprites/shdw_roto.show()
+			$sprites/shdw_scuttle.show()
+			$sprites/shdw_defend.show()
+			
+			$sprites/shdw_swoop/anim.play("idle1")
+			$sprites/shdw_roto/anim.play("idle1")
+			$sprites/shdw_scuttle/anim.play("fall")
+			$sprites/shdw_defend/anim.play("idle1")
+			
+			$fade/fadeout.interpolate_property($sprites/shdw_swoop, 'position', $sprites/shdw_swoop.position, $sprites/shdw_swoop.position + Vector2(32, -20), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.interpolate_property($sprites/shdw_roto, 'position', $sprites/shdw_roto.position, $sprites/shdw_roto.position + Vector2(-24, -28), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.interpolate_property($sprites/shdw_defend, 'position', $sprites/shdw_defend.position, $sprites/shdw_defend.position + Vector2(-24, 12), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.interpolate_property($sprites/shdw_scuttle, 'position', $sprites/shdw_scuttle.position, $sprites/shdw_scuttle.position + Vector2(24, 15), 0.5, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.start()
+			
 			boom_flash = 8
 			$sprites/white.show()
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
@@ -242,11 +277,31 @@ func _on_timer_timeout():
 			boom.position.x = $map/hole.position.x + 32
 			boom.position.y = $map/hole.position.y + 24
 			$sprites.add_child(boom)
-			$timer.set_wait_time(2.0)
+			$timer.set_wait_time(1.5)
 			$timer.start()
 			$audio/sfx/bigboom.play()
 			shake = true
 			shake_time = 20
+		28:
+			$timer.stop()
+			time_allow = false
+			$sprites/wily/anim.play("scoot")
+		29:
+			$timer.set_wait_time(0.5)
+			$timer.start()
+		30:
+			txt_overlap = true
+			time_allow = false
+			$timer.stop()
+			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.start()
+		33:
+			$timer.stop()
+			$timer.set_wait_time(1.0)
+			$timer.start()
+		34:
+			$timer.stop()
+			get_tree().change_scene("res://scenes/title.tscn")
 			
 func set_txt_delay_max(number):
 	td_max = number
@@ -263,8 +318,41 @@ func _on_fadeout_tween_completed(object, key):
 		13:
 			time_allow = true
 			set_text()
+		25:
+			$sprites/shdw_scuttle/anim.play("land")
+			$sprites/shdw_roto/anim.play("idle2")
+		30:
+			$timer.set_wait_time(4.0)
+			$sprites/wily.queue_free()
+			$sprites/shdw_swoop.queue_free()
+			$sprites/shdw_roto.queue_free()
+			$sprites/shdw_scuttle.queue_free()
+			$sprites/shdw_defend.queue_free()
+			set_text()
+		31:
+			$timer.set_wait_time(1.0)
+			set_text()
 
 func _on_fugue_anim_done(anim_name):
 	match anim_name:
 		"teleport":
 			$sprites/fugue/anim.play("hover")
+
+
+func _on_scuttle_anim_done(anim_name):
+	match anim_name:
+		"land":
+			$sprites/shdw_scuttle/anim.play("idle2")
+		"shrink":
+			$timer.set_wait_time(2.0)
+			$timer.start()
+			$sprites/wily/anim.play("run")
+			$sprites/shdw_swoop/anim.play("chase")
+			$sprites/shdw_roto/anim.play("chase")
+			$sprites/shdw_scuttle/anim.play("chase")
+			$sprites/shdw_defend/anim.play("chase")
+
+func _on_wily_anim_done(anim_name):
+	match anim_name:
+		"scoot":
+			$sprites/shdw_scuttle/anim.play("shrink")
