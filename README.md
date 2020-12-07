@@ -42,35 +42,35 @@ Captain Blackhook
 Strider  
 SpeedyDVV  
 
-Object Designer:
-Captain Blackhook
+Object Designer:  
+Captain Blackhook  
+Strider  
+
+Scroll Designer:  
 Strider
 
-Scroll Designer:
-Strider
+Special Designer:  
+Captain Blackhook  
+Strider  
 
-Special Designer:
-Captain Blackhook
-Strider
+Programmer:  
+Strider  
 
-Programmer:
-Strider
+Consultant:  
+SpeedyDVV  
 
-Consultant:
-SpeedyDVV
+Sound Composer:  
+Capcom  
 
-Sound Composer:
-Capcom
-
-Quality Assurance:
-Average-Hanzo
-blsh
-Fawkes the Fox
-HyperSonicDragon
-J8bit_Forager
-Mick Galbani
-Train No.4
-Zynk
+Quality Assurance:  
+Average-Hanzo  
+blsh  
+Fawkes the Fox  
+HyperSonicDragon  
+J8bit_Forager  
+Mick Galbani  
+Train No.4  
+Zynk  
 
 Special Thanks:
 
