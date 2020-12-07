@@ -1,4 +1,4 @@
-MEGA MAN CHRONICLES
+MEGA MAN UPRISING
 --
 
 This is a fan game currently in development and is purely a
