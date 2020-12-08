@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/03_Dr. Light's Instructions.ogg-0e3a02bb641d7a159cc982478a72041c.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/music/03_Dr. Light's Instructions.ogg"
+dest_files=[ "res://.import/03_Dr. Light's Instructions.ogg-0e3a02bb641d7a159cc982478a72041c.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

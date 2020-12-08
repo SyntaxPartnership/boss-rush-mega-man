@@ -60,7 +60,6 @@ custom_fonts/font = ExtResource( 4 )
 text = "SAMPLE VERSION"
 
 [node name="fade" parent="." instance=ExtResource( 5 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="sounds" type="Control" parent="."]

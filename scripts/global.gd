@@ -15,6 +15,7 @@ var wtanks = 0
 var tokens = 0
 var game_over = false
 var opening = 0
+var cutscene = 0
 var scene = 0
 var sub_scene = 0
 

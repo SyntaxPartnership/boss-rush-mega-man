@@ -1,8 +1,8 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=45 format=2]
 
 [ext_resource path="res://assets/tilesets/stage_graphics/gfx_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/cutscene.gd" type="Script" id=2]
-[ext_resource path="res://assets/audio/music/opening.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/audio/music/MM_TEST.ogg" type="AudioStream" id=3]
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/sprites/cutscene/brokebot_d.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/cutscene/brokebot_a.png" type="Texture" id=6]
@@ -17,6 +17,13 @@
 [ext_resource path="res://assets/sprites/cutscene/shdw_scuttle.png" type="Texture" id=15]
 [ext_resource path="res://assets/sprites/cutscene/shdw_defend.png" type="Texture" id=16]
 [ext_resource path="res://assets/sprites/cutscene/shdw_roto.png" type="Texture" id=17]
+[ext_resource path="res://assets/sprites/cutscene/paper.png" type="Texture" id=18]
+[ext_resource path="res://assets/sprites/cutscene/lightlab.png" type="Texture" id=19]
+[ext_resource path="res://assets/sprites/cutscene/light.png" type="Texture" id=20]
+[ext_resource path="res://assets/sprites/shop/eddie.png" type="Texture" id=21]
+[ext_resource path="res://assets/sprites/shop/auto.png" type="Texture" id=22]
+[ext_resource path="res://assets/sprites/cutscene/roll.png" type="Texture" id=23]
+[ext_resource path="res://assets/audio/music/03_Dr. Light's Instructions.ogg" type="AudioStream" id=24]
 
 [sub_resource type="Animation" id=1]
 resource_name = "hover"
@@ -211,9 +218,9 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=9]
-length = 1.5
+length = 0.75
 loop = true
-step = 0.5
+step = 0.25
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -221,7 +228,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1 ),
+"times": PoolRealArray( 0, 0.25, 0.5 ),
 "transitions": PoolRealArray( 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2 ]
@@ -244,9 +251,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=11]
-length = 4.0
+length = 2.0
 loop = true
-step = 0.5
+step = 0.25
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -254,7 +261,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3, 4, 5, 6, 7 ]
@@ -293,9 +300,9 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=14]
-length = 4.0
+length = 2.0
 loop = true
-step = 0.5
+step = 0.25
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -303,7 +310,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.5, 1, 1.5, 2, 2.5, 3, 3.5 ),
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 5, 6, 7, 8, 5, 6, 7, 8 ]
@@ -443,6 +450,10 @@ visible = false
 position = Vector2( 831, 116 )
 texture = ExtResource( 12 )
 
+[node name="lazylightlab" type="Sprite" parent="map"]
+position = Vector2( 1408, 88 )
+texture = ExtResource( 19 )
+
 [node name="sprites" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -552,6 +563,46 @@ frame = 1
 anims/chase = SubResource( 19 )
 anims/idle1 = SubResource( 20 )
 
+[node name="paper" type="Sprite" parent="sprites"]
+position = Vector2( 232, 120 )
+texture = ExtResource( 18 )
+hframes = 8
+
+[node name="paper2" type="Sprite" parent="sprites"]
+position = Vector2( 216, 96 )
+texture = ExtResource( 18 )
+hframes = 8
+
+[node name="paper3" type="Sprite" parent="sprites"]
+position = Vector2( 96, 72 )
+texture = ExtResource( 18 )
+hframes = 8
+
+[node name="light" type="Sprite" parent="sprites"]
+position = Vector2( 1358, 149 )
+texture = ExtResource( 20 )
+flip_h = true
+hframes = 3
+
+[node name="auto" type="Sprite" parent="sprites"]
+position = Vector2( 1324, 136 )
+texture = ExtResource( 22 )
+flip_h = true
+hframes = 14
+
+[node name="eddie" type="Sprite" parent="sprites"]
+position = Vector2( 1306, 147 )
+texture = ExtResource( 21 )
+hframes = 7
+
+[node name="roll" type="Sprite" parent="sprites"]
+position = Vector2( 1392, 149 )
+texture = ExtResource( 23 )
+flip_h = true
+hframes = 2
+
+[node name="rock" type="Sprite" parent="sprites"]
+
 [node name="fade" type="CanvasLayer" parent="."]
 
 [node name="front" type="Control" parent="fade"]
@@ -581,16 +632,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="text" type="Label" parent="fade/front"]
+[node name="text2" type="RichTextLabel" parent="fade/front"]
 margin_left = 24.0
 margin_top = 96.0
 margin_right = 232.0
 margin_bottom = 224.0
-custom_fonts/font = ExtResource( 4 )
-autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_fonts/normal_font = ExtResource( 4 )
+custom_constants/line_separation = 3
+bbcode_enabled = true
 
 [node name="bottom" type="Control" parent="fade"]
 margin_right = 40.0
@@ -622,6 +671,14 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="skip_fade" type="ColorRect" parent="fade"]
+margin_right = 256.0
+margin_bottom = 240.0
+color = Color( 0, 0, 0, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="fadeout" type="Tween" parent="fade"]
 
 [node name="timer" type="Timer" parent="."]
@@ -636,9 +693,15 @@ __meta__ = {
 [node name="music" type="Control" parent="audio"]
 margin_right = 40.0
 margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="opening" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 3 )
+
+[node name="lab" type="AudioStreamPlayer" parent="audio/music"]
+stream = ExtResource( 24 )
 
 [node name="sfx" type="Control" parent="audio"]
 margin_right = 40.0

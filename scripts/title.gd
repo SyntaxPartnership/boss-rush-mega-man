@@ -22,6 +22,7 @@ func _input(event):
 					$fade.state = 1
 					$fade.set("end", true)
 				elif menu_pos == 2:
+# warning-ignore:return_value_discarded
 					OS.shell_open('https://docs.google.com/forms/d/e/1FAIpQLSelexfghh9gmATILFTiGlgXRaFNjJCXwUAkJoMlBAXvH8JPsQ/viewform')
 			if menu == 0:
 				$sounds/select.play()
@@ -63,7 +64,8 @@ func _on_fade_fadein():
 func _on_fade_fadeout():
 	if menu_pos == 0:
 		# warning-ignore:return_value_discarded
-		get_tree().change_scene("res://scenes/world.tscn")
+		global.cutscene = 1
+		get_tree().change_scene("res://scenes/cutscene.tscn")
 	elif menu_pos == 1:
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/options.tscn")
