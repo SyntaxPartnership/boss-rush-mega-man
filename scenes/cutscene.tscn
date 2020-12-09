@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=2]
+[gd_scene load_steps=64 format=2]
 
 [ext_resource path="res://assets/tilesets/stage_graphics/gfx_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/cutscene.gd" type="Script" id=2]
@@ -24,6 +24,13 @@
 [ext_resource path="res://assets/sprites/shop/auto.png" type="Texture" id=22]
 [ext_resource path="res://assets/sprites/cutscene/roll.png" type="Texture" id=23]
 [ext_resource path="res://assets/audio/music/03_Dr. Light's Instructions.ogg" type="AudioStream" id=24]
+[ext_resource path="res://assets/sprites/cutscene/rock.png" type="Texture" id=25]
+[ext_resource path="res://assets/audio/se/transform.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/audio/se/Landing.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/sprites/cutscene/wily_big.png" type="Texture" id=30]
+[ext_resource path="res://assets/sprites/effects/text_end.png" type="Texture" id=31]
 
 [sub_resource type="Animation" id=1]
 resource_name = "hover"
@@ -410,6 +417,210 @@ tracks/0/keys = {
 "values": [ 0 ]
 }
 
+[sub_resource type="Animation" id=21]
+resource_name = "idle"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "talk"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 0 ]
+}
+
+[sub_resource type="Animation" id=23]
+resource_name = "idle"
+length = 2.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.5, 1.6, 1.7, 1.8, 1.9, 2, 2.1, 2.2 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 0, 1, 0, 1, 0, 1, 0, 1 ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "idle"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "fall"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 7 ]
+}
+
+[sub_resource type="Animation" id=26]
+resource_name = "idle1"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=27]
+resource_name = "idle2"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 8, 9 ]
+}
+
+[sub_resource type="Animation" id=28]
+resource_name = "jump"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 2 ]
+}
+
+[sub_resource type="Animation" id=29]
+resource_name = "leave"
+length = 0.24
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16, 17 ]
+}
+
+[sub_resource type="Animation" id=30]
+resource_name = "lilstep"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+
+[sub_resource type="Animation" id=31]
+resource_name = "run"
+length = 0.44
+loop = true
+step = 0.11
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.11, 0.22, 0.33 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 11, 12, 13, 12 ]
+}
+
+[sub_resource type="Animation" id=32]
+resource_name = "transform"
+length = 0.375
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075, 0.15, 0.225, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 5, 6, 7 ]
+}
+
 [node name="cutscene" type="Node2D"]
 script = ExtResource( 2 )
 
@@ -454,6 +665,11 @@ texture = ExtResource( 12 )
 position = Vector2( 1408, 88 )
 texture = ExtResource( 19 )
 
+[node name="wily_big" type="Sprite" parent="map"]
+position = Vector2( 1408, 64 )
+texture = ExtResource( 30 )
+hframes = 7
+
 [node name="sprites" type="Control" parent="."]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -461,10 +677,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="white" type="ColorRect" parent="sprites"]
+[node name="flash" type="Control" parent="sprites"]
 visible = false
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="white" type="ColorRect" parent="sprites/flash"]
 margin_left = 768.0
 margin_right = 1024.0
+margin_bottom = 176.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="white2" type="ColorRect" parent="sprites/flash"]
+margin_left = 1280.0
+margin_right = 1536.0
 margin_bottom = 176.0
 __meta__ = {
 "_edit_use_anchors_": false
@@ -584,24 +815,49 @@ texture = ExtResource( 20 )
 flip_h = true
 hframes = 3
 
+[node name="anim" type="AnimationPlayer" parent="sprites/light"]
+anims/idle = SubResource( 21 )
+anims/talk = SubResource( 22 )
+
 [node name="auto" type="Sprite" parent="sprites"]
 position = Vector2( 1324, 136 )
 texture = ExtResource( 22 )
 flip_h = true
 hframes = 14
 
+[node name="anim" type="AnimationPlayer" parent="sprites/auto"]
+anims/idle = SubResource( 23 )
+
 [node name="eddie" type="Sprite" parent="sprites"]
 position = Vector2( 1306, 147 )
 texture = ExtResource( 21 )
 hframes = 7
 
+[node name="anim" type="AnimationPlayer" parent="sprites/eddie"]
+anims/idle = SubResource( 24 )
+
 [node name="roll" type="Sprite" parent="sprites"]
-position = Vector2( 1392, 149 )
+position = Vector2( 1392, 150 )
 texture = ExtResource( 23 )
 flip_h = true
 hframes = 2
 
-[node name="rock" type="Sprite" parent="sprites"]
+[node name="rock" type="KinematicBody2D" parent="sprites"]
+position = Vector2( 1464, 148 )
+
+[node name="sprite" type="Sprite" parent="sprites/rock"]
+texture = ExtResource( 25 )
+hframes = 18
+
+[node name="anim" type="AnimationPlayer" parent="sprites/rock"]
+anims/fall = SubResource( 25 )
+anims/idle1 = SubResource( 26 )
+anims/idle2 = SubResource( 27 )
+anims/jump = SubResource( 28 )
+anims/leave = SubResource( 29 )
+anims/lilstep = SubResource( 30 )
+anims/run = SubResource( 31 )
+anims/transform = SubResource( 32 )
 
 [node name="fade" type="CanvasLayer" parent="."]
 
@@ -671,6 +927,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="next" type="Sprite" parent="fade/bottom"]
+visible = false
+position = Vector2( 244, 228 )
+texture = ExtResource( 31 )
+
 [node name="skip_fade" type="ColorRect" parent="fade"]
 margin_right = 256.0
 margin_bottom = 240.0
@@ -710,13 +971,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="transform1" type="AudioStreamPlayer" parent="audio/sfx"]
+stream = ExtResource( 26 )
+
 [node name="thud" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 10 )
 
 [node name="bigboom" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 11 )
+
+[node name="bling" type="AudioStreamPlayer" parent="audio/sfx"]
+stream = ExtResource( 27 )
+
+[node name="land" type="AudioStreamPlayer" parent="audio/sfx"]
+stream = ExtResource( 28 )
+
+[node name="beamout" type="AudioStreamPlayer" parent="audio/sfx"]
+stream = ExtResource( 29 )
 [connection signal="animation_finished" from="sprites/fugue/anim" to="." method="_on_fugue_anim_done"]
 [connection signal="animation_finished" from="sprites/wily/anim" to="." method="_on_wily_anim_done"]
 [connection signal="animation_finished" from="sprites/shdw_scuttle/anim" to="." method="_on_scuttle_anim_done"]
+[connection signal="animation_finished" from="sprites/rock/anim" to="." method="_on_rock_anim_done"]
 [connection signal="tween_completed" from="fade/fadeout" to="." method="_on_fadeout_tween_completed"]
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

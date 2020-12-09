@@ -1,5 +1,19 @@
 extends Node2D
 
+#For moving Rock.
+const ROCK_RSPD = 90
+const ROCK_JSPD = -310
+const ROCK_GRAV = 900
+var rock_xspd = 0
+var rock_vel = Vector2(0, 0)
+var rock_move = false
+
+#Wily mugshot
+var wframe = 0
+var wrand = 0
+var wfade = 30
+var wflash = 0
+
 var new_scene = -1
 var sub_scene = 0
 var txt_delay = 0
@@ -14,8 +28,10 @@ var camx_ogpos = 0
 var shake = false
 var shake_time = 0
 var boom_flash = 0
+var bf_delay = 4
 var skip = false
 var next = false
+var next_flash = 0
 
 var radius = Vector2.ONE * 0.25
 var rotation_duration = 1.0
@@ -53,6 +69,12 @@ var text = {
 	41 : [" [ROLL]:", "ANYTHING! YOU CAN'T TRUST\n\nHIM!"],
 	42 : [" [ROCK]:", "MAYBE. BUT I HAVE TO RISK IT.\n\nEVEN SOMEONE LIKE HIM"],
 	43 : [" [ROCK]:", "DESERVES HELP."],
+	54 : [" [MEGAMAN]:", "IF IT'S ONE OF HIS TRICKS,\n\nI'LL DEAL WITH IT LIKE I"],
+	55 : [" [MEGAMAN]:", "ALWAYS DO!"],
+	56 : [" [DR. LIGHT]:", "I AGREE. WHATEVER IS GOING\n\nON, WE NEED TO INVESTIGATE."],
+	57 : [" [DR. LIGHT]:", "WHEN WILY IS INVOLVED, IT\n\nCAN'T MEAN ANYTHING GOOD."],
+	58 : [" [DR. LIGHT]:", "PLEASE, BE CAREFUL."],
+	59 : [" [MEGAMAN]:", "I'LL BE HOME SOON. DON'T\n\nWORRY!"],
 }
 
 func _input(event):
@@ -84,6 +106,10 @@ func _ready():
 		1:
 			$audio/music/lab.play()
 			txt_overlap = false
+			$sprites/light/anim.play("idle")
+			$sprites/auto/anim.play("idle")
+			$sprites/eddie/anim.play("idle")
+			$sprites/rock/anim.play("idle1")
 			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			$fade/fadeout.start()
 			$cam.smoothing_enabled = false
@@ -96,7 +122,191 @@ func _ready():
 
 func _physics_process(delta):
 	
-	print(next)
+	print(sub_scene,', ',wfade,', ',wflash)
+	
+	if global.cutscene != 0:
+		if next:
+			next_flash += 1
+			
+			if next_flash > 5:
+				if !$fade/bottom/next.is_visible_in_tree():
+					$fade/bottom/next.show()
+				else:
+					$fade/bottom/next.hide()
+				next_flash = 0
+		else:
+			if $fade/bottom/next.is_visible_in_tree():
+				$fade/bottom/next.hide()
+	
+	if global.cutscene == 1:
+		
+		if wrand > 0:
+			wrand -= 1
+		
+		if wrand == 0:
+			wframe = int(round(rand_range(0, 6)))
+			wrand = int(round(rand_range(1, 4)))
+			$map/wily_big.frame = wframe
+		
+		if text.has(sub_scene):
+			if text.get(sub_scene)[0] == " [DR. LIGHT]:":
+				if $sprites/light/anim.current_animation != "talk":
+					$sprites/light/anim.play("talk")
+			else:
+				if $sprites/light/anim.current_animation != "idle":
+					$sprites/light/anim.play("idle")
+			
+			if text.get(sub_scene)[0] == " [ROLL]:":
+				if $sprites/roll.frame != 1:
+					$sprites/roll.frame = 1
+			else:
+				if $sprites/roll.frame != 0:
+					$sprites/roll.frame = 0
+		
+		rock_vel.x = rock_xspd
+		if rock_move:
+			rock_vel.y += ROCK_GRAV * delta
+		else:
+			rock_vel.y = 0
+			
+		rock_vel = $sprites/rock.move_and_slide(rock_vel, Vector2(0, -1))
+		
+		if boom_flash > 0:
+			boom_flash -= 1
+		else:
+			if $sprites/flash.is_visible_in_tree():
+				$sprites/flash.hide()
+		
+		match sub_scene:
+			37:
+				if wfade > 0:
+					
+					if wflash == 1:
+						if $map/wily_big.is_visible_in_tree():
+							$map/wily_big.hide()
+					elif wflash == 0:
+						if !$map/wily_big.is_visible_in_tree():
+							$map/wily_big.show()
+					
+					wflash += 1
+					wfade -= 1
+					
+					if wflash > 1:
+						wflash = 0
+				else:
+					if $map/wily_big.is_visible_in_tree():
+						$map/wily_big.hide()
+			44:
+				$sprites/rock/anim.play("jump")
+				rock_vel.y = ROCK_JSPD
+				rock_move = true
+				sub_scene += 1
+			45:
+				if rock_vel.y >= 0:
+					$audio/sfx/transform1.play()
+					rock_move = false
+					$sprites/flash.show()
+					boom_flash = 8
+					sub_scene += 1
+			46:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform1.stop()
+						$audio/sfx/transform1.play()
+						$sprites/flash.show()
+						boom_flash = 8
+						bf_delay = 4
+						sub_scene += 1
+			47:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform1.stop()
+						$audio/sfx/transform1.play()
+						$sprites/flash.show()
+						boom_flash = 8
+						bf_delay = 4
+						sub_scene += 1
+			48:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform1.stop()
+						$audio/sfx/transform1.play()
+						$sprites/flash.show()
+						boom_flash = 8
+						bf_delay = 4
+						sub_scene += 1
+			49:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform1.stop()
+						$audio/sfx/transform1.play()
+						$sprites/flash.show()
+						boom_flash = 8
+						bf_delay = 4
+						sub_scene += 1
+			50:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform1.stop()
+						$audio/sfx/transform1.play()
+						$sprites/flash.show()
+						boom_flash = 8
+						bf_delay = 4
+						sub_scene += 1
+			51:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform1.stop()
+						$audio/sfx/bling.play()
+						$sprites/rock/anim.play("transform")
+						sub_scene += 1
+			52:
+				if $sprites/rock.position.y >= 148:
+					rock_move = false
+					$sprites/rock.position.y = 148
+					$audio/sfx/land.play()
+					$sprites/rock/anim.play("idle2")
+					bf_delay = 15
+					sub_scene += 1
+			53:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						set_text()
+			60:
+				bf_delay = 15
+				sub_scene += 1
+			61:
+				$sprites/rock/sprite.flip_h = true
+				$sprites/rock/anim.play("lilstep")
+				sub_scene += 1
+			62:
+				if $sprites/rock.position.x >= 1496:
+					$audio/sfx/beamout.play()
+					rock_xspd = 0
+					$sprites/rock/anim.play("leave")
+					sub_scene += 1
+			64:
+				if $sprites/rock.position.y > -32:
+					$sprites/rock.position.y -= 8
+				else:
+					sub_scene += 1
+			65:
+				bf_delay = 30
+				sub_scene += 1
+			66:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+						$fade/fadeout.start()
+						sub_scene += 1
 	
 	if !skip:
 		if sub_scene > 2 and sub_scene < 30:
@@ -171,8 +381,8 @@ func _physics_process(delta):
 		if boom_flash > 0:
 			boom_flash -= 1
 		else:
-			if $sprites/white.is_visible_in_tree():
-				$sprites/white.hide()
+			if $sprites/flash.is_visible_in_tree():
+				$sprites/flash.hide()
 		
 		if $sprites/fugue/anim.current_animation == "hover":
 			offset += 0.75 * PI * delta / float(rotation_duration)
@@ -338,7 +548,7 @@ func _on_timer_timeout():
 		23:
 			$sprites/wily/anim.play("surprise")
 			boom_flash = 8
-			$sprites/white.show()
+			$sprites/flash.show() 
 			$map/hole.show()
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
 			boom.position.x = $map/hole.position.x + 16
@@ -367,7 +577,7 @@ func _on_timer_timeout():
 			$fade/fadeout.start()
 			
 			boom_flash = 8
-			$sprites/white.show()
+			$sprites/flash.show()
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
 			boom.position.x = $map/hole.position.x
 			boom.position.y = $map/hole.position.y
@@ -379,7 +589,7 @@ func _on_timer_timeout():
 			shake_time = 20
 		25:
 			boom_flash = 8
-			$sprites/white.show()
+			$sprites/flash.show()
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
 			boom.position.x = $map/hole.position.x - 24
 			boom.position.y = $map/hole.position.y + 18
@@ -391,7 +601,7 @@ func _on_timer_timeout():
 			shake_time = 20
 		26:
 			boom_flash = 8
-			$sprites/white.show()
+			$sprites/flash.show()
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
 			boom.position.x = $map/hole.position.x - 32
 			boom.position.y = $map/hole.position.y - 24
@@ -404,7 +614,7 @@ func _on_timer_timeout():
 		27:
 			$sprites/wily/anim.play("idle2")
 			boom_flash = 8
-			$sprites/white.show()
+			$sprites/flash.show()
 			var boom = load("res://scenes/effects/l_explode.tscn").instance()
 			boom.position.x = $map/hole.position.x + 32
 			boom.position.y = $map/hole.position.y + 24
@@ -448,7 +658,12 @@ func _on_fadeout_tween_completed(object, key):
 	
 	#Swap the below section out for when more cutscenes are added.
 	if skip:
-		get_tree().change_scene("res://scenes/title.tscn")
+		match global.cutscene:
+			0:
+				get_tree().change_scene("res://scenes/title.tscn")
+			1:
+				get_tree().change_scene("res://scenes/world.tscn")
+		
 	
 	match sub_scene:
 		2:
@@ -474,6 +689,8 @@ func _on_fadeout_tween_completed(object, key):
 		31:
 			$timer.set_wait_time(1.0)
 			set_text()
+		67:
+			get_tree().change_scene("res://scenes/world.tscn")
 
 func _on_fugue_anim_done(anim_name):
 	match anim_name:
@@ -505,3 +722,16 @@ func skip():
 	$fade/fadeout.start()
 	allow_text = false
 	skip = true
+
+func _on_rock_anim_done(anim_name):
+	match anim_name:
+		"transform":
+			$sprites/rock/anim.play("fall")
+			rock_move = true
+		
+		"lilstep":
+			$sprites/rock/anim.play("run")
+			rock_xspd = ROCK_RSPD
+		
+		"leave":
+			sub_scene += 1
