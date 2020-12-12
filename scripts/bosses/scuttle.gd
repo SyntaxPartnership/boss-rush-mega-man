@@ -77,8 +77,6 @@ func _ready():
 
 func _physics_process(delta):
 	
-	print(force_spin)
-	
 	sic_em = floor(global_position.y - player.global_position.y)
 	dist = global_position.distance_to(player.global_position)
 	
@@ -235,7 +233,7 @@ func _physics_process(delta):
 					state += 1
 			6:
 				if act_delay == 0:
-					if force_spin < 5:
+					if force_spin < 3:
 						if tosses > 0:
 							world.sound('pull')
 							$anim.play("pull")

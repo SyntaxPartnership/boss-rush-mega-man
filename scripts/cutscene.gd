@@ -28,7 +28,7 @@ var camx_ogpos = 0
 var shake = false
 var shake_time = 0
 var boom_flash = 0
-var bf_delay = 4
+var bf_delay = 6
 var skip = false
 var next = false
 var next_flash = 0
@@ -62,21 +62,22 @@ var text = {
 	33 : ["", ""],
 	#Mega Man Opening Scene - After Title Screen.
 	36 : [" [DR. WILY]:", "-MY COORDINATES! SOMEBODY!\n\nANYBODY! SAVE ME!"],
-	37 : [" [DR. LIGHT]:", "THERE'S NO DOUBT ABOUT IT.\n\nTHIS IS WILY'S VOICE."],
-	38 : [" [DR. LIGHT]:", "WHAT HAS HE GOTTEN INTO\n\nTHIS TIME?"],
-	39 : [" [ROCK]:", "IF HE'S IN DANGER, I HAVE NO\n\nCHOICE BUT TO GO HELP HIM."],
-	40 : [" [ROLL]:", "BUT WHAT IF IT'S A TRAP? THAT\n\nMEAN DR. WILY IS CAPABLE OF"],
-	41 : [" [ROLL]:", "ANYTHING! YOU CAN'T TRUST\n\nHIM!"],
-	42 : [" [ROCK]:", "MAYBE. BUT I HAVE TO RISK IT.\n\nEVEN SOMEONE LIKE HIM"],
-	43 : [" [ROCK]:", "DESERVES HELP."],
-	54 : [" [MEGAMAN]:", "IF IT'S ONE OF HIS TRICKS,\n\nI'LL DEAL WITH IT LIKE I"],
-	55 : [" [MEGAMAN]:", "ALWAYS DO!"],
-	56 : [" [DR. LIGHT]:", "I AGREE. WHATEVER IS GOING\n\nON, WE NEED TO INVESTIGATE."],
-	57 : [" [DR. LIGHT]:", "WHEN WILY IS INVOLVED, IT\n\nCAN'T MEAN ANYTHING GOOD."],
-	58 : [" [DR. LIGHT]:", "PLEASE, BE CAREFUL."],
-	59 : [" [MEGAMAN]:", "I'LL BE HOME SOON. DON'T\n\nWORRY!"],
+	38 : [" [DR. LIGHT]:", "THERE'S NO DOUBT ABOUT IT.\n\nTHIS IS WILY'S VOICE."],
+	39 : [" [DR. LIGHT]:", "WHAT HAS HE GOTTEN INTO\n\nTHIS TIME?"],
+	40 : [" [ROCK]:", "IF HE'S IN DANGER, I HAVE NO\n\nCHOICE BUT TO GO HELP HIM."],
+	41 : [" [ROLL]:", "BUT WHAT IF IT'S A TRAP? THAT\n\nMEAN DR. WILY IS CAPABLE OF"],
+	42 : [" [ROLL]:", "ANYTHING! YOU CAN'T TRUST\n\nHIM!"],
+	43 : [" [ROCK]:", "MAYBE. BUT I HAVE TO RISK IT.\n\nEVEN SOMEONE LIKE HIM"],
+	44 : [" [ROCK]:", "DESERVES HELP."],
+	55 : [" [MEGAMAN]:", "IF IT'S ONE OF HIS TRICKS,\n\nI'LL DEAL WITH IT LIKE I"],
+	56 : [" [MEGAMAN]:", "ALWAYS DO!"],
+	57 : [" [DR. LIGHT]:", "I AGREE. WHATEVER IS GOING\n\nON, WE NEED TO INVESTIGATE."],
+	58 : [" [DR. LIGHT]:", "WHEN WILY IS INVOLVED, IT\n\nCAN'T MEAN ANYTHING GOOD."],
+	59 : [" [DR. LIGHT]:", "PLEASE, BE CAREFUL."],
+	60 : [" [MEGAMAN]:", "I'LL BE HOME SOON. DON'T\n\nWORRY!"],
 }
 
+# warning-ignore:unused_argument
 func _input(event):
 	
 	if Input.is_action_just_pressed("start"):
@@ -121,8 +122,6 @@ func _ready():
 			$timer.start()
 
 func _physics_process(delta):
-	
-	print(sub_scene,', ',wfade,', ',wflash)
 	
 	if global.cutscene != 0:
 		if next:
@@ -196,111 +195,113 @@ func _physics_process(delta):
 				else:
 					if $map/wily_big.is_visible_in_tree():
 						$map/wily_big.hide()
-			44:
+					set_text()
+			45:
 				$sprites/rock/anim.play("jump")
 				rock_vel.y = ROCK_JSPD
 				rock_move = true
 				sub_scene += 1
-			45:
+			46:
 				if rock_vel.y >= 0:
-					$audio/sfx/transform1.play()
+					$audio/sfx/transform.play()
 					rock_move = false
 					$sprites/flash.show()
 					boom_flash = 8
+					bf_delay = 6
 					sub_scene += 1
-			46:
-				if boom_flash == 0:
-					bf_delay -= 1
-					if bf_delay == 0:
-						$audio/sfx/transform1.stop()
-						$audio/sfx/transform1.play()
-						$sprites/flash.show()
-						boom_flash = 8
-						bf_delay = 4
-						sub_scene += 1
 			47:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform1.stop()
-						$audio/sfx/transform1.play()
+						$audio/sfx/transform.stop()
+						$audio/sfx/transform.play()
 						$sprites/flash.show()
 						boom_flash = 8
-						bf_delay = 4
+						bf_delay = 6
 						sub_scene += 1
 			48:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform1.stop()
-						$audio/sfx/transform1.play()
+						$audio/sfx/transform.stop()
+						$audio/sfx/transform.play()
 						$sprites/flash.show()
 						boom_flash = 8
-						bf_delay = 4
+						bf_delay = 6
 						sub_scene += 1
 			49:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform1.stop()
-						$audio/sfx/transform1.play()
+						$audio/sfx/transform.stop()
+						$audio/sfx/transform.play()
 						$sprites/flash.show()
 						boom_flash = 8
-						bf_delay = 4
+						bf_delay = 6
 						sub_scene += 1
 			50:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform1.stop()
-						$audio/sfx/transform1.play()
+						$audio/sfx/transform.stop()
+						$audio/sfx/transform.play()
 						$sprites/flash.show()
 						boom_flash = 8
-						bf_delay = 4
+						bf_delay = 6
 						sub_scene += 1
 			51:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform1.stop()
+						$audio/sfx/transform.stop()
+						$audio/sfx/transform.play()
+						$sprites/flash.show()
+						boom_flash = 8
+						bf_delay = 6
+						sub_scene += 1
+			52:
+				if boom_flash == 0:
+					bf_delay -= 1
+					if bf_delay == 0:
+						$audio/sfx/transform.stop()
 						$audio/sfx/bling.play()
 						$sprites/rock/anim.play("transform")
 						sub_scene += 1
-			52:
-				if $sprites/rock.position.y >= 148:
+			53:
+				if $sprites/rock.position.y >= 147:
 					rock_move = false
-					$sprites/rock.position.y = 148
+					$sprites/rock.position.y = 147
 					$audio/sfx/land.play()
 					$sprites/rock/anim.play("idle2")
 					bf_delay = 15
 					sub_scene += 1
-			53:
+			54:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
 						set_text()
-			60:
+			61:
 				bf_delay = 15
 				sub_scene += 1
-			61:
+			62:
 				$sprites/rock/sprite.flip_h = true
 				$sprites/rock/anim.play("lilstep")
 				sub_scene += 1
-			62:
+			63:
 				if $sprites/rock.position.x >= 1496:
 					$audio/sfx/beamout.play()
 					rock_xspd = 0
 					$sprites/rock/anim.play("leave")
 					sub_scene += 1
-			64:
+			65:
 				if $sprites/rock.position.y > -32:
 					$sprites/rock.position.y -= 8
 				else:
 					sub_scene += 1
-			65:
+			66:
 				bf_delay = 30
 				sub_scene += 1
-			66:
+			67:
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
@@ -658,11 +659,12 @@ func _on_fadeout_tween_completed(object, key):
 	
 	#Swap the below section out for when more cutscenes are added.
 	if skip:
-		match global.cutscene:
-			0:
-				get_tree().change_scene("res://scenes/title.tscn")
-			1:
-				get_tree().change_scene("res://scenes/world.tscn")
+		if global.cutscene == 0:
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://scenes/title.tscn")
+		if global.cutscene == 1:
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://scenes/world.tscn")
 		
 	
 	match sub_scene:
@@ -689,7 +691,8 @@ func _on_fadeout_tween_completed(object, key):
 		31:
 			$timer.set_wait_time(1.0)
 			set_text()
-		67:
+		68:
+# warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/world.tscn")
 
 func _on_fugue_anim_done(anim_name):
@@ -716,6 +719,7 @@ func _on_wily_anim_done(anim_name):
 		"scoot":
 			$sprites/shdw_scuttle/anim.play("shrink")
 
+# warning-ignore:function_conflicts_variable
 func skip():
 	$timer.stop()
 	$fade/fadeout.interpolate_property($fade/skip_fade, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)

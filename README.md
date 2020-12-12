@@ -59,6 +59,9 @@ Strider
 Consultant:  
 SpeedyDVV  
 
+Story:  
+Captain Blackhook  
+
 Sound Composer:  
 Capcom  
 

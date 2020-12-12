@@ -8,7 +8,7 @@ const CONFIG_FILE = 'user://options.cfg'
 var txt_line = 0
 
 func _ready():
-	$sprite/anim.play("run")
+	$minimeg/anim.play("run")
 	global._screen_resized()
 	load_config()
 	
@@ -87,7 +87,7 @@ func _on_fade_fadein():
 #Fade out and move to the next scene.
 func _on_fade_fadeout():
 # warning-ignore:return_value_discarded
-	get_tree().change_scene("res://scenes/cutscene.tscn")
+	get_tree().change_scene("res://scenes/capcom.tscn")
 
 func _on_txt_timeout():
 	$txt_fade.interpolate_property($text, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)

@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/sprites/misc/splogo.png" type="Texture" id=2]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=3]
+[ext_resource path="res://scripts/sp.gd" type="Script" id=4]
+
+[node name="sp" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="top" type="Label" parent="."]
+margin_left = 40.0
+margin_top = 32.0
+margin_right = 216.0
+margin_bottom = 40.0
+custom_fonts/font = ExtResource( 1 )
+text = "THE SYNTAX PARTNERSHIP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="splogo" type="Sprite" parent="."]
+position = Vector2( 128, 112 )
+texture = ExtResource( 2 )
+
+[node name="bottom" type="Label" parent="."]
+margin_left = 96.0
+margin_top = 192.0
+margin_right = 160.0
+margin_bottom = 200.0
+custom_fonts/font = ExtResource( 1 )
+text = "PRESENTS"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fade" parent="." instance=ExtResource( 3 )]
+position = Vector2( 128, 120 )
+
+[node name="time" type="Timer" parent="."]
+wait_time = 5.0
+[connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
+[connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]
+[connection signal="timeout" from="time" to="." method="_on_time_timeout"]

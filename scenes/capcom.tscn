@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://assets/sprites/misc/capcom.png" type="Texture" id=2]
+[ext_resource path="res://assets/sprites/misc/clogo_back.png" type="Texture" id=3]
+[ext_resource path="res://assets/sprites/misc/clogo_shine.png" type="Texture" id=4]
+[ext_resource path="res://scripts/capcom.gd" type="Script" id=5]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/audio/music/01_Capcom Logo.ogg" type="AudioStream" id=7]
+
+[node name="capcom" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="logo" type="Sprite" parent="."]
+position = Vector2( 128, 112 )
+texture = ExtResource( 2 )
+
+[node name="shine" type="Sprite" parent="."]
+position = Vector2( -56, 112 )
+texture = ExtResource( 4 )
+
+[node name="cover" type="Sprite" parent="."]
+position = Vector2( 128, 120 )
+texture = ExtResource( 3 )
+
+[node name="text" type="Label" parent="."]
+margin_left = 80.0
+margin_top = 80.0
+margin_right = 176.0
+margin_bottom = 88.0
+custom_fonts/font = ExtResource( 1 )
+text = "INSPIRED BY:"
+percent_visible = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="fade" parent="." instance=ExtResource( 6 )]
+position = Vector2( 128, 120 )
+
+[node name="capcom" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="time" type="Timer" parent="."]
+wait_time = 3.0
+[connection signal="fadein" from="fade" to="." method="_on_fadein"]
+[connection signal="fadeout" from="fade" to="." method="_on_fadeout"]
+[connection signal="finished" from="capcom" to="." method="_on_capcom_finished"]
+[connection signal="timeout" from="time" to="." method="_on_timeout"]

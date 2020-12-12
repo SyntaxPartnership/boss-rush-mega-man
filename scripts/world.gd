@@ -830,16 +830,16 @@ func calc_damage(to, from):
 			
 			#Add additional behaviors based on damage IDs
 			match get_id:
-				3:
-					if to.name == "swoop":
-						if to.state == 1:
-							to.velocity.x = to.velocity.x * 0.5
-							to.velocity.y = 20
-							to.get_child(0).show()
-							to.get_child(6).play("idle")
-							to.get_child(7).play("flap")
-							to.dives = 0
-							to.state = 8
+#				3:
+#					if to.name == "swoop":
+#						if to.state == 1:
+#							to.velocity.x = to.velocity.x * 0.5
+#							to.velocity.y = 20
+#							to.get_child(0).show()
+#							to.get_child(6).play("idle")
+#							to.get_child(7).play("flap")
+#							to.dives = 0
+#							to.state = 8
 				7:
 					if from.name == "player":
 						var dist_mul = 1
@@ -1443,7 +1443,7 @@ func _process(delta):
 			sound("big_explode")
 			var l_boom = $coll_mask/tiles.map_to_world(Vector2(165, 13))
 			var r_boom = $coll_mask/tiles.map_to_world(Vector2(170, 13))
-			for _b in range(2):
+			for b in range(2):
 				var boom = load("res://scenes/effects/s_explode.tscn").instance()
 				boom.position.x = floor(rand_range(l_boom.x, r_boom.x + 16))
 				boom.position.y = floor(rand_range(l_boom.y, l_boom.y + 16))
@@ -2270,7 +2270,7 @@ func show_text():
 	
 	if !shop_active:
 		var allow = false
-		if global.scene != 0:
+		if global.scene != 0 and cutsc_mode == 2:
 			if $scene_txt/on_off/text.get_visible_characters() < $scene_txt/on_off/text.get_total_character_count():
 				$scene_txt/on_off/text.set_visible_characters($scene_txt/on_off/text.get_visible_characters() + 1)
 		
@@ -2332,8 +2332,9 @@ func show_text():
 			global.sub_scene += 1
 			
 		if global.scene == 2 or global.scene == 5 or global.scene == 8:
-			$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
-			$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
+			if cutsc_mode == 2:
+				$scene_txt/on_off/name.set_text(scene_txt.get(global.sub_scene)[0])
+				$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
 		
 		if global.scene == 3:
 			sound("fall")
@@ -2710,8 +2711,8 @@ func eddie_spit(anim_name):
 		var spit = load('res://scenes/objects/eddie-spit.tscn').instance()
 		spit.get_child(0).frame = shop_pos
 		spit.velocity = spit_vel
-		spit.global_position.x = $graphic/spawn_tiles/shop/eddie.global_position.x
-		spit.global_position.y = $graphic/spawn_tiles/shop/eddie.global_position.y - 8
+		spit.position.x = $graphic/spawn_tiles/shop/eddie.global_position.x
+		spit.position.y = $graphic/spawn_tiles/shop/eddie.global_position.y - 8
 		$graphic.add_child(spit)
 	
 	if anim_name == 'spit-b':

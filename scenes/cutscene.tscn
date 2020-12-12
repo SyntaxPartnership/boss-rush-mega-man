@@ -25,7 +25,7 @@
 [ext_resource path="res://assets/sprites/cutscene/roll.png" type="Texture" id=23]
 [ext_resource path="res://assets/audio/music/03_Dr. Light's Instructions.ogg" type="AudioStream" id=24]
 [ext_resource path="res://assets/sprites/cutscene/rock.png" type="Texture" id=25]
-[ext_resource path="res://assets/audio/se/transform.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/se/iii-iv-v/transform.wav" type="AudioStream" id=26]
 [ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=27]
 [ext_resource path="res://assets/audio/se/Landing.wav" type="AudioStream" id=28]
 [ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=29]
@@ -843,7 +843,7 @@ flip_h = true
 hframes = 2
 
 [node name="rock" type="KinematicBody2D" parent="sprites"]
-position = Vector2( 1464, 148 )
+position = Vector2( 1464, 147 )
 
 [node name="sprite" type="Sprite" parent="sprites/rock"]
 texture = ExtResource( 25 )
@@ -932,15 +932,15 @@ visible = false
 position = Vector2( 244, 228 )
 texture = ExtResource( 31 )
 
+[node name="fadeout" type="Tween" parent="fade"]
+
 [node name="skip_fade" type="ColorRect" parent="fade"]
-margin_right = 256.0
+margin_right = 1536.0
 margin_bottom = 240.0
 color = Color( 0, 0, 0, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="fadeout" type="Tween" parent="fade"]
 
 [node name="timer" type="Timer" parent="."]
 
@@ -971,7 +971,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="transform1" type="AudioStreamPlayer" parent="audio/sfx"]
+[node name="transform" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 26 )
 
 [node name="thud" type="AudioStreamPlayer" parent="audio/sfx"]

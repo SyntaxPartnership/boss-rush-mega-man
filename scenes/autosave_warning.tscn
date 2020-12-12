@@ -1,15 +1,14 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://scripts/disclaimer.gd" type="Script" id=1]
-[ext_resource path="res://assets/sprites/effects/as_icon.png" type="Texture" id=2]
+[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scripts/autosave_warning.gd" type="Script" id=2]
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=3]
-[ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/sprites/effects/as_icon.png" type="Texture" id=4]
 
 [sub_resource type="Animation" id=1]
 resource_name = "run"
 length = 0.8
 loop = true
-step = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -23,63 +22,43 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 1 ]
 }
 
-[node name="disclaimer" type="Node2D"]
-script = ExtResource( 1 )
+[node name="autosave_warning" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="sprite" type="Sprite" parent="."]
+position = Vector2( 128, 128 )
+texture = ExtResource( 4 )
+hframes = 3
+frame = 2
+
+[node name="anim" type="AnimationPlayer" parent="sprite"]
+anims/run = SubResource( 1 )
 
 [node name="text" type="Label" parent="."]
 margin_left = 8.0
-margin_top = 4.0
+margin_top = 8.0
 margin_right = 248.0
-margin_bottom = 244.0
+margin_bottom = 232.0
 custom_fonts/font = ExtResource( 3 )
-text = "THIS DEMO REPRESENTS A FAN
-
-GAME THAT IS STILL IN
-
-PRODUCTION. ANYTHING FOUND
-
-WITHING THIS APPLICATION IS
-
-SUBJECT TO CHANGE.
-
-
-THIS GAME UTILIZES AN
-
-AUTO-SAVE FEATURE. DO NOT
-
-EXIT THE GAME WHEN
+text = "
 
 
 
-IS DISPLAYED.
 
 
-MEGA MAN© AND ALL RELATED
 
-CHARACTERS ARE COPYRIGHT BY
+THIS GAME UTILIZES AND AUTO-SAVE FEATURE.
 
-CAPCOM® CO., LTD.
-
-"
+DO NOT CLOSE THIS GAME WHEN THE FOLLOWING ICON IS ON SCREEN."
 align = 1
-valign = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="minimeg" type="Sprite" parent="."]
-position = Vector2( 128, 148 )
-texture = ExtResource( 2 )
-hframes = 3
-frame = 2
-
-[node name="anim" type="AnimationPlayer" parent="minimeg"]
-anims/run = SubResource( 1 )
-
 [node name="timer" type="Timer" parent="."]
 
-[node name="fade" parent="." instance=ExtResource( 4 )]
+[node name="fade" parent="." instance=ExtResource( 1 )]
 position = Vector2( 128, 118.947 )
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]

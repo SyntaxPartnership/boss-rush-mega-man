@@ -1,0 +1,229 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://scripts/credits.gd" type="Script" id=2]
+[ext_resource path="res://assets/audio/music/Staff Roll 1 (Original).ogg" type="AudioStream" id=3]
+
+[node name="credits" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="starfield" type="CanvasLayer" parent="."]
+
+[node name="text" type="Label" parent="."]
+anchor_top = 240.0
+anchor_bottom = 240.0
+margin_left = 8.0
+margin_top = 248.0
+margin_right = 248.0
+margin_bottom = 501.0
+custom_fonts/font = ExtResource( 1 )
+text = "    MEGA MAN UPRISING STAFF
+
+
+
+
+
+
+
+
+
+          -PRODUCER-
+
+
+       CAPTAIN BLACKHOOK
+
+
+
+
+
+
+
+
+
+           -PLANNER-
+
+
+       CAPTAIN BLACKHOOK
+
+            STRIDER
+
+           SPEEDYDVV
+
+
+
+
+
+
+
+
+
+       -OBJECT DESIGNER-
+
+
+            CAPCOM
+
+       CAPTAIN BLACKHOOK
+
+            STRIDER
+
+
+
+
+
+
+
+
+
+
+       -SCROLL DESIGNER-
+
+
+            STRIDER
+
+
+
+
+
+
+
+
+
+      -SPECIAL DESIGNER-
+
+
+       CAPTAIN BLACKHOOK
+
+            STRIDER
+
+
+
+
+
+
+
+
+
+         -PROGRAMMER-
+
+
+            STRIDER
+
+
+
+
+
+
+
+
+
+         -CONSULTANT-
+
+
+           SPEEDYDVV
+
+
+
+
+
+
+
+
+
+       -SOUND COMPOSER-
+
+
+            CAPCOM
+
+            ELEZEID
+
+
+
+
+
+
+
+
+
+      -QUALITY ASSURANCE-
+
+
+         AVERAGE-HANZO
+
+             BLSH
+
+        FAWKES THE FOX
+
+       HYPERSONICDRAGON
+
+         J8BIT_FORAGER
+
+         MICK GALBANI
+
+          TRAIN NO. 4
+
+             ZYNK
+
+
+
+
+
+
+
+
+
+       -SPECIAL THANKS-
+
+
+         SPRITES INC.
+
+
+
+
+
+           AND YOU!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    THANK YOU FOR PLAYING!
+
+
+
+
+
+
+
+
+
+         PRESENTED BY
+
+    THE SYNTAX PARTNERSHIP"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="cam" type="Camera2D" parent="text"]
+position = Vector2( 120, -128 )
+current = true
+limit_left = 0
+limit_top = 0
+limit_right = 256
+limit_bottom = 1800
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+
+[node name="scroll" type="Tween" parent="."]
