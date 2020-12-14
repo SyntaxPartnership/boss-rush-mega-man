@@ -456,10 +456,6 @@ func _physics_process(delta):
 			velocity = Vector2.ZERO
 			state = 18
 			$anim.play("open")
-			var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
-			p_flash.position = global_position
-			world.get_child(3).add_child(p_flash)
-			world.sound('bling')
 			desp_fin = true
 			desp = true
 	
@@ -748,6 +744,12 @@ func _on_anim_finished(anim_name):
 				velocity.x = x_target
 				velocity.y = JUMP_STR
 				state = 8
+			
+			if state == 18:
+				var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
+				p_flash.position = global_position
+				world.get_child(3).add_child(p_flash)
+				world.sound('bling')
 		
 		"fall":
 			if state == 8:

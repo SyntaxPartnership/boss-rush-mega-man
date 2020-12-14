@@ -98,6 +98,10 @@ var rush_jet = false
 var leave = false
 var r_boost = false
 var s_kick = false
+#Swoop Kick Only.
+var sk_rebound = false
+var skr_delay = 30
+
 var stun = -1
 var stun_bnce = 0
 var slap = false
@@ -350,6 +354,14 @@ func _physics_process(delta):
 				charge = 0
 				rapid = 0
 		
+		if sk_rebound:
+			
+			skr_delay -= 1
+			
+			if skr_delay == 0:
+				skr_delay = 30
+				sk_rebound = false
+		
 		if hurt_timer == 0:
 
 			#Make the character blink after taking damage.
@@ -471,9 +483,9 @@ func _physics_process(delta):
 
 		#Use GRAVITY to pull the player down.
 		if act_st != CLIMBING and !slap:
-			if !s_kick:
+			if !s_kick and !sk_rebound or sk_rebound and is_on_floor():
 				velocity.x = x_speed
-			else:
+			elif s_kick:
 				if $sprite.flip_h:
 					if is_on_floor():
 						velocity.x = -RUN_SPEED * 2
@@ -484,6 +496,12 @@ func _physics_process(delta):
 						velocity.x = RUN_SPEED * 2
 					else:
 						velocity.x = RUN_SPEED * 3
+			elif sk_rebound:
+				if !is_on_floor():
+					if $sprite.flip_h:
+						velocity.x = RUN_SPEED
+					else:
+						velocity.x = -RUN_SPEED
 			if !b_lance_pull and !s_kick:
 				velocity.y += (GRAVITY / grav_mod) * delta
 			elif s_kick:
@@ -1119,7 +1137,7 @@ func standing():
 	
 	#Set X Velocity.
 	if !slide:
-		if !b_lance_pull:
+		if !b_lance_pull and !sk_rebound:
 			if anim_st == RUN and !rush_jet:
 				if shot_st != THROW and shot_st != BASSSHOT:
 					if !ice:
@@ -1151,7 +1169,7 @@ func standing():
 				x_speed = (-RUN_SPEED * 2) / x_spd_mod
 			else:
 				x_speed = (RUN_SPEED * 2) / x_spd_mod
-		elif !is_on_floor():
+		elif !is_on_floor() and !sk_rebound:
 			x_speed = ((x_dir * RUN_SPEED) * 2) / x_spd_mod
 			
 	#Transition back to idle if no longer running.
@@ -1280,7 +1298,7 @@ func standing():
 		grav_mod = 1
 	
 	#Set velocity.y to 0 when releasing the jump button before reaching the peak of a jump.;
-	if !jump and velocity.y < 0 and !rush_coil and !r_boost and stun < 0:
+	if !jump and velocity.y < 0 and !rush_coil and !r_boost and !sk_rebound and stun < 0:
 		velocity.y = 0
 	
 	#This is a small fix to prevent the jumping sprite from appearing during some animations.
@@ -1540,3 +1558,15 @@ func cutscene(state):
 		shot_pos()
 		no_input(false)
 		cutscene = false
+
+func kick_rebound():
+	if !sk_rebound:
+		blink_timer = 15
+		anim_state(JUMP)
+		slide_timer = 0
+		$standbox.set_disabled(false)
+		$slidebox.set_disabled(true)
+		s_kick = false
+		slide = false
+		sk_rebound = true
+		velocity.y = JUMP_SPEED * 0.50

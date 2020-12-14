@@ -40,7 +40,8 @@ func _physics_process(delta):
 	if velocity.y > 0:
 		can_boing = true
 	
-	velocity = move_and_slide(velocity, Vector2(0, -1))
+	if !boing:
+		velocity = move_and_slide(velocity, Vector2(0, -1))
 	
 	if is_on_wall():
 		if bounce == 0:
@@ -52,36 +53,6 @@ func _physics_process(delta):
 	if kill == 2:
 		_on_boing_finished("boing")
 
-func _on_hit_box_body_entered(body):
-	if can_boing and !boing:
-		if body.name == "defend":
-			if !body.desp_fin:
-				if body.bnce_states.has(body.state):
-					body.state = 25
-					boing()
-				else:
-					body.normal_dmg()
-					_on_boing_finished(null)
-			else:
-				world.sound('dink')
-				if bounce == 0 and !boing:
-					velocity.x = X_SPD
-				elif bounce == 1 and !boing:
-					velocity.x = -X_SPD
-		else:
-			boing()
-		
-		if body.name == "def_bullet" and body.type == 3:
-			body.master_vel = Vector2(0, -1)
-			body.speed = 300
-			boing()
-		
-		if body.name == "player" and !body.cutscene:
-			player.stun = -1
-			player.slap = false
-			player.no_input(false)
-			player.rush_coil = true
-			player.velocity.y = player.JUMP_SPEED * 1.6
 
 func _on_boing_finished(_anim_name):
 	var boom = load("res://scenes/effects/s_explode.tscn").instance()
@@ -97,3 +68,14 @@ func boing():
 
 func _on_screen_exited():
 	_on_boing_finished(null)
+
+
+func _on_hit_box_body_entered(body):
+	if can_boing and !boing:
+		if body.name == "player" and !body.cutscene:
+			player.stun = -1
+			player.slap = false
+			player.no_input(false)
+			player.rush_coil = true
+			player.velocity.y = player.JUMP_SPEED * 1.6
+			boing()

@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6, 6 )
+
+[node name="s_kick_wave" type="KinematicBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="sprite" type="Sprite" parent="."]

@@ -36,6 +36,7 @@ var pinch = false
 var t_delay_max = 12
 var t_delay = 0
 var pinch_bomb = 0
+var pinch_flash = false
 
 var bomb_drop = 0
 var bomb_max = 2
@@ -146,10 +147,6 @@ func _physics_process(delta):
 			state = 9
 			$anim.play_backwards("teleport")
 			world.sound("roto_a")
-			var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
-			p_flash.position = global_position
-			world.get_child(3).add_child(p_flash)
-			world.sound('bling')
 			pinch = true
 		
 	if state == 3:
@@ -223,6 +220,8 @@ func _physics_process(delta):
 			world.sound("roto_a")
 	
 	if state == 9:
+		
+		
 		if t_delay > 0:
 			t_delay -= 1
 		
@@ -549,6 +548,7 @@ func _on_anim_finished(anim_name):
 					act_timer = 120
 		
 		if state == 9:
+			
 			match act_count:
 				0:
 					global_position.x = round(rand_range(camera.limit_left + 24, camera.limit_right - 24))
@@ -556,6 +556,12 @@ func _on_anim_finished(anim_name):
 					$anim.play("teleport")
 					act_count += 1
 				1:
+					if !pinch_flash:
+						var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
+						p_flash.position = global_position
+						world.get_child(3).add_child(p_flash)
+						world.sound('bling')
+						pinch_flash = true
 					$anim.play("surprise")
 					t_delay = t_delay_max
 					act_count = 0

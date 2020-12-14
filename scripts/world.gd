@@ -742,6 +742,7 @@ func _rooms():
 
 
 func calc_damage(to, from):
+	var no_damage = false
 	#Check if the player is receiving the damage or not.
 	if to.is_in_group("player"):
 		#If true, then check to see if the player CAN be damaged.
@@ -758,6 +759,8 @@ func calc_damage(to, from):
 			if from.is_in_group("player"):
 				#If the damage is being received from the player, set damage IDs based on the attack that struck.
 				if from.s_kick:
+					#Trigger the kick rebound.
+					from.kick_rebound()
 					get_id = 3
 				elif from.r_boost:
 					get_id = 7
@@ -771,7 +774,6 @@ func calc_damage(to, from):
 					
 					match from.property:
 						null:
-							print('shield')
 							from._on_screen_exited()
 						0:
 							from._on_screen_exited()
@@ -790,13 +792,19 @@ func calc_damage(to, from):
 						8:
 							from.boom()
 						99: #Spring Puck behaves differently based on who it strikes.
-							if to.name == "swoop" or to.name == "roto":
+							if to.name == "defend":
+								if !to.desp_fin:
+									if to.bnce_states.has(to.state):
+										from.get_child(2).set_deferred("disabled", true)
+										no_damage = true
+										to.state = 25
+										from.boing()
+									else:
+										from._on_screen_exited()
+							else:
 								from._on_screen_exited()
 				if boss_hp > 0:
-					if to.flash == 0:
-						if to.name == "scuttle":
-							if to.state >= 6 and to.state <= 10:
-								to.force_spin += 1
+					if to.flash == 0 and !no_damage:
 						sound("hit")
 						boss_hp -= damage
 						hit_num += 1

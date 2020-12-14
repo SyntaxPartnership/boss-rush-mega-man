@@ -110,7 +110,6 @@ func _physics_process(delta):
 			if type != 3:
 				if body.is_in_group("weapons") and body.name == "attack_shield":
 					if !ricochet:
-						print('test')
 						ricochet()
 						
 			if type == 3:
@@ -218,6 +217,8 @@ func ricochet():
 		remove_from_group('def_bullet')
 		add_to_group('weapons')
 		self.set_collision_mask_bit(5, true)
+		$box_a.set_deferred("disabled", true)
+		$box_b.set_deferred("disabled", true)
 		$hit_box.set_collision_layer_bit(0, false)
 		$hit_box.set_collision_layer_bit(5, false)
 		ricochet = true

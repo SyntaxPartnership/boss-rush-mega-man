@@ -18,6 +18,7 @@ var fire = false
 var elec_st = 0
 var sic_em = 0
 var drop = false
+var reverse = false
 
 var velocity = Vector2()
 
@@ -107,12 +108,25 @@ func _physics_process(delta):
 		if overlap != []:
 			for body in overlap:
 				if body.name == 'player':
-					damage = 30
-					world.calc_damage(body, self)
+					if body.s_kick:
+						body.kick_rebound()
+						kill_gaby()
+					else:
+						damage = 30
+						world.calc_damage(body, self)
 				
 				if body.name == 'attack_shield':
 					body._on_screen_exited()
 					kill_gaby()
+				
+				if body.name == "scuttle_puck":
+					if !reverse:
+						dir = -dir
+						if body.bounce == 1:
+							body.bounce = 0
+						else:
+							body.bounce = 1
+						reverse = true
 		
 		kill_weap = $beam_box.get_overlapping_bodies()
 		
