@@ -119,6 +119,9 @@ func _physics_process(delta):
 					body._on_screen_exited()
 					kill_gaby()
 				
+				if body.name == "s_kick_wave":
+					kill_gaby()
+				
 				if body.name == "scuttle_puck":
 					if !reverse:
 						dir = -dir

@@ -1103,7 +1103,7 @@ func _on_item_entered(body):
 		body.pickup()
 
 func standing():
-	if !b_lancer and !s_kick:
+	if !b_lancer and !s_kick and !sk_rebound:
 		if x_dir < 0 and !rush_jet:
 			shot_dir = 0
 			$sprite.flip_h = true
@@ -1561,11 +1561,18 @@ func cutscene(state):
 
 func kick_rebound():
 	if !sk_rebound:
-		blink_timer = 15
+		blink_timer = 12
 		anim_state(JUMP)
 		slide_timer = 0
 		$standbox.set_disabled(false)
 		$slidebox.set_disabled(true)
+		
+		#Spawn wave.
+		var wave = load("res://scenes/player/weapons/s_kick_wave.tscn").instance()
+		wave.position = global_position
+		wave.get_child(1).flip_h = $sprite.flip_h
+		world.get_child(3).add_child(wave)
+		
 		s_kick = false
 		slide = false
 		sk_rebound = true

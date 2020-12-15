@@ -1,11 +1,63 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/sprites/weapons/s_kick_wave.png" type="Texture" id=1]
+[ext_resource path="res://scripts/weapons/s_kick_wave.gd" type="Script" id=2]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 6, 6 )
 
-[node name="s_kick_wave" type="KinematicBody2D"]
+[sub_resource type="Animation" id=2]
+resource_name = "air"
+length = 0.15
+loop = true
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[sub_resource type="Animation" id=3]
+resource_name = "ground"
+length = 0.15
+loop = true
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[node name="s_kick_wave" type="KinematicBody2D" groups=[
+"weapons",
+]]
+collision_layer = 2
+collision_mask = 32
+script = ExtResource( 2 )
+
+[node name="box" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
 [node name="sprite" type="Sprite" parent="."]
+position = Vector2( -1, -4 )
+texture = ExtResource( 1 )
+hframes = 4
+frame = 3
+
+[node name="anim" type="AnimationPlayer" parent="."]
+anims/air = SubResource( 2 )
+anims/ground = SubResource( 3 )
