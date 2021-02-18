@@ -91,7 +91,7 @@ const SONY_RPLCE = {
 	"Start"					: "START"
 	}
 
-var which_pad
+var which_pad = []
 
 var menu = 0
 var menu_pos = 0
@@ -112,14 +112,18 @@ func _ready():
 		if g == global.gp_name:
 			print(g)
 			match g:
-#				"XInput Gamepad":
-#					which_pad = XINPUT_RPLCE
-#				"Wireless Controller":
-#					which_pad = SWITCH_RPLCE
+				"XInput Gamepad":
+					which_pad = XINPUT_RPLCE
+				"Wireless Controller":
+					which_pad = SWITCH_RPLCE
 				"Sony DualShock 4":
 					which_pad = SONY_RPLCE
-#				"HORIPAD S":
-#					which_pad = SWITCH_RPLCE
+				"PS4 Controller":
+					which_pad = SONY_RPLCE
+				"HORIPAD S":
+					which_pad = SWITCH_RPLCE
+		else:
+			which_pad = XINPUT_RPLCE
 	print(which_pad)
 	
 	ca_start = $cursor.position.y

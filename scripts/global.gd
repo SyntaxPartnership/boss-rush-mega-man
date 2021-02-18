@@ -48,7 +48,7 @@ var key_ctrls = ["W", "S", "A", "D", "Period", "Comma", "Slash", "L", "Semicolon
 var joy_ctrls = ["DPAD Up", "DPAD Down", "DPAD Left", "DPAD Right", "Face Button Bottom", "Face Button Left", "Face Button Right", "Face Button Top", "L", "R", "Select", "Start"]
 var l_stick = [["Left Stick Y", -1.0], ["Left Stick Y", 1.0], ["Left Stick X", -1.0], ["Left Stick X", 1.0]]
 
-var gp_list = ["XInput Gamepad", "Wireless Controller", "Sony DualShock 4", "HORIPAD S"]
+var gp_list = ["XInput Gamepad", "Wireless Controller", "Sony DualShock 4", "PS4 Controller", "HORIPAD S"]
 
 #Level/Continue Point IDs
 var level_id = 0
@@ -95,10 +95,10 @@ var bass = true
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var dummy = [true, 280, 280]
-var weapon1 = [true, 280, 280]
-var weapon2 = [true, 280, 280]
-var weapon3 = [true, 280, 280]
-var weapon4 = [true, 280, 280]
+var weapon1 = [false, 280, 280]
+var weapon2 = [false, 280, 280]
+var weapon3 = [false, 280, 280]
+var weapon4 = [false, 280, 280]
 
 var end_pos = Vector2()
 var end_frame = 0
