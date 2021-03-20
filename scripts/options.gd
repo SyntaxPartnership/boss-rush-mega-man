@@ -95,7 +95,7 @@ var which_pad = []
 
 var menu = 0
 var menu_pos = 0
-var menu_size = [6, 2, 2, 12, 12, 8, 0]
+var menu_size = [4, 2, 2, 12, 12, 8, 0]
 var pressed = false
 var ca_start = 0
 var cb_start = 0

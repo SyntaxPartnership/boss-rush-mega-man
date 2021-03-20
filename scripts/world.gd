@@ -2152,6 +2152,7 @@ func bolt_calc():
 	
 	#Calculate accuracy for later.
 	accuracy = (hit_num / shot_num) * 100
+	print(accuracy)
 	
 	match which_wpn:
 		0:
@@ -2177,36 +2178,38 @@ func bolt_calc():
 	#Choose Badge
 	if hits > 0 and hits < 2:
 		$hud/boss_timer.set_badge += 1
-	else:
+	elif hits > 2:
 		$hud/boss_timer.set_badge += 2
 	
 	if accuracy < 50:
 		$hud/boss_timer.set_badge += 1
 	
-	if time > 30000:
+	if time > 40000:
 		$hud/boss_timer.set_badge += 1
+	
+	print($hud/boss_timer.set_badge)
 	
 	#Set value for time.
 	var total_time = time
 	
 	#Add bolts for time
 	if total_time <= 30000:
-		max_bolts += 10
+		max_bolts += 5
 	elif total_time >= 30001 and total_time <= 45000:
-		max_bolts += 8
-	elif total_time >= 45001 and total_time <= 60000:
-		max_bolts += 6
-	elif total_time >= 60001 and total_time <= 75000:
 		max_bolts += 4
-	elif total_time >= 75001 and total_time <= 90000:
+	elif total_time >= 45001 and total_time <= 60000:
+		max_bolts += 3
+	elif total_time >= 60001 and total_time <= 75000:
 		max_bolts += 2
+	elif total_time >= 75001 and total_time <= 90000:
+		max_bolts += 1
 		
 	var hits_dict = {
-		0 : 10,
-		1 : 8,
-		2 : 6,
-		3 : 4,
-		4 : 2
+		0 : 5,
+		1 : 4,
+		2 : 3,
+		3 : 2,
+		4 : 1
 	}
 	
 	#Add bolts for hits taken.
