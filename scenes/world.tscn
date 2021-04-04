@@ -903,129 +903,171 @@ __meta__ = {
 
 [node name="death" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 21 )
+bus = "sfx"
 
 [node name="boss_death" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 77 )
+bus = "sfx"
 
 [node name="splash" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 22 )
+bus = "sfx"
 
 [node name="appear" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 23 )
+bus = "sfx"
 
 [node name="menu" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 24 )
+bus = "sfx"
 
 [node name="bling" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 25 )
+bus = "sfx"
 
 [node name="hurt" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 26 )
+bus = "sfx"
 
 [node name="meter" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 27 )
+bus = "sfx"
 
 [node name="buzz" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 28 )
+bus = "sfx"
 
 [node name="b_lancer" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 29 )
+bus = "sfx"
 
 [node name="shock" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 30 )
+bus = "sfx"
 
 [node name="throw" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 31 )
+bus = "sfx"
 
 [node name="big_explode" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 32 )
+bus = "sfx"
 
 [node name="hit" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 33 )
+bus = "sfx"
 
 [node name="shoot_a" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 34 )
+bus = "sfx"
 
 [node name="dink" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 35 )
+bus = "sfx"
 
 [node name="swoop_a" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 36 )
+bus = "sfx"
 
 [node name="swoop_b" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 37 )
+bus = "sfx"
 
 [node name="swoop_c" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 38 )
+bus = "sfx"
 
 [node name="swoop_d" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 39 )
+bus = "sfx"
 
 [node name="charge" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 40 )
+bus = "sfx"
 
 [node name="beam_out" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 41 )
+bus = "sfx"
 
 [node name="wpn_get" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 42 )
+bus = "sfx"
 
 [node name="shoot_b" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 43 )
+bus = "sfx"
 
 [node name="connect" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 44 )
+bus = "sfx"
 
 [node name="roto_a" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 49 )
+bus = "sfx"
 
 [node name="roto_b" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 48 )
+bus = "sfx"
 
 [node name="cursor" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 51 )
+bus = "sfx"
 
 [node name="s_kick" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 52 )
+bus = "sfx"
 
 [node name="boing" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 53 )
+bus = "sfx"
 
 [node name="fall" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 67 )
+bus = "sfx"
 
 [node name="faceplant" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 68 )
+bus = "sfx"
 
 [node name="elec" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 69 )
+bus = "sfx"
 
 [node name="wall_hit" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 72 )
+bus = "sfx"
 
 [node name="pull" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 70 )
+bus = "sfx"
 
 [node name="spark" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 71 )
+bus = "sfx"
 
 [node name="clang" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 73 )
+bus = "sfx"
 
 [node name="def_bullet" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 75 )
+bus = "sfx"
 
 [node name="split" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 74 )
+bus = "sfx"
 
 [node name="shutter" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 78 )
+bus = "sfx"
 
 [node name="buy" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 84 )
+bus = "sfx"
 
 [node name="1up" type="AudioStreamPlayer" parent="audio/se"]
 stream = ExtResource( 85 )
+bus = "sfx"
 
 [node name="music" type="Control" parent="audio"]
 visible = false
@@ -1038,26 +1080,33 @@ __meta__ = {
 [node name="main" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 45 )
 volume_db = 3.0
+bus = "music"
 
 [node name="boss" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 46 )
 volume_db = 5.0
+bus = "music"
 
 [node name="clear" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 47 )
 volume_db = 2.0
+bus = "music"
 
 [node name="wpn_get" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 63 )
+bus = "music"
 
 [node name="intro" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 66 )
+bus = "music"
 
 [node name="shop - rock" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 86 )
+bus = "music"
 
 [node name="for_you" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 89 )
+bus = "music"
 [connection signal="scrolling" from="." to="player" method="_on_world_scrolling"]
 [connection signal="animation_finished" from="graphic/spawn_tiles/shop/eddie/anim" to="." method="eddie_spit"]
 [connection signal="teleport" from="player" to="." method="_on_teleport"]

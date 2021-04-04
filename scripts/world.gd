@@ -346,6 +346,7 @@ func _ready():
 
 # warning-ignore:unused_argument
 func _input(event):
+	
 	#Weapon Swapping.
 	if $player.can_move:
 		#L and R Button.

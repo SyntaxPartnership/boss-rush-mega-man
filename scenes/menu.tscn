@@ -53,9 +53,11 @@ position = Vector2( 128, 120 )
 
 [node name="cursor2" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+bus = "sfx"
 
 [node name="select" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+bus = "sfx"
 [connection signal="tween_completed" from="txt_fade" to="." method="_on_txt_fade_completed"]
 [connection signal="fadein" from="fade" to="." method="_on_fadein"]
 [connection signal="fadeout" from="fade" to="." method="_on_fadeout"]

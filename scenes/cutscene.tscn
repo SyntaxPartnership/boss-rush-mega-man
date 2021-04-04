@@ -960,9 +960,11 @@ __meta__ = {
 
 [node name="opening" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 3 )
+bus = "music"
 
 [node name="lab" type="AudioStreamPlayer" parent="audio/music"]
 stream = ExtResource( 24 )
+bus = "music"
 
 [node name="sfx" type="Control" parent="audio"]
 margin_right = 40.0
@@ -973,21 +975,27 @@ __meta__ = {
 
 [node name="transform" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 26 )
+bus = "sfx"
 
 [node name="thud" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 10 )
+bus = "sfx"
 
 [node name="bigboom" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 11 )
+bus = "sfx"
 
 [node name="bling" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 27 )
+bus = "sfx"
 
 [node name="land" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 28 )
+bus = "sfx"
 
 [node name="beamout" type="AudioStreamPlayer" parent="audio/sfx"]
 stream = ExtResource( 29 )
+bus = "sfx"
 [connection signal="animation_finished" from="sprites/fugue/anim" to="." method="_on_fugue_anim_done"]
 [connection signal="animation_finished" from="sprites/wily/anim" to="." method="_on_wily_anim_done"]
 [connection signal="animation_finished" from="sprites/shdw_scuttle/anim" to="." method="_on_scuttle_anim_done"]

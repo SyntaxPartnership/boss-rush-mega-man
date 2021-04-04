@@ -24,8 +24,8 @@ var icey = false
 var low_grav = false
 
 #Option Flags
-var sound = 4
-var music = 4
+var sound = 0.0
+var music = 0.0
 var res = 3
 var f_screen = false
 var quick_swap = false
@@ -104,6 +104,10 @@ var end_pos = Vector2()
 var end_frame = 0
 
 var start_time = 0
+
+#Handle music and sound effect volumes.
+var sfx_index = AudioServer.get_bus_index("sfx")
+var mus_index = AudioServer.get_bus_index("music")
 
 #Color values. Based on the realnes.aseprite palette included in the file heirarchy.
 
@@ -189,6 +193,7 @@ var white = Color('#fcf8fc')
 onready var viewport = get_viewport()
 
 func _ready():
+	
 # warning-ignore:return_value_discarded
 	Input.connect("joy_connection_changed", self, "_on_joy_connection_changed")
 	
@@ -201,6 +206,15 @@ func _ready():
 		gp_connect = true
 		gp_name = Input.get_joy_name(gamepads[0])
 		gp_update = gamepads
+
+func _process(delta):
+	if AudioServer.get_bus_volume_db(sfx_index) != sound:
+		AudioServer.set_bus_volume_db(sfx_index, sound)
+		print("Sound Volume Set!")
+	
+	if AudioServer.get_bus_volume_db(mus_index) != music:
+		AudioServer.set_bus_volume_db(mus_index, music)
+		print("Music Volume Set!")
 
 func resize():
 # warning-ignore:return_value_discarded

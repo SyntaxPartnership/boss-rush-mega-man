@@ -71,12 +71,15 @@ __meta__ = {
 
 [node name="cursor" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 6 )
+bus = "sfx"
 
 [node name="select" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 7 )
+bus = "sfx"
 
 [node name="back" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 8 )
+bus = "sfx"
 [connection signal="tween_completed" from="menu_fade" to="." method="_on_menu_fade_tween_completed"]
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]

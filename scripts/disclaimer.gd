@@ -29,6 +29,8 @@ func load_config():
 		#Save default options.
 		config.set_value("options", "res", global.res)
 		config.set_value("options", "f_screen", global.f_screen)
+		config.set_value("options", "sfx_vol", global.sound)
+		config.set_value("options", "mus_vol", global.music)
 		config.set_value("options", "quick_swap", global.quick_swap)
 		config.set_value("options", "use_analog", global.use_analog)
 		config.set_value("options", "dash_btn", global.dash_btn)
@@ -54,6 +56,8 @@ func load_config():
 		global.set_ctrls()
 		global.res			= config.get_value("options", "res")
 		global.f_screen		= config.get_value("options", "f_screen")
+		global.sound		= config.get_value("options", "sfx_vol", 0.0)
+		global.music		= config.get_value("options", "mus_vol", 0.0)
 		global.quick_swap	= config.get_value("options", "quick_swap")
 		global.use_analog	= config.get_value("options", "use_analog")
 		global.dash_btn		= config.get_value("options", "dash_btn")
@@ -62,6 +66,8 @@ func load_config():
 		global.a_fire		= config.get_value("options", "a_fire")
 		global.r_fire		= config.get_value("options", "r_fire")
 		global.chrg_sfx		= config.get_value("options", "chrg_sfx")
+		
+		config.save(CONFIG_FILE)
 		
 		global.resize()
 

@@ -8,6 +8,9 @@ var shine_delay = 30
 var shine_limit = 2
 
 func _ready():
+	
+	
+	
 	$capcom.play()
 
 func _input(event):
