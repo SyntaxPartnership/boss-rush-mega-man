@@ -210,11 +210,9 @@ func _ready():
 func _process(delta):
 	if AudioServer.get_bus_volume_db(sfx_index) != sound:
 		AudioServer.set_bus_volume_db(sfx_index, sound)
-		print("Sound Volume Set!")
 	
 	if AudioServer.get_bus_volume_db(mus_index) != music:
 		AudioServer.set_bus_volume_db(mus_index, music)
-		print("Music Volume Set!")
 
 func resize():
 # warning-ignore:return_value_discarded
