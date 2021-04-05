@@ -307,27 +307,38 @@ func _input(event):
 				pressed = true
 		1:
 			if menu_pos == 0:
-				if Input.is_action_just_pressed("left") and global.sound > -80.0:
-					global.sound -= 2.0
+				if Input.is_action_pressed("left") and global.sound > -40.0:
+					global.sound -= 1
 					$audio/sfx.set_value(global.sound)
 					$audio_playback/cursor.stop()
 					$audio_playback/cursor.play()
 					save_config()
-				if Input.is_action_just_pressed("right") and global.sound < 0:
-					global.sound += 2.0
+				if Input.is_action_pressed("right") and global.sound < 0:
+					global.sound += 1
 					$audio/sfx.set_value(global.sound)
 					$audio_playback/cursor.stop()
 					$audio_playback/cursor.play()
 					save_config()
 			if menu_pos == 1:
-				if Input.is_action_just_pressed("left") and global.music > -80.0:
-					global.music -= 2.0
+				if Input.is_action_pressed("left") and global.music > -40.0:
+					global.music -= 1
 					$audio/music.set_value(global.music)
 					save_config()
-				if Input.is_action_just_pressed("right") and global.music < 0:
-					global.music += 2.0
+				if Input.is_action_pressed("right") and global.music < 0:
+					global.music += 1
 					$audio/music.set_value(global.music)
 					save_config()
+			
+			if global.sound == -40.0:
+				global.sound = -80.0
+			elif global.sound == -79.0:
+				global.sound = -39.0
+				$audio/sfx.set_value(global.sound)
+			if global.music == -40.0:
+				global.music = -80.0
+			elif global.music == -79.0:
+				global.music = -39.0
+				$audio/music.set_value(global.music)
 			
 			if Input.is_action_just_pressed("fire"):
 				$audio_playback/dink.stop()
