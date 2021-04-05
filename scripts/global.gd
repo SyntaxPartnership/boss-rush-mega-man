@@ -207,14 +207,12 @@ func _ready():
 		gp_name = Input.get_joy_name(gamepads[0])
 		gp_update = gamepads
 
-func _process(delta):
+func _process(_delta):
 	if AudioServer.get_bus_volume_db(sfx_index) != sound:
 		AudioServer.set_bus_volume_db(sfx_index, sound)
-		print("Sound Volume Set!")
 	
 	if AudioServer.get_bus_volume_db(mus_index) != music:
 		AudioServer.set_bus_volume_db(mus_index, music)
-		print("Music Volume Set!")
 
 func resize():
 # warning-ignore:return_value_discarded
