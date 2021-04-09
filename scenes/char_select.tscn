@@ -1,10 +1,420 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://assets/tilesets/menu/option-stage_0.tres" type="TileSet" id=1]
 [ext_resource path="res://assets/sprites/menu/char_sel_back_bottom.png" type="Texture" id=2]
 [ext_resource path="res://assets/sprites/menu/char_sel_portraits.png" type="Texture" id=3]
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
+[ext_resource path="res://assets/sprites/menu/char_sel_chars.png" type="Texture" id=5]
+[ext_resource path="res://scripts/char_select.gd" type="Script" id=6]
+
+[sub_resource type="Animation" id=1]
+resource_name = "all-idle"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 15 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 26 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "blues-beam"
+length = 0.24
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/blues:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 12, 13, 14, 11 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/rock:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "blues-run"
+length = 0.44
+loop = true
+step = 0.11
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.11, 0.22, 0.33 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 16, 17, 18, 17 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 26 ]
+}
+
+[sub_resource type="Animation" id=4]
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 21, 19, 20, 21 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 26 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "forte-beam"
+length = 0.24
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/forte:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 23, 24, 25, 22 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/rock:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/blues:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "forte-run"
+length = 0.44
+loop = true
+step = 0.11
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 15 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.11, 0.22, 0.33 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 27, 28, 29, 28 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "forte-select"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 15 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 32, 30, 31, 32 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "rock-beam"
+length = 0.24
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "rock-run"
+length = 0.44
+loop = true
+step = 0.11
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.11, 0.22, 0.33 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 5, 6, 7, 6 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 15 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 26 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "rock-select"
+tracks/0/type = "value"
+tracks/0/path = NodePath("Control/rock:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 8, 9, 10 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Control/blues:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 15 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Control/forte:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 26 ]
+}
 
 [node name="char_select" type="Node2D"]
+script = ExtResource( 6 )
 
 [node name="back" type="CanvasLayer" parent="."]
 
@@ -29,6 +439,50 @@ __meta__ = {
 position = Vector2( 128, 212 )
 texture = ExtResource( 2 )
 
+[node name="char_sel_back_top" type="Sprite" parent="mid"]
+position = Vector2( 128, 140 )
+texture = ExtResource( 2 )
+flip_v = true
+
+[node name="rotate" type="Position2D" parent="mid"]
+position = Vector2( 128, 168 )
+
+[node name="rock" type="Sprite" parent="mid/rotate" groups=[
+"rotate",
+]]
+texture = ExtResource( 5 )
+vframes = 3
+hframes = 11
+frame = 4
+
+[node name="blues" type="Sprite" parent="mid/rotate" groups=[
+"rotate",
+]]
+texture = ExtResource( 5 )
+vframes = 3
+hframes = 11
+frame = 16
+
+[node name="forte" type="Sprite" parent="mid/rotate" groups=[
+"rotate",
+]]
+texture = ExtResource( 5 )
+vframes = 3
+hframes = 11
+frame = 26
+
+[node name="anim" type="AnimationPlayer" parent="mid/rotate"]
+anims/all-idle = SubResource( 1 )
+anims/blues-beam = SubResource( 2 )
+anims/blues-run = SubResource( 3 )
+anims/blues-select = SubResource( 4 )
+anims/forte-beam = SubResource( 5 )
+anims/forte-run = SubResource( 6 )
+anims/forte-select = SubResource( 7 )
+anims/rock-beam = SubResource( 8 )
+anims/rock-run = SubResource( 9 )
+anims/rock-select = SubResource( 10 )
+
 [node name="front" type="CanvasLayer" parent="."]
 
 [node name="bg" type="TileMap" parent="front"]
@@ -36,3 +490,25 @@ tile_set = ExtResource( 1 )
 cell_size = Vector2( 8, 8 )
 format = 1
 tile_data = PoolIntArray( 0, 28, 0, 1, 29, 0, 2, 30, 0, 3, 31, 0, 4, 31, 0, 5, 31, 0, 6, 31, 0, 7, 31, 0, 8, 31, 0, 9, 32, 0, 10, 33, 0, 11, 34, 0, 12, 31, 0, 13, 31, 0, 14, 31, 0, 15, 31, 0, 16, 31, 0, 17, 31, 0, 18, 31, 0, 19, 31, 0, 20, 28, 0, 21, 29, 0, 22, 30, 0, 23, 31, 0, 24, 31, 0, 25, 31, 0, 26, 31, 0, 27, 31, 0, 28, 31, 0, 29, 32, 0, 30, 33, 0, 31, 34, 0, 65536, 49, 0, 65547, 50, 0, 65556, 49, 0, 65567, 50, 0, 131072, 53, 0, 131083, 53, 0, 131092, 53, 0, 131103, 53, 0, 196608, 53, 0, 196619, 53, 0, 196628, 53, 0, 196639, 53, 0, 262144, 53, 0, 262155, 53, 0, 262164, 53, 0, 262175, 53, 0, 327680, 53, 0, 327691, 53, 0, 327700, 53, 0, 327711, 53, 0, 393216, 53, 0, 393227, 53, 0, 393236, 53, 0, 393247, 53, 0, 458752, 53, 0, 458763, 53, 0, 458772, 53, 0, 458783, 53, 0, 524288, 53, 0, 524299, 53, 0, 524308, 53, 0, 524319, 53, 0, 589824, 53, 0, 589835, 53, 0, 589844, 53, 0, 589855, 53, 0, 655360, 53, 0, 655371, 53, 0, 655380, 53, 0, 655391, 53, 0, 720896, 53, 0, 720907, 53, 0, 720916, 53, 0, 720927, 53, 0, 786432, 51, 0, 786443, 52, 0, 786452, 51, 0, 786463, 52, 0, 851968, 37, 0, 851969, 38, 0, 851970, 39, 0, 851971, 40, 0, 851972, 40, 0, 851973, 40, 0, 851974, 40, 0, 851975, 40, 0, 851976, 40, 0, 851977, 41, 0, 851978, 42, 0, 851979, 43, 0, 851980, 40, 0, 851981, 40, 0, 851982, 40, 0, 851983, 40, 0, 851984, 40, 0, 851985, 40, 0, 851986, 40, 0, 851987, 40, 0, 851988, 37, 0, 851989, 38, 0, 851990, 39, 0, 851991, 40, 0, 851992, 40, 0, 851993, 40, 0, 851994, 40, 0, 851995, 40, 0, 851996, 40, 0, 851997, 41, 0, 851998, 42, 0, 851999, 43, 0 )
+
+[node name="name" type="Label" parent="front"]
+margin_left = 168.0
+margin_top = 8.0
+margin_right = 248.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 4 )
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="info" type="Label" parent="front"]
+margin_left = 168.0
+margin_top = 40.0
+margin_right = 248.0
+margin_bottom = 104.0
+custom_fonts/font = ExtResource( 4 )
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

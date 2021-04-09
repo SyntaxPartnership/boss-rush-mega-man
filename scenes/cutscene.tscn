@@ -848,6 +848,7 @@ position = Vector2( 1464, 147 )
 [node name="sprite" type="Sprite" parent="sprites/rock"]
 texture = ExtResource( 25 )
 hframes = 18
+frame = 14
 
 [node name="anim" type="AnimationPlayer" parent="sprites/rock"]
 anims/fall = SubResource( 25 )
