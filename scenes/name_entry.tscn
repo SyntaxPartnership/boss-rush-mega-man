@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
+
+[node name="name_entry" type="Node2D"]
+
+[node name="chars" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 1 )
+text = "A B C D E F G H I J K L M
+
+N O P Q R S T U V W X Y Z
+
+0 1 2 3 4 5 6 7 8 9 ! ? ."
+__meta__ = {
+"_edit_use_anchors_": false
+}

@@ -539,7 +539,6 @@ frame = 32
 [node name="front" type="CanvasLayer" parent="."]
 
 [node name="fade" parent="front" instance=ExtResource( 7 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="tween" type="Tween" parent="."]
