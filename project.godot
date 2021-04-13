@@ -48,6 +48,7 @@ config/icon="res://icon.png"
 [autoload]
 
 global="*res://scripts/global.gd"
+audio="*res://scenes/audio.tscn"
 
 [debug]
 

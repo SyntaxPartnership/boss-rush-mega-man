@@ -8,10 +8,7 @@ var shine_delay = 30
 var shine_limit = 2
 
 func _ready():
-	
-	
-	
-	$capcom.play()
+	audio.play_music("capcom")
 
 func _input(event):
 	
@@ -34,6 +31,10 @@ func _physics_process(delta):
 		
 		if shine_limit == 0 and $text.get_visible_characters() < $text.get_total_character_count():
 			$text.set_visible_characters($text.get_visible_characters() + 1)
+		
+	if audio.last_sound != null and !audio.last_sound.is_playing():
+		$time.start()
+		audio.last_sound = null
 
 func _on_fadein():
 	begin = true
@@ -41,9 +42,7 @@ func _on_fadein():
 func _on_fadeout():
 	get_tree().change_scene("res://scenes/sp.tscn")
 
-func _on_capcom_finished():
-	$time.start()
-
 func _on_timeout():
+	audio.stop_music("capcom")
 	$fade.state = 1
 	$fade.set("end", true)

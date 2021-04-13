@@ -32,3 +32,4 @@ func _on_fade_fade_tween_completed(object, key):
 		emit_signal("fadein")
 	if state == 1 or state == 2 or state == 4 or state == 6 or state == 8 or state == 10:
 		emit_signal("fadeout")
+

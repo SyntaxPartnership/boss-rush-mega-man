@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://assets/sprites/misc/capcom.png" type="Texture" id=2]
@@ -6,7 +6,6 @@
 [ext_resource path="res://assets/sprites/misc/clogo_shine.png" type="Texture" id=4]
 [ext_resource path="res://scripts/capcom.gd" type="Script" id=5]
 [ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=6]
-[ext_resource path="res://assets/audio/music/01_Capcom Logo.ogg" type="AudioStream" id=7]
 
 [node name="capcom" type="Node2D"]
 script = ExtResource( 5 )
@@ -38,13 +37,8 @@ __meta__ = {
 [node name="fade" parent="." instance=ExtResource( 6 )]
 position = Vector2( 128, 120 )
 
-[node name="capcom" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
-bus = "music"
-
 [node name="time" type="Timer" parent="."]
 wait_time = 3.0
 [connection signal="fadein" from="fade" to="." method="_on_fadein"]
 [connection signal="fadeout" from="fade" to="." method="_on_fadeout"]
-[connection signal="finished" from="capcom" to="." method="_on_capcom_finished"]
 [connection signal="timeout" from="time" to="." method="_on_timeout"]
