@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://assets/audio/music/06 Menu.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scripts/audio.gd" type="Script" id=2]
@@ -11,6 +11,17 @@
 [ext_resource path="res://assets/audio/music/bunker.ogg" type="AudioStream" id=9]
 [ext_resource path="res://assets/audio/music/Clear.ogg" type="AudioStream" id=10]
 [ext_resource path="res://assets/audio/music/MM_TEST.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=12]
+[ext_resource path="res://assets/audio/se/Select.wav" type="AudioStream" id=13]
+[ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=14]
+[ext_resource path="res://assets/audio/se/Big Explode.wav" type="AudioStream" id=15]
+[ext_resource path="res://assets/audio/se/Landing.wav" type="AudioStream" id=16]
+[ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=17]
+[ext_resource path="res://assets/audio/se/wall_hit.wav" type="AudioStream" id=18]
+[ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=19]
+[ext_resource path="res://assets/audio/se/transform.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=21]
+[ext_resource path="res://assets/audio/se/Item.wav" type="AudioStream" id=22]
 
 [node name="audio" type="Node"]
 script = ExtResource( 2 )
@@ -58,3 +69,47 @@ stream = ExtResource( 11 )
 bus = "music"
 
 [node name="sfx" type="Node" parent="."]
+
+[node name="1up" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 22 )
+bus = "sfx"
+
+[node name="dink" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 12 )
+bus = "sfx"
+
+[node name="beamout" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 17 )
+bus = "sfx"
+
+[node name="bigboom" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 15 )
+bus = "sfx"
+
+[node name="bling" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 19 )
+bus = "sfx"
+
+[node name="cursor" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 14 )
+bus = "sfx"
+
+[node name="error" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 21 )
+bus = "sfx"
+
+[node name="land" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 16 )
+bus = "sfx"
+
+[node name="select" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 13 )
+bus = "sfx"
+
+[node name="thud" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 18 )
+bus = "sfx"
+
+[node name="transform" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 20 )
+bus = "sfx"

@@ -99,13 +99,13 @@ func _ready():
 	match global.cutscene:
 		0:
 			sub_scene = 0
-			$audio/music/opening.play()
+			audio.play_music("intro-scene")
 			$fade/front/name.set_visible_characters(0)
 			$fade/front/text2.set_visible_characters(0)
 			$timer.set_wait_time(1.0)
 			$timer.start()
 		1:
-			$audio/music/lab.play()
+			audio.play_music("lab")
 			txt_overlap = false
 			$sprites/light/anim.play("idle")
 			$sprites/auto/anim.play("idle")
@@ -203,7 +203,7 @@ func _physics_process(delta):
 				sub_scene += 1
 			46:
 				if rock_vel.y >= 0:
-					$audio/sfx/transform.play()
+					audio.play_sound("transform")
 					rock_move = false
 					$sprites/flash.show()
 					boom_flash = 8
@@ -213,8 +213,8 @@ func _physics_process(delta):
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform.stop()
-						$audio/sfx/transform.play()
+						
+						audio.play_sound("transform")
 						$sprites/flash.show()
 						boom_flash = 8
 						bf_delay = 6
@@ -223,8 +223,8 @@ func _physics_process(delta):
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform.stop()
-						$audio/sfx/transform.play()
+						
+						audio.play_sound("transform")
 						$sprites/flash.show()
 						boom_flash = 8
 						bf_delay = 6
@@ -233,8 +233,8 @@ func _physics_process(delta):
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform.stop()
-						$audio/sfx/transform.play()
+						
+						audio.play_sound("transform")
 						$sprites/flash.show()
 						boom_flash = 8
 						bf_delay = 6
@@ -243,8 +243,8 @@ func _physics_process(delta):
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform.stop()
-						$audio/sfx/transform.play()
+						
+						audio.play_sound("transform")
 						$sprites/flash.show()
 						boom_flash = 8
 						bf_delay = 6
@@ -253,8 +253,8 @@ func _physics_process(delta):
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform.stop()
-						$audio/sfx/transform.play()
+						
+						audio.play_sound("transform")
 						$sprites/flash.show()
 						boom_flash = 8
 						bf_delay = 6
@@ -263,15 +263,15 @@ func _physics_process(delta):
 				if boom_flash == 0:
 					bf_delay -= 1
 					if bf_delay == 0:
-						$audio/sfx/transform.stop()
-						$audio/sfx/bling.play()
+						
+						audio.play_sound("bling")
 						$sprites/rock/anim.play("transform")
 						sub_scene += 1
 			53:
 				if $sprites/rock.position.y >= 147:
 					rock_move = false
 					$sprites/rock.position.y = 147
-					$audio/sfx/land.play()
+					audio.play_sound("land")
 					$sprites/rock/anim.play("idle2")
 					bf_delay = 15
 					sub_scene += 1
@@ -289,7 +289,7 @@ func _physics_process(delta):
 				sub_scene += 1
 			63:
 				if $sprites/rock.position.x >= 1496:
-					$audio/sfx/beamout.play()
+					audio.play_sound("beamout")
 					rock_xspd = 0
 					$sprites/rock/anim.play("leave")
 					sub_scene += 1
@@ -509,14 +509,14 @@ func _on_timer_timeout():
 			$sprites/wily/anim.play("nervous")
 			$timer.set_wait_time(1.0)
 			$timer.start()
-			$audio/music/opening.stop()
-			$audio/sfx/thud.play()
+			audio.stop_music("intro-scene")
+			audio.play_sound("thud")
 			shake = true
 			shake_time = 20
 		17:
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/thud.play()
+			audio.play_sound("thud")
 			shake = true
 			shake_time = 20
 		18:
@@ -524,26 +524,26 @@ func _on_timer_timeout():
 			$sprites/wily/anim.play("idle2")
 			$timer.stop()
 			$timer.set_wait_time(3.0)
-			$audio/sfx/thud.play()
+			audio.play_sound("thud")
 			set_text()
 			shake = true
 			shake_time = 20
 		20:
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/thud.play()
+			audio.play_sound("thud")
 			shake = true
 			shake_time = 20
 		21:
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/thud.play()
+			audio.play_sound("thud")
 			shake = true
 			shake_time = 20
 		22:
 			$timer.set_wait_time(1.0)
 			$timer.start()
-			$audio/sfx/thud.play()
+			audio.play_sound("thud")
 			shake = true
 			shake_time = 20
 		23:
@@ -557,7 +557,7 @@ func _on_timer_timeout():
 			$sprites.add_child(boom)
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/bigboom.play()
+			audio.play_sound("bigboom")
 			shake = true
 			shake_time = 20
 		24:
@@ -585,7 +585,7 @@ func _on_timer_timeout():
 			$sprites.add_child(boom)
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/bigboom.play()
+			audio.play_sound("bigboom")
 			shake = true
 			shake_time = 20
 		25:
@@ -597,7 +597,7 @@ func _on_timer_timeout():
 			$sprites.add_child(boom)
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/bigboom.play()
+			audio.play_sound("bigboom")
 			shake = true
 			shake_time = 20
 		26:
@@ -609,7 +609,7 @@ func _on_timer_timeout():
 			$sprites.add_child(boom)
 			$timer.set_wait_time(0.25)
 			$timer.start()
-			$audio/sfx/bigboom.play()
+			audio.play_sound("bigboom")
 			shake = true
 			shake_time = 20
 		27:
@@ -622,7 +622,7 @@ func _on_timer_timeout():
 			$sprites.add_child(boom)
 			$timer.set_wait_time(1.5)
 			$timer.start()
-			$audio/sfx/bigboom.play()
+			audio.play_sound("bigboom")
 			shake = true
 			shake_time = 20
 		28:
@@ -659,6 +659,7 @@ func _on_fadeout_tween_completed(object, key):
 	
 	#Swap the below section out for when more cutscenes are added.
 	if skip:
+		audio.stop_music(audio.last_song.name)
 		if global.cutscene == 0:
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/title.tscn")

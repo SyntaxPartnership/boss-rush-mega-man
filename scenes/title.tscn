@@ -77,7 +77,7 @@ bus = "sfx"
 stream = ExtResource( 7 )
 bus = "sfx"
 
-[node name="back" type="AudioStreamPlayer" parent="sounds"]
+[node name="dink" type="AudioStreamPlayer" parent="sounds"]
 stream = ExtResource( 8 )
 bus = "sfx"
 [connection signal="tween_completed" from="menu_fade" to="." method="_on_menu_fade_tween_completed"]

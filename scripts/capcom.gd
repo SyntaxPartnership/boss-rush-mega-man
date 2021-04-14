@@ -32,9 +32,9 @@ func _physics_process(delta):
 		if shine_limit == 0 and $text.get_visible_characters() < $text.get_total_character_count():
 			$text.set_visible_characters($text.get_visible_characters() + 1)
 		
-	if audio.last_sound != null and !audio.last_sound.is_playing():
+	if audio.last_song != null and !audio.last_song.is_playing():
 		$time.start()
-		audio.last_sound = null
+		audio.stop_music("capcom")
 
 func _on_fadein():
 	begin = true

@@ -17,7 +17,7 @@ func _input(event):
 		if Input.is_action_just_pressed('start') or Input.is_action_just_pressed('jump'):
 			if menu == 1:
 				if menu_pos == 0 or menu_pos == 1:
-					$sounds/select.play()
+					audio.play_sound("select")
 					menu += 1
 					$fade.state = 1
 					$fade.set("end", true)
@@ -25,7 +25,7 @@ func _input(event):
 # warning-ignore:return_value_discarded
 					OS.shell_open('https://docs.google.com/forms/d/e/1FAIpQLSelexfghh9gmATILFTiGlgXRaFNjJCXwUAkJoMlBAXvH8JPsQ/viewform')
 			if menu == 0:
-				$sounds/select.play()
+				audio.play_sound("select")
 				menu += 1
 				fade_in = true
 				can_move = false
@@ -34,7 +34,7 @@ func _input(event):
 		
 		if Input.is_action_just_pressed('fire'):
 			if menu == 1:
-				$sounds/back.play()
+				audio.play_sound("dink")
 				menu -= 1
 				fade_in = true
 				can_move = false
@@ -43,10 +43,10 @@ func _input(event):
 				$cursor.hide()
 		
 		if menu == 1 and Input.is_action_just_pressed('up'):
-			$sounds/cursor.play()
+			audio.play_sound("cursor")
 			menu_pos -= 1
 		elif menu == 1 and Input.is_action_just_pressed('down'):
-			$sounds/cursor.play()
+			audio.play_sound("cursor")
 			menu_pos += 1
 		
 		#Loop cursor position.

@@ -59,7 +59,6 @@ margin_top = 200.0
 margin_right = 228.0
 margin_bottom = 208.0
 custom_fonts/font = ExtResource( 1 )
-text = "DONE? YES (JUMP) NO (FIRE)"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -73,3 +72,4 @@ vframes = 2
 [node name="fade" parent="." instance=ExtResource( 3 )]
 position = Vector2( 128, 120 )
 [connection signal="fadein" from="fade" to="." method="_on_fadein"]
+[connection signal="fadeout" from="fade" to="." method="_on_fadeout"]

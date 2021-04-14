@@ -32,7 +32,6 @@ var info_b = {
 }
 
 func _ready():
-	$music.play()
 	set_anim(3)
 	
 	radius = Vector2.ONE * dist
@@ -49,24 +48,23 @@ func _input(event):
 			rot_dir = 1
 			menu -= 1
 			set_anim(3)
-			$cursor.stop()
-			$cursor.play()
+			
+			audio.play_sound("cursor")
 			rotate = true
 			allow_ctrl = false
 		elif Input.is_action_just_pressed("right"):
 			rot_dir = -1
 			menu += 1
 			set_anim(3)
-			$cursor.stop()
-			$cursor.play()
+			
+			audio.play_sound("cursor")
 			rotate = true
 			allow_ctrl = false
 		
 		if Input.is_action_just_pressed("jump"):
 			selected = true
 			set_anim(menu)
-			$select.stop()
-			$select.play()
+			audio.play_sound("bling")
 			allow_ctrl = false
 	
 	if menu < 0:
@@ -98,6 +96,11 @@ func _process(delta):
 		if move:
 			for m in get_tree().get_nodes_in_group("rotate"):
 				m.position.y -= 8
+				if m.position.y < -256:
+					audio.stop_music("menu")
+					global.player_id[0] = menu
+					global.cutscene = 1 #CHANGE FOR ADDITIONAL CHARACTERS
+					get_tree().change_scene("res://scenes/cutscene.tscn")
 
 func update_chars(delta):
 	
@@ -177,7 +180,7 @@ func _on_anim__finished(anim_name):
 		2:
 			c_name = "forte-"
 	if anim_name == c_name+"select":
-		$beamout.play()
+		audio.play_sound("beamout")
 		$mid/rotate/anim.play(c_name+"beam")
 	if anim_name == c_name+"beam":
 		move = true

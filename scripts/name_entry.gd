@@ -2,12 +2,14 @@ extends Node2D
 
 var allow_ctrl = false
 var check = false
+var no_no = false
 var cursor_start = Vector2()
 var menu_pos = Vector2(0, 0)
 var new_pos = Vector2(0, 0)
 
 var name_arr = []
 var plyr_name = ""
+var text_cooldwn = 0
 
 var letters = {
 	"(0, 0)" : "A",
@@ -74,20 +76,38 @@ func _ready():
 
 func _input(event):
 	
-	if allow_ctrl:
+	if allow_ctrl and check:
+		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start"):
+			audio.play_sound("1up")
+			$bottom.set_text("OKAY!!!")
+			text_cooldwn = 120
+			allow_ctrl = false
+		if Input.is_action_just_pressed("fire"):
+			audio.play_sound("dink")
+			check = false
+	
+	if allow_ctrl and !check:
 		if name_arr.size() < 20:
 			if Input.is_action_just_pressed("up"):
 				menu_pos.y -= 1
+				if no_no:
+					no_no = false
 			if Input.is_action_just_pressed("down"):
 				menu_pos.y += 1
+				if no_no:
+					no_no = false
 				if menu_pos.y == 3 and menu_pos.x > 9:
 					menu_pos.x = 12
 			if Input.is_action_just_pressed("left"):
 				menu_pos.x -= 1
+				if no_no:
+					no_no = false
 				if menu_pos.y == 3 and menu_pos.x > 9:
 					menu_pos.x = 9
 			if Input.is_action_just_pressed("right"):
 				menu_pos.x += 1
+				if no_no:
+					no_no = false
 				if menu_pos.y == 3 and menu_pos.x > 9 and menu_pos.x < 13:
 					menu_pos.x = 12
 		
@@ -101,23 +121,39 @@ func _input(event):
 			elif menu_pos.y > 3:
 				menu_pos.y = 0
 			
-		if Input.is_action_just_pressed("jump"):
+		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start"):
 			if menu_pos != Vector2(12, 3):
-				if name_arr.size() < 20:
-					name_arr.append(letters[str(menu_pos)])
-					display_name("add")
+				if !Input.is_action_just_pressed("start"):
+					audio.play_sound("select")
+					if name_arr.size() < 20:
+						name_arr.append(letters[str(menu_pos)])
+						display_name("add")
 			else:
-				print("DOING A CHECK!")
 				for n in nono_words.size():
-					if plyr_name.find(n, 0):
+					if name_arr.size() == 0:
+						no_no = true
+						audio.play_sound("error")
 						$bottom.set_text("ERROR!!!")
-					else:
-						pass
+						text_cooldwn = 120
+					if nono_words[n] in plyr_name:
+						no_no = true
+						audio.play_sound("error")
+						$bottom.set_text("NOT ALLOWED!!!")
+						text_cooldwn = 120
+				if !no_no:
+					audio.play_sound("select")
+					$bottom.set_text("DONE? YES(JUMP) / NO(FIRE)")
+					check = true
 						
 		if Input.is_action_just_pressed("fire"):
 			if name_arr.size() > 0:
+				audio.play_sound("dink")
 				name_arr.remove(name_arr.size()-1)
 				display_name("sub")
+		
+		if Input.is_action_just_pressed("start"):
+			if menu_pos != Vector2(12, 3):
+				menu_pos = Vector2(12, 3)
 
 func _process(delta):
 	
@@ -125,6 +161,7 @@ func _process(delta):
 		menu_pos = Vector2(12, 3)
 	
 	if new_pos != menu_pos:
+		audio.play_sound("cursor")
 		var sub
 		if menu_pos.x == 12 and menu_pos.y == 3:
 			$cursor.frame = 1
@@ -135,6 +172,17 @@ func _process(delta):
 		$cursor.position = cursor_start + (menu_pos * Vector2(16, 16))
 		$cursor.position.x = $cursor.position.x - sub
 		new_pos = menu_pos
+	
+	if text_cooldwn > 0:
+		text_cooldwn -= 1
+	else:
+		if $bottom.get_text() != "" and !check:
+			$bottom.set_text("")
+	
+	if audio.last_sound != null and audio.last_sound.name == "1up" and !audio.last_sound.is_playing():
+		audio.stop_sound("1up")
+		$fade.state = 1
+		$fade.set("end", true)
 
 func display_name(add_sub):
 	plyr_name = ""
@@ -151,3 +199,6 @@ func display_name(add_sub):
 func _on_fadein():
 	$cursor.show()
 	allow_ctrl = true
+
+func _on_fadeout():
+	get_tree().change_scene("res://scenes/char_select.tscn")
