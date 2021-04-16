@@ -703,6 +703,7 @@ func shot_state(new_shot_state):
 	match shot_st:
 		NORMAL:
 			texture = '-norm'
+			bass_dir = ''
 			change_char()
 		NO_HAND:
 			texture = '-a-norm'
@@ -735,7 +736,10 @@ func change_char():
 		player = 'proto'
 	elif global.player == 2:
 		player = 'bass'
-
+	
+#	if slide_timer > 0:
+#		bass_dir = ''
+	
 	final_tex = str(player+texture+bass_dir)
 
 	$sprite.texture = load('res://assets/sprites/player/'+final_tex+'.png')
@@ -1289,7 +1293,7 @@ func standing():
 			else:
 				slide_timer = 0
 		jumps -= 1
-		velocity.y = JUMP_SPEED
+		velocity.y = JUMP_SPEED * jump_mod
 	
 	#Set gravity modifier
 	if overlap == 6 or overlap == 7 or overlap == 12 or overlap == 13 or global.low_grav:
