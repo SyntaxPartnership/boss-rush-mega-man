@@ -14,12 +14,14 @@ var reflect = false
 var ref_dink = false
 
 var id = 0
+var property = 0
 
 var velocity = Vector2()
 
 func _ready():
 	#Change the sound effect to whatever is needed.
 	$audio/shoot.play()
+	world.shot_num += 1
 	
 	#Set direction if necessary
 	if p_sprite.flip_h:

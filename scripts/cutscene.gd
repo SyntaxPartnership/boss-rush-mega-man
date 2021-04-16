@@ -111,7 +111,7 @@ func _ready():
 			$sprites/auto/anim.play("idle")
 			$sprites/eddie/anim.play("idle")
 			$sprites/rock/anim.play("idle1")
-			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			$fade/fadeout.start()
 			$cam.smoothing_enabled = false
 			$cam.position.x = 1408
@@ -659,7 +659,7 @@ func _on_fadeout_tween_completed(object, key):
 	
 	#Swap the below section out for when more cutscenes are added.
 	if skip:
-		audio.stop_music(audio.last_song.name)
+		audio.stop_all_music()
 		if global.cutscene == 0:
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/title.tscn")
@@ -693,6 +693,7 @@ func _on_fadeout_tween_completed(object, key):
 			$timer.set_wait_time(1.0)
 			set_text()
 		68:
+			audio.stop_all_music()
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/world.tscn")
 

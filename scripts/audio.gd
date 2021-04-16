@@ -9,8 +9,9 @@ func play_music(which):
 			last_song = i
 			i.play()
 
-func fade_music(which):
-	pass
+func stop_all_music():
+	for i in $music.get_children():
+		i.stop()
 
 func stop_music(which):
 	for i in $music.get_children():
