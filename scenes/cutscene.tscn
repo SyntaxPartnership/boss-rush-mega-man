@@ -862,7 +862,7 @@ __meta__ = {
 }
 
 [node name="black" type="ColorRect" parent="fade/front"]
-margin_right = 256.0
+margin_right = 1536.0
 margin_bottom = 240.0
 color = Color( 0, 0, 0, 1 )
 __meta__ = {
