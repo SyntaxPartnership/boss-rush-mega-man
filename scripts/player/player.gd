@@ -632,6 +632,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		print(slide_timer)
 		
 		var top = $slide_top.get_overlapping_bodies()
 		if slide_top and top == []:
@@ -1289,9 +1290,11 @@ func standing():
 		if slide_timer > 0:
 			if global.player != 2:
 				slide_timer = 0
+				s_kick = false
 				slide = false
 			else:
 				slide_timer = 0
+				s_kick = false
 		jumps -= 1
 		velocity.y = JUMP_SPEED * jump_mod
 	
@@ -1335,17 +1338,21 @@ func standing():
 			$standbox.set_disabled(true)
 			$slidebox.set_disabled(false)
 	else:
-		if dash_tap and is_on_floor() and !wall and !slide and !fire:
-			anim_state(SLIDE)
-			var smoke = SLIDE_SMOKE.instance()
-			var smk_sprite = smoke.get_child(0)
-			smk_sprite.flip_h = $sprite.flip_h
-			smoke.position = position + Vector2(0, 7)
-			effect.add_child(smoke)
-			slide_timer = 15
-			slide = true
-			shot_state(NORMAL)
-			bass_dir = ''
+		if dash_tap and is_on_floor() and !wall and !slide or s_kick and is_on_floor() and !wall and !slide:
+			if global.player == 2 and !fire or global.player == 1:
+				if !s_kick:
+					anim_state(SLIDE)
+				else:
+					anim_state(SKICK_SLD)
+				var smoke = SLIDE_SMOKE.instance()
+				var smk_sprite = smoke.get_child(0)
+				smk_sprite.flip_h = $sprite.flip_h
+				smoke.position = position + Vector2(0, 7)
+				effect.add_child(smoke)
+				slide_timer = 15
+				slide = true
+				shot_state(NORMAL)
+				bass_dir = ''
 		
 		if is_on_floor() and y_dir == 0 and !wall:
 			if slide_act == 0:

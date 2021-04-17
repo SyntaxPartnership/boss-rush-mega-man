@@ -14,6 +14,7 @@ var reflect = false
 var ref_dink = false
 
 var id = 1
+var property = 2
 
 var move = false
 

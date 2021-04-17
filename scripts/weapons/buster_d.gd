@@ -13,6 +13,7 @@ var reflect = false
 var ref_dink = false
 
 var id = 0
+var property = 0
 
 var velocity = Vector2()
 
