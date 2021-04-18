@@ -10,10 +10,11 @@ const SPEED = 300
 var dir = 0
 
 var reflect = false
+var ret = false
 
 var ref_dink = false
 
-var id = 1
+var id = 2
 var property = 2
 
 var move = false
@@ -33,15 +34,33 @@ func _ready():
 		$sprite.flip_h = true
 
 	if player.shot_dir == 0:
+		$hitbox_m.position.x = -5
+		$hitbox_l.position.x = -9
 		dir = -1
 	else:
+		$hitbox_m.position.x = 5
+		$hitbox_l.position.x = 9
 		dir = 1
 
 func _physics_process(delta):
 
 	if move:
-		if $hitbox.is_disabled():
-			$hitbox.set_disabled(false)
+		match $sprite.frame:
+			0:
+				if $hitbox_s.is_disabled():
+					$hitbox_s.set_disabled(false)
+					$hitbox_m.set_disabled(true)
+					$hitbox_l.set_disabled(true)
+			3:
+				if $hitbox_m.is_disabled():
+					$hitbox_s.set_disabled(true)
+					$hitbox_m.set_disabled(false)
+					$hitbox_l.set_disabled(true)
+			4:
+				if $hitbox_l.is_disabled():
+					$hitbox_s.set_disabled(true)
+					$hitbox_m.set_disabled(true)
+					$hitbox_l.set_disabled(false)
 			
 		if !reflect:
 			velocity.x = dir * SPEED
@@ -66,3 +85,6 @@ func _on_anim_finished(anim_name):
 	if anim_name == 'appear':
 		$anim.play("loop")
 		move = true
+
+func ret():
+	pass

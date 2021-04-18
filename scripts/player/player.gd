@@ -65,6 +65,7 @@ var final_tex = ''
 var force_idle = true
 var jumps = 1
 var jump_mod = 1
+var dash_jump = false
 var slide_timer = 0
 var slide_act = 0
 var slide_delay = 0
@@ -413,7 +414,7 @@ func _physics_process(delta):
 				rapid = 0
 			
 			#Rapid fire
-			if fire and global.player == 2 and global.player_weap[int(swap)] == 0:
+			if fire and global.player == 2 and global.player_weap[int(swap)] == 0 and !no_input and !cutscene:
 				rapid += 1
 			
 				if rapid == 1:
@@ -632,7 +633,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(slide_timer)
 		
 		var top = $slide_top.get_overlapping_bodies()
 		if slide_top and top == []:
@@ -789,7 +789,7 @@ func _on_slide_wall_body_exited(body):
 
 func weapons():
 	#Set timer for the shooting/throwing sprites.
-	if !slide and !r_boost:
+	if !slide and !r_boost and !dash_jump or slide and !r_boost and dash_jump:
 		if !no_input and hurt_timer == 0:
 			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 and !r_boost or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0 and !r_boost:
 				#Fire normal shots.
@@ -958,6 +958,7 @@ func damage():
 		if hurt_timer == 0 and blink_timer == 0 and global.player_life[int(swap)] > 0:
 			world.hits += 1
 			s_kick = false
+			dash_jump = false
 			$audio/hurt.play()
 			velocity.y = 0
 			anim_state(HURT)
@@ -1184,7 +1185,8 @@ func standing():
 	#Reset the jumps counter. Cancel sliding.
 	if !jump and is_on_floor() and jumps <= 0 and !slide:
 		jumps = 1
-		slide = false
+		if global.player == 0:
+			slide = false
 		slide_timer = 0
 		x_speed = (x_dir * RUN_SPEED) / x_spd_mod
 		$standbox.set_disabled(false)
@@ -1211,6 +1213,7 @@ func standing():
 		$slidebox.set_disabled(true)
 		s_kick = false
 		slide = false
+		dash_jump = false
 	
 	#When the player touches a wall. cancel sliding.
 	if slide and is_on_wall() and !slide_top:
@@ -1231,15 +1234,16 @@ func standing():
 		if s_kick:
 			velocity.y = 0
 			s_kick = false
-		slide = false
+		if !dash_jump:
+			slide = false
 	
-	if global.player == 1 and slide and !is_on_floor():
-		slide_timer = 0
-		jumps = 0
-		$standbox.set_disabled(false)
-		$slidebox.set_disabled(true)
-		s_kick = false
-		slide = false
+#	if global.player == 1 and slide and !is_on_floor():
+#		slide_timer = 0
+#		jumps = 0
+#		$standbox.set_disabled(false)
+#		$slidebox.set_disabled(true)
+#		s_kick = false
+#		slide = false
 	
 	#When the opposite direction is pressed on the ground, cancel slide.
 	if slide:
@@ -1288,13 +1292,10 @@ func standing():
 		slide = false
 	elif global.player != 0 and jump_tap and is_on_floor() and jumps > 0:
 		if slide_timer > 0:
-			if global.player != 2:
-				slide_timer = 0
-				s_kick = false
-				slide = false
-			else:
-				slide_timer = 0
-				s_kick = false
+			dash_jump = true
+#			slide_timer = 0
+			s_kick = false
+#			slide = false
 		jumps -= 1
 		velocity.y = JUMP_SPEED * jump_mod
 	
