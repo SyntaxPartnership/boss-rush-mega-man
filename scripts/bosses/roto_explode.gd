@@ -15,9 +15,10 @@ func _physics_process(_delta):
 	if overlap != []:
 		for body in overlap:
 			if body.name == "player":
-				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
-					global.player_life[int(player.swap)] -= damage
-					player.damage()
+				world.calc_damage(player, self)
+#				if player.hurt_timer == 0 and player.blink_timer == 0 and !player.hurt_swap:
+#					global.player_life[int(player.swap)] -= damage
+#					player.damage()
 
 func _on_anim_finished(_anim_name):
 	queue_free()

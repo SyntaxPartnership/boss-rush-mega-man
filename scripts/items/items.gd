@@ -12,6 +12,7 @@ var f_delay = 0
 var id = 0
 var type = 0
 var new_plyr
+var can_grab = true
 
 func _ready():
 	#If a 1UP, set the appropriate sprite.
@@ -48,6 +49,8 @@ func _physics_process(delta):
 	velocity = move_and_slide(velocity, Vector2(0, -1))
 	
 	if is_on_floor():
+		if !can_grab:
+			can_grab = true
 		x_spd = 0
 
 	if time > -1:

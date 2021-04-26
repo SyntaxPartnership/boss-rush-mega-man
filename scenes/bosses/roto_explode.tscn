@@ -41,4 +41,5 @@ collision_mask = 4
 
 [node name="box" type="CollisionShape2D" parent="hit_box"]
 shape = SubResource( 2 )
+
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]

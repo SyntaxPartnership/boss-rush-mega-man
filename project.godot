@@ -244,9 +244,10 @@ file_logging/enable_file_logging=true
 
 quality/driver/driver_name="GLES2"
 quality/driver/fallback_to_gles2=true
-quality/2d/use_pixel_snap=true
+2d/snapping/use_gpu_pixel_snap=true
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 environment/default_clear_color=Color( 0, 0, 0, 1 )
 quality/dynamic_fonts/use_oversampling=false
+quality/2d/use_pixel_snap=true
 quality/2d/gles2_use_nvidia_rect_flicker_workaround=true

@@ -102,6 +102,8 @@ var s_kick = false
 #Swoop Kick Only.
 var sk_rebound = false
 var skr_delay = 30
+#ProtoMan Only
+var shield = true
 
 var stun = -1
 var stun_bnce = 0
@@ -730,6 +732,16 @@ func change_char():
 		$slide_wall.position.y = 5
 	else:
 		$slide_wall.position.y = 0
+	
+	var shld_tex
+	
+	if global.player == 1:
+		if shield:
+			shld_tex = '-shld'
+		else:
+			shld_tex = ''
+	else:
+		shld_tex = ''
 
 	if global.player == 0:
 		player = 'mega'
@@ -738,10 +750,7 @@ func change_char():
 	elif global.player == 2:
 		player = 'bass'
 	
-#	if slide_timer > 0:
-#		bass_dir = ''
-	
-	final_tex = str(player+texture+bass_dir)
+	final_tex = str(player+texture+shld_tex+bass_dir)
 
 	$sprite.texture = load('res://assets/sprites/player/'+final_tex+'.png')
 
@@ -956,6 +965,24 @@ func shot_pos():
 func damage():
 	if !hurt_swap:
 		if hurt_timer == 0 and blink_timer == 0 and global.player_life[int(swap)] > 0:
+			
+			#ProtoMan only
+#			if shield:
+#				var shld = load("res://scenes/objects/shield.tscn").instance()
+#				shld.can_grab = false
+#				shld.type = 9
+#				shld.position = global_position
+#				shld.velocity.y = JUMP_SPEED
+#
+#				if $sprite.flip_h:
+#					shld.x_spd = 100
+#				else:
+#					shld.x_spd = -100
+#				world.get_child(1).add_child(shld)
+#				shield = false
+#
+#			change_char()
+			
 			world.hits += 1
 			s_kick = false
 			dash_jump = false
@@ -965,7 +992,7 @@ func damage():
 			hurt_timer = 16
 
 func _on_item_entered(body):
-	if body.is_in_group('items'):
+	if body.is_in_group('items') and body.can_grab:
 		#Bolts
 		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
@@ -1092,6 +1119,11 @@ func _on_item_entered(body):
 			if body.type == 7:
 				$audio/oneup.play()
 				global.mtanks += 1
+		
+		#Shield.
+		if !shield and body.type == 9:
+			shield = true
+			change_char()
 			
 		#Extra Lives
 #		if global.lives < 9:

@@ -17,8 +17,9 @@ script = ExtResource( 2 )
 
 [node name="sprite" type="Sprite" parent="."]
 use_parent_material = true
+position = Vector2( 0, -4 )
 texture = ExtResource( 3 )
-hframes = 16
+hframes = 17
 frame = 1
 
 [node name="anim" type="AnimationPlayer" parent="."]

@@ -700,7 +700,7 @@ func _rooms():
 		
 		if cutsc_mode == 1:
 			if !$scene_txt/on_off.is_visible_in_tree():
-				$scene_txt.offset.y = -64
+				$scene_txt.offset.y = 0
 				$scene_txt/on_off.show()
 			kill_music()
 			$player.cutscene(true)
@@ -748,7 +748,26 @@ func calc_damage(to, from):
 	if to.is_in_group("player"):
 		#If true, then check to see if the player CAN be damaged.
 		if to.hurt_timer == 0 and to.blink_timer == 0 and !to.hurt_swap:
-			global.player_life[int($player.swap)] -= from.damage
+			if global.player != 1 or global.player == 1 and !to.shield:
+				if global.player != 1:
+					global.player_life[int($player.swap)] -= from.damage
+				else:
+					global.player_life[int($player.swap)] -= (from.damage * 2)
+			else:
+				if to.shield:
+					var shld = load("res://scenes/objects/shield.tscn").instance()
+					shld.can_grab = false
+					shld.type = 9
+					shld.position = to.global_position
+					shld.velocity.y = to.JUMP_SPEED
+					
+					if to.get_child(2).flip_h:
+						shld.x_spd = 100
+					else:
+						shld.x_spd = -100
+					$graphic.add_child(shld)
+					to.shield = false
+					to.change_char()
 			to.damage()
 	elif from.is_in_group("player") or from.is_in_group("weapons") or from.is_in_group("adaptor_dmg") or from.is_in_group("wall"):
 		#The player is only checked due to Roto Boost or Swoop Kick being active.
