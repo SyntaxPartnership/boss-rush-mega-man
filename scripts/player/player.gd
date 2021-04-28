@@ -422,6 +422,11 @@ func _physics_process(delta):
 				if rapid == 1:
 					#This will set Bass to his shooting sprites when shooting his default weapon
 					shot_delay = 20
+					if slide and !dash_jump:
+						slide_timer = 0
+						s_kick = false
+						slide = false
+					shot_pos()
 					shot_state(BASSSHOT)
 					weapons()
 			
@@ -635,6 +640,7 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
+		print(anim_st)
 		
 		var top = $slide_top.get_overlapping_bodies()
 		if slide_top and top == []:
@@ -798,7 +804,7 @@ func _on_slide_wall_body_exited(body):
 
 func weapons():
 	#Set timer for the shooting/throwing sprites.
-	if !slide and !r_boost and !dash_jump or slide and !r_boost and dash_jump:
+	if !slide and !r_boost and !dash_jump or slide and !r_boost and dash_jump or !slide and !r_boost and dash_jump:
 		if !no_input and hurt_timer == 0:
 			if chrg_lvl == 0 and global.player != 2 or global.player == 2 and rapid == 1 and global.player_weap[int(swap)] == 0 and !r_boost or global.player == 2 and chrg_lvl == 0 and global.player_weap[int(swap)] != 0 and !r_boost:
 				#Fire normal shots.
