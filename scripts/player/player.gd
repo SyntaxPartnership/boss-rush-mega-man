@@ -640,7 +640,6 @@ func _physics_process(delta):
 			ice = false
 
 		#Print Shit
-		print(anim_st)
 		
 		var top = $slide_top.get_overlapping_bodies()
 		if slide_top and top == []:

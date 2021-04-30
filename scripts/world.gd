@@ -342,6 +342,14 @@ func _ready():
 	
 	if int(global.boss1_clear) + int(global.boss2_clear) + int(global.boss3_clear) + int(global.boss4_clear) == 4:
 		$graphic/spawn_tiles/cage.queue_free()
+	
+	match global.player:
+		0:
+			$wpn_get/wpn_get1.texture = load('res://assets/sprites/player/mega-norm.png')
+		1:
+			$wpn_get/wpn_get1.texture = load('res://assets/sprites/player/proto-norm-shld.png')
+		2:
+			$wpn_get/wpn_get1.texture = load('res://assets/sprites/player/bass-norm.png')
 
 
 # warning-ignore:unused_argument
@@ -581,7 +589,7 @@ func _rooms():
 				$player/camera.limit_left = player_room.x * res.x
 	
 	#Set the appropriate sprite for the weapon get screen.
-	$wpn_get/mod_ctrl/wpn_get2.frame = which_wpn
+	$wpn_get/mod_ctrl/wpn_get2.frame = which_wpn + (global.player * 4)
 	
 	if cont_rooms.has(player_room):
 		global.cont_id = cont_rooms.get(player_room)

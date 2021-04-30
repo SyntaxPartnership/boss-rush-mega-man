@@ -38,6 +38,14 @@ func _ready():
 	color_set = get_tree().get_nodes_in_group('icons')
 	get_meters = get_tree().get_nodes_in_group('meters')
 	
+	match global.player:
+		0:
+			$weap_menu/default/text.set_text("MEGA ARM")
+		1:
+			$weap_menu/default/text.set_text("P. BUSTER")
+		2:
+			$weap_menu/default/text.set_text("B. BUSTER")
+	
 	hide_icons()
 	wpn_menu()
 	init_cursor()

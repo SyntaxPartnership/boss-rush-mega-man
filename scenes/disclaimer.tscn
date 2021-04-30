@@ -81,7 +81,6 @@ anims/run = SubResource( 1 )
 
 [node name="fade" parent="." instance=ExtResource( 4 )]
 position = Vector2( 128, 118.947 )
-
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]
