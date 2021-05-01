@@ -1,13 +1,16 @@
-[gd_scene load_steps=56 format=2]
+[gd_scene load_steps=71 format=2]
 
 [ext_resource path="res://assets/tilesets/stage_graphics/gfx_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/cutscene.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/cutscene/alley.png" type="Texture" id=3]
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://assets/sprites/cutscene/brokebot_d.png" type="Texture" id=5]
 [ext_resource path="res://assets/sprites/cutscene/brokebot_a.png" type="Texture" id=6]
 [ext_resource path="res://assets/sprites/cutscene/brokebot_c.png" type="Texture" id=7]
 [ext_resource path="res://assets/sprites/cutscene/brokebot_b.png" type="Texture" id=8]
 [ext_resource path="res://assets/sprites/enemies/fugue_shadow.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/cutscene/trash_b.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/cutscene/trash_a.png" type="Texture" id=11]
 [ext_resource path="res://assets/sprites/cutscene/hole.png" type="Texture" id=12]
 [ext_resource path="res://assets/sprites/enemies/cage_wily.png" type="Texture" id=13]
 [ext_resource path="res://assets/sprites/cutscene/shdw_swoop.png" type="Texture" id=14]
@@ -20,9 +23,28 @@
 [ext_resource path="res://assets/sprites/shop/eddie.png" type="Texture" id=21]
 [ext_resource path="res://assets/sprites/shop/auto.png" type="Texture" id=22]
 [ext_resource path="res://assets/sprites/cutscene/roll.png" type="Texture" id=23]
+[ext_resource path="res://assets/sprites/cutscene/trash_lid.png" type="Texture" id=24]
 [ext_resource path="res://assets/sprites/cutscene/rock.png" type="Texture" id=25]
+[ext_resource path="res://assets/sprites/cutscene/blues.png" type="Texture" id=26]
+[ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=27]
 [ext_resource path="res://assets/sprites/cutscene/wily_big.png" type="Texture" id=30]
 [ext_resource path="res://assets/sprites/effects/text_end.png" type="Texture" id=31]
+
+[sub_resource type="Animation" id=39]
+resource_name = "spit"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 0 ]
+}
 
 [sub_resource type="Animation" id=1]
 resource_name = "hover"
@@ -613,6 +635,143 @@ tracks/0/keys = {
 "values": [ 3, 4, 5, 6, 7 ]
 }
 
+[sub_resource type="Animation" id=33]
+resource_name = "idle_a"
+length = 0.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=34]
+resource_name = "idle_b"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 10, 11 ]
+}
+
+[sub_resource type="Animation" id=41]
+resource_name = "leave"
+length = 0.24
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 13, 14, 15, 12 ]
+}
+
+[sub_resource type="Animation" id=40]
+resource_name = "toss"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.3, 0.4, 0.5, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6, 7, 8, 9 ]
+}
+
+[sub_resource type="Animation" id=35]
+resource_name = "walk"
+length = 0.6
+loop = true
+step = 0.15
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.15, 0.3, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 2 ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "boing"
+length = 0.3
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 14, 15, 16 ]
+}
+
+[sub_resource type="Animation" id=37]
+resource_name = "idle"
+length = 0.6
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=38]
+resource_name = "meow"
+length = 0.6
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9 ]
+}
+
 [node name="cutscene" type="Node2D"]
 script = ExtResource( 2 )
 
@@ -661,6 +820,26 @@ texture = ExtResource( 19 )
 position = Vector2( 1408, 64 )
 texture = ExtResource( 30 )
 hframes = 7
+
+[node name="alley" type="Sprite" parent="map"]
+position = Vector2( 1664, 80 )
+texture = ExtResource( 3 )
+
+[node name="boxes" type="Sprite" parent="map/alley"]
+position = Vector2( -71.9999, 66 )
+texture = ExtResource( 10 )
+
+[node name="boxes2" type="Sprite" parent="map/alley"]
+position = Vector2( 128, 66 )
+texture = ExtResource( 10 )
+
+[node name="trash" type="Sprite" parent="map/alley"]
+position = Vector2( 72.0001, 65 )
+texture = ExtResource( 11 )
+vframes = 3
+
+[node name="anim" type="AnimationPlayer" parent="map/alley/trash"]
+anims/spit = SubResource( 39 )
 
 [node name="sprites" type="Control" parent="."]
 margin_right = 40.0
@@ -852,6 +1031,40 @@ anims/lilstep = SubResource( 30 )
 anims/run = SubResource( 31 )
 anims/transform = SubResource( 32 )
 
+[node name="trash_lid" type="KinematicBody2D" parent="sprites"]
+position = Vector2( 1714, 134 )
+
+[node name="sprite" type="Sprite" parent="sprites/trash_lid"]
+texture = ExtResource( 24 )
+
+[node name="blues" type="Sprite" parent="sprites"]
+position = Vector2( 1816, 145 )
+texture = ExtResource( 26 )
+hframes = 16
+frame = 13
+
+[node name="anim" type="AnimationPlayer" parent="sprites/blues"]
+anims/idle_a = SubResource( 33 )
+anims/idle_b = SubResource( 34 )
+anims/leave = SubResource( 41 )
+anims/toss = SubResource( 40 )
+anims/walk = SubResource( 35 )
+
+[node name="tango" type="KinematicBody2D" parent="sprites"]
+position = Vector2( 1714, 127 )
+
+[node name="sprite" type="Sprite" parent="sprites/tango"]
+visible = false
+texture = ExtResource( 27 )
+flip_h = true
+hframes = 17
+frame = 16
+
+[node name="anim" type="AnimationPlayer" parent="sprites/tango"]
+anims/boing = SubResource( 36 )
+anims/idle = SubResource( 37 )
+anims/meow = SubResource( 38 )
+
 [node name="fade" type="CanvasLayer" parent="."]
 
 [node name="front" type="Control" parent="fade"]
@@ -936,9 +1149,11 @@ __meta__ = {
 }
 
 [node name="timer" type="Timer" parent="."]
+[connection signal="animation_finished" from="map/alley/trash/anim" to="." method="_on_can_anim_finished"]
 [connection signal="animation_finished" from="sprites/fugue/anim" to="." method="_on_fugue_anim_done"]
 [connection signal="animation_finished" from="sprites/wily/anim" to="." method="_on_wily_anim_done"]
 [connection signal="animation_finished" from="sprites/shdw_scuttle/anim" to="." method="_on_scuttle_anim_done"]
 [connection signal="animation_finished" from="sprites/rock/anim" to="." method="_on_rock_anim_done"]
+[connection signal="animation_finished" from="sprites/blues/anim" to="." method="_on_blues_anim_finished"]
 [connection signal="tween_completed" from="fade/fadeout" to="." method="_on_fadeout_tween_completed"]
 [connection signal="timeout" from="timer" to="." method="_on_timer_timeout"]

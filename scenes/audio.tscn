@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/audio/music/06 Menu.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scripts/audio.gd" type="Script" id=2]
@@ -22,6 +22,8 @@
 [ext_resource path="res://assets/audio/se/transform.wav" type="AudioStream" id=20]
 [ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=21]
 [ext_resource path="res://assets/audio/se/Item.wav" type="AudioStream" id=22]
+[ext_resource path="res://assets/audio/se/coil1.wav" type="AudioStream" id=23]
+[ext_resource path="res://assets/audio/se/Tango.wav" type="AudioStream" id=24]
 
 [node name="audio" type="Node"]
 script = ExtResource( 2 )
@@ -113,3 +115,9 @@ bus = "sfx"
 [node name="transform" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 20 )
 bus = "sfx"
+
+[node name="bounce" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 23 )
+
+[node name="meow" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 24 )

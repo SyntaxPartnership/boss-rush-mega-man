@@ -99,7 +99,7 @@ func _process(delta):
 				if m.position.y < -256:
 					audio.stop_music("menu")
 					global.player_id[0] = menu
-					global.cutscene = 1 #CHANGE FOR ADDITIONAL CHARACTERS
+					global.cutscene = 1 + global.player_id[0] #CHANGE FOR ADDITIONAL CHARACTERS
 					get_tree().change_scene("res://scenes/cutscene.tscn")
 
 func update_chars(delta):

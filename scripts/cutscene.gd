@@ -7,6 +7,13 @@ const ROCK_GRAV = 900
 var rock_xspd = 0
 var rock_vel = Vector2(0, 0)
 var rock_move = false
+var tango_xspd = 0
+var tango_vel = Vector2(0, 0)
+var tango_state = 0
+var tango_move = false
+var lid_vel = Vector2(0, 0)
+var lid_move = false
+var sec_meow = 40
 
 #Wily mugshot
 var wframe = 0
@@ -75,6 +82,16 @@ var text = {
 	58 : [" [DR. LIGHT]:", "WHEN WILY IS INVOLVED, IT\n\nCAN'T MEAN ANYTHING GOOD."],
 	59 : [" [DR. LIGHT]:", "PLEASE, BE CAREFUL."],
 	60 : [" [MEGAMAN]:", "I'LL BE HOME SOON. DON'T\n\nWORRY!"],
+	71 : [" [PROTOMAN]:", "TO THINK YOU'D FOLLOW ME.\n\nWERE YOU THAT BORED AT HOME?"],
+	75 : [" [TANGO]:", "MEOW!"],
+	76 : [" [PROTOMAN]:", "DO WHATEVER YOU WANT. I\n\nWON'T STOP YOU."],
+	77 : [" [PROTOMAN]:", "HM? WHAT'S THIS BROADCAST\n\nI'M RECEIVING?"],
+	78 : [" [??????]:", "-MY COORDINATES! SOMEBODY!\n\nANYBODY! SAVE ME!"],
+	79 : [" [PROTOMAN]:", "WILY? THIS CAN'T BE GOOD.\n\nI HOPE MEGAMAN DOESN'T RUN"],
+	80 : [" [PROTOMAN]:", "INTO A TRAP...\n\nI BETTER GO CHECK IT MYSELF."],
+	82 : [" [TANGO]:", "MEOW! MEOW!"],
+	83 : [" [PROTOMAN]:", "FINE. YOU CAN COME WITH ME."],
+	84 : [" [PROTOMAN]:", "LET'S GO!"],
 }
 
 # warning-ignore:unused_argument
@@ -90,6 +107,10 @@ func _input(event):
 			0:
 				skip()
 			1:
+				if next:
+					set_text()
+					next = false
+			2:
 				if next:
 					set_text()
 					next = false
@@ -116,6 +137,18 @@ func _ready():
 			$cam.smoothing_enabled = false
 			$cam.position.x = 1408
 			sub_scene = 35
+			$fade/front/name.set_visible_characters(0)
+			$fade/front/text2.set_visible_characters(0)
+			$timer.set_wait_time(1.0)
+			$timer.start()
+		2:
+			txt_overlap = false
+			$sprites/blues/anim.play("walk")
+			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.start()
+			$cam.smoothing_enabled = false
+			$cam.position.x = 1664
+			sub_scene = 69
 			$fade/front/name.set_visible_characters(0)
 			$fade/front/text2.set_visible_characters(0)
 			$timer.set_wait_time(1.0)
@@ -309,6 +342,91 @@ func _physics_process(delta):
 						$fade/fadeout.start()
 						sub_scene += 1
 	
+	if global.cutscene == 2:
+		
+		tango_vel.x = tango_xspd
+		if tango_move:
+			tango_vel.y += ROCK_GRAV * delta
+		else:
+			tango_vel.y = 0
+			
+		tango_vel = $sprites/tango.move_and_slide(tango_vel, Vector2(0, -1))
+		
+		if tango_move:
+			match tango_state:
+				0:
+					if $sprites/tango.position.y > 119 and tango_vel.y > 0:
+						$sprites/tango.position.y = 119
+						$sprites/tango/anim.play("idle")
+						sub_scene += 1
+						$timer.set_wait_time(0.5)
+						$timer.start()
+						tango_move = false
+		
+		if lid_move:
+			lid_vel.y += ROCK_GRAV * delta
+		else:
+			lid_vel.y = 0
+			
+			if $map/alley/trash.frame == 1:
+				$sprites/trash_lid.position.y = 136
+			elif $map/alley/trash.frame == 2:
+				$sprites/trash_lid.position.y = 132
+			
+		lid_vel = $sprites/trash_lid.move_and_slide(lid_vel, Vector2(0, -1))
+		
+		if lid_move:
+			if $sprites/trash_lid.position.y > 134:
+				$sprites/trash_lid.position.y = 134
+				lid_move = false
+		
+		match sub_scene:
+			70:
+				if $sprites/blues.position.x > 1664:
+					$sprites/blues.position.x -= 1
+				else:
+					$sprites/blues/anim.play("idle_a")
+					set_text()
+			72:
+				$sprites/blues.flip_h = true
+				$map/alley/trash/anim.play("spit")
+			81:
+				$sprites/blues/anim.play("toss")
+			82:
+				if sec_meow > -1:
+					sec_meow -= 1
+				
+				if sec_meow == 0:
+					audio.play_sound('meow')
+			85:
+				$sprites/tango/anim.play("boing")
+				tango_xspd = -ROCK_RSPD * 1.2
+				tango_vel.y = ROCK_JSPD / 2
+				tango_move = true
+				tango_state = 1
+				sub_scene += 1
+			86:
+				if $sprites/tango.position.x < $sprites/blues.position.x:
+					tango_move = false
+					tango_state = 2
+					$sprites/tango/sprite.hide()
+					audio.play_sound('beamout')
+					$sprites/blues/anim.play("leave")
+					sub_scene += 1
+			88:
+				if $sprites/blues.position.y > -32:
+					$sprites/blues.position.y -= 8
+				else:
+					sub_scene += 1
+			89:
+				$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+				$fade/fadeout.start()
+				sub_scene += 1
+					
+	
+	#Print Shit.
+	print(sub_scene)
+	
 	if !skip:
 		if sub_scene > 2 and sub_scene < 30:
 			if paper_delay[0] > 0:
@@ -453,6 +571,12 @@ func _physics_process(delta):
 	
 func set_text():
 	sub_scene += 1
+	
+	match sub_scene:
+		76:
+			$sprites/tango/anim.play("idle")
+		83:
+			$sprites/tango/anim.play("idle")
 	
 	if new_scene != sub_scene:
 		if txt_overlap:
@@ -648,6 +772,12 @@ func _on_timer_timeout():
 			get_tree().change_scene("res://scenes/title.tscn")
 		36:
 			$timer.stop()
+		70:
+			$timer.stop()
+		75:
+			$timer.stop()
+			$sprites/tango/anim.play("meow")
+			audio.play_sound('meow')
 			
 func set_txt_delay_max(number):
 	td_max = number
@@ -696,6 +826,11 @@ func _on_fadeout_tween_completed(object, key):
 			audio.stop_all_music()
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/world.tscn")
+		90:
+			audio.stop_all_music()
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://scenes/world.tscn")
+		
 
 func _on_fugue_anim_done(anim_name):
 	match anim_name:
@@ -739,5 +874,26 @@ func _on_rock_anim_done(anim_name):
 			$sprites/rock/anim.play("run")
 			rock_xspd = ROCK_RSPD
 		
+		"leave":
+			sub_scene += 1
+
+func _on_can_anim_finished(anim_name):
+	sub_scene += 1
+	audio.play_sound('bounce')
+	$sprites/tango/anim.play("boing")
+	$sprites/tango/sprite.show()
+	tango_vel.y = ROCK_JSPD
+	tango_move = true
+	lid_vel.y = ROCK_JSPD * 0.4
+	lid_move = true
+	$map/alley/trash.frame = 0
+
+func _on_blues_anim_finished(anim_name):
+	match anim_name:
+		"toss":
+			$sprites/blues/anim.play("idle_b")
+			$sprites/tango/anim.play("meow")
+			audio.play_sound('meow')
+			set_text()
 		"leave":
 			sub_scene += 1
