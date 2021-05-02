@@ -14,6 +14,9 @@ var tango_move = false
 var lid_vel = Vector2(0, 0)
 var lid_move = false
 var sec_meow = 40
+var flicker
+var bass_move = false
+var bass_vel = Vector2(0, 0)
 
 #Wily mugshot
 var wframe = 0
@@ -92,6 +95,22 @@ var text = {
 	82 : [" [TANGO]:", "MEOW! MEOW!"],
 	83 : [" [PROTOMAN]:", "FINE. YOU CAN COME WITH ME."],
 	84 : [" [PROTOMAN]:", "LET'S GO!"],
+	92 : [" [BASS]:", "IT'S SURE TAKING THE COPS A\n\nWHILE TO GET HERE."],
+	93 : [" [BASS]:", "AND AFTER I WENT TO THE\n\nTROUBLE OF TRASHING THE"],
+	94 : [" [BASS]:", "PLACE, TOO."],
+	95 : [" [BASS]:", "THOSE POLICEBOTS WOULD MAKE\n\nGOOD TARGET PRACTICE IF"],
+	96 : [" [BASS]:", "THEY WOULD JUST HURRY UP."],
+	97 : [" [TREBLE]:", "-YAWN-"],
+	100 : [" [REGGAE]:", "SQUAWK!!"],
+	101 : [" [BASS]:", "HUH? WHAT DO YOU WANT?"],
+	102 : [" [BASS]:", "DID THE OLD MAN SEND YOU\n\nTO BEG ME TO RETURN?"],
+	107 : [" [DR. WILY]:", "I DON'T CARE WHO RECEIVES\n\nTHIS! HERE ARE MY"],
+	108 : [" [DR. WILY]:", "COORDINATES! SOMEBODY!\n\nANYBODY! SAVE ME!"],
+	110 : [" [BASS]:", "HAHAHAHAHAHA!! THIS IS RICH!"],
+	111 : [" [BASS]:", "HE ACTUALLY GOT HIMSELF INTO\n\nTROUBLE. I HAVE TO SEE"],
+	112 : [" [BASS]:", "THIS! YOU COMING, TREBLE?"],
+	113 : [" [TREBLE]:", "ZZZZZZZZZZZZ..."],
+	114 : [" [BASS]:", "SUIT YOURSELF. LET'S GO,\n\nBIRD!"],
 }
 
 # warning-ignore:unused_argument
@@ -111,6 +130,10 @@ func _input(event):
 					set_text()
 					next = false
 			2:
+				if next:
+					set_text()
+					next = false
+			3:
 				if next:
 					set_text()
 					next = false
@@ -153,6 +176,19 @@ func _ready():
 			$fade/front/text2.set_visible_characters(0)
 			$timer.set_wait_time(1.0)
 			$timer.start()
+		3:
+			txt_overlap = false
+			$sprites/reggae/anim.play("fly")
+			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+			$fade/fadeout.start()
+			$cam.smoothing_enabled = false
+			$cam.position.x = 2176
+			sub_scene = 91
+			$fade/front/name.set_visible_characters(0)
+			$fade/front/text2.set_visible_characters(0)
+			$timer.set_wait_time(1.0)
+			$timer.start()
+			flicker = round(rand_range(1, 40))
 
 func _physics_process(delta):
 	
@@ -423,6 +459,58 @@ func _physics_process(delta):
 				$fade/fadeout.start()
 				sub_scene += 1
 					
+	if global.cutscene == 3:
+		
+		if flicker > 0:
+			flicker -= 1
+		else:
+			if $map/starbowl/r.frame == 1:
+				$map/starbowl/r.frame = 0
+			else:
+				$map/starbowl/r.frame = 1
+			flicker = round(rand_range(1, 20))
+		
+		match sub_scene:
+			98:
+				if $sprites/reggae.position.y < 145:
+					$sprites/reggae.position.y += 1
+				else:
+					$sprites/reggae.position.y = 145
+					$sprites/reggae/anim.play("land")
+					sub_scene += 1
+			103:
+				$sprites/bass/anim.play("jump")
+				
+				bass_move = true
+				
+				bass_vel.x = -ROCK_RSPD
+				bass_vel.y += ROCK_GRAV * delta
+				
+				bass_vel = $sprites/bass.move_and_slide(bass_vel, Vector2(0, -1))
+				
+				if $sprites/bass.position.y > 147:
+					$sprites/bass.position.y = 147
+					$sprites/bass/anim.play("idle_c")
+					audio.play_sound("land")
+					sub_scene += 1
+					$timer.start()
+			105:
+				$sprites/reggae/anim.play("project")
+				$sprites/reggae/wily/anim.play("wily")
+				sub_scene += 1
+			115:
+				audio.play_sound("beamout")
+				$sprites/bass/anim.play("beamout")
+				$sprites/reggae/anim.play("beamout")
+				sub_scene += 1
+			117:
+				if $sprites/bass.position.y > -32:
+					$sprites/bass.position.y -= 8
+					$sprites/reggae.position.y -= 8
+				else:
+					$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+					$fade/fadeout.start()
+					sub_scene += 1
 	
 	#Print Shit.
 	print(sub_scene)
@@ -577,6 +665,16 @@ func set_text():
 			$sprites/tango/anim.play("idle")
 		83:
 			$sprites/tango/anim.play("idle")
+		101:
+			$sprites/reggae/anim.play("idle")
+			$sprites/bass/anim.play("idle_b")
+		109:
+			$sprites/reggae/wily/anim.stop()
+			$sprites/reggae/wily.hide()
+			$sprites/reggae/anim.play("idle")
+			$sprites/bass/anim.play("laugh_start")
+		114:
+			$sprites/bass/anim.play("idle_c")
 	
 	if new_scene != sub_scene:
 		if txt_overlap:
@@ -778,6 +876,12 @@ func _on_timer_timeout():
 			$timer.stop()
 			$sprites/tango/anim.play("meow")
 			audio.play_sound('meow')
+		92:
+			$timer.stop()
+		106:
+			$timer.stop()
+		110:
+			$timer.stop()
 			
 func set_txt_delay_max(number):
 	td_max = number
@@ -827,6 +931,10 @@ func _on_fadeout_tween_completed(object, key):
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/world.tscn")
 		90:
+			audio.stop_all_music()
+# warning-ignore:return_value_discarded
+			get_tree().change_scene("res://scenes/world.tscn")
+		118:
 			audio.stop_all_music()
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/world.tscn")
@@ -896,4 +1004,18 @@ func _on_blues_anim_finished(anim_name):
 			audio.play_sound('meow')
 			set_text()
 		"leave":
+			sub_scene += 1
+
+func _on_reggae_anim_finished(anim_name):
+	match anim_name:
+		"land":
+			$sprites/reggae/anim.play("squawk")
+			set_text()
+
+func _on_bass_anim_finished(anim_name):
+	match anim_name:
+		"laugh_start":
+			$timer.start()
+			$sprites/bass/anim.play("laugh")
+		"beamout":
 			sub_scene += 1
