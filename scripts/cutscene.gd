@@ -179,6 +179,7 @@ func _ready():
 		3:
 			txt_overlap = false
 			$sprites/reggae/anim.play("fly")
+			$sprites/treble/anim.play("idle")
 			$fade/fadeout.interpolate_property($fade/front, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.25, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			$fade/fadeout.start()
 			$cam.smoothing_enabled = false
@@ -468,7 +469,7 @@ func _physics_process(delta):
 				$map/starbowl/r.frame = 0
 			else:
 				$map/starbowl/r.frame = 1
-			flicker = round(rand_range(1, 20))
+			flicker = round(rand_range(1, 15))
 		
 		match sub_scene:
 			98:
@@ -665,9 +666,12 @@ func set_text():
 			$sprites/tango/anim.play("idle")
 		83:
 			$sprites/tango/anim.play("idle")
+		97:
+			$sprites/treble/anim.play("yawn")
 		101:
 			$sprites/reggae/anim.play("idle")
 			$sprites/bass/anim.play("idle_b")
+			$sprites/treble/anim.play("sleep")
 		109:
 			$sprites/reggae/wily/anim.stop()
 			$sprites/reggae/wily.hide()
@@ -1019,3 +1023,8 @@ func _on_bass_anim_finished(anim_name):
 			$sprites/bass/anim.play("laugh")
 		"beamout":
 			sub_scene += 1
+
+func _on_treble_anim_finished(anim_name):
+	match anim_name:
+		"yawn":
+			$sprites/treble/anim.play("idle")
