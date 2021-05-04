@@ -263,7 +263,10 @@ enum {
 	SKICK_AIR,
 	SKICK_SLD,
 	LOOKUP,
-	TOSSED
+	TOSSED,
+	SHAKEHEAD,
+	LAUGH_STRT,
+	LAUGH_LOOP
 	}
 
 #Set the appropriate states and values
@@ -694,6 +697,12 @@ func anim_state(new_anim_state):
 			change_anim('lookup')
 		TOSSED:
 			change_anim('tossed')
+		SHAKEHEAD:
+			change_anim('shakehead')
+		LAUGH_STRT:
+			change_anim('laugh_start')
+		LAUGH_LOOP:
+			change_anim('laugh')
 
 
 func change_anim(new_anim):

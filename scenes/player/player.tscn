@@ -1,4 +1,4 @@
-[gd_scene load_steps=46 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://scripts/player/player.gd" type="Script" id=1]
 [ext_resource path="res://shaders/player.tres" type="Material" id=2]
@@ -296,6 +296,39 @@ tracks/0/keys = {
 "values": [ 26 ]
 }
 
+[sub_resource type="Animation" id=35]
+resource_name = "laugh"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 37, 38 ]
+}
+
+[sub_resource type="Animation" id=36]
+resource_name = "laugh_start"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 36 ]
+}
+
 [sub_resource type="Animation" id=21]
 length = 0.1
 tracks/0/type = "value"
@@ -313,7 +346,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id=22]
 resource_name = "lookup"
-length = 0.1
+length = 0.2
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -322,10 +355,10 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ 19 ]
+"values": [ 19, 20 ]
 }
 
 [sub_resource type="Animation" id=23]
@@ -360,6 +393,23 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 7, 8, 9, 8 ]
+}
+
+[sub_resource type="Animation" id=34]
+resource_name = "shakehead"
+length = 0.6
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 36, 37 ]
 }
 
 [sub_resource type="Animation" id=25]
@@ -509,9 +559,9 @@ disabled = true
 material = ExtResource( 2 )
 texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
-hframes = 14
 vframes = 4
-frame = 36
+hframes = 14
+frame = 39
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -540,10 +590,13 @@ anims/jump = SubResource( 17 )
 anims/jump-shot-d-down = SubResource( 18 )
 anims/jump-shot-d-up = SubResource( 19 )
 anims/jump-shot-up = SubResource( 20 )
+anims/laugh = SubResource( 35 )
+anims/laugh_start = SubResource( 36 )
 anims/lilstep = SubResource( 21 )
 anims/lookup = SubResource( 22 )
 anims/rboost = SubResource( 23 )
 anims/run = SubResource( 24 )
+anims/shakehead = SubResource( 34 )
 anims/skick_air = SubResource( 25 )
 anims/skick_sld = SubResource( 26 )
 anims/slide = SubResource( 27 )
@@ -620,7 +673,6 @@ bus = "sfx"
 pause_mode = 2
 stream = ExtResource( 12 )
 bus = "sfx"
-
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]
 [connection signal="body_entered" from="slide_top" to="." method="_on_slide_top_body_entered"]
 [connection signal="body_entered" from="slide_wall" to="." method="_on_slide_wall_body_entered"]

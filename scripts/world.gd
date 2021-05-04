@@ -345,10 +345,13 @@ func _ready():
 	
 	match global.player:
 		0:
+			j_delay = 16
 			$wpn_get/wpn_get1.texture = load('res://assets/sprites/player/mega-norm.png')
 		1:
+			j_delay = 90
 			$wpn_get/wpn_get1.texture = load('res://assets/sprites/player/proto-norm-shld.png')
 		2:
+			j_delay = 16
 			$wpn_get/wpn_get1.texture = load('res://assets/sprites/player/bass-norm.png')
 
 
@@ -1555,7 +1558,10 @@ func _process(delta):
 					m.frame = mntr_frame
 			
 			if mntr_frame >= 3:
-				$player.anim_state($player.LOOKUP)
+				if global.player != 2:
+					$player.anim_state($player.LOOKUP)
+				else:
+					$player.anim_state($player.LAUGH_STRT)
 				global.opening = 5
 
 	if global.opening >= 4:
@@ -1616,13 +1622,27 @@ func _process(delta):
 								mntr_rand = 3
 	
 	if global.opening == 5:
-		j_delay -= 1
-		
-		if j_delay == 0:
-			$player.jump_tap = true
-			$player.jump = true
-			j_release = 4
-			global.opening = 6
+		match global.player:
+			0:
+				j_delay -= 1
+				
+				if j_delay == 0:
+					$player.jump_tap = true
+					$player.jump = true
+					j_release = 4
+					global.opening = 6
+			1:
+				j_delay -= 1
+				if j_delay == 0:
+					$player.anim_state($player.SHAKEHEAD)
+					j_release = 120
+					global.opening = 6
+			2:
+				j_delay -= 1
+				if j_delay == 0:
+					$player.anim_state($player.LAUGH_LOOP)
+					j_release = 120
+					global.opening = 6
 	
 	if global.opening == 6:
 		j_release -= 1
@@ -1632,7 +1652,13 @@ func _process(delta):
 				j_release = 90
 				$player.jump_tap = false
 				$player.jump = false
-			else:
+			elif !$player.jump and $player.anim_st == $player.LAUGH_LOOP or !$player.jump and $player.anim_st == $player.SHAKEHEAD:
+				j_release = 16
+				$player.anim_state($player.IDLE)
+			elif !$player.jump and $player.anim_st != $player.LAUGH_LOOP and $player.anim_st != $player.SHAKEHEAD:
+#				if global.player != 0:
+#					$player.anim_state($player.IDLE)
+#				else:
 				$player/sprite.flip_h = false
 				$player.shot_dir = 1
 				$hud/hud.show()

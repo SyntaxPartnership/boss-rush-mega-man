@@ -901,7 +901,7 @@ func _on_fadeout_tween_completed(object, key):
 		if global.cutscene == 0:
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/title.tscn")
-		if global.cutscene == 1:
+		if global.cutscene == 1 or global.cutscene == 2 or global.cutscene ==3:
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/world.tscn")
 		
