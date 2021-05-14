@@ -127,21 +127,37 @@ var scene_txt = {
 	13 : ["AUTO:", "JUNK LYING AROUND. BRING ME\n\nSCREWS AND I'LL WHIP THEM"],
 	14 : ["AUTO:", "TOGETHER! GO AHEAD! LOOK AT\n\nMY WARES!"],
 	15 : ["", ""],
-	16 : ["DR. WILY:", "SO! YOU'VE MANAGED TO DEFEAT\n\nTHE ROBOT MASTERS."],
-	17 : ["DR. WILY:", "I GUESS I SHOULD THANK YOU\n\nFOR RESCUING ME..."],
-	18 : ["DR. WILY:", "BAH! WHAT AM I SAYING?! THIS\n\nISN'T OVER!"],
-	19 : ["DR. WILY:", "EXCEPT FOR THIS DEMO."],
-	20 : ["DR. WILY:", "THOSE EXTRA DOORS? I CAN'T\n\nREALLY SAY."],
-	21 : ["DR. WILY:", "YOU'LL HAVE TO FIND OUT IN\n\nTHE FULL GAME."],
-	22 : ["DR. WILY:", "YOU CAN NOW REFIGHT THE\n\nBOSSES FOR A BETTER TIME AND"],
-	23 : ["DR. WILY:", "RANK. CAN YOU REACH RANK S?"],
-	24 : ["", ""]
+	16 : ["PROTOMAN:", "WHAT WAS THAT ABOUT? WAS THAT\n\nWILY IN THAT CAGE?"],
+	17 : ["PROTOMAN:", "THAT ROBOT WAS PRETTY\n\nAGGRESSIVE..."],
+	18 : ["??????:", "Y-Y-YIKES!"],
+	19 : ["", ""],
+	20 : ["AUTO:", "GREETINGS, BLUEISH MOOD!"],
+	21 : ["PROTOMAN:", "I DIDN'T EXPECT TO SEE YOU\n\nHERE. IS MEGAMAN WITH YOU?"],
+	22 : ["AUTO:", "NOPE! JUST EDDIE AND I.\n\nMEGAMAN IS CURRENTLY"],
+	23 : ["AUTO:", "UNDERGOING MAINTENANCE. SO I\n\nCAME TO SCOUT OUT THE"],
+	24 : ["AUTO:", "SITUATION. PRETTY BRAVE OF\n\nME, RIGHT?"],
+	25 : ["AUTO:", "RIGHT?"],
+	26 : ["AUTO:", "THEY WOULD BE LOST WITHOUT\n\nME. TRULY I AM THE GLUE THAT"],
+	27 : ["AUTO:", "HOLDS EVERYONE TOGETHER!"],
+	28 : ["", ""],
+	29 : ["AUTO:", "W-WAIT!! DON'T JUST LEAVE ME!"],
+	30 : ["AUTO:", "I CAN MAKE ITEMS FOR YOU\n\nFROM THE JUNK LYING AROUND."],
+	31 : ["AUTO:", "GO AHEAD! LOOK AT MY WARES!"],
+#	16 : ["DR. WILY:", "SO! YOU'VE MANAGED TO DEFEAT\n\nTHE ROBOT MASTERS."],
+#	17 : ["DR. WILY:", "I GUESS I SHOULD THANK YOU\n\nFOR RESCUING ME..."],
+#	18 : ["DR. WILY:", "BAH! WHAT AM I SAYING?! THIS\n\nISN'T OVER!"],
+#	19 : ["DR. WILY:", "EXCEPT FOR THIS DEMO."],
+#	20 : ["DR. WILY:", "THOSE EXTRA DOORS? I CAN'T\n\nREALLY SAY."],
+#	21 : ["DR. WILY:", "YOU'LL HAVE TO FIND OUT IN\n\nTHE FULL GAME."],
+#	22 : ["DR. WILY:", "YOU CAN NOW REFIGHT THE\n\nBOSSES FOR A BETTER TIME AND"],
+#	23 : ["DR. WILY:", "RANK. CAN YOU REACH RANK S?"],
+#	24 : ["", ""]
 }
 
 var shop_text = {
 	0 : ["AUTO:", "FIND ANYTHING YOU LIKE?"],
 	1 : ["AUTO:", "DON'T BE SHY! BUY WHATEVER\n\nYOU LIKE!"],
-	2 : ["AUTO:", "HEY, MEGA! YOU WON'T\n\nBELIEVE THESE PRICES!"],
+	2 : ["AUTO:", "HEY! YOU WON'T\n\nBELIEVE THESE PRICES!"],
 	3 : ["AUTO:", "WISE CHOICE!"],
 	4 : ["AUTO:", "YOU WON'T FIND A BETTER DEAL\n\nANYWHERE ELSE!"],
 	5 : ["AUTO:", "HERE YOU GO!"],
@@ -156,7 +172,8 @@ var shop_text = {
 	14 : ["AUTO:", "ARE YOU SURE?\n\n[JUMP] - YES   [FIRE] - NO"],
 	15 : ["AUTO:", "SORRY... THAT ITEM ISN'T\n\nAVAILABLE YET..."],
 	16 : ["AUTO:", "TAKE CARE, MEGA!"],
-	17 : ["AUTO:", "OH... CHANGE YOUR MIND?"]
+	17 : ["AUTO:", "OH... CHANGE YOUR MIND?"],
+	18 : ["AUTO:", "HEY! I FOUND THIS FOR YOU!"]
 }
 
 #Item Drops
@@ -281,6 +298,20 @@ var accuracy = 0.0
 var after_boss = false
 
 func _ready():
+	
+	var eddie_tex
+	if global.player != 2:
+		eddie_tex = load("res://assets/sprites/shop/eddie.png")
+	else:
+		eddie_tex = load("res://assets/sprites/shop/antieddie.png")
+		
+	match global.player:
+		0:
+			global.sub_scene = 0
+		1:
+			global.sub_scene = 16
+	
+	$graphic/spawn_tiles/shop/eddie.texture = eddie_tex
 	
 	$graphic/spawn_tiles/shop/eddie/anim.play('idle')
 	
@@ -999,6 +1030,7 @@ func _process(delta):
 				
 		
 	#Print Shit
+	print(global.scene,', ',global.sub_scene)
 	
 	#Camera shake?
 	if shake == -1:
@@ -2368,7 +2400,7 @@ func show_text():
 				$scene_txt/on_off/next.hide()
 			match global.scene:
 				2:
-					if global.sub_scene == 3:
+					if global.sub_scene == 3 or global.sub_scene == 19:
 						global.scene = 3
 				5:
 					if global.sub_scene == 15:
@@ -2410,7 +2442,7 @@ func show_text():
 			$graphic/spawn_tiles.add_child(scene_auto)
 			$player/sprite.flip_h = true
 			$player.anim_state($player.LOOKUP)
-			global.scene = 4
+			global.scene += 1
 
 func _on_intro_finished():
 	$player.anim_state($player.LOOKUP)

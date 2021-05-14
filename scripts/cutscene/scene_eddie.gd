@@ -10,6 +10,15 @@ var velocity = Vector2()
 var next = 90
 
 func _ready():
+	
+	var texture
+	if global.player != 2:
+		texture = load("res://assets/sprites/shop/eddie.png")
+	else:
+		texture = load("res://assets/sprites/shop/antieddie.png")
+	
+	$sprite.texture = texture
+	
 	velocity.y = 0
 	$anim.play("fall")
 
@@ -40,7 +49,7 @@ func _physics_process(delta):
 			if next == 0:
 				player.get_child(3).flip_h = true
 				global.scene = 5
-				global.sub_scene = 4
+				global.sub_scene += 1
 			
 			if velocity.x != 0:
 				print(global_position.x)
