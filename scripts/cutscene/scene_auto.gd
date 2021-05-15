@@ -54,6 +54,11 @@ func _physics_process(delta):
 		match state:
 			0:
 				world.sound("faceplant")
+				if global.player == 1:
+					player.hide()
+					var fake_blues = load("res://scenes/cutscene/scene_blues.tscn").instance()
+					fake_blues.position = player.global_position
+					world.get_child(2).add_child(fake_blues)
 				player.anim_state(player.IDLE)
 				$anim.play("faceplant")
 				wiggle = 60
