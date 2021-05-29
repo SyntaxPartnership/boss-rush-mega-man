@@ -26,6 +26,8 @@ var velocity = Vector2()
 func _ready():
 	#Change the sound effect to whatever is needed.
 	$audio/shoot.play()
+	
+	world.shot_num += 1
 
 	$anim.play("appear")
 

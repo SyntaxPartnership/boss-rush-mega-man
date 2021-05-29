@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=2]
+[gd_scene load_steps=103 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -89,6 +89,7 @@
 [ext_resource path="res://assets/sprites/enemies/cage_wily.png" type="Texture" id=87]
 [ext_resource path="res://assets/sprites/effects/text_end.png" type="Texture" id=88]
 [ext_resource path="res://assets/audio/music/1025 FOR YOU -ROLL'S THEME-.ogg" type="AudioStream" id=89]
+[ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=90]
 
 [sub_resource type="Animation" id=1]
 resource_name = "bounce"
@@ -187,15 +188,84 @@ tracks/0/keys = {
 "values": [ 3 ]
 }
 
-[sub_resource type="DynamicFontData" id=7]
+[sub_resource type="Animation" id=7]
+resource_name = "fall_slp"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 10, 11, 12 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "idle"
+length = 0.9
+loop = true
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 4, 5, 6 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "sleep"
+length = 1.8
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.9 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 13, 12 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "startle"
+length = 0.08
+loop = true
+step = 0.04
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.04 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 17, 18 ]
+}
+
+[sub_resource type="DynamicFontData" id=11]
 antialiased = false
 hinting = 0
 font_path = "res://assets/prstartk.ttf"
 
-[sub_resource type="DynamicFont" id=8]
+[sub_resource type="DynamicFont" id=12]
 size = 8
 extra_spacing_bottom = -3
-font_data = SubResource( 7 )
+font_data = SubResource( 11 )
 
 [node name="world" type="Node2D"]
 pause_mode = 2
@@ -390,6 +460,19 @@ hframes = 7
 anims/idle = SubResource( 4 )
 anims/spit-a = SubResource( 5 )
 anims/spit-b = SubResource( 6 )
+
+[node name="tango" type="Sprite" parent="graphic/spawn_tiles/shop"]
+visible = false
+position = Vector2( 2788, 1130 )
+texture = ExtResource( 90 )
+hframes = 19
+frame = 10
+
+[node name="anim" type="AnimationPlayer" parent="graphic/spawn_tiles/shop/tango"]
+anims/fall_slp = SubResource( 7 )
+anims/idle = SubResource( 8 )
+anims/sleep = SubResource( 9 )
+anims/startle = SubResource( 10 )
 
 [node name="fakeplyr" type="Sprite" parent="graphic/spawn_tiles/shop"]
 visible = false
@@ -614,7 +697,7 @@ margin_left = -20.0
 margin_top = -2.5
 margin_right = 20.0
 margin_bottom = 2.5
-custom_fonts/font = SubResource( 8 )
+custom_fonts/font = SubResource( 12 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
 script = ExtResource( 17 )

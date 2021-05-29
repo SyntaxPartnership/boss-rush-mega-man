@@ -136,13 +136,14 @@ var scene_txt = {
 	22 : ["AUTO:", "NOPE! JUST EDDIE AND I.\n\nMEGAMAN IS CURRENTLY"],
 	23 : ["AUTO:", "UNDERGOING MAINTENANCE. SO I\n\nCAME TO SCOUT OUT THE"],
 	24 : ["AUTO:", "SITUATION. PRETTY BRAVE OF\n\nME, RIGHT?"],
-	25 : ["AUTO:", "RIGHT?"],
+	25 : ["AUTO:", "...RIGHT?"],
 	26 : ["AUTO:", "THEY WOULD BE LOST WITHOUT\n\nME. TRULY I AM THE GLUE THAT"],
 	27 : ["AUTO:", "HOLDS EVERYONE TOGETHER!"],
 	28 : ["", ""],
 	29 : ["AUTO:", "W-WAIT!! DON'T JUST LEAVE ME!"],
 	30 : ["AUTO:", "I CAN MAKE ITEMS FOR YOU\n\nFROM THE JUNK LYING AROUND."],
 	31 : ["AUTO:", "GO AHEAD! LOOK AT MY WARES!"],
+	32 : ["", ""],
 #	16 : ["DR. WILY:", "SO! YOU'VE MANAGED TO DEFEAT\n\nTHE ROBOT MASTERS."],
 #	17 : ["DR. WILY:", "I GUESS I SHOULD THANK YOU\n\nFOR RESCUING ME..."],
 #	18 : ["DR. WILY:", "BAH! WHAT AM I SAYING?! THIS\n\nISN'T OVER!"],
@@ -260,11 +261,11 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
-				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
-				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
+				1 : [10, 20, 280, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 20, 280, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
+				3 : [10, 20, 280, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
+				4 : [10, 20, 280, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
+				5 : [10, 20, 280, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
 				}
 				
 var damage = 0
@@ -314,6 +315,7 @@ func _ready():
 	$graphic/spawn_tiles/shop/eddie.texture = eddie_tex
 	
 	$graphic/spawn_tiles/shop/eddie/anim.play('idle')
+	$graphic/spawn_tiles/shop/tango/anim.play("sleep")
 	
 	$hud/hud/boss.material.set_shader_param('t_col1', global.t_color1)
 	$hud/hud/boss.material.set_shader_param('t_col2', global.t_color2)
@@ -1777,6 +1779,9 @@ func _on_fade_fadeout():
 		$player/camera.limit_bottom = ((floor($player.position.y/240))*240)+240
 		$player/camera.limit_left = ((floor($player.position.x/256))*256)
 		$player/camera.limit_right = ((floor($player.position.x/256))*256)+256
+		
+		if !$graphic/spawn_tiles/shop/tango.is_visible_in_tree():
+			$graphic/spawn_tiles/shop/tango.show()
 
 		$fade/fade.begin = true
 		$fade/fade.state = 3
@@ -2401,9 +2406,11 @@ func show_text():
 			match global.scene:
 				2:
 					if global.sub_scene == 3 or global.sub_scene == 19:
+						$player/camera.current = false
 						global.scene = 3
 				5:
-					if global.sub_scene == 15:
+					if global.sub_scene == 15 or global.sub_scene == 32:
+						$player/camera.current = true
 						cutsc_mode = 3
 						play_music("main")
 						for c in get_tree().get_nodes_in_group("cutscene"):
@@ -2421,13 +2428,54 @@ func show_text():
 						shop_active = true
 						global.scene = 9
 		
-		if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
-			if cursor_blnk != 0:
-				cursor_blnk = 0
-			if $scene_txt/on_off/next.is_visible_in_tree():
-				$scene_txt/on_off/next.hide()
-			$scene_txt/on_off/text.set_visible_characters(0)
-			global.sub_scene += 1
+#		if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
+
+		if global.sub_scene == 30:
+			$player.x_dir = 0
+		
+		if allow and $player.cutscene:
+			if global.sub_scene != 27 and global.sub_scene != 28 and global.sub_scene != 31:
+				if Input.is_action_just_pressed("jump"):
+					if cursor_blnk != 0:
+						cursor_blnk = 0
+					if $scene_txt/on_off/next.is_visible_in_tree():
+						$scene_txt/on_off/next.hide()
+					$scene_txt/on_off/text.set_visible_characters(0)
+					
+					if global.sub_scene == 26:
+						$player.x_dir = 1
+					
+					if global.sub_scene == 29:
+						$player.x_dir = -1
+					
+					if global.sub_scene == 30:
+						$player.x_dir = -1
+					
+					global.sub_scene += 1
+			else:
+				if $player.global_position.x > 2816 + 64 and global.sub_scene == 27:
+					if cursor_blnk != 0:
+						cursor_blnk = 0
+					if $scene_txt/on_off/next.is_visible_in_tree():
+						$scene_txt/on_off/next.hide()
+					$scene_txt/on_off/text.set_visible_characters(0)
+					global.sub_scene += 1
+					
+				if global.sub_scene == 28 and $player.global_position.x > 2816 + 80:
+					$player.x_dir = 0
+					
+					global.sub_scene += 1
+				
+				if global.sub_scene == 31 and $player.global_position.x < 2816 + 1:
+					$player.x_dir = 0
+					
+					global.sub_scene += 1
+			
+		if $player.global_position.x > 2816 + 80 and global.sub_scene == 28:
+			if global.sub_scene == 28:
+				$player.x_dir = 0
+			
+				global.sub_scene += 1
 			
 		if global.scene == 2 or global.scene == 5 or global.scene == 8:
 			if cutsc_mode == 2:

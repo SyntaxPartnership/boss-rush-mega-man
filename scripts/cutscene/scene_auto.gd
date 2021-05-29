@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 onready var world = get_parent().get_parent().get_parent()
+onready var tango = world.get_child(1).get_child(1).get_child(3).get_child(2).get_child(0)
 onready var player = world.get_child(2)
 
 onready var offset_x = $sprite.offset.x
@@ -54,16 +55,13 @@ func _physics_process(delta):
 		match state:
 			0:
 				world.sound("faceplant")
-				if global.player == 1:
-					player.hide()
-					var fake_blues = load("res://scenes/cutscene/scene_blues.tscn").instance()
-					fake_blues.position = player.global_position
-					world.get_child(2).add_child(fake_blues)
+				tango.play("startle")
 				player.anim_state(player.IDLE)
 				$anim.play("faceplant")
 				wiggle = 60
 				state = 1
 			2:
+				tango.play('idle')
 				$anim.play("intro")
 				state = 3
 
