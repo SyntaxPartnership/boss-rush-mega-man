@@ -1336,7 +1336,7 @@ position = Vector2( 1714, 127 )
 visible = false
 texture = ExtResource( 27 )
 flip_h = true
-hframes = 17
+hframes = 19
 frame = 16
 
 [node name="anim" type="AnimationPlayer" parent="sprites/tango"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/cutscene/scene_auto.gd" type="Script" id=1]
 [ext_resource path="res://assets/sprites/shop/auto.png" type="Texture" id=2]
@@ -104,7 +104,23 @@ tracks/0/keys = {
 }
 
 [sub_resource type="Animation" id=7]
-resource_name = "talk"
+resource_name = "panic"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 3, 4 ]
+}
+
+[sub_resource type="Animation" id=8]
 length = 0.3
 loop = true
 step = 0.15
@@ -121,7 +137,7 @@ tracks/0/keys = {
 "values": [ 2, 1 ]
 }
 
-[sub_resource type="RectangleShape2D" id=8]
+[sub_resource type="RectangleShape2D" id=9]
 extents = Vector2( 16, 16 )
 
 [node name="scene_auto" type="KinematicBody2D" groups=[
@@ -135,7 +151,7 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 flip_h = true
 hframes = 14
-frame = 1
+frame = 3
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/bonk = SubResource( 1 )
@@ -144,9 +160,10 @@ anims/fall = SubResource( 3 )
 anims/idle = SubResource( 4 )
 anims/intro = SubResource( 5 )
 anims/jump = SubResource( 6 )
-anims/talk = SubResource( 7 )
+anims/panic = SubResource( 7 )
+anims/talk = SubResource( 8 )
 
 [node name="box" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 8 )
-shape = SubResource( 8 )
+shape = SubResource( 9 )
 [connection signal="animation_finished" from="anim" to="." method="_on_anim_finished"]

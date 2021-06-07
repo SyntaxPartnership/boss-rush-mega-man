@@ -144,15 +144,32 @@ var scene_txt = {
 	30 : ["AUTO:", "I CAN MAKE ITEMS FOR YOU\n\nFROM THE JUNK LYING AROUND."],
 	31 : ["AUTO:", "GO AHEAD! LOOK AT MY WARES!"],
 	32 : ["", ""],
-#	16 : ["DR. WILY:", "SO! YOU'VE MANAGED TO DEFEAT\n\nTHE ROBOT MASTERS."],
-#	17 : ["DR. WILY:", "I GUESS I SHOULD THANK YOU\n\nFOR RESCUING ME..."],
-#	18 : ["DR. WILY:", "BAH! WHAT AM I SAYING?! THIS\n\nISN'T OVER!"],
-#	19 : ["DR. WILY:", "EXCEPT FOR THIS DEMO."],
-#	20 : ["DR. WILY:", "THOSE EXTRA DOORS? I CAN'T\n\nREALLY SAY."],
-#	21 : ["DR. WILY:", "YOU'LL HAVE TO FIND OUT IN\n\nTHE FULL GAME."],
-#	22 : ["DR. WILY:", "YOU CAN NOW REFIGHT THE\n\nBOSSES FOR A BETTER TIME AND"],
-#	23 : ["DR. WILY:", "RANK. CAN YOU REACH RANK S?"],
-#	24 : ["", ""]
+	33 : ["BASS:", "WELL, THAT CERTAINLY WAS\n\nSOMETHING. I CAN'T BELIEVE HE"],
+	34 : ["BASS:", "GOT CAPTURED LIKE A MORON."],
+	35 : ["BASS:", "OH WELL, LOOKS LIKE I GET\n\nMY TARGET PRACTICE AFTER ALL."],
+	36 : ["", ""],
+	37 : ["BASS:", "AH, IT'S LIGHT'S LAB SLAVE.\n\nPLEASE TELL ME THAT MEGAMAN"],
+	38 : ["BASS:", "IS WITH YOU."],
+	39 : ["AUTO:", "GAH! SEABASS MAN!!\n\nI-I'M ALL ALONE. I'VE BEEN"],
+	40 : ["AUTO:", "SCAVENGING THE JUNK YARD\n\nFOR USEFUL PARTS."],
+	41 : ["AUTO:", "THEN I GOT ATTACKED BY THAT\n\nVICIOUS BIRD!"],
+	42 : ["BASS:", "..."],
+	43 : ["", ""],
+	44 : ["AUTO:", "W-WAIT! I CAN OFFER YOU\n\nUSEFUL ITEMS!"],
+	45 : ["AUTO:", "I CAN EVEN CREATE NEW ONES\n\nFROM THE JUNK LAYING AROUND!"],
+	46 : ["AUTO:", "JUST TAKE A LOOK AT WHAT I\n\nHAVE!"],
+	47 : ["BASS:", "HMMM... YOU DID HAVE SOME\n\nUSEFUL STUFF WHEN I WENT UP"],
+	48 : ["BASS:", "AGAINST KING. IT BETTER BE\n\nWORTH MY WHILE."],
+	49 : ["", ""],
+	50 : ["DR. WILY:", "SO! YOU'VE MANAGED TO DEFEAT\n\nTHE ROBOT MASTERS."],
+	51 : ["DR. WILY:", "I GUESS I SHOULD THANK YOU\n\nFOR RESCUING ME..."],
+	52 : ["DR. WILY:", "BAH! WHAT AM I SAYING?! THIS\n\nISN'T OVER!"],
+	53 : ["DR. WILY:", "EXCEPT FOR THIS DEMO."],
+	54 : ["DR. WILY:", "THOSE EXTRA DOORS? I CAN'T\n\nREALLY SAY."],
+	55 : ["DR. WILY:", "YOU'LL HAVE TO FIND OUT IN\n\nTHE FULL GAME."],
+	56 : ["DR. WILY:", "YOU CAN NOW REFIGHT THE\n\nBOSSES FOR A BETTER TIME AND"],
+	57 : ["DR. WILY:", "RANK. CAN YOU REACH RANK S?"],
+	58 : ["", ""]
 }
 
 var shop_text = {
@@ -311,6 +328,8 @@ func _ready():
 			global.sub_scene = 0
 		1:
 			global.sub_scene = 16
+		2:
+			global.sub_scene = 33
 	
 	$graphic/spawn_tiles/shop/eddie.texture = eddie_tex
 	
@@ -755,6 +774,7 @@ func _rooms():
 			cutsc_mode = 2
 	
 	if global.scene == 8:
+		global.sub_scene = 50
 		kill_music()
 		if player_room == Vector2(7, 6):
 			$graphic/spawn_tiles/demo_wily.global_position = Vector2(1920, 1585)
@@ -1780,7 +1800,7 @@ func _on_fade_fadeout():
 		$player/camera.limit_left = ((floor($player.position.x/256))*256)
 		$player/camera.limit_right = ((floor($player.position.x/256))*256)+256
 		
-		if !$graphic/spawn_tiles/shop/tango.is_visible_in_tree():
+		if !$graphic/spawn_tiles/shop/tango.is_visible_in_tree() and global.player == 1:
 			$graphic/spawn_tiles/shop/tango.show()
 
 		$fade/fade.begin = true
@@ -2405,11 +2425,11 @@ func show_text():
 				$scene_txt/on_off/next.hide()
 			match global.scene:
 				2:
-					if global.sub_scene == 3 or global.sub_scene == 19:
+					if global.sub_scene == 3 or global.sub_scene == 19 or global.sub_scene == 36:
 						$player/camera.current = false
 						global.scene = 3
 				5:
-					if global.sub_scene == 15 or global.sub_scene == 32:
+					if global.sub_scene == 15 or global.sub_scene == 32 or global.sub_scene == 49:
 						$player/camera.current = true
 						cutsc_mode = 3
 						play_music("main")
@@ -2422,16 +2442,20 @@ func show_text():
 						shop_active = true
 						global.scene = 6
 				8:
-					if global.sub_scene == 24:
+					if global.sub_scene == 58:
 						cutsc_mode = 3
 						play_music("main")
 						shop_active = true
 						global.scene = 9
-		
-#		if allow and Input.is_action_just_pressed("jump") and $player.cutscene:
 
 		if global.sub_scene == 30:
 			$player.x_dir = 0
+		
+		if global.sub_scene == 43:
+			if $player.shot_delay == 0:
+				$player.shot_delay = 60
+				$player.shot_state($player.BASSSHOT)
+				global.sub_scene += 1
 		
 		if allow and $player.cutscene:
 			if global.sub_scene != 27 and global.sub_scene != 28 and global.sub_scene != 31:
@@ -2450,6 +2474,10 @@ func show_text():
 					
 					if global.sub_scene == 30:
 						$player.x_dir = -1
+					
+					if global.sub_scene == 42:
+						$player.shot_state($player.BASSSHOT)
+						$player.shot_delay = 120
 					
 					global.sub_scene += 1
 			else:
@@ -2489,11 +2517,13 @@ func show_text():
 			scene_auto.position.y = $player/camera.limit_top - 50
 			$graphic/spawn_tiles.add_child(scene_auto)
 			$player/sprite.flip_h = true
-			$player.anim_state($player.LOOKUP)
+			if global.player == 0:
+				$player.anim_state($player.LOOKUP)
 			global.scene += 1
 
 func _on_intro_finished():
-	$player.anim_state($player.LOOKUP)
+	if global.player == 0:
+		$player.anim_state($player.LOOKUP)
 	sound("fall")
 	var scene_eddie = load("res://scenes/cutscene/scene_eddie.tscn").instance()
 	scene_eddie.position.x = $graphic/spawn_tiles/shop/auto.global_position.x - 4

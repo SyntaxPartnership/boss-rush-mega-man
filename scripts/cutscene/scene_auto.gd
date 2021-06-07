@@ -27,6 +27,7 @@ func _physics_process(delta):
 		wiggle_time -= 1
 		
 		if wiggle == 0:
+			tango.play('idle')
 			if $sprite.offset.x == 0:
 				$sprite.offset.x = -1
 				wiggle = 2
@@ -61,16 +62,19 @@ func _physics_process(delta):
 				wiggle = 60
 				state = 1
 			2:
-				tango.play('idle')
 				$anim.play("intro")
 				state = 3
 
 	if global.scene >= 5:
-		if world.scene_txt.get(global.sub_scene)[0] == "AUTO:" and $anim.get_current_animation() != "talk":
-			$anim.play("talk")
-		
-		if world.scene_txt.get(global.sub_scene)[0] != "AUTO:" and $anim.get_current_animation() != "idle":
-			$anim.play("idle")
+		if global.sub_scene != 43:
+			if world.scene_txt.get(global.sub_scene)[0] == "AUTO:" and $anim.get_current_animation() != "talk":
+				$anim.play("talk")
+			
+			if world.scene_txt.get(global.sub_scene)[0] != "AUTO:" and $anim.get_current_animation() != "idle":
+				$anim.play("idle")
+		else:
+			if $anim.get_current_animation() != "panic":
+				$anim.play("panic")
 
 func _on_anim_finished(anim_name):
 	if anim_name == "intro":
