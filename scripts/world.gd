@@ -1802,6 +1802,10 @@ func _on_fade_fadeout():
 		
 		if !$graphic/spawn_tiles/shop/tango.is_visible_in_tree() and global.player == 1:
 			$graphic/spawn_tiles/shop/tango.show()
+		
+		#Failsafe to make sure Reggae despawns.
+		for c in get_tree().get_nodes_in_group("cutscene"):
+			c.queue_free()
 
 		$fade/fade.begin = true
 		$fade/fade.state = 3
@@ -2434,7 +2438,8 @@ func show_text():
 						cutsc_mode = 3
 						play_music("main")
 						for c in get_tree().get_nodes_in_group("cutscene"):
-							c.queue_free()
+							if c.name != "scene_reggae":
+								c.queue_free()
 						$graphic/spawn_tiles/shop/auto.show()
 						$graphic/spawn_tiles/shop/auto/anim.play("idle")
 						$graphic/spawn_tiles/shop/eddie.show()
@@ -2512,11 +2517,19 @@ func show_text():
 		
 		if global.scene == 3:
 			sound("fall")
+			
 			var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
 			scene_auto.position.x = $graphic/spawn_tiles/shop/auto.global_position.x
 			scene_auto.position.y = $player/camera.limit_top - 50
 			$graphic/spawn_tiles.add_child(scene_auto)
 			$player/sprite.flip_h = true
+			
+			if global.player == 2:
+				var scene_reggae = load("res://scenes/cutscene/scene_reggae.tscn").instance()
+				scene_reggae.position.x = $player.global_position.x
+				scene_reggae.position.y = $player/camera.limit_top - 16
+				$graphic/spawn_tiles.add_child(scene_reggae)
+			
 			if global.player == 0:
 				$player.anim_state($player.LOOKUP)
 			global.scene += 1
