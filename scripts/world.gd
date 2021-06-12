@@ -1052,7 +1052,6 @@ func _process(delta):
 				
 		
 	#Print Shit
-	print(global.scene,', ',global.sub_scene)
 	
 	#Camera shake?
 	if shake == -1:
@@ -2568,7 +2567,7 @@ func shop():
 	
 	if shop_active:
 		
-		if shop_state >= 5 and shop_state < 8:
+		if shop_state >= 5 and shop_state < 8 or shop_state == 13:
 			if !Input.is_action_pressed('jump') and !Input.is_action_pressed('fire'):
 				next = true
 		
@@ -2600,11 +2599,14 @@ func shop():
 				shop_state += 1
 			3:
 				if cutsc_mode == 2:
-					$scene_txt/on_off/text.set_visible_characters(0)
-					$scene_txt/on_off/name.set_text(shop_text.get(0)[0])
-					$scene_txt/on_off/text.set_text(shop_text.get(int(shop_rand))[1])
-					$scene_txt/on_off.show()
-					shop_state += 1
+					if !$player.shield:
+						shop_state = 12
+					else:
+						$scene_txt/on_off/text.set_visible_characters(0)
+						$scene_txt/on_off/name.set_text(shop_text.get(0)[0])
+						$scene_txt/on_off/text.set_text(shop_text.get(int(shop_rand))[1])
+						$scene_txt/on_off.show()
+						shop_state += 1
 			4:
 				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
 					cursor_blnk += 1
@@ -2870,7 +2872,28 @@ func shop():
 						$scene_txt/on_off/text.set_text(shop_text.get(15)[1])
 					ret_delay = 12
 					shop_state = 5
-						
+			12:
+				$scene_txt/on_off/text.set_visible_characters(0)
+				$scene_txt/on_off/name.set_text(shop_text.get(0)[0])
+				$scene_txt/on_off/text.set_text(shop_text.get(18)[1])
+				$scene_txt/on_off.show()
+				shop_state += 1
+			13:
+				if $scene_txt/on_off/text.get_visible_characters() == $scene_txt/on_off/text.get_total_character_count():
+					cursor_blnk += 1
+					
+					if cursor_blnk > 5:
+						if $scene_txt/on_off/next.is_visible_in_tree():
+							$scene_txt/on_off/next.hide()
+						else:
+							$scene_txt/on_off/next.show()
+						cursor_blnk = 0
+					
+					if !next:
+							next = true
+					
+					if next and Input.is_action_just_pressed("jump"):
+						shop_state = 10
 		
 		if shop_state > 3:
 			if shop_active:
@@ -2898,7 +2921,10 @@ func eddie_spit(anim_name):
 		
 		sound('throw')
 		var spit = load('res://scenes/objects/eddie-spit.tscn').instance()
-		spit.get_child(0).frame = shop_pos
+		if !$player.shield:
+			spit.get_child(0).frame = shop_pos
+		else:
+			spit.get_child(0).frame = shop_pos
 		spit.velocity = spit_vel
 		spit.position.x = $graphic/spawn_tiles/shop/eddie.global_position.x
 		spit.position.y = $graphic/spawn_tiles/shop/eddie.global_position.y - 8

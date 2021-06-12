@@ -103,7 +103,7 @@ var s_kick = false
 var sk_rebound = false
 var skr_delay = 30
 #ProtoMan Only
-var shield = true
+var shield = false
 
 var stun = -1
 var stun_bnce = 0
