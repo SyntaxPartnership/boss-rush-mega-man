@@ -74,7 +74,7 @@ func _process(delta):
 	#Animate Wily escaping.
 	if bosses >= 3 and player.cutscene and player.is_on_floor() and cage_open:
 		
-		if player.anim_st != player.LOOKUP and end_state == 0:
+		if player.anim_st != player.LOOKUP and end_state == 0 and global.player == 0:
 			player.anim_state(player.LOOKUP)
 		
 		leave_delay -= 1
