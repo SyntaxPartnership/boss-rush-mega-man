@@ -257,7 +257,7 @@ tracks/0/keys = {
 "values": [ 17, 18 ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=11]
 resource_name = "b-idle-a"
 length = 0.2
 loop = true
@@ -274,7 +274,7 @@ tracks/0/keys = {
 "values": [ 4, 5 ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=12]
 resource_name = "b-idle-b"
 length = 0.2
 loop = true
@@ -291,7 +291,7 @@ tracks/0/keys = {
 "values": [ 8, 9 ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=13]
 resource_name = "b-look"
 length = 0.2
 loop = true
@@ -308,7 +308,7 @@ tracks/0/keys = {
 "values": [ 6, 7 ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=14]
 resource_name = "f-idle"
 length = 2.0
 loop = true
@@ -325,7 +325,7 @@ tracks/0/keys = {
 "values": [ 12, 13 ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=15]
 resource_name = "f-look"
 length = 0.1
 loop = true
@@ -342,7 +342,7 @@ tracks/0/keys = {
 "values": [ 14 ]
 }
 
-[sub_resource type="Animation" id=18]
+[sub_resource type="Animation" id=16]
 resource_name = "r-idle"
 length = 2.0
 loop = true
@@ -359,7 +359,7 @@ tracks/0/keys = {
 "values": [ 0, 1 ]
 }
 
-[sub_resource type="Animation" id=19]
+[sub_resource type="Animation" id=17]
 resource_name = "r-look"
 length = 0.1
 loop = true
@@ -376,15 +376,15 @@ tracks/0/keys = {
 "values": [ 2 ]
 }
 
-[sub_resource type="DynamicFontData" id=11]
+[sub_resource type="DynamicFontData" id=18]
 antialiased = false
 hinting = 0
 font_path = "res://assets/prstartk.ttf"
 
-[sub_resource type="DynamicFont" id=12]
+[sub_resource type="DynamicFont" id=19]
 size = 8
 extra_spacing_bottom = -3
-font_data = SubResource( 11 )
+font_data = SubResource( 18 )
 
 [node name="world" type="Node2D"]
 pause_mode = 2
@@ -603,13 +603,13 @@ hframes = 4
 frame = 8
 
 [node name="anim" type="AnimationPlayer" parent="graphic/spawn_tiles/shop/fakeplyr"]
-anims/b-idle-a = SubResource( 13 )
-anims/b-idle-b = SubResource( 14 )
-anims/b-look = SubResource( 15 )
-anims/f-idle = SubResource( 16 )
-anims/f-look = SubResource( 17 )
-anims/r-idle = SubResource( 18 )
-anims/r-look = SubResource( 19 )
+anims/b-idle-a = SubResource( 11 )
+anims/b-idle-b = SubResource( 12 )
+anims/b-look = SubResource( 13 )
+anims/f-idle = SubResource( 14 )
+anims/f-look = SubResource( 15 )
+anims/r-idle = SubResource( 16 )
+anims/r-look = SubResource( 17 )
 
 [node name="menu" type="Control" parent="graphic/spawn_tiles/shop"]
 visible = false
@@ -827,7 +827,7 @@ margin_left = -20.0
 margin_top = -2.5
 margin_right = 20.0
 margin_bottom = 2.5
-custom_fonts/font = SubResource( 12 )
+custom_fonts/font = SubResource( 19 )
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 text = "READY"
 script = ExtResource( 17 )
@@ -1328,8 +1328,8 @@ bus = "music"
 [connection signal="tween_completed" from="fake_fade/fade" to="." method="_on_fade_tween_completed"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
 [connection signal="tween_completed" from="wpn_get/wpn_fade" to="." method="_on_wpn_fade_tween_completed"]
-[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
 [connection signal="finished" from="audio/music/clear" to="." method="_on_clear_finished"]
 [connection signal="finished" from="audio/music/intro" to="." method="_on_intro_finished"]

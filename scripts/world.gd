@@ -2864,6 +2864,12 @@ func shop():
 						cutsc_mode += 1
 						shop_pos = 0
 						shop_state = 9
+						$graphic/spawn_tiles/shop/menu/icon1.frame = 8
+						$graphic/spawn_tiles/shop/menu/icon2.frame = 9
+						$graphic/spawn_tiles/shop/menu/icon3.frame = 10
+						$graphic/spawn_tiles/shop/menu/icon4.frame = 12
+						$graphic/spawn_tiles/shop/menu/icon5.frame = 12
+						$graphic/spawn_tiles/shop/menu/icon6.frame = 12
 						$graphic/spawn_tiles/shop/fakeplyr.hide()
 						$player.show()
 						$scene_txt/on_off/name.set_text("")
