@@ -19,7 +19,7 @@ var kill = 0
 func _ready():
 	world.shot_num += 1
 	$anim.play("idle")
-	world.sound("shoot_a")
+	audio.play_sound("shoot_a")
 	
 	velocity.y = -100
 	
@@ -64,7 +64,7 @@ func boing():
 	velocity.x = 0
 	boing = true
 	$anim.play("boing")
-	world.sound("boing")
+	audio.play_sound("bounce")
 
 func _on_screen_exited():
 	_on_boing_finished(null)

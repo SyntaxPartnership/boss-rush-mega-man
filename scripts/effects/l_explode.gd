@@ -4,7 +4,7 @@ onready var world = get_parent().get_parent()
 
 func _ready():
 	if world.name == "world":
-		world.sound("big_explode")
+		audio.play_sound("big_explode")
 	$anim.play("anim")
 
 # warning-ignore:unused_argument

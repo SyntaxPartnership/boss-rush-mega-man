@@ -295,7 +295,7 @@ func _ready():
 	
 	#Ready Proto Man's whistle if he is the first player.
 	if global.player == 1:
-		$audio/whistle.play()
+		audio.play_sound("whistle")
 	else:
 		emit_signal("whstl_end")
 
@@ -342,7 +342,7 @@ func _physics_process(delta):
 			$sprite.offset.y += 8
 		elif start_stage and $sprite.offset.y == -1:
 			anim_state(APPEAR)
-			$audio/appear.play()
+			audio.play_sound("appear")
 			start_stage = false
 		
 		if leave:
@@ -399,7 +399,7 @@ func _physics_process(delta):
 				var c_pal_chnge = [0, 2, 4, 6]
 				
 				if charge == 32:
-					world.sound("charge")
+					audio.play_sound("charge")
 				
 				if charge > 32:
 					c_flash += 1
@@ -909,7 +909,7 @@ func weapons():
 					
 	chrg_lvl = 0
 	c_flash = 0
-	world.kill_se("charge")
+	audio.stop_sound("charge")
 	world.palette_swap()
 
 func shoot():
@@ -1000,7 +1000,7 @@ func damage():
 			world.hits += 1
 			s_kick = false
 			dash_jump = false
-			$audio/hurt.play()
+			audio.play_sound("hurt")
 			velocity.y = 0
 			anim_state(HURT)
 			hurt_timer = 16
@@ -1010,7 +1010,7 @@ func _on_item_entered(body):
 		#Bolts
 		if global.bolts < 999:
 			if body.type == 0 or body.type == 1:
-				$audio/bolt.play()
+				audio.play_sound("bolt")
 				if body.type == 0:
 					global.bolts += 2
 				if body.type == 1:
@@ -1126,12 +1126,12 @@ func _on_item_entered(body):
 		#E-Tanks
 		if global.etanks < 4:
 			if body.type == 6:
-				$audio/oneup.play()
+				audio.play_sound("1up")
 				global.etanks += 1
 		
 		if global.wtanks < 1:
 			if body.type == 7:
-				$audio/oneup.play()
+				audio.play_sound("1up")
 				global.mtanks += 1
 		
 		#Shield.
@@ -1242,7 +1242,7 @@ func standing():
 	if slide_timer == 0 and slide and is_on_floor() and !slide_top:
 		slide_timer = 0
 		if anim_st == JUMP:
-			$audio/land.play() #Move to world.gd
+			audio.play_sound("land") #Move to world.gd
 		if x_dir == 0:
 			if stun < 0:
 				anim_state(IDLE)
@@ -1327,7 +1327,7 @@ func standing():
 			anim_state(IDLE)
 		else:
 			anim_state(RUN)
-		$audio/land.play()
+		audio.play_sound("land")
 
 	#Make the player jump.
 	if global.player == 0 and y_dir != 1 and jump_tap and is_on_floor() and jumps > 0 and !slide_top and !b_lance_pull and stun < 0:

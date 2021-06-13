@@ -8,7 +8,7 @@ var property = 4
 
 func _ready():
 	world.shot_num += 1
-	world.sound("s_kick")
+	audio.play_sound("s_kick")
 	
 	if !player.is_on_floor() and !player.wall:
 		$anim.play("air")

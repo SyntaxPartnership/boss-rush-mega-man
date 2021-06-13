@@ -30,7 +30,7 @@ func _physics_process(_delta):
 func _on_act_top_body_entered(_body):
 	if !$act_top/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
-		$open.play()
+		audio.play_sound("shutter")
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -45,7 +45,7 @@ func _on_act_top_body_entered(_body):
 func _on_act_bottom_body_entered(_body):
 	if !$act_bottom/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
-		$open.play()
+		audio.play_sound("shutter")
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -98,5 +98,5 @@ func on_close_gate():
 	if open:
 		open = false
 		player_anim.stop()
-		$open.play()
+		audio.play_sound("shutter")
 		$anim.play_backwards("opening")

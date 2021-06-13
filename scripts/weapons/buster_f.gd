@@ -25,7 +25,7 @@ var velocity = Vector2()
 
 func _ready():
 	#Change the sound effect to whatever is needed.
-	$audio/shoot.play()
+	audio.play_sound("shoot_b")
 	
 	world.shot_num += 1
 
@@ -68,7 +68,7 @@ func _physics_process(delta):
 			velocity.x = dir * SPEED
 		else:
 			if !ref_dink:
-				$audio/reflect.play()
+				audio.play_sound("dink")
 				$anim.play("reflect")
 				ref_dink = true
 			

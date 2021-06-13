@@ -11,7 +11,7 @@ var reflect = false
 func _ready():
 	world.shot_num += 1
 	$anim.play("boom")
-	world.sound("big_explode")
+	audio.play_sound("big_explode")
 	
 	if !player.r_boost:
 		player.anim_state(player.RBOOST)

@@ -64,7 +64,7 @@ func _ready():
 	global_position.y = camera.limit_top + 128
 	
 	$anim.play("teleport")
-	world.sound("roto_a")
+	audio.play_sound("roto_a")
 
 func _physics_process(delta):
 	
@@ -90,12 +90,12 @@ func _physics_process(delta):
 				velocity.x = 0
 				state = 2
 				$anim.play_backwards("teleport")
-				world.sound("roto_a")
+				audio.play_sound("roto_a")
 			if action == 1:
 				velocity.x = 0
 				state = 3
 				$anim.play_backwards("teleport")
-				world.sound("roto_a")
+				audio.play_sound("roto_a")
 			if action == 2:
 				velocity.x = 0
 				state = 5
@@ -106,7 +106,7 @@ func _physics_process(delta):
 				opt_choose = round(rand_range(0, 1))
 				c_bomb_len = c_bomb_opt[opt_choose]
 				$anim.play_backwards("teleport")
-				world.sound("roto_a")
+				audio.play_sound("roto_a")
 	
 	if state == 1:
 		#Hover function
@@ -138,7 +138,7 @@ func _physics_process(delta):
 						$sprite/bubble.position.x = -$sprite/bubble.position.x
 					$sprite/bubble.show()
 					$anim.play("surprise")
-					world.sound("shock")
+					audio.play_sound("shock")
 					chrg_delay = 0
 					state = 6
 		
@@ -146,7 +146,7 @@ func _physics_process(delta):
 			velocity.x = 0
 			state = 9
 			$anim.play_backwards("teleport")
-			world.sound("roto_a")
+			audio.play_sound("roto_a")
 			pinch = true
 		
 	if state == 3:
@@ -163,7 +163,7 @@ func _physics_process(delta):
 		if velocity.y < 0 and global_position.y < camera.limit_top + 64:
 			velocity.y = 0
 			$anim.play_backwards("teleport")
-			world.sound("roto_a")
+			audio.play_sound("roto_a")
 			state = 4
 	
 	if state == 5:
@@ -172,7 +172,7 @@ func _physics_process(delta):
 			carpet_bmb += 1
 		
 		if carpet_bmb == 10:
-			world.sound("throw")
+			audio.play_sound("throw")
 			var bomb = load('res://scenes/bosses/roto_bomb.tscn').instance()
 			bomb.global_position = global_position
 			world.get_child(1).add_child(bomb)
@@ -191,7 +191,7 @@ func _physics_process(delta):
 				velocity.x = 0
 				act_count += 1
 				$anim.play_backwards("teleport")
-				world.sound("roto_a")
+				audio.play_sound("roto_a")
 				c_bomb = false
 				carpet_bmb = 0
 				c_bomb_len = c_bomb_opt[opt_choose]
@@ -206,7 +206,7 @@ func _physics_process(delta):
 				velocity.x = 0
 				act_count += 1
 				$anim.play_backwards("teleport")
-				world.sound("roto_a")
+				audio.play_sound("roto_a")
 				c_bomb = false
 				carpet_bmb = 0
 	
@@ -217,7 +217,7 @@ func _physics_process(delta):
 			velocity = Vector2(0, 0)
 			state = 8
 			$anim.play_backwards("teleport")
-			world.sound("roto_a")
+			audio.play_sound("roto_a")
 	
 	if state == 9:
 		
@@ -227,13 +227,13 @@ func _physics_process(delta):
 		
 		if t_delay == 1:
 			$anim.play_backwards("teleport")
-			world.sound("roto_a")
+			audio.play_sound("roto_a")
 			if t_delay_max > 0:
 				t_delay_max -= 1
 			
 			if t_delay_max == 1:
 				$anim.play_backwards("teleport")
-				world.sound("roto_a")
+				audio.play_sound("roto_a")
 				act_count = 0
 				state = 10
 	
@@ -281,7 +281,7 @@ func _physics_process(delta):
 					act_count = 0
 					bomb_drop = 0
 					$anim.play_backwards("teleport")
-					world.sound("roto_a")
+					audio.play_sound("roto_a")
 				if state == 3 and velocity.x != 0 and body.id == 6:
 					velocity.x = -velocity.x
 					
@@ -311,7 +311,7 @@ func _physics_process(delta):
 #						if !add_count:
 #							world.hit_num += 1
 #						if world.boss_hp > 0:
-#							world.sound("hit")
+#							audio.play_sound("hit")
 #						else:
 #							if body.property == 3:
 #								if !body.ret:
@@ -332,7 +332,7 @@ func _physics_process(delta):
 #						body.choke_delay = 6
 #						flash = 20
 #						hit = true
-#						world.sound("hit")
+#						audio.play_sound("hit")
 #						#Make the Mega Arm return to the player if boss dies.
 #						if world.boss_hp <= 0:
 #							body.choke = false
@@ -349,7 +349,7 @@ func _physics_process(delta):
 	if $anim.get_current_animation() == "drop1" and $sprite.get_frame() == 18 and !toss:
 		if bomb_drop == bomb_max:
 			bomb_side = true
-		world.sound("throw")
+		audio.play_sound("throw")
 		var bomb = load('res://scenes/bosses/roto_bomb.tscn').instance()
 		bomb.global_position = global_position
 		bomb.velocity.y = -200
@@ -357,7 +357,7 @@ func _physics_process(delta):
 		toss = true
 	
 	if $anim.get_current_animation() == "drop2" and $sprite.get_frame() == 21 and !toss:
-		world.sound("throw")
+		audio.play_sound("throw")
 		var bomb = load('res://scenes/bosses/roto_bomb.tscn').instance()
 		bomb.global_position = global_position
 		bomb.velocity.y = 300
@@ -378,7 +378,7 @@ func _physics_process(delta):
 	
 	if world.boss_hp <= 0:
 		world.kill_music()
-		world.sound("death")
+		audio.play_sound("death")
 		world.bolt_calc()
 		
 		for i in get_tree().get_nodes_in_group("bomb"):
@@ -413,7 +413,7 @@ func _on_anim_finished(anim_name):
 			match intro_tele:
 				0:
 					$anim.play_backwards("teleport")
-					world.sound("roto_a")
+					audio.play_sound("roto_a")
 					intro_tele += 1
 				1:
 					global_position.x = camera.limit_left + 40
@@ -422,7 +422,7 @@ func _on_anim_finished(anim_name):
 					intro_tele += 1
 				2:
 					$anim.play_backwards("teleport")
-					world.sound("roto_a")
+					audio.play_sound("roto_a")
 					intro_tele += 1
 				3:
 					global_position.x = camera.limit_left + 128
@@ -431,7 +431,7 @@ func _on_anim_finished(anim_name):
 					intro_tele += 1
 				4:
 					$anim.play_backwards("teleport")
-					world.sound("roto_a")
+					audio.play_sound("roto_a")
 					intro_tele += 1
 				5:
 					global_position.x = camera.limit_right - 40
@@ -440,7 +440,7 @@ func _on_anim_finished(anim_name):
 					intro_tele += 1
 				6:
 					$anim.play_backwards("teleport")
-					world.sound("roto_a")
+					audio.play_sound("roto_a")
 					intro_tele += 1
 				7:
 					global_position.x = camera.limit_right - 40
@@ -560,7 +560,7 @@ func _on_anim_finished(anim_name):
 						var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
 						p_flash.position = global_position
 						world.get_child(3).add_child(p_flash)
-						world.sound('bling')
+						audio.play_sound('bling')
 						pinch_flash = true
 					$anim.play("surprise")
 					t_delay = t_delay_max
@@ -575,7 +575,7 @@ func _on_anim_finished(anim_name):
 					act_count += 1
 				1:
 					$anim.play_backwards("teleport")
-					world.sound("roto_a")
+					audio.play_sound("roto_a")
 					act_count += 1
 				2: 
 					global_position.x = round(rand_range(camera.limit_left + 24, camera.limit_right - 24))
@@ -602,7 +602,7 @@ func _on_anim_finished(anim_name):
 	if anim_name == "drop1":
 		if bomb_drop < bomb_max:
 			$anim.play_backwards("teleport")
-			world.sound("roto_a")
+			audio.play_sound("roto_a")
 			bomb_drop += 1
 		else:
 			$anim.play("spin-norm")
@@ -621,7 +621,7 @@ func _on_anim_finished(anim_name):
 			act_count = 0
 			pinch_bomb = 0
 		$anim.play_backwards("teleport")
-		world.sound("roto_a")
+		audio.play_sound("roto_a")
 		toss = false
 	
 	if anim_name == "surprise":

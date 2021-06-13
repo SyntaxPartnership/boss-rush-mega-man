@@ -39,7 +39,7 @@ func _physics_process(delta):
 				wiggle = 40
 		
 		if wiggle_time == 0:
-			world.sound("boing")
+			audio.play_sound("bounce")
 			$anim.play("jump")
 			velocity.y = -310
 			state = 2
@@ -55,7 +55,7 @@ func _physics_process(delta):
 	if is_on_floor():
 		match state:
 			0:
-				world.sound("faceplant")
+				audio.play_sound("faceplant")
 				tango.play("startle")
 				player.anim_state(player.IDLE)
 				$anim.play("faceplant")

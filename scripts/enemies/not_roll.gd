@@ -128,7 +128,7 @@ func _on_hitbox_body_entered(body):
 			body.velocity.x = 0
 			body.boing = true
 			body.get_child(1).play("boing")
-			world.sound("boing")
+			audio.play_sound("boing")
 		else:
 			if body.property != 3:
 				body.queue_free()

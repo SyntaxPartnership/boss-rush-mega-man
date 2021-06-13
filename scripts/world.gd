@@ -464,7 +464,7 @@ func _input(event):
 		#Pause menu
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0 and !$player.no_input:
 			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
-			sound("menu")
+			audio.play_sound("menu")
 			kill_se("charge")
 			p_menu = true
 			$pause/pause_menu.start = true
@@ -490,7 +490,7 @@ func _input(event):
 			if $pause/pause_menu.start:
 				if $pause/pause_menu.kill_wpn != global.player_weap[int($player.swap)]:
 					kill_weapons()
-				$audio/se/bling.play()
+				audio.play_sound("bling")
 				$pause/pause_menu.start = false
 	
 func _camera():
@@ -903,7 +903,7 @@ func calc_damage(to, from):
 								from._on_screen_exited()
 				if boss_hp > 0:
 					if to.flash == 0 and !no_damage:
-						sound("hit")
+						audio.play_sound("hit")
 						boss_hp -= damage
 						hit_num += 1
 						add_count = true
@@ -918,20 +918,20 @@ func calc_damage(to, from):
 				if from.name != "player":
 					if from.property != 3 and from.property != null:
 						if !from.reflect:
-							sound("dink")
+							audio.play_sound("dink")
 							from.reflect = true
 					elif from.property == null:
 						if !from.reflect:
-							sound("dink")
+							audio.play_sound("dink")
 							from.reflect = true
 							from._on_screen_exited()
 					elif from.property == 3:
 						if !from.ret:
-							sound("dink")
+							audio.play_sound("dink")
 							from.ret()
 				else:
 					if !dink:
-						sound("dink")
+						audio.play_sound("dink")
 						dink = true
 			
 			#Add additional behaviors based on damage IDs
@@ -955,7 +955,7 @@ func calc_damage(to, from):
 						if to.name != "scuttle":
 							if dist <= 12 * dist_mul and dist >= -12 * dist_mul and from.global_position.y < to.global_position.y - 12 and from.velocity.y >= 0:
 								if to.name == "defend": #This is for Defend only. Quickfix.
-									sound('dink')
+									audio.play_sound('dink')
 								from.velocity.y = (from.JUMP_SPEED) / from.jump_mod
 						else:
 							calc_damage(from, to)
@@ -970,7 +970,7 @@ func calc_damage(to, from):
 					from.choke_delay = 6
 					to.flash = 20
 					to.hit = true
-					sound("hit")
+					audio.play_sound("hit")
 					#Make the Mega Arm return to the player if boss dies.
 					if boss_hp <= 0:
 						from.choke = false
@@ -1104,7 +1104,7 @@ func _process(delta):
 		boss_delay -= 1
 	
 	if boss_delay == 0:
-		$audio/music/boss.play()
+		audio.play_music("boss-a")
 		boss = true
 		#Load the boss scene(s).
 		var boss = load(boss_rooms.get(str(player_room))).instance()
@@ -1133,7 +1133,7 @@ func _process(delta):
 		wall_delay -= 1
 	
 	if wall_delay == 0:
-		sound('elec')
+		audio.play_sound('elec')
 		var e_wall_l = load('res://scenes/bosses/elec_wall.tscn').instance()
 		$graphic/spawn_tiles.add_child(e_wall_l)
 		e_wall_l.global_position.x = $player/camera.limit_left + 24
@@ -1191,14 +1191,14 @@ func _process(delta):
 	
 	#Refill life
 	if life_en > 0 and heal_delay == 1:
-		$audio/se/meter.play()
+		audio.play_sound("meter")
 		global.player_life[int($player.swap)] += 10
 		life_en -= 10
 
 	#Refill weapons
 	if global.player_life[0] != 0:
 		if wpn_en > 0 and heal_delay == 1:
-			$audio/se/meter.play()
+			audio.play_sound("meter")
 			match global.player_weap[0]:
 				1:
 					global.weapon1[1] += 10
@@ -1212,7 +1212,7 @@ func _process(delta):
 	
 	#Boss Meters.
 	if $hud/hud/boss.value < boss_hp and heal_delay == 1 and boss and fill_b_meter:
-		$audio/se/meter.play()
+		audio.play_sound("meter")
 		$hud/hud/boss.value += 10
 	
 	#Allow the player to move again.
@@ -1324,7 +1324,7 @@ func _process(delta):
 		if $player.is_visible():
 			$player.s_kick = false
 			$player.r_boost = false
-			$audio/se/death.play()
+			audio.play_sound("death")
 			$player.hide()
 			$player/standbox.set_deferred("disabled", true)
 			$player/slidebox.set_deferred("disabled", true)
@@ -1335,7 +1335,7 @@ func _process(delta):
 				boom.id = n
 				$overlap.add_child(boom)
 		else:
-			$audio/se/death.play()
+			audio.play_sound("death")
 		$player.can_move = false
 		get_tree().paused = false
 			
@@ -1409,7 +1409,7 @@ func _process(delta):
 	
 	if tele_timer == 0:
 		$player.can_move = false
-		$audio/se/appear.play()
+		audio.play_sound("appear")
 		$player/anim.play('appear1')
 	
 	#Special Effects
@@ -1481,7 +1481,7 @@ func _process(delta):
 			$player.jump_mod = 1.75
 			$player.jump_tap = true
 			$player.jump = true
-			$audio/se/beam_out.play()
+			audio.play_sound("beamout")
 			
 		if $player.global_position.y >= $player/camera.limit_top + 80 and $player.velocity.y > 0:
 			$player.global_position = Vector2(floor($player.global_position.x), floor($player.global_position.y))
@@ -1497,7 +1497,7 @@ func _process(delta):
 		$player.anim_state($player.GET_WPN)
 		global.player_weap[0] = which_wpn + 1
 		palette_swap()
-		sound("bling")
+		audio.play_sound("bling")
 		end_state = 5
 	
 	if end_state == 6:
@@ -1560,7 +1560,7 @@ func _process(delta):
 			boom_delay -= 1
 		
 		if boom_delay == 0 and floor_boom > 0:
-			sound("big_explode")
+			audio.play_sound("big_explode")
 			var l_boom = $coll_mask/tiles.map_to_world(Vector2(165, 13))
 			var r_boom = $coll_mask/tiles.map_to_world(Vector2(170, 13))
 			for b in range(2):
@@ -1758,7 +1758,7 @@ func _process(delta):
 #		leave_delay -= 1
 #
 #		if leave_delay == 0:
-#			sound("beam_out")
+#			audio.play_sound("beam_out")
 #			$player.anim_state($player.APPEAR)
 #			$player.can_move = false
 #
@@ -1787,7 +1787,7 @@ func _on_fade_fadein():
 	if $fade/fade.state == 3:
 		$player/anim.stop(true)
 		$player.show()
-		$audio/se/appear.play()
+		audio.play_sound("appear")
 		$player/anim.play('appear1')
 		if !$player.cutscene:
 			$player.no_input(false)
@@ -2073,7 +2073,7 @@ func spawn_objects():
 func splash():
 	if !dead:
 		$audio/se/splash.stop()
-		$audio/se/splash.play()
+		audio.play_sound("splash")
 		var splash = load('res://scenes/effects/splash.tscn').instance()
 		$overlap.add_child(splash)
 		splash.position.x = $player.position.x
@@ -2540,7 +2540,7 @@ func show_text():
 				$scene_txt/on_off/text.set_text(scene_txt.get(global.sub_scene)[1])
 		
 		if global.scene == 3:
-			sound("fall")
+			audio.play_sound("fall")
 			
 			var scene_auto = load("res://scenes/cutscene/scene_auto.tscn").instance()
 			scene_auto.position.x = $graphic/spawn_tiles/shop/auto.global_position.x
@@ -2561,7 +2561,7 @@ func show_text():
 func _on_intro_finished():
 	if global.player == 0:
 		$player.anim_state($player.LOOKUP)
-	sound("fall")
+	audio.play_sound("fall")
 	var scene_eddie = load("res://scenes/cutscene/scene_eddie.tscn").instance()
 	scene_eddie.position.x = $graphic/spawn_tiles/shop/auto.global_position.x - 4
 	scene_eddie.position.y = $player/camera.limit_top - 28
@@ -2722,19 +2722,19 @@ func shop():
 				if !reset_txt:
 					if Input.is_action_just_pressed("up"):
 						if shop_pos >= 3 and shop_pos <= 5:
-							sound('cursor')
+							audio.play_sound('cursor')
 							shop_pos -= 3
 							reset_txt = true
 					
 					if Input.is_action_just_pressed("down"):
 						if shop_pos >= 0 and shop_pos <= 2:
-							sound('cursor')
+							audio.play_sound('cursor')
 							shop_pos += 3
 							reset_txt = true
 					
 					if Input.is_action_just_pressed("left"):
 						if shop_pos > 3 and shop_pos <= 5 or shop_pos > 0 and shop_pos <= 2:
-							sound('cursor')
+							audio.play_sound('cursor')
 							if shop_pos == 1 or shop_pos == 4:
 								$graphic/spawn_tiles/shop/fakeplyr.flip_h = true
 							shop_pos -= 1
@@ -2742,7 +2742,7 @@ func shop():
 					
 					if Input.is_action_just_pressed("right"):
 						if shop_pos >= 3 and shop_pos < 5 or shop_pos >= 0 and shop_pos < 2:
-							sound('cursor')
+							audio.play_sound('cursor')
 							if shop_pos == 1 or shop_pos == 4:
 								$graphic/spawn_tiles/shop/fakeplyr.flip_h = false
 							shop_pos += 1
@@ -2765,7 +2765,7 @@ func shop():
 					
 					#Check item and see if available.
 					if prices[shop_pos] == -1:
-						sound('buzz')
+						audio.play_sound('error')
 					else:
 						#Item IS available, check bolts.
 						if global.bolts >= prices[shop_pos]:
@@ -2773,7 +2773,7 @@ func shop():
 							if shop_pos == 0:#Check Life and Weapon Energy
 								var hp_mp = global.player_life[0] + global.weapon1[1] + global.weapon2[1] + global.weapon3[1] + global.weapon4[1]
 								if hp_mp == 1400:
-									sound('buzz')
+									audio.play_sound('buzz')
 									$scene_txt/on_off/name.set_text(shop_text.get(7)[0])
 									$scene_txt/on_off/text.set_text(shop_text.get(7)[1])
 								else:
@@ -2782,7 +2782,7 @@ func shop():
 									shop_state = 6
 							if shop_pos == 1:
 								if global.etanks == 4:
-									sound('buzz')
+									audio.play_sound('error')
 									$scene_txt/on_off/name.set_text(shop_text.get(7)[0])
 									$scene_txt/on_off/text.set_text(shop_text.get(7)[1])
 								else:
@@ -2791,7 +2791,7 @@ func shop():
 									shop_state = 6
 							if shop_pos == 2:
 								if global.wtanks == 1:
-									sound('buzz')
+									audio.play_sound('buzz')
 									$scene_txt/on_off/name.set_text(shop_text.get(7)[0])
 									$scene_txt/on_off/text.set_text(shop_text.get(7)[1])
 								else:
@@ -2799,7 +2799,7 @@ func shop():
 									$scene_txt/on_off/text.set_text(shop_text.get(14)[1])
 									shop_state = 6
 						else:
-							sound('buzz')
+							audio.play_sound('error')
 							$scene_txt/on_off/name.set_text(shop_text.get(6)[0])
 							$scene_txt/on_off/text.set_text(shop_text.get(6)[1])
 					next = false
@@ -2829,7 +2829,7 @@ func shop():
 					$scene_txt/on_off/name.set_text(shop_text.get(buy_rand)[0])
 					$scene_txt/on_off/text.set_text(shop_text.get(buy_rand)[1])
 					
-					sound('buy')
+					audio.play_sound('buy')
 					global.bolts -= prices[shop_pos]
 					match global.player:
 						0:
@@ -2914,7 +2914,7 @@ func shop():
 					if s.global_position.x < $graphic/spawn_tiles/shop/auto.global_position.x:
 						s.velocity = Vector2(100, -160)
 						$graphic/spawn_tiles/shop/auto/anim.play('bounce')
-						sound('dink')
+						audio.play_sound('dink')
 					
 					if s.plyr_det != []:
 						#Add the appropriate items.
@@ -2929,7 +2929,7 @@ func shop():
 								global.etanks += 1
 							elif shop_pos == 2:
 								global.wtanks += 1
-							sound('1up')
+							audio.play_sound('1up')
 							shop_state = 11
 							$graphic/spawn_tiles/shop/eddie/anim.play("spit-b")
 							s.queue_free()
@@ -2937,7 +2937,7 @@ func shop():
 							$player.shield = true
 							$player.change_char()
 							$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-idle-b")
-							sound('1up')
+							audio.play_sound('1up')
 							shop_state = 3
 							$graphic/spawn_tiles/shop/eddie/anim.play("spit-b")
 							s.queue_free()
@@ -3017,7 +3017,7 @@ func eddie_spit(anim_name):
 		else:
 			spit_vel = Vector2(-100, -225)
 		
-		sound('throw')
+		audio.play_sound('throw')
 		var spit = load('res://scenes/objects/eddie-spit.tscn').instance()
 		if !$player.shield:
 			spit.get_child(0).frame = 4

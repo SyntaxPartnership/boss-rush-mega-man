@@ -39,7 +39,7 @@ var property = 3
 
 func _ready():
 	$anim.play("idle")
-	world.sound("shoot_b")
+	audio.play_sound("shoot_b")
 	world.shot_num += 1
 	
 	get_targets()
@@ -119,7 +119,7 @@ func _physics_process(delta):
 			
 			if body.name == 'player':
 				if ret:
-					world.sound("connect")
+					audio.play_sound("connect")
 					player.shot_state(player.NORMAL)
 					world.shots = 0
 					player.cooldown = false

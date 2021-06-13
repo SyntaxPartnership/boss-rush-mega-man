@@ -32,7 +32,7 @@ func _on_act_left_body_entered(_body):
 	print(_body.name)
 	if !$act_left/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
-		$open.play()
+		audio.play_sound("shutter")
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -48,7 +48,7 @@ func _on_act_right_body_entered(_body):
 	print(_body.name)
 	if !$act_right/box.is_disabled() and !world.swapping:
 		world.kill_enemies()
-		$open.play()
+		audio.play_sound("shutter")
 		#Stop player animation
 		player_anim.stop()
 		player.can_move = false
@@ -103,7 +103,7 @@ func _on_anim_animation_finished(_opening):
 func on_close_gate():
 	if open:
 		open = false
-		$open.play()
+		audio.play_sound("shutter")
 		player_anim.stop()
 		$anim.play_backwards("opening")
 

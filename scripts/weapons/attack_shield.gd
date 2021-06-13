@@ -21,7 +21,7 @@ var bat_check = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	world.sound("shoot_a")
+	audio.play_sound("shoot_a")
 	
 	world.shot_num += 1
 	
@@ -35,12 +35,12 @@ func _input(event):
 	match pos:
 		0:
 			if player.get_child(3).flip_h and Input.is_action_just_pressed("down") or !player.get_child(3).flip_h and Input.is_action_just_pressed("up"):
-				world.sound('connect')
+				audio.play_sound('connect')
 				desired = 2
 				pos += 1
 		2:
 			if Input.is_action_just_pressed("up"):
-				world.sound('connect')
+				audio.play_sound('connect')
 				if player.get_child(3).flip_h:
 					desired = 0
 					pos -= 1
@@ -48,7 +48,7 @@ func _input(event):
 					desired = 4
 					pos += 1
 			elif Input.is_action_just_pressed("down"):
-				world.sound('connect')
+				audio.play_sound('connect')
 				if player.get_child(3).flip_h:
 					desired = 4
 					pos += 1
@@ -57,7 +57,7 @@ func _input(event):
 					pos -= 1
 		4:
 			if !player.get_child(3).flip_h and Input.is_action_just_pressed("down") or player.get_child(3).flip_h and Input.is_action_just_pressed("up"):
-				world.sound('connect')
+				audio.play_sound('connect')
 				desired = 2
 				pos -= 1
 
@@ -128,7 +128,7 @@ func _physics_process(delta):
 				pos_delay = 2
 	
 	if reflect:
-		world.sound('dink')
+		audio.play_sound('dink')
 		_on_screen_exited()
 
 func _on_screen_exited():

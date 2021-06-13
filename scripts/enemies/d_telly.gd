@@ -43,7 +43,7 @@ func _physics_process(delta):
 			if body.name == "player":
 				if player.r_boost:
 					if !dink:
-						world.sound("dink")
+						audio.play_sound("dink")
 						$anim.play("move")
 						move = true
 						dink = true

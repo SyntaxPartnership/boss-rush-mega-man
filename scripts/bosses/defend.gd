@@ -134,7 +134,7 @@ func _physics_process(delta):
 					velocity.x = -300
 				
 				if is_on_wall():
-					world.sound("wall_hit")
+					audio.play_sound("wall_hit")
 					world.shake = 12
 					stun_plyr()
 					$anim.play("recoil")
@@ -189,7 +189,7 @@ func _physics_process(delta):
 			velocity.y += GRAVITY * delta
 			
 			if velocity.y > 0 and $anim.get_current_animation() == "rise":
-				world.sound('fall')
+				audio.play_sound('fall')
 				$anim.play("fall")
 			
 			if is_on_floor() and state == 8:
@@ -197,8 +197,8 @@ func _physics_process(delta):
 				stun_plyr()
 				
 				world.shake = 12
-				world.kill_se('fall')
-				world.sound("wall_hit")
+				audio.stop_sound('fall')
+				audio.play_sound("wall_hit")
 				state = 9
 		
 		9:
@@ -215,7 +215,7 @@ func _physics_process(delta):
 				if shots > 0:
 					if shot_step == 0:
 						if shots > 1:
-							world.sound('def_bullet')
+							audio.play_sound('def_bullet')
 							var slow = load("res://scenes/bosses/def_bullet.tscn").instance()
 							slow.type = 0
 							if $sprite.flip_h:
@@ -228,7 +228,7 @@ func _physics_process(delta):
 							slow.speed = 100
 							world.get_child(1).add_child(slow)
 						else:
-							world.sound('def_bullet')
+							audio.play_sound('def_bullet')
 							var fast = load("res://scenes/bosses/def_bullet.tscn").instance()
 							fast.type = 1
 							if $sprite.flip_h:
@@ -317,7 +317,7 @@ func _physics_process(delta):
 			
 			if charge and $sprite.frame == 17:
 				if player.stun > 0:
-					world.sound("clang")
+					audio.play_sound("clang")
 					player.slap = true
 					player.anim_state(player.TOSSED)
 					var angle
@@ -360,7 +360,7 @@ func _physics_process(delta):
 			if desp_delay == 0:
 				$sprite.offset.y = -2
 				desp_delay = 5
-				world.sound('def_bullet')
+				audio.play_sound('def_bullet')
 				var bullet = load("res://scenes/bosses/def_bullet.tscn").instance()
 				bullet.type = 3
 				bullet.speed = 100
@@ -473,7 +473,7 @@ func _physics_process(delta):
 	
 	#Add sound effect for the clang.
 	if $sprite.frame == 8 and spr_shake == 0:
-		world.sound("clang")
+		audio.play_sound("clang")
 		spr_shake = 8
 		
 	#Set shield hitbox.
@@ -572,7 +572,7 @@ func _physics_process(delta):
 			if i.is_in_group("player"):
 				if !shld_touch:
 					if player.s_kick or player.r_boost:
-						world.sound('dink')
+						audio.play_sound('dink')
 						world.calc_damage($shield_box, i)
 						shld_touch = true
 					else:
@@ -607,7 +607,7 @@ func _physics_process(delta):
 		for k in get_tree().get_nodes_in_group('def_bullet'):
 			k.queue_free()
 		world.kill_music()
-		world.sound("death")
+		audio.play_sound("death")
 		world.bolt_calc()
 		
 		for _b in range(world.max_bolts):
@@ -749,7 +749,7 @@ func _on_anim_finished(anim_name):
 				var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
 				p_flash.position = global_position
 				world.get_child(3).add_child(p_flash)
-				world.sound('bling')
+				audio.play_sound('bling')
 		
 		"fall":
 			if state == 8:
@@ -801,7 +801,7 @@ func calc_damage(body):
 			flash = 20
 			hit = true
 			if world.boss_hp > 0:
-				world.sound("hit")
+				audio.play_sound("hit")
 			else:
 				if body.property == 3:
 					if !body.ret:
@@ -822,7 +822,7 @@ func calc_damage(body):
 				body.choke_delay = 6
 				flash = 20
 				hit = true
-				world.sound("hit")
+				audio.play_sound("hit")
 				#Make the Mega Arm return to the player if boss dies.
 				if world.boss_hp <= 0:
 					body.choke = false
@@ -843,7 +843,7 @@ func ceiling_dmg():
 	flash = 20
 	hit = true
 	if world.boss_hp > 0:
-		world.sound("hit")
+		audio.play_sound("hit")
 	state = 26
 
 func normal_dmg():
@@ -856,14 +856,14 @@ func normal_dmg():
 	flash = 20
 	hit = true
 	if world.boss_hp > 0:
-		world.sound("hit")
+		audio.play_sound("hit")
 
 func reflect(body):
 	if body.property != 3 and body.property != 99:
 		body.reflect = true
 	elif body.property == 3:
 		if !body.ret and !body.choke:
-			world.sound('dink')
+			audio.play_sound('dink')
 			body.ret()
 
 func plyr_dmg():

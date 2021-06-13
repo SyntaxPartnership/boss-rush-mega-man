@@ -17,7 +17,7 @@ var absorb = 0
 
 func _ready():
 	$anim.play('anim')
-	world.sound("wpn_get")
+	audio.play_sound("wpn_get")
 	#update list.
 	for child in self.get_children():
 		if child.is_in_group("pew"):
@@ -30,7 +30,7 @@ func _physics_process(delta):
 		
 		if dist == 0:
 			if absorb < 5:
-				world.sound("wpn_get")
+				audio.play_sound("wpn_get")
 			absorb += 1
 			dist = 192
 		

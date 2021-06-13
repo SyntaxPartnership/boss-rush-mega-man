@@ -343,7 +343,7 @@ func _input(_event):
 			heal_amt = ((global.player_life[int(player.swap)] - 280) * -1) / 10
 			heal_type = 1
 		elif menu_pos == Vector2(2, 0) and global.etanks > 0 and global.player_life[int(player.swap)] == 280:
-			world.sound("buzz")
+			audio.play_sound("error")
 		
 		#Heal with W-Tank
 		if menu_pos == Vector2(2, 1) and global.wtanks > 0:
@@ -360,7 +360,7 @@ func _input(_event):
 				heal_amt = ((levels.min() - 280) * -1) / 10
 				heal_type = 2
 			else:
-				world.sound("buzz")
+				audio.play_sound("error")
 
 func _process(_delta):
 	
@@ -402,12 +402,12 @@ func _process(_delta):
 		
 		#Refill health only.
 		if heal_type == 1 and heal_delay == 1 and global.player_life[int(player.swap)] < 280:
-			world.sound("meter")
+			audio.play_sound("meter")
 			global.player_life[int(player.swap)] += 10
 		
 		#Refill all for the active player. Set caps for energy over a certain amount.
 		if heal_type == 2 and heal_delay == 1 and heal_amt > 0:
-			world.sound("meter")
+			audio.play_sound("meter")
 			
 			if global.weapon1[int(player.swap) + 1] < 280:
 				global.weapon1[int(player.swap) + 1] += 10
@@ -536,7 +536,7 @@ func wpn_menu():
 
 func select(sound):
 	if sound:
-		world.sound("cursor")
+		audio.play_sound("cursor")
 	blink = 8
 	global.player_weap[int(player.swap)] = set_weap.get(menu_pos)
 	wpn_menu()

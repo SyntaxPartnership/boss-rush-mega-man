@@ -103,7 +103,7 @@ func _physics_process(delta):
 			spk_delay = 0
 		
 		if spit_spk == 30:
-			world.sound('spark')
+			audio.play_sound('spark')
 			var sm_spark = load("res://scenes/bosses/sm_spark.tscn").instance()
 			sm_spark.position = global_position
 			sm_spark.velocity.x = rand_range(-50, 50)
@@ -173,7 +173,7 @@ func _physics_process(delta):
 		if !is_on_floor() and intro_bnce == 1:
 			if velocity.y < 0:
 				if !intro_boing:
-					world.sound('boing')
+					audio.play_sound('bounce')
 					intro_boing = true
 				$anim.play("jump")
 			else:
@@ -201,7 +201,7 @@ func _physics_process(delta):
 			var p_flash = load("res://scenes/effects/pinch_flash.tscn").instance()
 			p_flash.position = global_position
 			world.get_child(3).add_child(p_flash)
-			world.sound('bling')
+			audio.play_sound('bling')
 			desp = true
 	
 	if !fill_bar:
@@ -219,7 +219,7 @@ func _physics_process(delta):
 					state += 1
 			3:
 				if velocity.y > 0:
-					world.sound('throw')
+					audio.play_sound('throw')
 					if !air_toss:
 						$anim.play("air-toss")
 						air_toss = true
@@ -235,7 +235,7 @@ func _physics_process(delta):
 				if act_delay == 0:
 					if force_spin < 3:
 						if tosses > 0:
-							world.sound('pull')
+							audio.play_sound('pull')
 							$anim.play("pull")
 							state += 1
 						elif tosses <= 0:
@@ -329,7 +329,7 @@ func _physics_process(delta):
 						state = 26
 				if global_position.x <= player.global_position.x + 16 and global_position.x >= player.global_position.x - 16:
 					if !player.s_kick:
-						world.sound('boing')
+						audio.play_sound('bounce')
 						velocity.x = 0
 						state += 1
 			13:
@@ -370,7 +370,7 @@ func _physics_process(delta):
 						d.kill_gaby()
 				
 				if desp_dir == 1 and global_position.x > camera.limit_right - 32:
-					world.sound('wall_hit')
+					audio.play_sound('wall_hit')
 					$sprite.flip_h = false
 					world.shake = 8
 					desp_dir = -1
@@ -381,7 +381,7 @@ func _physics_process(delta):
 					if !spark:
 						spark = true
 				elif desp_dir == -1 and global_position.x < camera.limit_left + 32:
-					world.sound('wall_hit')
+					audio.play_sound('wall_hit')
 					$sprite.flip_h = true
 					world.shake = 8
 					desp_dir = 1
@@ -415,7 +415,7 @@ func _physics_process(delta):
 					elif bounce == 1:
 						id = 4
 						velocity.y = -200
-						world.sound('boing')
+						audio.play_sound('bounce')
 						$anim.play("jump")
 						state += 1
 			21:
@@ -436,7 +436,7 @@ func _physics_process(delta):
 	#Kill boss.
 	if world.boss_hp <= 0:
 		world.kill_music()
-		world.sound("death")
+		audio.play_sound("death")
 		world.bolt_calc()
 		
 		for _b in range(world.max_bolts):
@@ -553,7 +553,7 @@ func _on_anim_finished(anim_name):
 			
 			match state:
 				2:
-					world.sound('boing')
+					audio.play_sound('bounce')
 					$anim.play("jump")
 					if jumps > 0:
 						velocity.y = JUMP_STR
@@ -582,7 +582,7 @@ func _on_anim_finished(anim_name):
 						state += 1
 						act_delay = 8
 				16:
-					world.sound('boing')
+					audio.play_sound('bounce')
 					$anim.play("jump")
 					velocity.y = JUMP_STR * 0.75
 					state += 1

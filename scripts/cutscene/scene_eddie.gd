@@ -38,7 +38,8 @@ func _physics_process(delta):
 		var collision = get_slide_collision(idx)
 		
 		if is_on_floor() and collision.collider.name == "scene_auto":
-			world.sound("boing")
+			audio.stop_sound("fall")
+			audio.play_sound("bounce")
 			collision.collider.get_child(1).play("bonk")
 			velocity.y = -400
 			velocity.x = 100

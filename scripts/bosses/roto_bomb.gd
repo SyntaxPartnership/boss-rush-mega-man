@@ -38,7 +38,7 @@ func _physics_process(delta):
 
 func reverse():
 	if !rebound:
-		world.sound('dink')
+		audio.play_sound('dink')
 		velocity.y = -velocity.y
 		self.remove_from_group('enemies')
 		self.add_to_group('weapons')
@@ -47,7 +47,7 @@ func reverse():
 
 
 func boom():
-	world.sound("roto_b")
+	audio.play_sound("roto_b")
 	world.shake = 4
 	if roto[0].bomb_side and !rebound:
 		for i in range(0, 2):

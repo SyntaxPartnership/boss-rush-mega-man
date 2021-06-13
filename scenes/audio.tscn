@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=51 format=2]
 
 [ext_resource path="res://assets/audio/music/06 Menu.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scripts/audio.gd" type="Script" id=2]
@@ -24,6 +24,32 @@
 [ext_resource path="res://assets/audio/se/Item.wav" type="AudioStream" id=22]
 [ext_resource path="res://assets/audio/se/coil1.wav" type="AudioStream" id=23]
 [ext_resource path="res://assets/audio/se/Tango.wav" type="AudioStream" id=24]
+[ext_resource path="res://assets/audio/se/swoop_d.wav" type="AudioStream" id=25]
+[ext_resource path="res://assets/audio/se/swoop_b.wav" type="AudioStream" id=26]
+[ext_resource path="res://assets/audio/se/Death.wav" type="AudioStream" id=27]
+[ext_resource path="res://assets/audio/se/swoop_c.wav" type="AudioStream" id=28]
+[ext_resource path="res://assets/audio/se/swoop_a.wav" type="AudioStream" id=29]
+[ext_resource path="res://assets/audio/se/Throw.wav" type="AudioStream" id=30]
+[ext_resource path="res://assets/audio/se/pull.wav" type="AudioStream" id=31]
+[ext_resource path="res://assets/audio/se/spark.wav" type="AudioStream" id=32]
+[ext_resource path="res://assets/audio/se/buy.wav" type="AudioStream" id=33]
+[ext_resource path="res://assets/audio/se/Gate.wav" type="AudioStream" id=34]
+[ext_resource path="res://assets/audio/se/Charge2.wav" type="AudioStream" id=35]
+[ext_resource path="res://assets/audio/se/Buster.wav" type="AudioStream" id=36]
+[ext_resource path="res://assets/audio/se/Hit.wav" type="AudioStream" id=37]
+[ext_resource path="res://assets/audio/se/BigShot.wav" type="AudioStream" id=38]
+[ext_resource path="res://assets/audio/se/Signal.wav" type="AudioStream" id=39]
+[ext_resource path="res://assets/audio/se/connect.wav" type="AudioStream" id=40]
+[ext_resource path="res://assets/audio/se/roto_b.wav" type="AudioStream" id=41]
+[ext_resource path="res://assets/audio/se/roto_d.wav" type="AudioStream" id=42]
+[ext_resource path="res://assets/audio/se/Weapon Menu.wav" type="AudioStream" id=43]
+[ext_resource path="res://assets/audio/se/wpn_get.wav" type="AudioStream" id=44]
+[ext_resource path="res://assets/audio/se/elec.wav" type="AudioStream" id=45]
+[ext_resource path="res://assets/audio/se/clang.wav" type="AudioStream" id=46]
+[ext_resource path="res://assets/audio/se/fall.wav" type="AudioStream" id=47]
+[ext_resource path="res://assets/audio/se/split.wav" type="AudioStream" id=48]
+[ext_resource path="res://assets/audio/se/def_bullet.wav" type="AudioStream" id=49]
+[ext_resource path="res://assets/audio/se/faceplant.wav" type="AudioStream" id=50]
 
 [node name="audio" type="Node"]
 script = ExtResource( 2 )
@@ -121,3 +147,87 @@ stream = ExtResource( 23 )
 
 [node name="meow" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 24 )
+
+[node name="swoop_a" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 29 )
+
+[node name="swoop_b" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 26 )
+
+[node name="swoop_c" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 28 )
+
+[node name="swoop_d" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 25 )
+
+[node name="death" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 27 )
+
+[node name="spark" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 32 )
+
+[node name="throw" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 30 )
+
+[node name="pull" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 31 )
+
+[node name="wall_hit" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 18 )
+
+[node name="roto_a" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 42 )
+
+[node name="roto_b" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 41 )
+
+[node name="shock" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 39 )
+
+[node name="hit" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 37 )
+
+[node name="split" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 48 )
+
+[node name="elec" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 45 )
+
+[node name="def_bullet" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 49 )
+
+[node name="clang" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 46 )
+
+[node name="fall" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 47 )
+
+[node name="faceplant" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 50 )
+
+[node name="wpn_get" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 44 )
+
+[node name="big_explode" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 15 )
+
+[node name="shutter" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 34 )
+
+[node name="shoot_a" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 36 )
+
+[node name="shoot_b" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 38 )
+
+[node name="charge" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 35 )
+
+[node name="connect" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 40 )
+
+[node name="buy" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 33 )
+
+[node name="menu" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 43 )

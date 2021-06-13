@@ -97,7 +97,7 @@ func _process(delta):
 					$wily.flip_h = true
 				self.move_child($wily, 1)
 				$anim.play("wily-fall")
-				world.sound('fall')
+				audio.play_sound('fall')
 				end_state += 1
 	
 	#Track the player's location within the room
@@ -144,8 +144,8 @@ func _process(delta):
 			if $wily.global_position.y > camera.limit_bottom - 47:
 				$wily.global_position.y = camera.limit_bottom - 47
 				player.x_dir = 0
-				world.kill_se('fall')
-				world.sound('faceplant')
+				audio.stop_sound('fall')
+				audio.play_sound('faceplant')
 				$anim.play("wily-land")
 				end_state += 1
 		
@@ -175,7 +175,7 @@ func _process(delta):
 					$wily.position.x += 2
 			else:
 				$anim.stop()
-				world.sound('shutter')
+				audio.play_sound('shutter')
 				for f in get_tree().get_nodes_in_group('fake_gate'):
 					f.get_child(1).play('opening')
 				end_state += 1
@@ -194,7 +194,7 @@ func _process(delta):
 					$wily.position.x += 2
 			else:
 				$wily.hide()
-				world.sound('shutter')
+				audio.play_sound('shutter')
 				for f in get_tree().get_nodes_in_group('fake_gate'):
 					f.get_child(1).play_backwards('opening')
 				end_state += 1

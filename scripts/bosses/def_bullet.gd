@@ -82,12 +82,12 @@ func _physics_process(delta):
 	if type == 3:
 		if is_on_wall():
 			if global_position.x > camera.limit_left + 128 and master_vel.x > 0 or global_position.x < camera.limit_left + 128 and master_vel.x < 0:
-				world.sound('dink')
+				audio.play_sound('dink')
 				master_vel.x = -master_vel.x
 				
 		if is_on_floor():
 			if master_vel.y > 0:
-				world.sound('dink')
+				audio.play_sound('dink')
 				floor_bnce += 1
 				
 				if floor_bnce == 2 and boss.drop_down < 5:
@@ -115,7 +115,7 @@ func _physics_process(delta):
 			if type == 3:
 				if body.is_in_group("weapons"):
 					if body.id == 0:
-						world.sound('hit')
+						audio.play_sound('hit')
 						hp -= 1
 						var boom = load("res://scenes/effects/s_explode.tscn").instance()
 						boom.position = body.global_position
@@ -123,7 +123,7 @@ func _physics_process(delta):
 						body.queue_free()
 						
 					if body.id == 1 and !body.ret or body.id == 2 and !body.ret:
-						world.sound('hit')
+						audio.play_sound('hit')
 						hp -= 3
 						var boom = load("res://scenes/effects/s_explode.tscn").instance()
 						boom.position = body.global_position
@@ -138,7 +138,7 @@ func _physics_process(delta):
 					
 					if body.id == 6:
 						if !a_shield and master_vel.y > 0:
-							world.sound('dink')
+							audio.play_sound('dink')
 							hp -= 3
 							master_vel.y = -master_vel.y
 							add_speed()
@@ -149,7 +149,7 @@ func _physics_process(delta):
 						kill_bnce += 1
 						if hp > 0:
 							if kill_bnce < 16:
-								world.sound('dink')
+								audio.play_sound('dink')
 								body.desp_delay = 5
 								body.get_child(0).offset.y = -2
 								var test_vel = (player.global_position - global_position).normalized()
@@ -181,7 +181,7 @@ func _physics_process(delta):
 		if is_on_wall() and !wall and !ricochet:
 			velocity = reverse * (speed * 1.5)
 			$box_b.set_deferred("disabled", true)
-			world.sound('split')
+			audio.play_sound('split')
 			for b in range(3):
 				var bullet = b + 1
 				var up = load("res://scenes/bosses/def_bullet.tscn").instance()
@@ -212,7 +212,7 @@ func _on_anim_finished(anim_name):
 
 func ricochet():
 	if !ricochet:
-		world.sound('dink')
+		audio.play_sound('dink')
 		velocity = -velocity
 		remove_from_group('def_bullet')
 		add_to_group('weapons')

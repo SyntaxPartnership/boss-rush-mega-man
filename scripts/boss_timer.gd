@@ -46,7 +46,7 @@ func _process(delta):
 		else:
 			
 			if sound:
-				world.sound('bling')
+				audio.play_sound('bling')
 				sound = false
 			
 			badge_delay += 1
