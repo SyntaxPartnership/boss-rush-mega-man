@@ -247,7 +247,7 @@ var hub_rooms = [
 				]
 
 var boss_rooms = {
-				"(8, 6)" : "",
+				"(8, 6)" : "res://scenes/bosses/swoop.tscn",
 				"(8, 10)" : "res://scenes/bosses/roto.tscn",
 				"(13, 6)" : "res://scenes/bosses/scuttle.tscn",
 				"(13, 10)" : "res://scenes/bosses/defend.tscn",
@@ -280,11 +280,11 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
-				1 : [280, 20, 280, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [280, 20, 280, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
-				3 : [280, 20, 280, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
-				4 : [280, 20, 280, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
-				5 : [280, 20, 280, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
+				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
+				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
+				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
+				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
 				}
 				
 var damage = 0
@@ -597,6 +597,13 @@ func _camera():
 			emit_signal("scrolling")
 		else:
 			emit_signal("close_gate")
+		#Kill the player's slide/dash.
+		$player.slide_timer = 0
+		$player.get_child(1).set_disabled(false)
+		$player.get_child(2).set_disabled(true)
+		$player.s_kick = false
+		$player.slide = false
+		$player.dash_jump = false
 	
 	#Check room to see if camera value changes. This will only check rooms when the game is
 	#not performing a screen transition.
@@ -621,6 +628,10 @@ func _rooms():
 #		if !endless_rms.has(player_room):
 #			endless_rms.insert(endless_rms.size(), player_room)
 #			screens += 1
+	
+	#This clears out the Fake Roll object if Swoop has been beaten already.
+	if global.weapon1[0]:
+		$graphic/spawn_tiles/enemy_map.set_cell(141, 102, -1)
 	
 	#Add function here to clear endless_rms to prevent lag. (Example: When the player reaches a teleporter, clear endless_rms)
 	
@@ -706,7 +717,7 @@ func _rooms():
 		#Kill music and display the boss meter.
 		kill_music()
 		
-		if which_wpn != 0 and which_wpn != 2 and which_wpn != 3:
+		if which_wpn != 0 and which_wpn != 2 and which_wpn != 3 or which_wpn == 0 and global.weapon1[0]:
 			ready_boss = true
 			$player.no_input(true)
 		
@@ -1054,7 +1065,6 @@ func _process(delta):
 				
 		
 	#Print Shit
-	print(shop_pos)
 	
 	#Camera shake?
 	if shake == -1:
@@ -1098,7 +1108,21 @@ func _process(delta):
 		boss = true
 		#Load the boss scene(s).
 		var boss = load(boss_rooms.get(str(player_room))).instance()
+		
+		#Swoop Woman's clone only.
+		var clone = load("res://scenes/bosses/swoop_clone.tscn").instance()
+		
+		if boss.name == "swoop" and global.weapon1[0]:
+			boss.set_deferred("global_position", Vector2(2264, $player/camera.limit_top - 32))
+			clone.set_deferred("global_position", Vector2(2264, $player/camera.limit_top - 32))
+			
 		$graphic.add_child(boss)
+		
+		if boss.name == "swoop" and global.weapon1[0]:
+			$graphic.add_child(clone)
+			
+			
+		
 	
 	if elec_wall and wall_delay > -1:
 		if $player.global_position.x > $player/camera.limit_right - 40:
@@ -2304,8 +2328,6 @@ func bolt_calc():
 	
 	if time > 40000:
 		$hud/boss_timer.set_badge += 1
-	
-	print($hud/boss_timer.set_badge)
 	
 	#Set value for time.
 	var total_time = time
