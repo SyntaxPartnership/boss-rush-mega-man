@@ -190,8 +190,10 @@ var shop_text = {
 	14 : ["AUTO:", "ARE YOU SURE?\n\n[JUMP] - YES   [FIRE] - NO"],
 	15 : ["AUTO:", "SORRY... THAT ITEM ISN'T\n\nAVAILABLE YET..."],
 	16 : ["AUTO:", "TAKE CARE, MEGA!"],
-	17 : ["AUTO:", "OH... CHANGE YOUR MIND?"],
-	18 : ["AUTO:", "HEY! I FOUND THIS FOR YOU!"]
+	17 : ["AUTO:", "SEE YA LATER, PROTOMAN!"],
+	18 : ["AUTO:", "C-COME BACK AGAIN!"],
+	19 : ["AUTO:", "OH... CHANGE YOUR MIND?"],
+	20 : ["AUTO:", "HEY! I FOUND THIS FOR YOU!"]
 }
 
 #Item Drops
@@ -278,11 +280,11 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
-				1 : [10, 20, 280, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 280, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
-				3 : [10, 20, 280, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
-				4 : [10, 20, 280, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
-				5 : [10, 20, 280, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
+				1 : [280, 20, 280, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [280, 20, 280, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
+				3 : [280, 20, 280, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
+				4 : [280, 20, 280, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
+				5 : [280, 20, 280, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
 				}
 				
 var damage = 0
@@ -1052,6 +1054,7 @@ func _process(delta):
 				
 		
 	#Print Shit
+	print(shop_pos)
 	
 	#Camera shake?
 	if shake == -1:
@@ -2589,6 +2592,20 @@ func shop():
 					$player.x_dir = 0
 					$player.hide()
 					$graphic/spawn_tiles/shop/fakeplyr.show()
+					
+					match global.player:
+						0:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("r-idle")
+						1:
+							if !$player.shield:
+								$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-idle-a")
+							else:
+								$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-idle-b")
+						2:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("f-idle")
+					
+					$graphic/spawn_tiles/shop/fakeplyr.flip_h = true
+							
 					$graphic/spawn_tiles/shop/menu.show()
 					shop_state += 1
 					
@@ -2635,6 +2652,15 @@ func shop():
 					$scene_txt/on_off/text.set_visible_characters(0)
 					$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
 					$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
+					
+					match global.player:
+						0:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("r-look")
+						1:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-look")
+						2:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("f-look")
+					
 					shop_state += 1
 					next = false
 			
@@ -2687,12 +2713,16 @@ func shop():
 					if Input.is_action_just_pressed("left"):
 						if shop_pos > 3 and shop_pos <= 5 or shop_pos > 0 and shop_pos <= 2:
 							sound('cursor')
+							if shop_pos == 1 or shop_pos == 4:
+								$graphic/spawn_tiles/shop/fakeplyr.flip_h = true
 							shop_pos -= 1
 							reset_txt = true
 					
 					if Input.is_action_just_pressed("right"):
 						if shop_pos >= 3 and shop_pos < 5 or shop_pos >= 0 and shop_pos < 2:
 							sound('cursor')
+							if shop_pos == 1 or shop_pos == 4:
+								$graphic/spawn_tiles/shop/fakeplyr.flip_h = false
 							shop_pos += 1
 							reset_txt = true
 				
@@ -2755,8 +2785,16 @@ func shop():
 				#Cancel out of shop
 				elif next and Input.is_action_just_pressed("fire"):
 					$scene_txt/on_off/text.set_visible_characters(0)
-					$scene_txt/on_off/name.set_text(shop_text.get(16)[0])
-					$scene_txt/on_off/text.set_text(shop_text.get(16)[1])
+					match global.player:
+						0:
+							$scene_txt/on_off/name.set_text(shop_text.get(16)[0])
+							$scene_txt/on_off/text.set_text(shop_text.get(16)[1])
+						1:
+							$scene_txt/on_off/name.set_text(shop_text.get(17)[0])
+							$scene_txt/on_off/text.set_text(shop_text.get(17)[1])
+						2:
+							$scene_txt/on_off/name.set_text(shop_text.get(18)[0])
+							$scene_txt/on_off/text.set_text(shop_text.get(18)[1])
 					next = false
 					shop_state = 8
 			6:
@@ -2771,7 +2809,14 @@ func shop():
 					
 					sound('buy')
 					global.bolts -= prices[shop_pos]
-					$graphic/spawn_tiles/shop/fakeplyr.frame = 1
+					match global.player:
+						0:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("r-idle")
+						1:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-idle-b")
+						2:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("f-idle")
+					$graphic/spawn_tiles/shop/fakeplyr.flip_h = false
 					
 					$graphic/spawn_tiles/shop/eddie/anim.play("spit-a")
 					
@@ -2779,8 +2824,8 @@ func shop():
 					next = false
 				elif next and Input.is_action_just_pressed("fire"):
 					$scene_txt/on_off/text.set_visible_characters(0)
-					$scene_txt/on_off/name.set_text(shop_text.get(17)[0])
-					$scene_txt/on_off/text.set_text(shop_text.get(17)[1])
+					$scene_txt/on_off/name.set_text(shop_text.get(19)[0])
+					$scene_txt/on_off/text.set_text(shop_text.get(19)[1])
 					shop_state = 7
 					next = false
 			
@@ -2817,6 +2862,7 @@ func shop():
 						kill_music()
 						play_music('main')
 						cutsc_mode += 1
+						shop_pos = 0
 						shop_state = 9
 						$graphic/spawn_tiles/shop/fakeplyr.hide()
 						$player.show()
@@ -2834,48 +2880,70 @@ func shop():
 				
 				for s in get_tree().get_nodes_in_group('spit'):
 					
-					if s.global_position.x < $player.global_position.x and $graphic/spawn_tiles/shop/fakeplyr.frame == 3:
-						$graphic/spawn_tiles/shop/fakeplyr.frame = 4
+					if s.global_position.x < $player.global_position.x and s.velocity.x == -150:
+						$graphic/spawn_tiles/shop/fakeplyr.flip_h = true
 					
 					if s.global_position.x < $graphic/spawn_tiles/shop/auto.global_position.x:
 						s.velocity = Vector2(100, -160)
 						$graphic/spawn_tiles/shop/auto/anim.play('bounce')
-						$graphic/spawn_tiles/shop/fakeplyr.frame = 2
 						sound('dink')
 					
 					if s.plyr_det != []:
 						#Add the appropriate items.
-						if shop_pos == 0:
-							global.player_life[0] = 280
-							global.weapon1[1] = 280
-							global.weapon2[1] = 280
-							global.weapon3[1] = 280
-							global.weapon4[1] = 280
-						elif shop_pos == 1:
-							global.etanks += 1
-						elif shop_pos == 2:
-							global.wtanks += 1
-						sound('1up')
-						shop_state = 11
-						$graphic/spawn_tiles/shop/eddie/anim.play("spit-b")
-						s.queue_free()
+						if $player.shield:
+							if shop_pos == 0:
+								global.player_life[0] = 280
+								global.weapon1[1] = 280
+								global.weapon2[1] = 280
+								global.weapon3[1] = 280
+								global.weapon4[1] = 280
+							elif shop_pos == 1:
+								global.etanks += 1
+							elif shop_pos == 2:
+								global.wtanks += 1
+							sound('1up')
+							shop_state = 11
+							$graphic/spawn_tiles/shop/eddie/anim.play("spit-b")
+							s.queue_free()
+						else:
+							$player.shield = true
+							$player.change_char()
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-idle-b")
+							sound('1up')
+							shop_state = 3
+							$graphic/spawn_tiles/shop/eddie/anim.play("spit-b")
+							s.queue_free()
+						
 			11:
 				ret_delay -= 1
 				
 				if ret_delay == 0:
-					$graphic/spawn_tiles/shop/fakeplyr.frame = 0
 					if shop_pos >= 0 and shop_pos <=2:
 						$scene_txt/on_off/name.set_text(shop_text.get(shop_pos + 8)[0])
 						$scene_txt/on_off/text.set_text(shop_text.get(shop_pos + 8)[1])
 					else: #These items are currently unavailable.
 						$scene_txt/on_off/name.set_text(shop_text.get(15)[0])
 						$scene_txt/on_off/text.set_text(shop_text.get(15)[1])
+					
+					match global.player:
+						0:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("r-look")
+						1:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("b-look")
+						2:
+							$graphic/spawn_tiles/shop/fakeplyr/anim.play("f-look")
+					
+					if shop_pos < 2 or shop_pos < 5 and shop_pos > 2:
+						$graphic/spawn_tiles/shop/fakeplyr.flip_h = true
+					else:
+						$graphic/spawn_tiles/shop/fakeplyr.flip_h = false
+					
 					ret_delay = 12
 					shop_state = 5
 			12:
 				$scene_txt/on_off/text.set_visible_characters(0)
 				$scene_txt/on_off/name.set_text(shop_text.get(0)[0])
-				$scene_txt/on_off/text.set_text(shop_text.get(18)[1])
+				$scene_txt/on_off/text.set_text(shop_text.get(20)[1])
 				$scene_txt/on_off.show()
 				shop_state += 1
 			13:
@@ -2893,6 +2961,9 @@ func shop():
 							next = true
 					
 					if next and Input.is_action_just_pressed("jump"):
+						cursor_blnk = 0
+						$graphic/spawn_tiles/shop/fakeplyr.flip_h = false
+						$graphic/spawn_tiles/shop/eddie/anim.play("spit-a")
 						shop_state = 10
 		
 		if shop_state > 3:
@@ -2914,7 +2985,6 @@ func eddie_spit(anim_name):
 		var spit_vel = Vector2()
 		
 		if spit_dist == 0:
-			$graphic/spawn_tiles/shop/fakeplyr.frame = 3
 			spit_vel = Vector2(-150, -310)
 		else:
 			spit_vel = Vector2(-100, -225)
@@ -2922,7 +2992,7 @@ func eddie_spit(anim_name):
 		sound('throw')
 		var spit = load('res://scenes/objects/eddie-spit.tscn').instance()
 		if !$player.shield:
-			spit.get_child(0).frame = shop_pos
+			spit.get_child(0).frame = 4
 		else:
 			spit.get_child(0).frame = shop_pos
 		spit.velocity = spit_vel

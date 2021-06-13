@@ -296,7 +296,7 @@ tracks/0/keys = {
 "values": [ 26 ]
 }
 
-[sub_resource type="Animation" id=35]
+[sub_resource type="Animation" id=21]
 resource_name = "laugh"
 length = 0.2
 loop = true
@@ -313,7 +313,7 @@ tracks/0/keys = {
 "values": [ 37, 38 ]
 }
 
-[sub_resource type="Animation" id=36]
+[sub_resource type="Animation" id=22]
 resource_name = "laugh_start"
 length = 0.1
 tracks/0/type = "value"
@@ -329,7 +329,7 @@ tracks/0/keys = {
 "values": [ 36 ]
 }
 
-[sub_resource type="Animation" id=21]
+[sub_resource type="Animation" id=23]
 length = 0.1
 tracks/0/type = "value"
 tracks/0/path = NodePath("sprite:frame")
@@ -344,8 +344,7 @@ tracks/0/keys = {
 "values": [ 6 ]
 }
 
-[sub_resource type="Animation" id=22]
-resource_name = "lookup"
+[sub_resource type="Animation" id=24]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -361,7 +360,7 @@ tracks/0/keys = {
 "values": [ 19, 20 ]
 }
 
-[sub_resource type="Animation" id=23]
+[sub_resource type="Animation" id=25]
 length = 0.2
 loop = true
 step = 0.05
@@ -378,7 +377,7 @@ tracks/0/keys = {
 "values": [ 32, 33, 34, 35 ]
 }
 
-[sub_resource type="Animation" id=24]
+[sub_resource type="Animation" id=26]
 length = 0.44
 loop = true
 step = 0.11
@@ -395,7 +394,7 @@ tracks/0/keys = {
 "values": [ 7, 8, 9, 8 ]
 }
 
-[sub_resource type="Animation" id=34]
+[sub_resource type="Animation" id=27]
 resource_name = "shakehead"
 length = 0.6
 loop = true
@@ -412,7 +411,7 @@ tracks/0/keys = {
 "values": [ 36, 37 ]
 }
 
-[sub_resource type="Animation" id=25]
+[sub_resource type="Animation" id=28]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -428,7 +427,7 @@ tracks/0/keys = {
 "values": [ 28, 29 ]
 }
 
-[sub_resource type="Animation" id=26]
+[sub_resource type="Animation" id=29]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -444,7 +443,7 @@ tracks/0/keys = {
 "values": [ 30, 31 ]
 }
 
-[sub_resource type="Animation" id=27]
+[sub_resource type="Animation" id=30]
 length = 0.2
 loop = true
 tracks/0/type = "value"
@@ -460,7 +459,7 @@ tracks/0/keys = {
 "values": [ 14, 15 ]
 }
 
-[sub_resource type="Animation" id=28]
+[sub_resource type="Animation" id=31]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -476,7 +475,7 @@ tracks/0/keys = {
 "values": [ 21 ]
 }
 
-[sub_resource type="Animation" id=29]
+[sub_resource type="Animation" id=32]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -492,7 +491,7 @@ tracks/0/keys = {
 "values": [ 22 ]
 }
 
-[sub_resource type="Animation" id=30]
+[sub_resource type="Animation" id=33]
 length = 0.1
 loop = true
 tracks/0/type = "value"
@@ -508,8 +507,7 @@ tracks/0/keys = {
 "values": [ 23 ]
 }
 
-[sub_resource type="Animation" id=31]
-resource_name = "tossed"
+[sub_resource type="Animation" id=34]
 length = 0.03
 loop = true
 step = 0.03
@@ -526,10 +524,10 @@ tracks/0/keys = {
 "values": [ 17 ]
 }
 
-[sub_resource type="RectangleShape2D" id=32]
+[sub_resource type="RectangleShape2D" id=35]
 extents = Vector2( 8, 1 )
 
-[sub_resource type="RectangleShape2D" id=33]
+[sub_resource type="RectangleShape2D" id=36]
 extents = Vector2( 0.5, 7 )
 
 [node name="player" type="KinematicBody2D" groups=[
@@ -561,7 +559,7 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 39
+frame = 5
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false
@@ -590,20 +588,20 @@ anims/jump = SubResource( 17 )
 anims/jump-shot-d-down = SubResource( 18 )
 anims/jump-shot-d-up = SubResource( 19 )
 anims/jump-shot-up = SubResource( 20 )
-anims/laugh = SubResource( 35 )
-anims/laugh_start = SubResource( 36 )
-anims/lilstep = SubResource( 21 )
-anims/lookup = SubResource( 22 )
-anims/rboost = SubResource( 23 )
-anims/run = SubResource( 24 )
-anims/shakehead = SubResource( 34 )
-anims/skick_air = SubResource( 25 )
-anims/skick_sld = SubResource( 26 )
-anims/slide = SubResource( 27 )
-anims/stand-shot-d-down = SubResource( 28 )
-anims/stand-shot-d-up = SubResource( 29 )
-anims/stand-shot-up = SubResource( 30 )
-anims/tossed = SubResource( 31 )
+anims/laugh = SubResource( 21 )
+anims/laugh_start = SubResource( 22 )
+anims/lilstep = SubResource( 23 )
+anims/lookup = SubResource( 24 )
+anims/rboost = SubResource( 25 )
+anims/run = SubResource( 26 )
+anims/shakehead = SubResource( 27 )
+anims/skick_air = SubResource( 28 )
+anims/skick_sld = SubResource( 29 )
+anims/slide = SubResource( 30 )
+anims/stand-shot-d-down = SubResource( 31 )
+anims/stand-shot-d-up = SubResource( 32 )
+anims/stand-shot-up = SubResource( 33 )
+anims/tossed = SubResource( 34 )
 
 [node name="slide_top" type="Area2D" parent="."]
 visible = false
@@ -612,7 +610,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_top"]
-shape = SubResource( 32 )
+shape = SubResource( 35 )
 
 [node name="slide_wall" type="Area2D" parent="."]
 visible = false
@@ -621,7 +619,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="area" type="CollisionShape2D" parent="slide_wall"]
-shape = SubResource( 33 )
+shape = SubResource( 36 )
 
 [node name="item_det" type="Area2D" parent="."]
 collision_layer = 8
