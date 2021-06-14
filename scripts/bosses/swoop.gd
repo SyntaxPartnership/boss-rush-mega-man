@@ -444,7 +444,7 @@ func _physics_process(delta):
 		clone.get_child(1).flip_h = true
 	
 	if world.boss_hp <= 0:
-		world.kill_music()
+		audio.stop_all_music()
 		audio.play_sound("death")
 		world.bolt_calc()
 		

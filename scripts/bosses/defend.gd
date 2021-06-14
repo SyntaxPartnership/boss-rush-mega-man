@@ -606,7 +606,7 @@ func _physics_process(delta):
 	if world.boss_hp <= 0:
 		for k in get_tree().get_nodes_in_group('def_bullet'):
 			k.queue_free()
-		world.kill_music()
+		audio.stop_all_music()
 		audio.play_sound("death")
 		world.bolt_calc()
 		
@@ -640,7 +640,7 @@ func _on_anim_finished(anim_name):
 		"fade_in":
 			thrusters = true
 			world.boss = true
-			world.play_music("boss")
+			audio.play_music("boss-a")
 			$anim.play("move_to")
 			$tween.interpolate_property(self, "position", position, position + Vector2(-88, 64), 0.75, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			$tween.start()

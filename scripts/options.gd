@@ -192,14 +192,14 @@ func _input(event):
 	if !ctrl_lock:
 		if Input.is_action_just_pressed("down") and menu_pos < menu_size[menu] and set_mode == 0:
 			menu_pos += 1
-			$audio_playback/cursor.stop()
-			$audio_playback/cursor.play()
+			
+			audio.play_sound("cursor")
 			if menu == 0 and menu_pos == 3 and !global.gp_connect:
 				menu_pos += 1
 		elif Input.is_action_just_pressed("up") and menu_pos > 0 and set_mode == 0:
 			menu_pos -= 1
-			$audio_playback/cursor.stop()
-			$audio_playback/cursor.play()
+			
+			audio.play_sound("cursor")
 			if menu == 0 and menu_pos == 3 and !global.gp_connect:
 				menu_pos -= 1
 		
@@ -215,8 +215,8 @@ func _input(event):
 			buttons[menu_pos].show()
 			btn_flash = 0
 			set_mode = 3
-			$audio_playback/select.stop()
-			$audio_playback/select.play()
+			
+			audio.play_sound("select")
 			save_config()
 		
 		if event is InputEventJoypadButton and set_mode == 2 and menu == 4 and menu_pos != menu_size[menu]:
@@ -229,13 +229,13 @@ func _input(event):
 			buttons[menu_pos].show()
 			btn_flash = 0
 			set_mode = 3
-			$audio_playback/select.stop()
-			$audio_playback/select.play()
+			
+			audio.play_sound("select")
 			save_config()
 		
 		if Input.is_action_just_pressed("jump"):
-			$audio_playback/select.stop()
-			$audio_playback/select.play()
+			
+			audio.play_sound("select")
 			if menu == 5 and !pressed:
 				if menu_pos == menu_size[menu]:
 					ctrl_lock = true
@@ -299,8 +299,8 @@ func _input(event):
 	match menu:
 		0:
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				$fade.state = 1
 				$fade.set("end", true)
@@ -310,14 +310,14 @@ func _input(event):
 				if Input.is_action_pressed("left") and global.sound > -40.0:
 					global.sound -= 1
 					$audio/sfx.set_value(global.sound)
-					$audio_playback/cursor.stop()
-					$audio_playback/cursor.play()
+					
+					audio.play_sound("cursor")
 					save_config()
 				if Input.is_action_pressed("right") and global.sound < 0:
 					global.sound += 1
 					$audio/sfx.set_value(global.sound)
-					$audio_playback/cursor.stop()
-					$audio_playback/cursor.play()
+					
+					audio.play_sound("cursor")
 					save_config()
 			if menu_pos == 1:
 				if Input.is_action_pressed("left") and global.music > -40.0:
@@ -341,8 +341,8 @@ func _input(event):
 				$audio/music.set_value(global.music)
 			
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				menu = 0
 				tween_start("audio", "out")
@@ -375,24 +375,24 @@ func _input(event):
 					save_config()
 			
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				menu = 0
 				tween_start("video", "out")
 				pressed = true
 		3:
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				menu = 0
 				tween_start("controls", "out")
 				pressed = true
 		4:
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				menu = 0
 				tween_start("controls", "out")
@@ -480,16 +480,16 @@ func _input(event):
 						$misc/c_sound.set_text("MM9/10")
 			
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				menu = 0
 				tween_start("misc", "out")
 				pressed = true
 		6:
 			if Input.is_action_just_pressed("fire"):
-				$audio_playback/dink.stop()
-				$audio_playback/dink.play()
+				
+				audio.play_sound("dink")
 				ctrl_lock = true
 				menu = 0
 				tween_start("extras", "out")

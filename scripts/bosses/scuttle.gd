@@ -435,7 +435,7 @@ func _physics_process(delta):
 	
 	#Kill boss.
 	if world.boss_hp <= 0:
-		world.kill_music()
+		audio.stop_all_music()
 		audio.play_sound("death")
 		world.bolt_calc()
 		

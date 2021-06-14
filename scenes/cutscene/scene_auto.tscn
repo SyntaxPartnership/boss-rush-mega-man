@@ -151,7 +151,6 @@ script = ExtResource( 1 )
 texture = ExtResource( 2 )
 flip_h = true
 hframes = 14
-frame = 3
 
 [node name="anim" type="AnimationPlayer" parent="."]
 anims/bonk = SubResource( 1 )

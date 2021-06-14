@@ -209,7 +209,7 @@ func _process(delta):
 					end_state = 9
 		
 		9:
-			world.play_music('main')
+			audio.play_music('bunker')
 			global.scene = 8
 			global.sub_scene = 16
 			world.shop_active = false

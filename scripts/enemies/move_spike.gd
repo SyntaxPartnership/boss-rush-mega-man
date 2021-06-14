@@ -56,5 +56,5 @@ func _on_plyr_check_body_entered(body):
 			global.player_life[1] = 0
 			world.dead = true
 			player.can_move = false
-			world.kill_music()
+			audio.stop_all_music()
 			get_tree().paused = true

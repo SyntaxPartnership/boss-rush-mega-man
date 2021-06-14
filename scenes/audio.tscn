@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=2]
+[gd_scene load_steps=57 format=2]
 
 [ext_resource path="res://assets/audio/music/06 Menu.ogg" type="AudioStream" id=1]
 [ext_resource path="res://scripts/audio.gd" type="Script" id=2]
@@ -19,7 +19,7 @@
 [ext_resource path="res://assets/audio/se/Beam Out.wav" type="AudioStream" id=17]
 [ext_resource path="res://assets/audio/se/wall_hit.wav" type="AudioStream" id=18]
 [ext_resource path="res://assets/audio/se/BLING.wav" type="AudioStream" id=19]
-[ext_resource path="res://assets/audio/se/transform.wav" type="AudioStream" id=20]
+[ext_resource path="res://assets/audio/se/iii-iv-v/transform.wav" type="AudioStream" id=20]
 [ext_resource path="res://assets/audio/se/Error.wav" type="AudioStream" id=21]
 [ext_resource path="res://assets/audio/se/Item.wav" type="AudioStream" id=22]
 [ext_resource path="res://assets/audio/se/coil1.wav" type="AudioStream" id=23]
@@ -50,8 +50,15 @@
 [ext_resource path="res://assets/audio/se/split.wav" type="AudioStream" id=48]
 [ext_resource path="res://assets/audio/se/def_bullet.wav" type="AudioStream" id=49]
 [ext_resource path="res://assets/audio/se/faceplant.wav" type="AudioStream" id=50]
+[ext_resource path="res://assets/audio/music/Free Game Start 1.ogg" type="AudioStream" id=51]
+[ext_resource path="res://assets/audio/se/Beam In.wav" type="AudioStream" id=52]
+[ext_resource path="res://assets/audio/se/Hurt.wav" type="AudioStream" id=53]
+[ext_resource path="res://assets/audio/se/Meter.wav" type="AudioStream" id=54]
+[ext_resource path="res://assets/audio/se/Bolt.wav" type="AudioStream" id=55]
+[ext_resource path="res://assets/audio/se/Whistle.wav" type="AudioStream" id=56]
 
 [node name="audio" type="Node"]
+pause_mode = 2
 script = ExtResource( 2 )
 
 [node name="music" type="Node" parent="."]
@@ -94,6 +101,10 @@ bus = "music"
 
 [node name="intro-scene" type="AudioStreamPlayer" parent="music"]
 stream = ExtResource( 11 )
+bus = "music"
+
+[node name="auto-intro" type="AudioStreamPlayer" parent="music"]
+stream = ExtResource( 51 )
 bus = "music"
 
 [node name="sfx" type="Node" parent="."]
@@ -144,90 +155,140 @@ bus = "sfx"
 
 [node name="bounce" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 23 )
+bus = "sfx"
 
 [node name="meow" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 24 )
+bus = "sfx"
 
 [node name="swoop_a" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 29 )
+bus = "sfx"
 
 [node name="swoop_b" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 26 )
+bus = "sfx"
 
 [node name="swoop_c" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 28 )
+bus = "sfx"
 
 [node name="swoop_d" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 25 )
+bus = "sfx"
 
 [node name="death" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 27 )
+bus = "sfx"
 
 [node name="spark" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 32 )
+bus = "sfx"
 
 [node name="throw" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 30 )
+bus = "sfx"
 
 [node name="pull" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 31 )
+bus = "sfx"
 
 [node name="wall_hit" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 18 )
+bus = "sfx"
 
 [node name="roto_a" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 42 )
+bus = "sfx"
 
 [node name="roto_b" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 41 )
+bus = "sfx"
 
 [node name="shock" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 39 )
+bus = "sfx"
 
 [node name="hit" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 37 )
+bus = "sfx"
 
 [node name="split" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 48 )
+bus = "sfx"
 
 [node name="elec" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 45 )
+bus = "sfx"
 
 [node name="def_bullet" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 49 )
+bus = "sfx"
 
 [node name="clang" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 46 )
+bus = "sfx"
 
 [node name="fall" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 47 )
+bus = "sfx"
 
 [node name="faceplant" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 50 )
+bus = "sfx"
 
 [node name="wpn_get" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 44 )
+bus = "sfx"
 
 [node name="big_explode" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 15 )
+bus = "sfx"
 
 [node name="shutter" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 34 )
+bus = "sfx"
 
 [node name="shoot_a" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 36 )
+bus = "sfx"
 
 [node name="shoot_b" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 38 )
+bus = "sfx"
 
 [node name="charge" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 35 )
+bus = "sfx"
 
 [node name="connect" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 40 )
+bus = "sfx"
 
 [node name="buy" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 33 )
+bus = "sfx"
 
 [node name="menu" type="AudioStreamPlayer" parent="sfx"]
 stream = ExtResource( 43 )
+bus = "sfx"
+
+[node name="appear" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 52 )
+bus = "sfx"
+
+[node name="hurt" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 53 )
+bus = "sfx"
+
+[node name="meter" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 54 )
+bus = "sfx"
+
+[node name="bolt" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 55 )
+bus = "sfx"
+
+[node name="whistle" type="AudioStreamPlayer" parent="sfx"]
+stream = ExtResource( 56 )
+bus = "sfx"

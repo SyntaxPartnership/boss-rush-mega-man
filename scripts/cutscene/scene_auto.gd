@@ -78,4 +78,5 @@ func _physics_process(delta):
 
 func _on_anim_finished(anim_name):
 	if anim_name == "intro":
-		world.play_music("intro")
+		audio.play_music("auto-intro")
+		world.spawn_eddie = 1

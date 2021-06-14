@@ -105,6 +105,7 @@ var countdown = false
 var buy_rand = 0
 var ret_delay = 12
 var next = false
+var spawn_eddie = 0
 
 var cursor_blnk = 0
 var cutsc_mode = 0
@@ -392,7 +393,7 @@ func _ready():
 	_rooms()
 	
 	if global.opening == 7:
-		play_music("main")
+		audio.play_music("bunker")
 	
 	if int(global.boss1_clear) + int(global.boss2_clear) + int(global.boss3_clear) + int(global.boss4_clear) == 4:
 		$graphic/spawn_tiles/cage.queue_free()
@@ -465,7 +466,7 @@ func _input(event):
 		if Input.is_action_just_pressed('start') and !$pause/pause_menu.start and !swapping and global.boss_num > 0 and !$player.no_input:
 			$pause/pause_menu.kill_wpn = global.player_weap[int($player.swap)]
 			audio.play_sound("menu")
-			kill_se("charge")
+			audio.stop_sound("charge")
 			p_menu = true
 			$pause/pause_menu.start = true
 			$pause/pause_menu.init_cursor()
@@ -715,7 +716,7 @@ func _rooms():
 				
 	if boss_rooms.has(str(player_room)):
 		#Kill music and display the boss meter.
-		kill_music()
+		audio.stop_all_music()
 		
 		if which_wpn != 0 and which_wpn != 2 and which_wpn != 3 or which_wpn == 0 and global.weapon1[0]:
 			ready_boss = true
@@ -778,7 +779,7 @@ func _rooms():
 			if !$scene_txt/on_off.is_visible_in_tree():
 				$scene_txt.offset.y = -64
 				$scene_txt/on_off.show()
-			kill_music()
+			audio.stop_all_music()
 			$player.cutscene(true)
 			global.player_weap[0] = 0
 			palette_swap()
@@ -788,7 +789,7 @@ func _rooms():
 	
 	if global.scene == 8:
 		global.sub_scene = 50
-		kill_music()
+		audio.stop_all_music()
 		if player_room == Vector2(7, 6):
 			$graphic/spawn_tiles/demo_wily.global_position = Vector2(1920, 1585)
 		elif player_room == Vector2(7, 10):
@@ -1015,8 +1016,8 @@ func _process(delta):
 		
 	#If the player presses up in the right spot, trigger shop sequence.
 	if auto_dist < 0 and auto_dist > -16 and Input.is_action_just_pressed('up') and shop_state == 0 and shop_active:
-		kill_music()
-		play_music('shop - rock')
+		audio.stop_all_music()
+		audio.play_music('shop-rock')
 		shop_rand = round(rand_range(0, 2))
 		$graphic/spawn_tiles/shop/menu/screws.set_text(str(global.bolts))
 		screws = global.bolts
@@ -1305,15 +1306,14 @@ func _process(delta):
 		get_tree().paused = true
 		$player.hide()
 		kill_weapons()
-		kill_se("charge")
-		for m in $audio/music.get_children():
-			m.stop()
+		audio.stop_sound("charge")
+		audio.stop_all_music()
 		
 	if global.player_life[0] <= 0 and global.player_life[1] <= 0 and !dead:
 		dead = true
 		$player.s_kick = false
 		get_tree().paused = true
-		kill_se("charge")
+		audio.stop_sound("charge")
 		for m in $audio/music.get_children():
 			m.stop()
 	
@@ -1431,17 +1431,21 @@ func _process(delta):
 	if global.boss_num == 0:
 		end_delay -= 1
 	
+	if end_delay < 0 and end_state == 0:
+		if !audio.get_child(0).get_child(7).is_playing():
+			end_state += 1
+	
 	if end_delay == 0:
 		if end_state == 0:
 			match end_style:
 				0:
 					$hud/hud.hide()
 					kill_weapons()
-					play_music('clear')
+					audio.play_music('clear')
 					$player.cutscene(true)
 					boss = false
 				1:
-					play_music('main')
+					audio.play_music('bunker')
 					boss = false
 					$pause/pause_menu.hide_icons()
 					cam_allow[2] = 1
@@ -1501,7 +1505,7 @@ func _process(delta):
 		end_state = 5
 	
 	if end_state == 6:
-		play_music("wpn_get")
+		audio.play_music("weapon-get")
 		$fake_fade/fade.interpolate_property($fake_fade/rect, 'color', Color(0.0, 0.0, 0.0, 0.0), Color(0.0, 0.0, 0.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 		$fake_fade/fade.start()
 		$wpn_get/wpn_get1.frame = $player/sprite.get_frame()
@@ -1543,7 +1547,7 @@ func _process(delta):
 			$fake_fade/fade.start()
 			$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl, 'modulate', Color(1.0, 1.0, 1.0, 1.0), Color(1.0, 1.0, 1.0, 0.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 			$wpn_get/wpn_fade.start()
-			kill_music()
+			audio.stop_all_music()
 			$audio/music/wpn_get.set_volume_db(0)
 			end_state = 12
 	
@@ -1744,7 +1748,7 @@ func _process(delta):
 				$hud/hud.show()
 				$player.cutscene(false)
 				global.opening = 7
-				play_music("main")
+				audio.play_music("bunker")
 		
 	if global.opening == 7 and mntr_frame < 3:
 		mntr_frame = 3
@@ -2123,7 +2127,7 @@ func kill_weapons():
 	$player.charge = 0
 	$player.chrg_lvl = 0
 	palette_swap()
-	kill_se("charge")
+	audio.stop_sound("charge")
 	var wpns = get_tree().get_nodes_in_group('weapons')
 	for i in wpns:
 		i.queue_free()
@@ -2193,26 +2197,8 @@ func enemy_dmg(key, entry):
 		damage = wpn_dmg.get(key)[entry]
 
 func _on_player_whstl_end():
-	play_music("")
-
-func play_music(ogg):
-	for m in $audio/music.get_children():
-		if m.name == ogg:
-			m.play()
-
-func kill_music():
-	for m in $audio/music.get_children():
-		m.stop()
-
-func sound(sfx):
-	for s in $audio/se.get_children():
-		if s.name == sfx:
-			s.play()
-
-func kill_se(sfx):
-	for s in $audio/se.get_children():
-		if s.name == sfx:
-			s.stop()
+	pass
+	#play_music("") What the hell did I need this for?
 
 func _on_clear_finished():
 	end_state = 1
@@ -2277,7 +2263,7 @@ func _on_wpn_fade_tween_completed(object, _key):
 			global.boss_num = 1
 			end_state = 0
 			if $graphic/spawn_tiles/cage.bosses < 3:
-				play_music('main')
+				audio.play_music('bunker')
 				$player.cutscene(false)
 			else:
 				$graphic/spawn_tiles/cage.cage_open = true
@@ -2460,7 +2446,7 @@ func show_text():
 					if global.sub_scene == 15 or global.sub_scene == 32 or global.sub_scene == 49:
 						$player/camera.current = true
 						cutsc_mode = 3
-						play_music("main")
+						audio.play_music("bunker")
 						for c in get_tree().get_nodes_in_group("cutscene"):
 							if c.name != "scene_reggae":
 								c.queue_free()
@@ -2473,7 +2459,7 @@ func show_text():
 				8:
 					if global.sub_scene == 58:
 						cutsc_mode = 3
-						play_music("main")
+						audio.play_music("bunker")
 						shop_active = true
 						global.scene = 9
 
@@ -2557,6 +2543,12 @@ func show_text():
 			if global.player == 0:
 				$player.anim_state($player.LOOKUP)
 			global.scene += 1
+			
+		if global.scene == 4:
+			if !audio.get_child(0).get_child(10).is_playing():
+				if spawn_eddie == 1:
+					_on_intro_finished()
+					spawn_eddie += 1
 
 func _on_intro_finished():
 	if global.player == 0:
@@ -2881,8 +2873,8 @@ func shop():
 						cursor_blnk = 0
 						if $scene_txt/on_off/next.is_visible_in_tree():
 							$scene_txt/on_off/next.hide()
-						kill_music()
-						play_music('main')
+						audio.stop_all_music()
+						audio.play_music('bunker')
 						cutsc_mode += 1
 						shop_pos = 0
 						shop_state = 9

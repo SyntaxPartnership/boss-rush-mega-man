@@ -57,14 +57,14 @@ func _input(event):
 	
 	if !lock:
 		if Input.is_action_just_pressed("down") and menu_pos < max_pos:
-			$cursor2.play()
+			$audio.play_sound("cursor")
 			menu_pos += 1
 		if Input.is_action_just_pressed("up") and menu_pos > 0:
-			$cursor2.play()
+			$audio.play_sound("cursor")
 			menu_pos -= 1
 		
 		if Input.is_action_just_pressed("jump") or Input.is_action_just_pressed("start"):
-			$select.play()
+			$audio.play_sound("select")
 			if max_pos != 4:
 				if menu_pos == 0:
 					$fade.state = 1
