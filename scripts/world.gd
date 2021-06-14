@@ -1917,7 +1917,7 @@ func palette_swap():
 			if $player.charge == 0:
 				palette[0] = global.black
 				palette[1] = global.red3
-				palette[2] = global.grey1
+				palette[2] = global.grey0
 		
 			#Charge 1
 			if $player.charge >= 32 and $player.charge < 96 and $player.c_flash == 0:
@@ -1933,13 +1933,13 @@ func palette_swap():
 			if $player.charge >= 96 and $player.c_flash == 0:
 				palette[0] = global.black
 				palette[1] = global.red3
-				palette[2] = global.grey1
+				palette[2] = global.grey0
 			if $player.charge >= 96 and $player.c_flash == 2:
 				palette[0] = global.red3
-				palette[1] = global.grey1
+				palette[1] = global.grey0
 				palette[2] = global.black
 			if $player.charge >= 96 and $player.c_flash == 4:
-				palette[0] = global.grey1
+				palette[0] = global.grey0
 				palette[1] = global.black
 				palette[2] = global.red3
 			if $player.charge >= 96 and $player.c_flash == 6:
