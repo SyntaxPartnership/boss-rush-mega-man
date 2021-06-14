@@ -1368,8 +1368,13 @@ func standing():
 		$slide_top/area.set_disabled(true)
 		
 	#Begin sliding functions.
-	if global.player == 0:
-		if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide or s_kick and is_on_floor() and !wall and !slide:
+	if global.player == 0 and y_dir == 1 and jump_tap or s_kick or dash_tap:
+		if is_on_floor() and !wall and !slide:
+			
+			if global.player == 0 or s_kick:
+				$standbox.set_disabled(true)
+				$slidebox.set_disabled(false)
+			
 			if !s_kick:
 				anim_state(SLIDE)
 			else:
@@ -1381,83 +1386,137 @@ func standing():
 			smoke.position = position + Vector2(0, 7)
 			effect.add_child(smoke)
 			slide_timer = 15
+			shot_state(NORMAL)
+			bass_dir = ''
 			slide = true
-			$standbox.set_disabled(true)
-			$slidebox.set_disabled(false)
-	else:
-		if dash_tap and is_on_floor() and !wall and !slide or s_kick and is_on_floor() and !wall and !slide:
-			if global.player == 2 and !fire or global.player == 1:
-				if !s_kick:
-					anim_state(SLIDE)
-				else:
-					anim_state(SKICK_SLD)
-				var smoke = SLIDE_SMOKE.instance()
-				var smk_sprite = smoke.get_child(0)
-				smk_sprite.flip_h = $sprite.flip_h
-				smoke.position = position + Vector2(0, 7)
-				effect.add_child(smoke)
-				slide_timer = 15
-				slide = true
-				shot_state(NORMAL)
-				bass_dir = ''
-		
-		if is_on_floor() and y_dir == 0 and !wall:
-			if slide_act == 0:
-				if left_tap or right_tap:
-					if global.player == 1:
-						slide_delay = 16
-						slide_tap_dir = x_dir
-						slide_act += 1
-					elif global.player == 2 and !fire:
-						slide_delay = 16
-						slide_tap_dir = x_dir
-						slide_act += 1
+	elif global.player != 0 and y_dir == 0:
+		if is_on_floor() and !wall and !slide:
 			
-			if slide_act == 1:
-				if !left_tap and !right_tap:
-					slide_act += 1
-					
 			if slide_act == 2:
-				if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
-					if global.player == 1:
-						slide = true
-						slide_timer = 15
-						anim_state(SLIDE)
-						var smoke = SLIDE_SMOKE.instance()
-						var smk_sprite = smoke.get_child(0)
-						smk_sprite.flip_h = $sprite.flip_h
-						smoke.position = position + Vector2(0, 7)
-						effect.add_child(smoke)
-						slide_delay = 0
-						slide_act = 0
-						slide_tap_dir = 0
-						shot_state(NORMAL)
-						bass_dir = ''
-					elif global.player == 2 and !fire:
-						slide = true
-						slide_timer = 15
-						anim_state(SLIDE)
-						var smoke = SLIDE_SMOKE.instance()
-						var smk_sprite = smoke.get_child(0)
-						smk_sprite.flip_h = $sprite.flip_h
-						smoke.position = position + Vector2(0, 7)
-						effect.add_child(smoke)
-						slide_delay = 0
-						slide_act = 0
-						slide_tap_dir = 0
-						shot_state(NORMAL)
-						bass_dir = ''
+				if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1:
+					anim_state(SLIDE)
+					var smoke = SLIDE_SMOKE.instance()
+					var smk_sprite = smoke.get_child(0)
+					smk_sprite.flip_h = $sprite.flip_h
+					smoke.position = position + Vector2(0, 7)
+					effect.add_child(smoke)
+					slide_timer = 15
+					shot_state(NORMAL)
+					bass_dir = ''
+					slide = true
 				elif left_tap and slide_tap_dir == 1 or right_tap and slide_tap_dir == -1:
 					slide_delay = 0
-					slide_act = 0
 					slide_tap_dir = 0
+					slide_act = 0
 			
-			if slide_delay > 0:
-				slide_delay -= 1
+			if slide_act == 1:
+				if !left_tap or !right_tap:
+					slide_act += 1
 			
-			if slide_delay == 0:
-				slide_act = 0
-				slide_tap_dir = 0
+			if slide_act == 0:
+				if left_tap or right_tap:
+					slide_delay = 16
+					slide_tap_dir = x_dir
+					slide_act += 1
+	
+	if slide_delay > 0:
+		slide_delay -= 1
+	
+	if slide_delay == 0:
+		if slide_tap_dir != 0 or slide_act != 0:
+			slide_tap_dir = 0
+			slide_act = 0
+			
+#	if global.player == 0:
+#		if y_dir == 1 and jump_tap and is_on_floor() and !wall and !slide or s_kick and is_on_floor() and !wall and !slide:
+#			if !s_kick:
+#				anim_state(SLIDE)
+#			else:
+#				anim_state(SKICK_SLD)
+#			#Add slide smoke.
+#			var smoke = SLIDE_SMOKE.instance()
+#			var smk_sprite = smoke.get_child(0)
+#			smk_sprite.flip_h = $sprite.flip_h
+#			smoke.position = position + Vector2(0, 7)
+#			effect.add_child(smoke)
+#			slide_timer = 15
+#			slide = true
+#			$standbox.set_disabled(true)
+#			$slidebox.set_disabled(false)
+#	else:
+#		if dash_tap and is_on_floor() and !wall and !slide or s_kick and is_on_floor() and !wall and !slide:
+#			if global.player == 2 and !fire or global.player == 1:
+#				if !s_kick:
+#					anim_state(SLIDE)
+#				else:
+#					anim_state(SKICK_SLD)
+#				var smoke = SLIDE_SMOKE.instance()
+#				var smk_sprite = smoke.get_child(0)
+#				smk_sprite.flip_h = $sprite.flip_h
+#				smoke.position = position + Vector2(0, 7)
+#				effect.add_child(smoke)
+#				slide_timer = 15
+#				slide = true
+#				shot_state(NORMAL)
+#				bass_dir = ''
+#
+#		if is_on_floor() and y_dir == 0 and !wall:
+#			if slide_act == 0:
+#				if left_tap or right_tap:
+#					if global.player == 1:
+#						slide_delay = 16
+#						slide_tap_dir = x_dir
+#						slide_act += 1
+#					elif global.player == 2 and !fire:
+#						slide_delay = 16
+#						slide_tap_dir = x_dir
+#						slide_act += 1
+#
+#			if slide_act == 1:
+#				if !left_tap and !right_tap:
+#					slide_act += 1
+#
+#			if slide_act == 2:
+#				if left_tap and slide_tap_dir == -1 or right_tap and slide_tap_dir == 1 and !slide:
+#					if global.player == 1:
+#						slide = true
+#						slide_timer = 15
+#						anim_state(SLIDE)
+#						var smoke = SLIDE_SMOKE.instance()
+#						var smk_sprite = smoke.get_child(0)
+#						smk_sprite.flip_h = $sprite.flip_h
+#						smoke.position = position + Vector2(0, 7)
+#						effect.add_child(smoke)
+#						slide_delay = 0
+#						slide_act = 0
+#						slide_tap_dir = 0
+#						shot_state(NORMAL)
+#						bass_dir = ''
+#					elif global.player == 2 and !fire:
+#						slide = true
+#						slide_timer = 15
+#						anim_state(SLIDE)
+#						var smoke = SLIDE_SMOKE.instance()
+#						var smk_sprite = smoke.get_child(0)
+#						smk_sprite.flip_h = $sprite.flip_h
+#						smoke.position = position + Vector2(0, 7)
+#						effect.add_child(smoke)
+#						slide_delay = 0
+#						slide_act = 0
+#						slide_tap_dir = 0
+#						shot_state(NORMAL)
+#						bass_dir = ''
+#				elif left_tap and slide_tap_dir == 1 or right_tap and slide_tap_dir == -1:
+#					slide_delay = 0
+#					slide_act = 0
+#					slide_tap_dir = 0
+#
+#			if slide_delay > 0:
+#				slide_delay -= 1
+#
+#			if slide_delay == 0:
+#				slide_act = 0
+#				slide_tap_dir = 0
 	
 	if slide_timer > 0:
 		slide_timer -= 1

@@ -1,0 +1,56 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://assets/tilesets/test/testtiles.tres" type="TileSet" id=1]
+[ext_resource path="res://scripts/cutscene/weapon_demo.gd" type="Script" id=2]
+[ext_resource path="res://assets/sprites/player/mega-norm.png" type="Texture" id=3]
+[ext_resource path="res://shaders/player.tres" type="Material" id=4]
+
+[sub_resource type="Animation" id=2]
+resource_name = "teleport"
+length = 0.3
+step = 0.06
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.06, 0.12, 0.18, 0.24 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 0, 3 ]
+}
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 6.5, 10 )
+
+[node name="weapon_demo" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="barrier" type="TileMap" parent="."]
+visible = false
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 16, 16 )
+format = 1
+tile_data = PoolIntArray( -196612, 0, 0, -196611, 0, 0, -196610, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262142, 0, 0, -262141, 0, 0, -262140, 0, 0, -262139, 0, 0, -131076, 0, 0, -196603, 0, 0, -65540, 0, 0, -131067, 0, 0, -4, 0, 0, -65531, 0, 0, 65532, 0, 0, 5, 0, 0, 131068, 0, 0, 65541, 0, 0, 196604, 0, 0, 131077, 0, 0, 262140, 0, 0, 262141, 0, 0, 262142, 0, 0, 262143, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0 )
+
+[node name="demo_plyr" type="KinematicBody2D" parent="."]
+position = Vector2( -40, 38 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="sprite" type="Sprite" parent="demo_plyr"]
+visible = false
+material = ExtResource( 4 )
+position = Vector2( 0, -3 )
+texture = ExtResource( 3 )
+vframes = 4
+hframes = 14
+
+[node name="anim" type="AnimationPlayer" parent="demo_plyr"]
+anims/teleport = SubResource( 2 )
+
+[node name="box" type="CollisionShape2D" parent="demo_plyr"]
+shape = SubResource( 1 )
+[connection signal="animation_finished" from="demo_plyr/anim" to="." method="_on_anim_done"]

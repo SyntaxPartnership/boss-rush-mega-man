@@ -11,10 +11,15 @@ func _ready():
 	audio.play_sound("s_kick")
 	
 	if !player.is_on_floor() and !player.wall:
+		if player.dash_jump:
+			player.slide = false
+			player.slide_timer = 0
+			player.dash_jump = false
+		
 		$anim.play("air")
 		player.s_kick = true
-	else:
-		$anim.play("air")
+	else:		
+		$anim.play("ground")
 		player.s_kick = true
 
 func _physics_process(delta):

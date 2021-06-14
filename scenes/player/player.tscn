@@ -559,7 +559,6 @@ texture = ExtResource( 3 )
 offset = Vector2( 0, -241 )
 vframes = 4
 hframes = 14
-frame = 5
 
 [node name="weap_icon_lr" type="Sprite" parent="sprite"]
 visible = false

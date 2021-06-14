@@ -834,6 +834,7 @@ func calc_damage(to, from):
 						shld.type = 9
 						shld.position = to.global_position
 						shld.velocity.y = to.JUMP_SPEED
+						shld.time = 240
 						if to.get_child(3).flip_h:
 							shld.x_spd = 100
 						else:
@@ -1314,6 +1315,7 @@ func _process(delta):
 		$player.s_kick = false
 		get_tree().paused = true
 		audio.stop_sound("charge")
+		audio.stop_all_music()
 		for m in $audio/music.get_children():
 			m.stop()
 	
@@ -1511,7 +1513,7 @@ func _process(delta):
 		$wpn_get/wpn_get1.frame = $player/sprite.get_frame()
 		$wpn_get/wpn_get1.position = Vector2(($player.global_position.x - $player/camera.limit_left), ($player.global_position.y - $player/camera.limit_top))
 		$wpn_get/wpn_get1.show()
-		end_state =7
+		end_state = 7
 	
 	if end_state == 8:
 		$wpn_get/wpn_fade.interpolate_property($wpn_get/mod_ctrl, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
@@ -1527,13 +1529,17 @@ func _process(delta):
 		if wpn_txt_delay > 0:
 			wpn_txt_delay -= 1
 		
-		if wpn_txt_delay == 0:
-			if $wpn_get/mod_ctrl/txt.visible_characters < $wpn_get/mod_ctrl/txt.get_total_character_count():
-				$wpn_get/mod_ctrl/txt.set_visible_characters($wpn_get/mod_ctrl/txt.visible_characters + 1)
-				wpn_txt_delay = 6
-			
-			if $wpn_get/mod_ctrl/txt.visible_characters == $wpn_get/mod_ctrl/txt.get_total_character_count():
-				end_state = 11
+		print(wpn_txt_delay)
+		
+		if wpn_txt_delay == 1:
+			print('Start Animation')
+			$wpn_get/mod_ctrl/weapon_demo.state = 1
+#			if $wpn_get/mod_ctrl/txt.visible_characters < $wpn_get/mod_ctrl/txt.get_total_character_count():
+#				$wpn_get/mod_ctrl/txt.set_visible_characters($wpn_get/mod_ctrl/txt.visible_characters + 1)
+#				wpn_txt_delay = 6
+#
+#			if $wpn_get/mod_ctrl/txt.visible_characters == $wpn_get/mod_ctrl/txt.get_total_character_count():
+#				end_state = 11
 	
 	if end_state == 11:
 		if drop_back > 0:
@@ -1917,7 +1923,7 @@ func palette_swap():
 			if $player.charge == 0:
 				palette[0] = global.black
 				palette[1] = global.red3
-				palette[2] = global.grey0
+				palette[2] = global.grey1
 		
 			#Charge 1
 			if $player.charge >= 32 and $player.charge < 96 and $player.c_flash == 0:
@@ -1933,13 +1939,13 @@ func palette_swap():
 			if $player.charge >= 96 and $player.c_flash == 0:
 				palette[0] = global.black
 				palette[1] = global.red3
-				palette[2] = global.grey0
+				palette[2] = global.grey1
 			if $player.charge >= 96 and $player.c_flash == 2:
 				palette[0] = global.red3
-				palette[1] = global.grey0
+				palette[1] = global.grey1
 				palette[2] = global.black
 			if $player.charge >= 96 and $player.c_flash == 4:
-				palette[0] = global.grey0
+				palette[0] = global.grey1
 				palette[1] = global.black
 				palette[2] = global.red3
 			if $player.charge >= 96 and $player.c_flash == 6:
