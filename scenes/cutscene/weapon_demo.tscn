@@ -1,11 +1,162 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://assets/tilesets/test/testtiles.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/cutscene/weapon_demo.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/player/mega-norm.png" type="Texture" id=3]
-[ext_resource path="res://shaders/player.tres" type="Material" id=4]
+[ext_resource path="res://assets/sprites/weapons/s_kick.png" type="Texture" id=4]
+[ext_resource path="res://assets/sprites/enemies/telly.png" type="Texture" id=5]
+[ext_resource path="res://shaders/player.tres" type="Material" id=6]
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="RectangleShape2D" id=17]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=18]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=19]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="RectangleShape2D" id=12]
+extents = Vector2( 6.5, 10 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle1"
+length = 2.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1.8 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 4, 5 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "idle2"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 4, 5 ]
+}
+
+[sub_resource type="Animation" id=5]
+resource_name = "jump"
+length = 0.001
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 10 ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "lilstep"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 6 ]
+}
+
+[sub_resource type="Animation" id=7]
+resource_name = "rboost"
+length = 0.2
+loop = true
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.1, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 32, 33, 34, 35 ]
+}
+
+[sub_resource type="Animation" id=8]
+resource_name = "run"
+length = 0.44
+loop = true
+step = 0.11
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.11, 0.22, 0.33 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 7, 8, 9, 8 ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "skick_air"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 28, 29 ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "skick_ground"
+length = 0.2
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 30, 31 ]
+}
+
+[sub_resource type="Animation" id=1]
 resource_name = "teleport"
 length = 0.3
 step = 0.06
@@ -22,8 +173,50 @@ tracks/0/keys = {
 "values": [ 0, 1, 2, 0, 3 ]
 }
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 6.5, 10 )
+
+[sub_resource type="RectangleShape2D" id=13]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="Animation" id=14]
+resource_name = "air"
+length = 0.15
+loop = true
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "ground"
+length = 0.15
+loop = true
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 2, 3 ]
+}
+
+[sub_resource type="RectangleShape2D" id=16]
+extents = Vector2( 8, 8 )
 
 [node name="weapon_demo" type="Node2D"]
 script = ExtResource( 2 )
@@ -32,25 +225,142 @@ script = ExtResource( 2 )
 visible = false
 tile_set = ExtResource( 1 )
 cell_size = Vector2( 16, 16 )
+collision_layer = 0
+collision_mask = 2
 format = 1
-tile_data = PoolIntArray( -196612, 0, 0, -196611, 0, 0, -196610, 0, 0, -196609, 0, 0, -262144, 0, 0, -262143, 0, 0, -262142, 0, 0, -262141, 0, 0, -262140, 0, 0, -262139, 0, 0, -131076, 0, 0, -196603, 0, 0, -65540, 0, 0, -131067, 0, 0, -4, 0, 0, -65531, 0, 0, 65532, 0, 0, 5, 0, 0, 131068, 0, 0, 65541, 0, 0, 196604, 0, 0, 131077, 0, 0, 262140, 0, 0, 262141, 0, 0, 262142, 0, 0, 262143, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0 )
+tile_data = PoolIntArray( -655365, 0, 0, -720890, 0, 0, -589829, 0, 0, -655354, 0, 0, -524293, 0, 0, -589818, 0, 0, -458757, 0, 0, -524282, 0, 0, -393221, 0, 0, -458746, 0, 0, -327685, 0, 0, -393210, 0, 0, -262149, 0, 0, -327674, 0, 0, -196613, 0, 0, -262138, 0, 0, -131077, 0, 0, -196602, 0, 0, -65541, 0, 0, -131066, 0, 0, -5, 0, 0, -65530, 0, 0, 65531, 0, 0, 6, 0, 0, 131067, 0, 0, 65542, 0, 0, 196603, 0, 0, 131078, 0, 0, 262139, 0, 0, 262140, 0, 0, 262141, 0, 0, 262142, 0, 0, 262143, 0, 0, 196608, 0, 0, 196609, 0, 0, 196610, 0, 0, 196611, 0, 0, 196612, 0, 0, 196613, 0, 0, 196614, 0, 0 )
+
+[node name="skick_group" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="telly" type="Area2D" parent="skick_group"]
+position = Vector2( -16, 40 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="sprite" type="Sprite" parent="skick_group/telly"]
+texture = ExtResource( 5 )
+hframes = 6
+
+[node name="anim" type="AnimationPlayer" parent="skick_group/telly"]
+
+[node name="box" type="CollisionShape2D" parent="skick_group/telly"]
+shape = SubResource( 17 )
+
+[node name="telly2" type="Area2D" parent="skick_group"]
+position = Vector2( 24, -8 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="sprite" type="Sprite" parent="skick_group/telly2"]
+texture = ExtResource( 5 )
+hframes = 6
+
+[node name="anim" type="AnimationPlayer" parent="skick_group/telly2"]
+
+[node name="box" type="CollisionShape2D" parent="skick_group/telly2"]
+shape = SubResource( 18 )
+
+[node name="telly3" type="Area2D" parent="skick_group"]
+position = Vector2( 72, 40 )
+collision_layer = 0
+collision_mask = 4
+
+[node name="sprite" type="Sprite" parent="skick_group/telly3"]
+texture = ExtResource( 5 )
+hframes = 6
+
+[node name="anim" type="AnimationPlayer" parent="skick_group/telly3"]
+
+[node name="box" type="CollisionShape2D" parent="skick_group/telly3"]
+shape = SubResource( 19 )
+
+[node name="rboost_group" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spuck_group" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ashield_group" type="Control" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="demo_plyr" type="KinematicBody2D" parent="."]
 position = Vector2( -40, 38 )
 collision_layer = 2
+
+[node name="enemy_box" type="Area2D" parent="demo_plyr"]
+collision_layer = 4
 collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="demo_plyr/enemy_box"]
+shape = SubResource( 12 )
 
 [node name="sprite" type="Sprite" parent="demo_plyr"]
 visible = false
-material = ExtResource( 4 )
+material = ExtResource( 6 )
 position = Vector2( 0, -3 )
 texture = ExtResource( 3 )
 vframes = 4
 hframes = 14
 
 [node name="anim" type="AnimationPlayer" parent="demo_plyr"]
-anims/teleport = SubResource( 2 )
+anims/idle1 = SubResource( 3 )
+anims/idle2 = SubResource( 4 )
+anims/jump = SubResource( 5 )
+anims/lilstep = SubResource( 6 )
+anims/rboost = SubResource( 7 )
+anims/run = SubResource( 8 )
+anims/skick_air = SubResource( 9 )
+anims/skick_ground = SubResource( 10 )
+anims/teleport = SubResource( 1 )
 
 [node name="box" type="CollisionShape2D" parent="demo_plyr"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
+
+[node name="skick" type="KinematicBody2D" parent="."]
+visible = false
+position = Vector2( -40, 38 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="enemybox" type="Area2D" parent="skick"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="box" type="CollisionShape2D" parent="skick/enemybox"]
+position = Vector2( 11, 3 )
+shape = SubResource( 13 )
+disabled = true
+
+[node name="sprite" type="Sprite" parent="skick"]
+position = Vector2( 0, -3 )
+texture = ExtResource( 4 )
+hframes = 4
+frame = 2
+
+[node name="anim" type="AnimationPlayer" parent="skick"]
+anims/air = SubResource( 14 )
+anims/ground = SubResource( 15 )
+
+[node name="box" type="CollisionShape2D" parent="skick"]
+position = Vector2( 11, 3 )
+shape = SubResource( 16 )
+[connection signal="area_entered" from="demo_plyr/enemy_box" to="." method="_on_enemy_box_area_entered"]
 [connection signal="animation_finished" from="demo_plyr/anim" to="." method="_on_anim_done"]
+[connection signal="area_entered" from="skick/enemybox" to="." method="_on_enemybox_skick_entered"]

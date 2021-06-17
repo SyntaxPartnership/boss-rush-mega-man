@@ -281,11 +281,11 @@ var got_items = {
 
 var wpn_dmg = {
 				0 : [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],			#Immunity to damage.
-				1 : [10, 20, 30, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
-				2 : [10, 20, 30, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
-				3 : [10, 20, 30, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
-				4 : [10, 20, 30, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
-				5 : [10, 20, 30, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
+				1 : [280, 20, 30, 20, 40, 40, 10, 20, 0, 0, 0],	#Standard enemy. All Weapons hurt it.
+				2 : [280, 20, 30, 10, 40, 10, 0, 20, 0, 0, 0],		#Swoop Woman
+				3 : [280, 20, 30, 10, 10, 20, 40, 10, 40, 0, 0],	#Roto Man
+				4 : [280, 20, 30, 40, 0, 20, 10, 0, 0, 10, 0],		#Scuttle Woman
+				5 : [280, 20, 30, 10, 10, 40, 20, 0, 0, 0, 10]		#Defend Woman
 				}
 				
 var damage = 0
@@ -1528,8 +1528,6 @@ func _process(delta):
 	if end_state == 10:
 		if wpn_txt_delay > 0:
 			wpn_txt_delay -= 1
-		
-		print(wpn_txt_delay)
 		
 		if wpn_txt_delay == 1:
 			print('Start Animation')
