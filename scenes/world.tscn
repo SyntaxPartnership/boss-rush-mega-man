@@ -1,4 +1,4 @@
-[gd_scene load_steps=111 format=2]
+[gd_scene load_steps=110 format=2]
 
 [ext_resource path="res://scripts/world.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/test/testroom.tres" type="TileSet" id=2]
@@ -90,7 +90,6 @@
 [ext_resource path="res://assets/sprites/effects/text_end.png" type="Texture" id=88]
 [ext_resource path="res://assets/audio/music/1025 FOR YOU -ROLL'S THEME-.ogg" type="AudioStream" id=89]
 [ext_resource path="res://assets/sprites/weapons/tango.png" type="Texture" id=90]
-[ext_resource path="res://scenes/cutscene/weapon_demo.tscn" type="PackedScene" id=91]
 
 [sub_resource type="Animation" id=1]
 resource_name = "bounce"
@@ -911,19 +910,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="txt" type="Label" parent="wpn_get/mod_ctrl"]
-margin_left = 120.0
-margin_top = 88.0
-margin_right = 248.0
-margin_bottom = 117.0
-custom_fonts/font = ExtResource( 61 )
-custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
-custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
-percent_visible = 0.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="top" type="Control" parent="wpn_get/mod_ctrl"]
 margin_right = 40.0
 margin_bottom = 40.0
@@ -1088,12 +1074,23 @@ texture = ExtResource( 56 )
 vframes = 3
 hframes = 4
 
-[node name="weapon_demo" parent="wpn_get/mod_ctrl" instance=ExtResource( 91 )]
-position = Vector2( 160, 120 )
+[node name="txt" type="Label" parent="wpn_get/mod_ctrl"]
+margin_left = 88.0
+margin_top = 56.0
+margin_right = 248.0
+margin_bottom = 64.0
+custom_fonts/font = ExtResource( 61 )
+custom_colors/font_color = Color( 0.988235, 0.972549, 0.988235, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+percent_visible = 0.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="wpn_get1" type="Sprite" parent="wpn_get"]
 visible = false
 material = ExtResource( 55 )
+position = Vector2( -24, -16 )
 texture = ExtResource( 54 )
 offset = Vector2( 0, -1 )
 vframes = 4
@@ -1105,7 +1102,6 @@ hframes = 14
 pause_mode = 2
 
 [node name="fade" parent="fade" instance=ExtResource( 20 )]
-visible = false
 position = Vector2( 128, 120 )
 
 [node name="audio" type="Control" parent="."]
@@ -1333,8 +1329,8 @@ bus = "music"
 [connection signal="tween_completed" from="fake_fade/fade" to="." method="_on_fade_tween_completed"]
 [connection signal="start" from="hud/ready" to="player" method="_on_ready_start"]
 [connection signal="tween_completed" from="wpn_get/wpn_fade" to="." method="_on_wpn_fade_tween_completed"]
-[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadein" from="fade/fade" to="." method="_on_fade_fadein"]
+[connection signal="fadein" from="fade/fade" to="hud/ready" method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade/fade" to="." method="_on_fade_fadeout"]
 [connection signal="finished" from="audio/music/clear" to="." method="_on_clear_finished"]
 [connection signal="finished" from="audio/music/intro" to="." method="_on_intro_finished"]

@@ -9,15 +9,16 @@ onready var enemies = $graphic/spawn_tiles/enemy_map
 
 #Object constants
 const DEATH_BOOM = preload('res://scenes/effects/s_explode_loop.tscn')
+const DEMO = preload('res://scenes/cutscene/weapon_demo.tscn')
 
 # warning-ignore:unused_class_variable
 var fade_state
 
 var get_scrn_txt = {
-	0 : "YOU GOT\n\n\n   SWOOP KICK",
-	1 : "YOU GOT\n\n\n   ROTO BOOST",
-	2 : "YOU GOT\n\n\n   SPRING PUCK",
-	3 : "YOU GOT\n\n\n   ATTACK SHIELD"
+	0 : "YOU GOT SWOOP KICK",
+	1 : "YOU GOT ROTO BOOST",
+	2 : "YOU GOT SPRING PUCK",
+	3 : "YOU GOT ATTACK SHIELD"
 }
 
 #Determines player position in the game world.
@@ -45,6 +46,7 @@ var swapping = false
 var shots = 0
 var adaptors = 0
 var dink = false
+var wpn_demo
 
 var fill_b_meter = false
 var boss_hp = 280
@@ -62,7 +64,7 @@ var end_state = 0
 var end_style = 0
 var leave_delay = 120
 
-var wpn_txt_delay = 6
+var wpn_txt_delay = 12
 var drop_back = 180
 var which_wpn = 0
 
@@ -1526,20 +1528,52 @@ func _process(delta):
 		end_state = 9
 	
 	if end_state == 10:
+		
 		if wpn_txt_delay > 0:
 			wpn_txt_delay -= 1
 		
 		if wpn_txt_delay == 1:
-			print('Start Animation')
-			$wpn_get/mod_ctrl/weapon_demo.state = 1
+			wpn_demo = DEMO.instance()
+			wpn_demo.global_position = Vector2(160, 120)
+			$wpn_get/mod_ctrl.add_child(wpn_demo)
+			wpn_demo.state = 1
+		
+		if wpn_demo != null and wpn_demo.state == 99:
+			wpn_txt_delay = 8
+			end_state += 1
+
+	if end_state == 11:
+		
+		if wpn_txt_delay > 0:
+			wpn_txt_delay -= 1
+		
+		if wpn_txt_delay == 1:
+			if $wpn_get/mod_ctrl/txt.visible_characters < $wpn_get/mod_ctrl/txt.get_total_character_count():
+				$wpn_get/mod_ctrl/txt.set_visible_characters($wpn_get/mod_ctrl/txt.visible_characters + 1)
+				wpn_txt_delay = 8
+
+			if $wpn_get/mod_ctrl/txt.visible_characters == $wpn_get/mod_ctrl/txt.get_total_character_count():
+				end_state = 12
+#		if $wpn_get/mod_ctrl/weapon_demo.state == 99:
+#			wpn_txt_delay = 8
+#			$wpn_get/mod_ctrl/weapon_demo.state = 100
+#
+#		if wpn_txt_delay > 0:
+#			wpn_txt_delay -= 1
+#
+#		if wpn_txt_delay == 1 and $wpn_get/mod_ctrl/weapon_demo.state != 99 and $wpn_get/mod_ctrl/weapon_demo.state != 100:
+#			print('Start Animation')
+#			$wpn_get/mod_ctrl/weapon_demo.state = 1
+#		elif wpn_txt_delay == 1 and $wpn_get/mod_ctrl/weapon_demo.state == 100:
 #			if $wpn_get/mod_ctrl/txt.visible_characters < $wpn_get/mod_ctrl/txt.get_total_character_count():
 #				$wpn_get/mod_ctrl/txt.set_visible_characters($wpn_get/mod_ctrl/txt.visible_characters + 1)
-#				wpn_txt_delay = 6
+#				wpn_txt_delay = 8
 #
 #			if $wpn_get/mod_ctrl/txt.visible_characters == $wpn_get/mod_ctrl/txt.get_total_character_count():
 #				end_state = 11
+
 	
-	if end_state == 11:
+	if end_state == 12:
 		if drop_back > 0:
 			drop_back -= 1
 		
@@ -1553,7 +1587,7 @@ func _process(delta):
 			$wpn_get/wpn_fade.start()
 			audio.stop_all_music()
 			$audio/music/wpn_get.set_volume_db(0)
-			end_state = 12
+			end_state = 13
 	
 	if global.opening == 0:
 		if $player.global_position.x >= $player/camera.limit_left + 96 and $player.global_position.x <= $player/camera.limit_right -96 and $player.is_on_floor():
@@ -2230,7 +2264,9 @@ func _on_wpn_fade_tween_completed(object, _key):
 		end_state = 10
 	
 	if object.name == 'mod_ctrl':
-		if end_state == 12:
+		if end_state == 13:
+			for demo in get_tree().get_nodes_in_group('demo'):
+				demo.queue_free()
 			match which_wpn:
 				0:
 					global.weapon1[0] = true

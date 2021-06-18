@@ -13,7 +13,7 @@ func _ready():
 	$anim.play("boom")
 	audio.play_sound("big_explode")
 	
-	if !player.r_boost:
+	if !player.r_boost and !player.cutscene:
 		player.anim_state(player.RBOOST)
 		if player.jumps != 0:
 			player.jumps -= 1
