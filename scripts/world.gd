@@ -1012,6 +1012,18 @@ func _process(delta):
 		$graphic/spawn_tiles/shop/auto.show()
 		$graphic/spawn_tiles/shop/eddie.show()
 	
+	#Skip Cutscenes
+	#Shop Scene
+	
+	if Input.is_action_just_pressed("start"):
+		if global.scene > 0 and global.scene < 6:
+			if player_room == Vector2(10, 4) or player_room == Vector2(11, 4):
+				if !$fade/fade.end:
+					$fade/fade.state = 12
+					$fade/fade.end = true
+		if global.scene == 8:
+			global.sub_scene = 58
+	
 	#Shop function
 	#Calculate how close the player is to Auto.
 	if player_room == Vector2(10, 4):
@@ -1840,6 +1852,11 @@ func _on_fade_fadein():
 	if $fade/fade.state == 9:
 		get_tree().paused = false
 		$player.can_move = true
+	
+	if $fade/fade.state == 11:
+		$player.can_move = true
+		$player.cutscene(false)
+		audio.play_music('bunker')
 
 func _on_fade_fadeout():
 	if $fade/fade.state == 2:
@@ -1905,6 +1922,23 @@ func _on_fade_fadeout():
 		else:
 # warning-ignore:return_value_discarded
 			get_tree().change_scene("res://scenes/stage_select.tscn")
+	
+	if $fade/fade.state == 12:
+		cutsc_mode = 4
+		$player.position.x = 2816
+		global.scene = 6
+		shop_active = true
+		for c in get_tree().get_nodes_in_group('cutscene'):
+			c.queue_free()
+		match global.player:
+			0:
+				global.sub_scene = 15
+			1:
+				global.sub_scene = 32
+			2:
+				global.sub_scene = 49
+		$fade/fade.begin = true
+		$fade/fade.state = 11
 
 func palette_swap():
 	#Set palettes for the player.
@@ -2429,6 +2463,17 @@ func cutscene():
 			if c_offset_mod != 0:
 				c_offset_mod = 0
 			cutsc_mode = 0
+	elif cutsc_mode == 4:
+		$player/camera.limit_top = og_limits[0]
+		$player/camera.limit_bottom = og_limits[1]
+		$scene_txt.offset.y -= $scene_txt.offset.y
+		$player.cutscene(false)
+		$scene_txt/on_off.hide()
+		if shop_state != 0:
+			shop_state = 0
+		if c_offset_mod != 0:
+			c_offset_mod = 0
+		cutsc_mode = 0
 	
 	if $player.cutscene and cutsc_mode > 0 and cutsc_mode < 3:
 		if global.scene == 1:

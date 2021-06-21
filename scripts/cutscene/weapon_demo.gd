@@ -33,7 +33,7 @@ var as_active = false
 var as_vpos = {0: Vector2(1, 0), 1: Vector2(1, -1), 2: Vector2(0, -1), 3: Vector2(-1, -1), 4: Vector2(-1, 0)}
 var metshot = 0
 var as_timer_active = false
-var as_timer = 30
+var as_timer = 4
 var arr_pos = 0
 var as_pos_delay = 2
 var hits = 0
@@ -171,9 +171,29 @@ func _process(delta):
 					change_anim('lilstep')
 					x_dir = 1
 					state += 1
-				
+			8:
 				if global.player_weap[0] == 4:
-					pass
+					as_timer_active = false
+					audio.play_sound('connect')
+					as_state += 1
+					state += 1
+			10:
+				if global.player_weap[0] == 4:
+					as_timer_active = false
+					audio.play_sound('connect')
+					as_state += 1
+					state += 1
+			12:
+				if global.player_weap[0] == 4:
+					as_timer_active = false
+					audio.play_sound('connect')
+					as_state -= 1
+					state += 1
+			14:
+				if global.player_weap[0] == 4:
+					change_anim('lilstep')
+					x_dir = 1
+					state += 1
 		
 		start_timer = false
 		act_timer = 70
@@ -284,7 +304,8 @@ func _process(delta):
 			
 			if global.player_weap[0] == 4:
 				as_timer_active = true
-				$demo_plyr/arrow.show()
+				start_timer = true
+				state += 1
 		8:
 			if global.player_weap[0] == 2:
 				if $demo_plyr.position.x >= $enemies/telly4.position.x:
@@ -297,9 +318,6 @@ func _process(delta):
 					spa_move = false
 					jump(1.6)
 					state += 1
-			
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.hide()
 		9:
 			if global.player_weap[0] == 2:
 				if $demo_plyr.position.x >= $enemies/telly5.position.x:
@@ -310,66 +328,29 @@ func _process(delta):
 					start_text()
 			
 			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.show()
+				as_timer_active = true
+				start_timer = true
+				state += 1
 		10:
 			if global.player_weap[0] == 2:
-				if $demo_plyr.is_on_floor():
+				if vel.y > 300:
 					start_text()
-			
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.hide()
-				as_timer_active = false
-				audio.play_sound('connect')
-				as_state += 1
-				state += 1
-		
 		11:
 			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.show()
-		
-		12:
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.hide()
-		
+				$demo_plyr/arrow.flip_v = true
+				as_timer_active = true
+				start_timer = true
+				state += 1
 		13:
 			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.show()
-		
-		14:
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.hide()
-				as_timer_active = false
-				audio.play_sound('connect')
-				as_state += 1
+				start_timer = true
 				state += 1
 		15:
-			if global.player_weap[0] == 4:
-				arr_pos = 1
-				$demo_plyr/arrow.show()
-		16:
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.hide()
-		17:
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.show()
-		18:
-			if global.player_weap[0] == 4:
-				$demo_plyr/arrow.hide()
-				as_timer_active = false
-				audio.play_sound('connect')
-				as_state -= 1
-				state += 1
-		19:
-			if global.player_weap[0] == 4:
-				change_anim('lilstep')
-				x_dir = 1
-				state += 1
-		20:
 			if $demo_plyr.position.x >= $enemies/telly2.position.x:
 				x_dir = 0
 				jump(1)
 				state += 1
-		21:
+		16:
 			if $overlap/ashield.position.y <= $enemies/telly2.position.y:
 				audio.play_sound('hit')
 				var boom = load('res://scenes/effects/s_explode.tscn').instance()
@@ -377,7 +358,7 @@ func _process(delta):
 				$overlap.add_child(boom)
 				$enemies/telly2.hide()
 				state += 1
-		22:
+		17:
 			if $demo_plyr.is_on_floor():
 				start_text()
 		
@@ -393,13 +374,14 @@ func _process(delta):
 	
 	if as_state == 1 or as_state == 3:
 		as_pos_delay -= 1
-		
+
 		if as_pos_delay == 0:
-			if state < 18:
-				as_timer_active = true
+			if state < 13:
+#				as_timer_active = true
 				as_state += 1
 			else:
 				as_state -= 1
+			start_timer = true
 			as_pos_delay = 2
 	
 	if $overlap/rb_blast.frame == 2:
@@ -564,15 +546,15 @@ func _physics_process(delta):
 			if state == 3:
 				state += 1
 		
-	if arr_pos == 0:
-		if $demo_plyr/arrow.position.y > 0:
-			$demo_plyr/arrow.flip_v = false
-			$demo_plyr/arrow.position.y = -$demo_plyr/arrow.position.y
-	
-	if arr_pos == 1:
-		if $demo_plyr/arrow.position.y < 0:
-			$demo_plyr/arrow.flip_v = true
-			$demo_plyr/arrow.position.y = -$demo_plyr/arrow.position.y
+#	if arr_pos == 0:
+#		if $demo_plyr/arrow.position.y > 0:
+#			$demo_plyr/arrow.flip_v = false
+#			$demo_plyr/arrow.position.y = -$demo_plyr/arrow.position.y
+#
+#	if arr_pos == 1:
+#		if $demo_plyr/arrow.position.y < 0:
+#			$demo_plyr/arrow.flip_v = true
+#			$demo_plyr/arrow.position.y = -$demo_plyr/arrow.position.y
 	
 	match metshot:
 		1:
@@ -585,14 +567,24 @@ func _physics_process(delta):
 			as_timer -= 1
 		
 		if as_timer == 0:
-			state += 1
-			as_timer = 30
+			if $demo_plyr/arrow.is_visible_in_tree():
+				$demo_plyr/arrow.hide()
+			else:
+				$demo_plyr/arrow.show()
+			as_timer = 4
+	else:
+		if $demo_plyr/arrow.is_visible_in_tree():
+			$demo_plyr/arrow.hide()
+#			state += 1
+#			as_timer = 30
 		
 					
 	#Print Shit.
 	if new_state != state:
 		print("State: ",state,", Timer(",start_timer,"): ",act_timer,', X Direction: ',x_dir)
 		new_state = state
+	
+	print(as_timer_active)
 
 func jump(j_mod):
 	vel.y = JUMP_SPEED * j_mod

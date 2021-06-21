@@ -28,8 +28,8 @@ func _process(delta):
 # warning-ignore:unused_argument
 # warning-ignore:unused_argument
 func _on_fade_fade_tween_completed(object, key):
-	if state == 0 or state == 3 or state == 7 or state == 9:
+	if state == 0 or state == 3 or state == 7 or state == 9 or state == 11:
 		emit_signal("fadein")
-	if state == 1 or state == 2 or state == 4 or state == 6 or state == 8 or state == 10:
+	if state == 1 or state == 2 or state == 4 or state == 6 or state == 8 or state == 10 or state == 12:
 		emit_signal("fadeout")
 

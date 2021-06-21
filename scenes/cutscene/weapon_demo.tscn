@@ -513,7 +513,7 @@ shape = SubResource( 15 )
 
 [node name="arrow" type="Sprite" parent="demo_plyr"]
 visible = false
-position = Vector2( 0, -32 )
+position = Vector2( 0, 16 )
 texture = ExtResource( 12 )
 
 [node name="skick" type="KinematicBody2D" parent="."]
