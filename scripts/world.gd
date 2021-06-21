@@ -604,9 +604,11 @@ func _camera():
 		$player.slide_timer = 0
 		$player.get_child(1).set_disabled(false)
 		$player.get_child(2).set_disabled(true)
-		$player.s_kick = false
 		$player.slide = false
 		$player.dash_jump = false
+		if $player.s_kick and $player.is_on_floor():
+			$player.s_kick = false
+			$player.anim_state($player.LILSTEP)
 	
 	#Check room to see if camera value changes. This will only check rooms when the game is
 	#not performing a screen transition.

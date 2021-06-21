@@ -95,7 +95,7 @@ var bass = true
 
 #Master Weapon flags and energy. First number determines if the weapon has been acquired or not. rp_coil will always be set to true at the start of the game.
 var dummy = [true, 280, 280]
-var weapon1 = [false, 280, 280]
+var weapon1 = [true, 280, 280]
 var weapon2 = [false, 280, 280]
 var weapon3 = [false, 280, 280]
 var weapon4 = [false, 280, 280]
