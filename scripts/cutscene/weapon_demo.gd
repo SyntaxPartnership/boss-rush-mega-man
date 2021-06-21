@@ -20,13 +20,29 @@ var skick_time = 0
 var sk_rebound = false
 var skr_time = 0
 var blink = -1
+var rboost = false
+var spucka_vel = Vector2.ZERO
+var spuckb_vel = Vector2.ZERO
+var spa_move = false
+var spb_move = false
+var meta = false
+var metb = false
+var as_dist = 0
+var as_state = 0
+var as_active = false
+var as_vpos = {0: Vector2(1, 0), 1: Vector2(1, -1), 2: Vector2(0, -1), 3: Vector2(-1, -1), 4: Vector2(-1, 0)}
+var metshot = 0
+var as_timer_active = false
+var as_timer = 30
+var arr_pos = 0
+var as_pos_delay = 2
 var hits = 0
 var sk_vel = Vector2.ZERO
 var thrw_delay = 20
 var state = 0
 var new_state = 0
 var start_timer = false
-var act_timer = 80
+var act_timer = 70
 
 enum {APPEAR, IDLE, LILSTEP, RUN, JUMP, RBOOST, SKICK_AIR, SKICK_SLD}
 
@@ -122,15 +138,45 @@ func _process(delta):
 						skick_time = 15
 						state += 1
 					2:
-						var rb = load('res://scenes/player/weapons/roto_boost.tscn').instance()
-						rb.position = $demo_plyr.position + Vector2(0, 12)
-						$overlap.add_child(rb)
-#			4:
-#				jump(1)
-#				state += 1
+						change_anim('lilstep')
+						x_dir = 1
+						state += 1
+					3:
+						audio.play_sound('shoot_a')
+						throw = true
+						change_sprite(throw)
+						$overlap/spuck.show()
+						spa_move = true
+						state += 1
+					4:
+						audio.play_sound('shoot_a')
+						throw = true
+						change_sprite(throw)
+						$overlap/ashield.show()
+						as_active = true
+						state += 1
+			5:
+				if global.player_weap[0] == 1 or global.player_weap[0] == 2:
+					change_anim('lilstep')
+					x_dir = 1
+					state += 1
+				
+			6:
+				if global.player_weap[0] == 2:
+					change_anim('lilstep')
+					x_dir = 1
+			
+			7:
+				if global.player_weap[0] == 3:
+					change_anim('lilstep')
+					x_dir = 1
+					state += 1
+				
+				if global.player_weap[0] == 4:
+					pass
 		
 		start_timer = false
-		act_timer = 80
+		act_timer = 70
 	
 	match state:
 		1:
@@ -138,18 +184,202 @@ func _process(delta):
 			change_anim("teleport")
 			$demo_plyr/sprite.show()
 			state += 1
+		3:
+			if global.player_weap[0] == 2:
+				if $demo_plyr.position.x >= $enemies/telly.position.x -16:
+					x_dir = 0
+					$overlap/rb_blast.position = $demo_plyr.position + Vector2(0, 12)
+					$overlap/rb_blast/anim.play("boom")
+					$overlap/rb_blast.show()
+					audio.play_sound("big_explode")
+					rboost = true
+					jump(0.855)
+					state += 1
+					
+			if global.player_weap[0] == 3:
+				if $overlap/spuck.position.x >= $enemies/met.position.x:
+					audio.play_sound("bounce")
+					$overlap/spuck/anim.play("boing")
+					spa_move = false
+					meta = true
+					state += 1
+		4:
+			if global.player_weap[0] == 3:
+				audio.play_sound('shoot_a')
+				$overlap/spuck2.show()
+				spb_move = true
+				change_sprite(true)
+				state += 1
+				
+			if global.player_weap[0] == 4:
+				audio.play_sound('def_bullet')
+				metshot += 1
+				$overlap/metbullet.show()
+				state += 1
 		5:
-			if $demo_plyr.position.x >= $enemies/telly2.position.x - 20:
+			
+			if global.player_weap[0] == 1:
+				if $demo_plyr.position.x >= $enemies/telly2.position.x - 20:
+					x_dir = 0
+					jump(1)
+					state += 1
+			
+			if global.player_weap[0] == 2:
+				if $demo_plyr.position.x >= $enemies/telly2.position.x - 20:
+					x_dir = 0
+					jump(1)
+					state += 1
+			
+			if global.player_weap[0] == 3:
+				if $overlap/spuck2.position.x >= $enemies/met2.position.x:
+					audio.play_sound("bounce")
+					$overlap/spuck2/anim.play("boing")
+					spb_move = false
+					metb = true
+					state += 1
+			
+			if global.player_weap[0] == 4:
+				if $overlap/metbullet.position.x < $overlap/ashield.position.x + 8:
+					audio.play_sound('dink')
+					metshot += 1
+					state += 1
+		6:
+			if global.player_weap[0] == 1:
+				if vel.y > 0:
+					x_dir = 1
+					skick = true
+					skick_time = 15
+					$skick/anim.play("air")
+					$skick.show()
+			
+			if global.player_weap[0] == 2:
+				if $demo_plyr.position.x >= $enemies/telly4.position.x - 48:
+					jump(1)
+					state += 1
+					
+			if global.player_weap[0] == 4:
+				if $overlap/metbullet.position.x > $enemies/met2.position.x - 4:
+					audio.play_sound('hit')
+					var boom = load('res://scenes/effects/s_explode.tscn').instance()
+					boom.position = $enemies/met2.position
+					$overlap.add_child(boom)
+					$enemies/met2.hide()
+					$overlap/metbullet.hide()
+					metshot = 0
+					state += 1
+		7:
+			if global.player_weap[0] == 2:
+				if vel.y > -150:
+					$overlap/rb_blast.position = $demo_plyr.position + Vector2(0, 12)
+					$overlap/rb_blast/anim.play("boom")
+					$overlap/rb_blast.show()
+					audio.play_sound("big_explode")
+					rboost = true
+					jump(0.855)
+					state += 1
+			
+			if global.player_weap[0] == 3:
+				if $overlap/spuck.is_on_wall():
+					spucka_vel.x = -150
+			
+			if global.player_weap[0] == 4:
+				as_timer_active = true
+				$demo_plyr/arrow.show()
+		8:
+			if global.player_weap[0] == 2:
+				if $demo_plyr.position.x >= $enemies/telly4.position.x:
+					x_dir = 0
+			
+			if global.player_weap[0] == 3:
+				if $overlap/spuck.position.x < $demo_plyr.position.x:
+					audio.play_sound("bounce")
+					$overlap/spuck/anim.play("boing")
+					spa_move = false
+					jump(1.6)
+					state += 1
+			
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.hide()
+		9:
+			if global.player_weap[0] == 2:
+				if $demo_plyr.position.x >= $enemies/telly5.position.x:
+					x_dir = 0
+			
+			if global.player_weap[0] == 3:
+				if $demo_plyr.position.y < -20:
+					start_text()
+			
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.show()
+		10:
+			if global.player_weap[0] == 2:
+				if $demo_plyr.is_on_floor():
+					start_text()
+			
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.hide()
+				as_timer_active = false
+				audio.play_sound('connect')
+				as_state += 1
+				state += 1
+		
+		11:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.show()
+		
+		12:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.hide()
+		
+		13:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.show()
+		
+		14:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.hide()
+				as_timer_active = false
+				audio.play_sound('connect')
+				as_state += 1
+				state += 1
+		15:
+			if global.player_weap[0] == 4:
+				arr_pos = 1
+				$demo_plyr/arrow.show()
+		16:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.hide()
+		17:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.show()
+		18:
+			if global.player_weap[0] == 4:
+				$demo_plyr/arrow.hide()
+				as_timer_active = false
+				audio.play_sound('connect')
+				as_state -= 1
+				state += 1
+		19:
+			if global.player_weap[0] == 4:
+				change_anim('lilstep')
+				x_dir = 1
+				state += 1
+		20:
+			if $demo_plyr.position.x >= $enemies/telly2.position.x:
 				x_dir = 0
 				jump(1)
 				state += 1
-		6:
-			if vel.y > 0:
-				x_dir = 1
-				skick = true
-				skick_time = 15
-				$skick/anim.play("air")
-				$skick.show()
+		21:
+			if $overlap/ashield.position.y <= $enemies/telly2.position.y:
+				audio.play_sound('hit')
+				var boom = load('res://scenes/effects/s_explode.tscn').instance()
+				boom.position = $enemies/telly2.position
+				$overlap.add_child(boom)
+				$enemies/telly2.hide()
+				state += 1
+		22:
+			if $demo_plyr.is_on_floor():
+				start_text()
 		
 	if throw and thrw_delay > 0:
 		thrw_delay -= 1
@@ -158,6 +388,30 @@ func _process(delta):
 		throw = false
 		change_sprite(throw)
 		thrw_delay = 20
+	
+	$overlap/ashield/sprite.frame = as_state
+	
+	if as_state == 1 or as_state == 3:
+		as_pos_delay -= 1
+		
+		if as_pos_delay == 0:
+			if state < 18:
+				as_timer_active = true
+				as_state += 1
+			else:
+				as_state -= 1
+			as_pos_delay = 2
+	
+	if $overlap/rb_blast.frame == 2:
+		match hits:
+			0:
+				audio.play_sound('hit')
+				var boom = load('res://scenes/effects/s_explode.tscn').instance()
+				boom.position = $enemies/telly.position
+				$overlap.add_child(boom)
+				$enemies/telly.hide()
+				$enemies/telly.get_child(1).set_deferred('disabled', true)
+				hits += 1
 
 func _physics_process(delta):
 	
@@ -212,11 +466,27 @@ func _physics_process(delta):
 		vel = $demo_plyr.move_and_slide(vel, Vector2(0, -1))
 		
 		if !$demo_plyr.is_on_floor():
-			if !skick:
+			if !skick and !rboost:
 				change_anim("jump")
-			else:
+			elif skick:
 				change_anim("skick_air")
+			elif rboost:
+				change_anim("rboost")
 		elif $demo_plyr.is_on_floor() and $demo_plyr/anim.current_animation == "jump":
+			audio.play_sound('land')
+			if x_dir != 0:
+				change_anim("run")
+			else:
+				if global.player != 1:
+					change_anim("idle1")
+				else:
+					change_anim("idle2")
+		elif $demo_plyr.is_on_floor() and $demo_plyr/anim.current_animation == "rboost":
+			audio.play_sound('land')
+			if hits == 1:
+				state += 1
+				start_timer = true
+			rboost = false
 			if x_dir != 0:
 				change_anim("run")
 			else:
@@ -247,7 +517,77 @@ func _physics_process(delta):
 			$skick.hide()
 			$skick/enemybox/box.set_deferred('disabled', true)
 			sk_rebound = false
-			
+	
+	#Scuttle Puck Nodes.
+	if spa_move:
+		if state < 7:
+			spucka_vel.x = 150
+		spucka_vel.y += GRAVITY * delta
+		
+		spucka_vel = $overlap/spuck.move_and_slide(spucka_vel, Vector2(0, -1))
+	
+	if spb_move:
+		spuckb_vel.x = 150
+		spuckb_vel.y += GRAVITY * delta
+		
+		spuckb_vel = $overlap/spuck2.move_and_slide(spuckb_vel, Vector2(0, -1))
+	
+	if meta:
+		if $enemies/met.position.y > -56:
+			$enemies/met.position.y -= 8
+		else:
+			audio.play_sound('hit')
+			var boom = load('res://scenes/effects/s_explode.tscn').instance()
+			boom.position = $enemies/met.position
+			$overlap.add_child(boom)
+			$enemies/met.hide()
+			meta = false
+	
+	if metb:
+		if $enemies/met2.position.y > -56:
+			$enemies/met2.position.y -= 8
+		else:
+			audio.play_sound('hit')
+			var boom = load('res://scenes/effects/s_explode.tscn').instance()
+			boom.position = $enemies/met2.position
+			$overlap.add_child(boom)
+			$enemies/met2.hide()
+			metb = false
+	
+	#Attack Shield Node.
+	$overlap/ashield.position = $demo_plyr.position + as_vpos.get(as_state) * as_dist
+	
+	if as_active:
+		if as_dist < 20:
+			as_dist += 4
+		else:
+			if state == 3:
+				state += 1
+		
+	if arr_pos == 0:
+		if $demo_plyr/arrow.position.y > 0:
+			$demo_plyr/arrow.flip_v = false
+			$demo_plyr/arrow.position.y = -$demo_plyr/arrow.position.y
+	
+	if arr_pos == 1:
+		if $demo_plyr/arrow.position.y < 0:
+			$demo_plyr/arrow.flip_v = true
+			$demo_plyr/arrow.position.y = -$demo_plyr/arrow.position.y
+	
+	match metshot:
+		1:
+			$overlap/metbullet.position.x -= 6
+		2:
+			$overlap/metbullet.position.x += 6
+	
+	if as_timer_active:
+		if as_timer > 0:
+			as_timer -= 1
+		
+		if as_timer == 0:
+			state += 1
+			as_timer = 30
+		
 					
 	#Print Shit.
 	if new_state != state:
@@ -331,6 +671,15 @@ func _on_enemy_box_area_entered(area):
 		$skick/enemybox/box.set_deferred('disabled', false)
 		sk_rebound = true
 	
+	if area.name == 'telly4' and rboost:
+		jump(0.855)
+		x_dir = 1
+		state += 1
+	
+	if area.name == 'telly5' and rboost:
+		jump(0.855)
+		state += 1
+	
 	hits += 1
 
 func _on_enemybox_skick_entered(area):
@@ -345,3 +694,29 @@ func start_text():
 	for p in get_tree().get_nodes_in_group("pause"):
 		p.stop()
 	state = 99
+
+func _on_anim_rboost_finished(anim_name):
+	if anim_name == "boom":
+		$overlap/rb_blast.hide()
+
+func _on_anim_boing_finished(anim_name):
+	$overlap/spuck.hide()
+	var boom = load('res://scenes/effects/s_explode.tscn').instance()
+	boom.position = $overlap/spuck.position + Vector2(0, 12)
+	$overlap.add_child(boom)
+	$overlap/spuck.position = Vector2(-40, 23)
+	$overlap/spuck/sprite.frame = 0
+
+func _on_anim_boingb_finished(anim_name):
+	$overlap/spuck2.hide()
+	var boom = load('res://scenes/effects/s_explode.tscn').instance()
+	boom.position = $overlap/spuck2.position + Vector2(0, 12)
+	$overlap.add_child(boom)
+	
+	audio.play_sound('shoot_a')
+	throw = true
+	change_sprite(throw)
+	$overlap/spuck.show()
+	spa_move = true
+	start_timer = true
+	state += 1

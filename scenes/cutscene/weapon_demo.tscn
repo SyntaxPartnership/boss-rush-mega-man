@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=36 format=2]
 
 [ext_resource path="res://assets/tilesets/test/testtiles.tres" type="TileSet" id=1]
 [ext_resource path="res://scripts/cutscene/weapon_demo.gd" type="Script" id=2]
@@ -7,6 +7,11 @@
 [ext_resource path="res://assets/sprites/enemies/telly.png" type="Texture" id=5]
 [ext_resource path="res://shaders/player.tres" type="Material" id=6]
 [ext_resource path="res://assets/sprites/enemies/met_01.png" type="Texture" id=7]
+[ext_resource path="res://assets/sprites/bosses/telly/roto_explode.png" type="Texture" id=8]
+[ext_resource path="res://assets/sprites/weapons/s_puck.png" type="Texture" id=9]
+[ext_resource path="res://assets/sprites/weapons/a_shield.png" type="Texture" id=10]
+[ext_resource path="res://assets/sprites/weapons/buster6.png" type="Texture" id=11]
+[ext_resource path="res://assets/sprites/effects/t_arrow.png" type="Texture" id=12]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 8, 8 )
@@ -273,6 +278,60 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=19]
 extents = Vector2( 8, 8 )
 
+[sub_resource type="Animation" id=20]
+resource_name = "boom"
+length = 0.38
+step = 0.075
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.075, 0.15, 0.225, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3, 4 ]
+}
+
+[sub_resource type="Animation" id=21]
+resource_name = "boing"
+length = 0.18
+step = 0.03
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03, 0.06, 0.12, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 2, 1 ]
+}
+
+[sub_resource type="RectangleShape2D" id=22]
+extents = Vector2( 7, 3 )
+
+[sub_resource type="Animation" id=23]
+resource_name = "boing"
+length = 0.18
+step = 0.03
+tracks/0/type = "value"
+tracks/0/path = NodePath("sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.03, 0.06, 0.12, 0.15 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 1, 2, 3, 2, 1 ]
+}
+
 [node name="weapon_demo" type="Node2D" groups=[
 "demo",
 ]]
@@ -378,7 +437,7 @@ disabled = true
 "enemy",
 ]]
 visible = false
-position = Vector2( 8, 40 )
+position = Vector2( 24, 40 )
 collision_layer = 0
 collision_mask = 4
 
@@ -387,6 +446,7 @@ position = Vector2( 0, -2 )
 texture = ExtResource( 7 )
 flip_h = true
 hframes = 8
+frame = 3
 
 [node name="box" type="CollisionShape2D" parent="enemies/met"]
 shape = SubResource( 3 )
@@ -396,7 +456,7 @@ disabled = true
 "enemy",
 ]]
 visible = false
-position = Vector2( 40, 40 )
+position = Vector2( 64, 40 )
 collision_layer = 0
 collision_mask = 4
 
@@ -405,6 +465,7 @@ position = Vector2( 0, -2 )
 texture = ExtResource( 7 )
 flip_h = true
 hframes = 8
+frame = 3
 
 [node name="box" type="CollisionShape2D" parent="enemies/met2"]
 shape = SubResource( 3 )
@@ -450,6 +511,11 @@ anims/teleport = SubResource( 14 )
 [node name="box" type="CollisionShape2D" parent="demo_plyr"]
 shape = SubResource( 15 )
 
+[node name="arrow" type="Sprite" parent="demo_plyr"]
+visible = false
+position = Vector2( 0, -32 )
+texture = ExtResource( 12 )
+
 [node name="skick" type="KinematicBody2D" parent="."]
 visible = false
 position = Vector2( -40, 38 )
@@ -487,6 +553,68 @@ margin_bottom = 40.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="rb_blast" type="Sprite" parent="overlap"]
+visible = false
+texture = ExtResource( 8 )
+hframes = 5
+
+[node name="anim" type="AnimationPlayer" parent="overlap/rb_blast"]
+anims/boom = SubResource( 20 )
+
+[node name="spuck" type="KinematicBody2D" parent="overlap"]
+visible = false
+position = Vector2( -40, 23 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="sprite" type="Sprite" parent="overlap/spuck"]
+texture = ExtResource( 9 )
+hframes = 4
+
+[node name="anim" type="AnimationPlayer" parent="overlap/spuck" groups=[
+"pause",
+]]
+anims/boing = SubResource( 21 )
+
+[node name="box" type="CollisionShape2D" parent="overlap/spuck"]
+position = Vector2( 0, 15 )
+shape = SubResource( 22 )
+
+[node name="spuck2" type="KinematicBody2D" parent="overlap"]
+visible = false
+position = Vector2( -40, 23 )
+collision_layer = 2
+collision_mask = 0
+
+[node name="sprite" type="Sprite" parent="overlap/spuck2"]
+texture = ExtResource( 9 )
+hframes = 4
+
+[node name="anim" type="AnimationPlayer" parent="overlap/spuck2" groups=[
+"pause",
+]]
+anims/boing = SubResource( 23 )
+
+[node name="box" type="CollisionShape2D" parent="overlap/spuck2"]
+position = Vector2( 0, 15 )
+shape = SubResource( 22 )
+
+[node name="ashield" type="Area2D" parent="overlap"]
+visible = false
+position = Vector2( -40, 38 )
+
+[node name="sprite" type="Sprite" parent="overlap/ashield"]
+texture = ExtResource( 10 )
+hframes = 5
+
+[node name="metbullet" type="Sprite" parent="overlap"]
+visible = false
+position = Vector2( 64, 40 )
+texture = ExtResource( 11 )
 [connection signal="area_entered" from="demo_plyr/enemy_box" to="." method="_on_enemy_box_area_entered"]
 [connection signal="animation_finished" from="demo_plyr/anim" to="." method="_on_anim_done"]
 [connection signal="area_entered" from="skick/enemybox" to="." method="_on_enemybox_skick_entered"]
+[connection signal="animation_finished" from="overlap/rb_blast/anim" to="." method="_on_anim_rboost_finished"]
+[connection signal="animation_finished" from="overlap/spuck/anim" to="." method="_on_anim_boing_finished"]
+[connection signal="animation_finished" from="overlap/spuck2/anim" to="." method="_on_anim_boingb_finished"]
