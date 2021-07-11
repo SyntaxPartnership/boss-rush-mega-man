@@ -65,7 +65,7 @@ func _on_fade_fadeout():
 	if menu_pos == 0:
 		# warning-ignore:return_value_discarded
 		global.cutscene = 1
-		get_tree().change_scene("res://scenes/name_entry.tscn")
+		get_tree().change_scene("res://scenes/world.tscn")
 	elif menu_pos == 1:
 		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://scenes/options.tscn")
