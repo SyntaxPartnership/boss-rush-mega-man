@@ -117,6 +117,7 @@ func _on_hitbox_body_entered(body):
 						if body.level == 0:
 							body.dist = 1
 					audio.play_sound("hit")
+					world.hits += 1
 					var boom = load("res://scenes/effects/s_explode.tscn").instance()
 					boom.global_position = global_position
 					world.get_child(3).add_child(boom)
@@ -131,6 +132,7 @@ func _on_hitbox_body_entered(body):
 		
 		if player.r_boost or player.s_kick:
 			audio.play_sound("hit")
+			world.hits += 1
 			var boom = load("res://scenes/effects/s_explode.tscn").instance()
 			boom.global_position = global_position
 			world.get_child(3).add_child(boom)

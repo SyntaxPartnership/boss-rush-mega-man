@@ -110,6 +110,7 @@ func _physics_process(delta):
 				if body.name == 'player':
 					if body.s_kick:
 						body.kick_rebound()
+						world.hits += 1
 						kill_gaby()
 					else:
 						damage = 30
@@ -117,9 +118,11 @@ func _physics_process(delta):
 				
 				if body.name == 'attack_shield':
 					body._on_screen_exited()
+					world.hits += 1
 					kill_gaby()
 				
 				if body.name == "s_kick_wave":
+					world.hits += 1
 					kill_gaby()
 				
 				if body.name == "scuttle_puck":
