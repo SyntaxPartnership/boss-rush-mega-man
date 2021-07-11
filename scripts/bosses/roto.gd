@@ -273,6 +273,8 @@ func _physics_process(delta):
 				if !player.r_boost and !player.s_kick:
 					world.calc_damage(body, self)
 				else:
+					if state == 1 and !hit:
+						velocity.x = -velocity.x * 1.5
 					world.calc_damage(self, body)
 			if body.is_in_group("weapons"):
 				if state == 2 and body.id == 8:

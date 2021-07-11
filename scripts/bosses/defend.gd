@@ -574,6 +574,8 @@ func _physics_process(delta):
 					if player.s_kick or player.r_boost:
 						audio.play_sound('dink')
 						world.calc_damage($shield_box, i)
+						if player.s_kick:
+							world.calc_damage(i, $shield_box)
 						shld_touch = true
 					else:
 						if player.stun < 0:
