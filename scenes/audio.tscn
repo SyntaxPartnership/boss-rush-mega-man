@@ -4,7 +4,7 @@
 [ext_resource path="res://scripts/audio.gd" type="Script" id=2]
 [ext_resource path="res://assets/audio/music/01_Capcom Logo.ogg" type="AudioStream" id=3]
 [ext_resource path="res://assets/audio/music/03_Dr. Light's Instructions.ogg" type="AudioStream" id=4]
-[ext_resource path="res://assets/audio/music/Boss 5.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/audio/music/MMUprising_Boss.ogg" type="AudioStream" id=5]
 [ext_resource path="res://assets/audio/music/1020 SHOP -ROCK-.ogg" type="AudioStream" id=6]
 [ext_resource path="res://assets/audio/music/Free Weapon Get 3.ogg" type="AudioStream" id=7]
 [ext_resource path="res://assets/audio/music/1025 FOR YOU -ROLL'S THEME-.ogg" type="AudioStream" id=8]

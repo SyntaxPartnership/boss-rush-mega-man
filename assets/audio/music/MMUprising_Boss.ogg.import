@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/MMUprising_Boss.ogg-f6cb0aee158b988e8a98cf13e69e14c0.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/music/MMUprising_Boss.ogg"
+dest_files=[ "res://.import/MMUprising_Boss.ogg-f6cb0aee158b988e8a98cf13e69e14c0.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=2.751
