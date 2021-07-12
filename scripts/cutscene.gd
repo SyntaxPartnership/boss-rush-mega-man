@@ -124,7 +124,8 @@ func _input(event):
 	if Input.is_action_just_pressed("jump"):
 		match global.cutscene:
 			0:
-				skip()
+				if !skip:
+					skip()
 			1:
 				if next:
 					set_text()
@@ -973,6 +974,7 @@ func skip():
 	$timer.stop()
 	$fade/fadeout.interpolate_property($fade/skip_fade, 'modulate', Color(1.0, 1.0, 1.0, 0.0), Color(1.0, 1.0, 1.0, 1.0), 0.125, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	$fade/fadeout.start()
+	audio.stop_all_music()
 	allow_text = false
 	skip = true
 
