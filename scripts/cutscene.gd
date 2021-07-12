@@ -47,6 +47,9 @@ var radius = Vector2.ONE * 0.25
 var rotation_duration = 1.0
 var offset = 0
 
+var start_time = 0
+var time = 0
+
 var text = {
 	#Intro scene. Before the title screen.
 	1 : ["20XX", "IN A SEEMINGLY ABANDONED\n\nJUNKYARD."],
@@ -141,6 +144,9 @@ func _input(event):
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	start_time = OS.get_ticks_msec()
+	
 	match global.cutscene:
 		0:
 			sub_scene = 0
@@ -248,6 +254,7 @@ func _physics_process(delta):
 				$sprites/flash.hide()
 		
 		match sub_scene:
+			
 			37:
 				if wfade > 0:
 					
@@ -515,7 +522,7 @@ func _physics_process(delta):
 					sub_scene += 1
 	
 	#Print Shit.
-	print(sub_scene)
+#	print(sub_scene)
 	
 	if !skip:
 		if sub_scene > 2 and sub_scene < 30:
@@ -705,6 +712,24 @@ func set_text():
 
 func _on_timer_timeout():
 	set_text()
+	
+	match sub_scene:
+		12:
+			time = OS.get_ticks_msec() - start_time
+			
+			print("Meanwhile... ",time)
+		16:
+			time = OS.get_ticks_msec() - start_time
+			
+			print("Thud ",time)
+		31:
+			time = OS.get_ticks_msec() - start_time
+			
+			print("Message ",time)
+		31:
+			time = OS.get_ticks_msec() - start_time
+			
+			print("End ",time)
 	
 	match sub_scene:
 		1:

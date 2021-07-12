@@ -3,7 +3,6 @@ extends Node
 var last_song
 var last_sound
 
-
 func play_music(which):
 	for i in $music.get_children():
 		if i.name == which:
