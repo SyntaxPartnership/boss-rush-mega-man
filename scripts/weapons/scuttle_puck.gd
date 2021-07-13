@@ -61,10 +61,10 @@ func _on_boing_finished(_anim_name):
 	queue_free()
 
 func boing():
+	audio.play_sound("bounce")
 	velocity.x = 0
 	boing = true
 	$anim.play("boing")
-	audio.play_sound("bounce")
 
 func _on_screen_exited():
 	_on_boing_finished(null)

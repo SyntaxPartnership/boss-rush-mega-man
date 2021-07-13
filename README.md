@@ -63,6 +63,8 @@ Story:
 Captain Blackhook  
 
 Sound Composer:  
+elezeid  
+Rapphire20XX  
 Capcom  
 
 Quality Assurance:  
