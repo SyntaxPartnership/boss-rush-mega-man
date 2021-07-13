@@ -87,7 +87,7 @@ func _physics_process(delta):
 			world.get_child(1).add_child(clone)
 			world.get_child(1).add_child(boss)
 			world.boss = true
-			audio.play_music("boss-a")
+			audio.play_music("boss_a")
 			player.no_input(true)
 			get_boss = true
 		#Spawn explosion sprite.

@@ -1122,7 +1122,7 @@ func _process(delta):
 		boss_delay -= 1
 	
 	if boss_delay == 0:
-		audio.play_music("boss-a")
+		audio.play_music("boss_a")
 		boss = true
 		#Load the boss scene(s).
 		var boss = load(boss_rooms.get(str(player_room))).instance()

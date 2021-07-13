@@ -3,6 +3,11 @@ extends Node
 var last_song
 var last_sound
 
+func _input(event):
+	
+	if Input.is_key_pressed(KEY_SPACE):
+		$music/boss_a.play()
+
 func play_music(which):
 	for i in $music.get_children():
 		if i.name == which:

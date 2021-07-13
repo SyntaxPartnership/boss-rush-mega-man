@@ -642,7 +642,7 @@ func _on_anim_finished(anim_name):
 		"fade_in":
 			thrusters = true
 			world.boss = true
-			audio.play_music("boss-a")
+			audio.play_music("boss_a")
 			$anim.play("move_to")
 			$tween.interpolate_property(self, "position", position, position + Vector2(-88, 64), 0.75, Tween.TRANS_LINEAR, Tween.EASE_IN)
 			$tween.start()
