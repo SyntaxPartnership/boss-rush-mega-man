@@ -12,4 +12,4 @@ dest_files=[ "res://.import/Boss.ogg-ce4d1683e6931e516400512733dc9698.oggstr" ]
 [params]
 
 loop=true
-loop_offset=5.75
+loop_offset=5.417

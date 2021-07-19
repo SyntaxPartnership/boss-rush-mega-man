@@ -1,16 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/options.gd" type="Script" id=1]
 [ext_resource path="res://assets/tilesets/menu/option-stage_0.tres" type="TileSet" id=2]
 [ext_resource path="res://assets/sprites/menu/selecticon.png" type="Texture" id=3]
 [ext_resource path="res://assets/font.tres" type="DynamicFont" id=4]
 [ext_resource path="res://scenes/effects/fade.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/audio/se/Select.wav" type="AudioStream" id=6]
-[ext_resource path="res://assets/audio/se/Cursor.wav" type="AudioStream" id=7]
 [ext_resource path="res://assets/sprites/menu/h_meter_op.png" type="Texture" id=8]
 [ext_resource path="res://assets/sprites/menu/h_meter_op_back.png" type="Texture" id=9]
-[ext_resource path="res://assets/audio/music/06 Menu.ogg" type="AudioStream" id=10]
-[ext_resource path="res://assets/audio/se/Reflect.wav" type="AudioStream" id=11]
 
 [node name="options_menu" type="Control"]
 anchor_right = 1.0
@@ -107,6 +103,10 @@ text = "SOUND VOLUME
 
 MUSIC VOLUME
 
+SOUND TEST
+
+MUSIC TEST
+
 BACK"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -134,6 +134,30 @@ min_value = -40.0
 max_value = 0.0
 texture_under = ExtResource( 9 )
 texture_progress = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="sfxtest" type="Label" parent="audio"]
+margin_left = 200.0
+margin_top = 56.0
+margin_right = 224.0
+margin_bottom = 61.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+align = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="mustest" type="Label" parent="audio"]
+margin_left = 200.0
+margin_top = 72.0
+margin_right = 224.0
+margin_bottom = 77.0
+custom_fonts/font = ExtResource( 4 )
+text = "0"
+align = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -554,30 +578,6 @@ __meta__ = {
 
 [node name="fade" parent="." instance=ExtResource( 5 )]
 position = Vector2( 128, 120 )
-
-[node name="audio_playback" type="Control" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="cursor" type="AudioStreamPlayer" parent="audio_playback"]
-stream = ExtResource( 7 )
-bus = "sfx"
-
-[node name="select" type="AudioStreamPlayer" parent="audio_playback"]
-stream = ExtResource( 6 )
-bus = "sfx"
-
-[node name="dink" type="AudioStreamPlayer" parent="audio_playback"]
-stream = ExtResource( 11 )
-bus = "sfx"
-
-[node name="music" type="AudioStreamPlayer" parent="audio_playback"]
-stream = ExtResource( 10 )
-autoplay = true
-bus = "music"
 [connection signal="tween_completed" from="txt_fade" to="." method="_on_txt_fade_completed"]
 [connection signal="fadein" from="fade" to="." method="_on_fade_fadein"]
 [connection signal="fadeout" from="fade" to="." method="_on_fade_fadeout"]

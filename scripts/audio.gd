@@ -3,11 +3,6 @@ extends Node
 var last_song
 var last_sound
 
-func _input(event):
-	
-	if Input.is_key_pressed(KEY_SPACE):
-		$music/boss_a.play()
-
 func play_music(which):
 	for i in $music.get_children():
 		if i.name == which:
@@ -32,6 +27,10 @@ func play_sound(which):
 
 func fade_sound(which):
 	pass
+
+func stop_all_sound():
+	for i in $sfx.get_children():
+		i.stop()
 
 func stop_sound(which):
 	for i in $sfx.get_children():

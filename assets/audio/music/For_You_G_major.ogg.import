@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/For_You_G_major.ogg-1a32224048f077bc59a3d1b63c9d8311.oggstr"
+
+[deps]
+
+source_file="res://assets/audio/music/For_You_G_major.ogg"
+dest_files=[ "res://.import/For_You_G_major.ogg-1a32224048f077bc59a3d1b63c9d8311.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0.084

@@ -97,7 +97,7 @@ var bass = true
 var dummy = [true, 280, 280]
 var weapon1 = [false, 280, 280]
 var weapon2 = [false, 280, 280]
-var weapon3 = [true, 280, 280]
+var weapon3 = [false, 280, 280]
 var weapon4 = [false, 280, 280]
 
 var end_pos = Vector2()
@@ -213,6 +213,16 @@ func _process(_delta):
 	
 	if AudioServer.get_bus_volume_db(mus_index) != music:
 		AudioServer.set_bus_volume_db(mus_index, music)
+		
+	#Check audio levels.
+	if sound == -40.0:
+		sound = -80.0
+	if sound == -79.0:
+		sound = -39.0
+	if music == -40.0:
+		music = -80.0
+	if music == -79.0:
+		music = -39.0
 
 func resize():
 # warning-ignore:return_value_discarded

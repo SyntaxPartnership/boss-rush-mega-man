@@ -578,13 +578,8 @@ func _physics_process(delta):
 #			state += 1
 #			as_timer = 30
 		
-					
-	#Print Shit.
 	if new_state != state:
-		print("State: ",state,", Timer(",start_timer,"): ",act_timer,', X Direction: ',x_dir)
 		new_state = state
-	
-	print(as_timer_active)
 
 func jump(j_mod):
 	vel.y = JUMP_SPEED * j_mod

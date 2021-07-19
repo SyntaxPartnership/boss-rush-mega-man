@@ -95,7 +95,7 @@ var which_pad = []
 
 var menu = 0
 var menu_pos = 0
-var menu_size = [4, 2, 2, 12, 12, 8, 0]
+var menu_size = [4, 4, 2, 12, 12, 8, 0]
 var pressed = false
 var ca_start = 0
 var cb_start = 0
@@ -104,9 +104,12 @@ var set_mode = 0
 var btn_flash = 0
 var save_res = 0
 var buttons = []
+var st_limits = [0, 0, 0, 0]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	
+	audio.play_music("menu")
 	
 	for g in global.gp_list:
 		if g == global.gp_name:
@@ -124,7 +127,6 @@ func _ready():
 					which_pad = SWITCH_RPLCE
 		else:
 			which_pad = XINPUT_RPLCE
-	print(which_pad)
 	
 	ca_start = $cursor.position.y
 	cb_start = $cursor2.position.x
@@ -186,6 +188,10 @@ func _ready():
 			$misc/c_sound.set_text("GB")
 		2:
 			$misc/c_sound.set_text("MM9/10")
+	
+	#Get the number of music and sound effects in the audio node.
+	st_limits[0] = audio.get_child(1).get_child_count() - 1
+	st_limits[1] = audio.get_child(0).get_child_count() - 1
 
 func _input(event):
 	
@@ -235,9 +241,9 @@ func _input(event):
 		
 		if Input.is_action_just_pressed("jump"):
 			
-			audio.play_sound("select")
 			if menu == 5 and !pressed:
 				if menu_pos == menu_size[menu]:
+					audio.play_sound("select")
 					ctrl_lock = true
 					menu = 0
 					tween_start("misc", "out")
@@ -245,6 +251,7 @@ func _input(event):
 				if set_mode == 0 and menu_pos != menu_size[menu]:
 					set_mode = 1
 				elif menu_pos == menu_size[menu]:
+					audio.play_sound("select")
 					ctrl_lock = true
 					menu = 0
 					tween_start("controls", "out")
@@ -253,23 +260,27 @@ func _input(event):
 				if set_mode == 0 and menu_pos != menu_size[menu]:
 					set_mode = 1
 				elif menu_pos == menu_size[menu]:
+					audio.play_sound("select")
 					ctrl_lock = true
 					menu = 0
 					tween_start("controls", "out")
 				pressed = true
 			if menu == 2 and !pressed:
 				if menu_pos == menu_size[menu]:
+					audio.play_sound("select")
 					ctrl_lock = true
 					menu = 0
 					tween_start("video", "out")
 				pressed = true
 			if menu == 1 and !pressed:
 				if menu_pos == menu_size[menu]:
+					audio.play_sound("select")
 					ctrl_lock = true
 					menu = 0
 					tween_start("audio", "out")
 				pressed = true
 			if menu == 0 and !pressed:
+				audio.play_sound("select")
 				ctrl_lock = true
 				match menu_pos:
 					0:
@@ -329,6 +340,38 @@ func _input(event):
 					$audio/music.set_value(global.music)
 					save_config()
 			
+			if menu_pos == 2:
+				if Input.is_action_just_pressed("left"):
+					st_limits[2] -= 1
+					if st_limits[2] < 0:
+						st_limits[2] = st_limits[0]
+					audio.play_sound("cursor")
+				if Input.is_action_just_pressed("right"):
+					st_limits[2] += 1
+					if st_limits[2] > st_limits[0]:
+						st_limits[2] = 0
+					audio.play_sound("cursor")
+				
+				if Input.is_action_just_pressed("jump"):
+					audio.stop_all_sound()
+					audio.get_child(1).get_child(st_limits[2]).play()
+			
+			if menu_pos == 3:
+				if Input.is_action_just_pressed("left"):
+					st_limits[3] -= 1
+					if st_limits[3] < 0:
+						st_limits[3] = st_limits[1]
+					audio.play_sound("cursor")
+				if Input.is_action_just_pressed("right"):
+					st_limits[3] += 1
+					if st_limits[3] > st_limits[1]:
+						st_limits[3] = 0
+					audio.play_sound("cursor")
+				
+				if Input.is_action_just_pressed("jump"):
+					audio.stop_all_music()
+					audio.get_child(0).get_child(st_limits[3]).play()
+			
 			if global.sound == -40.0:
 				global.sound = -80.0
 			elif global.sound == -79.0:
@@ -343,6 +386,7 @@ func _input(event):
 			if Input.is_action_just_pressed("fire"):
 				
 				audio.play_sound("dink")
+				audio.play_music("menu")
 				ctrl_lock = true
 				menu = 0
 				tween_start("audio", "out")
@@ -496,6 +540,12 @@ func _input(event):
 				pressed = true
 
 func _physics_process(_delta):
+	
+	#Sound test Menu Only
+	if int($audio/sfxtest.get_text()) != st_limits[2]:
+		$audio/sfxtest.text = str(st_limits[2])
+	if int($audio/mustest.get_text()) != st_limits[3]:
+		$audio/mustest.text = str(st_limits[3])
 	
 	if set_mode == 3:
 		set_mode = 0
