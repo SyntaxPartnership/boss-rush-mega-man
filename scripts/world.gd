@@ -87,6 +87,7 @@ var j_release = 0
 var opening = 0
 
 var og_limits = []
+var y_cam_limit = []
 var c_offset_mod = 0
 var shake_delay = 2
 var shake_x = 0
@@ -770,8 +771,16 @@ func _rooms():
 		
 		for s in see_item:
 			s.get_child(0).show()
-		
-	og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
+	
+	if cutsc_mode == 0:
+		og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
+		y_cam_limit = [$player/camera.limit_top, $player/camera.limit_bottom]
+	else:
+		og_limits = [$player/camera.limit_top, $player/camera.limit_bottom, $player/camera.limit_left, $player/camera.limit_right]
+		if og_limits[0] != y_cam_limit[0]:
+			og_limits[0] = y_cam_limit[0]
+		if og_limits[1] != y_cam_limit[1]:
+			og_limits[1] = y_cam_limit[1]
 	
 	if global.scene < 7:
 		if global.scene == 1 and cutsc_mode == 0:#Edit for additional scenes.
@@ -1927,7 +1936,9 @@ func _on_fade_fadeout():
 	
 	if $fade/fade.state == 12:
 		cutsc_mode = 4
+		print(c_offset_mod)
 		$player.position.x = 2816
+		$player.anim_state($player.IDLE)
 		global.scene = 6
 		shop_active = true
 		for c in get_tree().get_nodes_in_group('cutscene'):
@@ -2466,6 +2477,9 @@ func cutscene():
 				c_offset_mod = 0
 			cutsc_mode = 0
 	elif cutsc_mode == 4:
+		print(global.scene)
+		$player/camera.current = true
+		print(og_limits)
 		$player/camera.limit_top = og_limits[0]
 		$player/camera.limit_bottom = og_limits[1]
 		$scene_txt.offset.y -= $scene_txt.offset.y

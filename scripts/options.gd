@@ -569,6 +569,7 @@ func _on_fade_fadein():
 func _on_fade_fadeout():
 	if $fade.state == 1:
 # warning-ignore:return_value_discarded
+		audio.stop_all_music()
 		get_tree().change_scene("res://scenes/title.tscn")
 
 func _on_txt_fade_completed(object, _key):
