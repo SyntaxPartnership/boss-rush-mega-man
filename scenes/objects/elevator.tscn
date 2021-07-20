@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/sprites/objects/elevator_effects.png" type="Texture" id=1]
+[ext_resource path="res://assets/sprites/objects/elevator.png" type="Texture" id=2]
+
+[node name="elevator" type="Sprite"]
+texture = ExtResource( 2 )
+hframes = 6
+
+[node name="effects" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+vframes = 10
+hframes = 6
+
+[node name="anim" type="AnimationPlayer" parent="."]
